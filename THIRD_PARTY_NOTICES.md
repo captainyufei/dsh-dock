@@ -41,3 +41,7 @@ the repository's MIT license does not replace their licenses.
 
 The demonstration composition, original geometric animation, and project SVG
 graphics are covered by this repository's MIT license.
+
+The promotional soundtrack was generated for this project through ChatCut
+(Mureka 9 instrumental generation). Its provenance, editing settings, and
+provider usage references are recorded in `demo/assets/audio/README.md`.

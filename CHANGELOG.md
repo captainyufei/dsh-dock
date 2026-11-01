@@ -2,6 +2,14 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
+## Unreleased — Documentation and demos / 文档与演示
+
+- Add a fully English 45-second demo, including interface labels, example content, captions, and its own poster.
+- Add the same low-volume instrumental soundtrack to both language editions, with gentle fades.
+- Explain the README's benefits through five everyday workflows instead of grouped feature slogans.
+
+新增全英文宣传片；中英文演示加入轻量背景音乐；用切换页面、查找会话、恢复工具、核对视频和整理草稿五个场景说明用途。仅更新文档与媒体，插件版本和已有标签不变。
+
 ## 0.1.0-beta.1 — 2026-11-01
 
 First public beta of **DeepSeek Dock** under the package identity `@captainyufei/dsh-dock`.

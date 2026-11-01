@@ -2,11 +2,11 @@
 
 [中文](README.md) · **English**
 
-**Keep your tools, important chats, and current work within reach.**
+**Collapse the chat list. Still reach Home, tasks, and plugins in one click.**
 
 ![DeepSeek Dock: persistent navigation, cross-workspace pins, and video beside the conversation](assets/readme/hero.en.svg)
 
-Add a persistent, customizable Dock, cross-workspace pinned chats, and a consistent workspace layout to DeepSeek Harness. Return to existing tools with one toggle, play videos beside your conversation, and draft before creating a chat. Install it independently without modifying the host application.
+DeepSeek Dock is a UI extension for DeepSeek Harness. It keeps navigation on the left, collects important chats in one pinned section, and opens files and videos beside the conversation. Reopen the tool drawer to return to its existing content. Install it independently without modifying the host application.
 
 `0.1.0-beta.1` · Target environment: **macOS / Harness 0.2.1-rc.5** · Third-party community plugin
 
@@ -14,17 +14,19 @@ Add a persistent, customizable Dock, cross-workspace pinned chats, and a consist
 
 ## See it in action
 
-[![DeepSeek Dock demo: navigation, pins, tools, video, and drafts](assets/readme/poster.png)](assets/readme/demo.mp4)
+[![DeepSeek Dock demo: navigation, pins, tools, video, and drafts](assets/readme/poster.en.png)](assets/readme/demo.en.mp4)
 
-**[Watch the 45-second demo · MP4](assets/readme/demo.mp4)**
+**[Watch in English · 45-second MP4](assets/readme/demo.en.mp4)** · [观看中文版](assets/readme/demo.mp4)
 
-A simulated UI demo with sample data and Chinese/English captions, not a screen recording or performance test. Click the poster to open the video on GitHub.
+Each language edition has localized on-screen text and light background music. The video simulates the workflow with sample data; it is not a screen recording or performance test. Click the poster to open the English edition.
 
-## Why use it
+## What changes in everyday use
 
-- **Collapse the list. Keep your tools.** The Dock stays available when the chat list closes. Choose registered entries and drag them into your preferred order.
-- **Keep important chats together.** Pins span workspaces and appear only once. Unpin a chat to return it to its original workspace without moving its ownership.
-- **Continue where you left off.** One toggle restores existing tool tabs. Play videos beside the chat, and compose drafts without creating empty conversations.
+- **You often switch between Home, scheduled tasks, and plugins.** Their Dock icons stay visible when the chat list is collapsed. Switch pages with one click, without expanding the sidebar each time.
+- **Your important chats are scattered across workspaces.** Pin them into one section at the top of the sidebar, so you can find them without opening each project. Pinned chats appear only there; unpinning returns them to their original group without changing ownership.
+- **You close the tools, then need the same file or terminal again.** The top-right button restores existing tool tabs first. Continue with the content you already opened instead of creating another tab.
+- **You want to check a generated video against the conversation.** Play it in the file tab on the right while keeping the chat beside it, so you can compare the result with the requirements.
+- **You want to shape a question before sending it.** Home saves a draft and creates the chat only when you send. Unsent ideas stay out of the chat list instead of becoming empty entries.
 
 Home, conversations, plugins, and scheduled tasks share the outer window layout. Native folders, chat hierarchy, avatar, permission checks, and tools remain available.
 

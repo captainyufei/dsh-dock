@@ -13,3 +13,7 @@
 - Subtitle: DeepSeek Harness 界面增强插件 / UI enhancement plugin for DeepSeek Harness.
 - Header: product name 42 px, descriptor 21 px, simulation stamp 20 px. End card: product name 64 px, descriptor 27/23 px.
 - All interaction timings and 45-second duration unchanged.
+
+## Language and sound
+- Build Chinese and fully English variants from one timeline using `build-demo.py --lang zh|en`. English localizes every visible text node and animation-driven label.
+- Both variants use the same 45-second local BGM at unity gain. The audio file contains its own fade-in/out. No voiceover.

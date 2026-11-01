@@ -38,7 +38,7 @@ try{
  assert.equal(packed.version,packageJson.version);
  const paths=new Set(packed.files.map(file=>file.path));
  const runtime=['package.json','index.js','video-route.js','client.js','cordis.patch.yml','locale/en.json','locale/zh.json','icon.svg'];
- const documents=['README.md','README.en.md','CHANGELOG.md','THIRD_PARTY_NOTICES.md'];
+ const documents=['README.md','README.en.md','README.zh-CN.md','CHANGELOG.md','THIRD_PARTY_NOTICES.md'];
  const allowed=new Set([...runtime,...documents,'LICENSE']);
  for(const file of [...runtime,...documents])assert.ok(paths.has(file),`Tarball is missing ${file}`);
  for(const file of paths)assert.ok(allowed.has(file),`Unexpected public package file: ${file}`);

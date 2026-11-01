@@ -1,6 +1,6 @@
 # 技术说明 / Technical notes
 
-这些说明对应 DeepSeek Dock（`@captainyufei/dsh-dock`）的公开测试版。面向使用者的功能与限制见 [中文 README](../README.md) / [English README](../README.en.md)。
+这些说明对应 DeepSeek Dock（`@captainyufei/dsh-dock`）的公开测试版。面向使用者的功能与限制见 [中文 README](../README.zh-CN.md) / [English README](../README.md)。
 
 ## 接入方式 / Integration
 

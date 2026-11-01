@@ -4,6 +4,8 @@ Versions describe public DeepSeek Dock releases. Development changes are collect
 
 ## Unreleased — Documentation and demos / 文档与演示
 
+- Make English the default repository README, with a dedicated Simplified Chinese translation and language switch.
+
 - Add a fully English 45-second demo, including interface labels, example content, captions, and its own poster.
 - Add the same low-volume instrumental soundtrack to both language editions, with gentle fades.
 - Explain the README's benefits through five everyday workflows instead of grouped feature slogans.

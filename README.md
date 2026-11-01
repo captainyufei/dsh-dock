@@ -1,92 +1,92 @@
 # DeepSeek Dock
 
-**中文** · [English](README.en.md)
+**English** · [简体中文](README.zh-CN.md)
 
-**收起会话列表，也能随时切换首页、任务和插件。**
+**Collapse the chat list. Still reach Home, tasks, and plugins in one click.**
 
-![DeepSeek Dock：常驻导航、跨工作区置顶与对话旁视频预览](assets/readme/hero.svg)
+![DeepSeek Dock: persistent navigation, cross-workspace pins, and video beside the conversation](assets/readme/hero.en.svg)
 
-DeepSeek Dock 是 DeepSeek Harness 的界面增强插件：常用入口留在左侧，重要会话集中置顶，文件和视频在对话旁打开。收起工具抽屉后，再次展开即可继续查看已有内容。独立安装，无需修改宿主程序。
+DeepSeek Dock is a UI extension for DeepSeek Harness. It keeps navigation on the left, collects important chats in one pinned section, and opens files and videos beside the conversation. Reopen the tool drawer to return to its existing content. Install it independently without modifying the host application.
 
-`0.1.0-beta.1` · 目标环境：**macOS / Harness 0.2.1-rc.5** · 第三方社区插件
+`0.1.0-beta.1` · Target environment: **macOS / Harness 0.2.1-rc.5** · Third-party community plugin
 
-[安装](#安装) · [功能](#功能) · [兼容与限制](#兼容与限制) · [旧版迁移](docs/MIGRATION.md) · [反馈问题](https://github.com/captainyufei/dsh-dock/issues)
+[Install](#install) · [Features](#features) · [Compatibility and limits](#compatibility-and-limits) · [Migration](docs/MIGRATION.md) · [Report an issue](https://github.com/captainyufei/dsh-dock/issues)
 
-## 看它如何工作
+## See it in action
 
-[![DeepSeek Dock 功能演示：导航、置顶、工具抽屉、视频与草稿](assets/readme/poster.png)](assets/readme/demo.mp4)
+[![DeepSeek Dock demo: navigation, pins, tools, video, and drafts](assets/readme/poster.en.png)](assets/readme/demo.en.mp4)
 
-**[播放中文版 · 45 秒 MP4](assets/readme/demo.mp4)** · [Watch in English](assets/readme/demo.en.mp4)
+**[Watch in English · 45-second MP4](assets/readme/demo.en.mp4)** · [观看中文版](assets/readme/demo.mp4)
 
-中英文版分别提供对应语言的画面文字与轻量背景音乐。视频使用示例数据模拟操作流程，不是实机录屏或性能测试；点击封面即可打开中文版。
+Each language edition has localized on-screen text and light background music. The video simulates the workflow with sample data; it is not a screen recording or performance test. Click the poster to open the English edition.
 
-## 它解决哪些日常问题
+## What changes in everyday use
 
-- **经常在首页、自动化任务和插件之间切换。** 收起会话列表后，Dock 仍显示这些入口。点一下就能切页，省去反复展开侧栏的操作。
-- **重要会话分散在多个工作区。** 置顶后，它们集中到侧栏顶部，查找时不用逐个展开项目。原工作区不重复展示；取消置顶后回到原组，归属不变。
-- **收起工具后，还要继续看刚才的文件或终端。** 再点右上角按钮会优先恢复已有工具标签，接着查看原内容，无需反复新建。
-- **想边看生成的视频，边核对对话里的要求。** 视频直接在右侧文件标签中播放，对话留在旁边，方便逐项对照。
-- **想先整理问题，再决定是否发送。** 首页先保存草稿，点击发送才创建会话；未发送的想法不会变成会话列表里的空条目。
+- **You often switch between Home, scheduled tasks, and plugins.** Their Dock icons stay visible when the chat list is collapsed. Switch pages with one click, without expanding the sidebar each time.
+- **Your important chats are scattered across workspaces.** Pin them into one section at the top of the sidebar, so you can find them without opening each project. Pinned chats appear only there; unpinning returns them to their original group without changing ownership.
+- **You close the tools, then need the same file or terminal again.** The top-right button restores existing tool tabs first. Continue with the content you already opened instead of creating another tab.
+- **You want to check a generated video against the conversation.** Play it in the file tab on the right while keeping the chat beside it, so you can compare the result with the requirements.
+- **You want to shape a question before sending it.** Home saves a draft and creates the chat only when you send. Unsent ideas stay out of the chat list instead of becoming empty entries.
 
-首页、会话、插件和自动化任务页共用窗口外框。原生文件夹、会话层级、头像、权限检查和工具能力继续保留。
+Home, conversations, plugins, and scheduled tasks share the outer window layout. Native folders, chat hierarchy, avatar, permission checks, and tools remain available.
 
-## 安装
+## Install
 
-这是公开测试版，尚未发布到 npm。安装前确认宿主版本为 **0.2.1-rc.5**。旧版 `@local/chatgpt-rail` 用户请先看[迁移说明](docs/MIGRATION.md)，避免同时启用两个版本。
+This is a public beta and has not been published to npm. Check that your host is **0.2.1-rc.5**. Users of the old `@local/chatgpt-rail` package should read the [migration guide](docs/MIGRATION.md) first to avoid enabling both versions together.
 
-1. [下载源码 ZIP](https://github.com/captainyufei/dsh-dock/archive/refs/heads/main.zip)，解压到准备长期保留的目录。
-2. 打开 DeepSeek Harness 的 **插件 → 添加插件**。
-3. 输入解压目录的**绝对路径**。应选择直接包含 `package.json`、`client.js` 和 `cordis.patch.yml` 的那一层，例如 `dsh-dock-main`。
-4. 完成宿主安装流程并启用；若宿主提示重启，按提示操作。
+1. [Download the source ZIP](https://github.com/captainyufei/dsh-dock/archive/refs/heads/main.zip) and extract it to a stable local directory.
+2. In DeepSeek Harness, open **Plugins → Add plugin**.
+3. Enter the **absolute path** to the extracted directory that directly contains `package.json`, `client.js`, and `cordis.patch.yml`, for example `dsh-dock-main`.
+4. Complete the host installation flow and enable the plugin. Restart if the host requests it.
 
-仓库包含预构建 `client.js`，正常安装不需要自行运行 `npm install`。GitHub 的 `main` 是开发分支；需要固定版本时，请选择[标签](https://github.com/captainyufei/dsh-dock/tags)对应的源码。
+The repository includes a prebuilt `client.js`; normal installation does not require running `npm install`. GitHub's `main` branch tracks development. Choose a [tagged source version](https://github.com/captainyufei/dsh-dock/tags) when you need a fixed revision.
 
-**第一次使用：** 收起会话列表，确认 Dock 仍可导航；右键 Dock → **自定义 Dock**，将常用入口按自己的习惯排列。
+**First use:** collapse the chat list and try the Dock navigation. Right-click the Dock → **自定义 Dock** (Customize Dock), then arrange your frequently used entries.
 
-**更新：** 下载目标版本并放入固定目录，按宿主的插件安装/更新流程载入。不要仅修改目录名称。更新后核对插件版本；涉及服务端改动时按宿主提示重新加载或重启。
+**Update:** download the target revision into your stable directory and load it through the host's plugin installation/update flow. Renaming a directory alone does not update the plugin. Verify its version afterward; follow the host's reload or restart instructions for server-side changes.
 
-**停用或卸载：** 在宿主插件页操作。插件清理自身的布局标记、监听与挂载；会话、工作区和原生置顶状态仍由宿主管理。本机草稿与 Dock 偏好保留。
+**Disable or uninstall:** use the host plugin page. Disposal cleans up the plugin's layout markers, listeners, and mounts. Chats, workspaces, and native pin state remain managed by Harness; local draft and Dock preferences are retained.
 
-## 功能
+## Features
 
-| 能力 | 实际行为 |
+| Capability | Behavior |
 |---|---|
-| **常驻 Dock** | 收起会话列表后，左侧导航和真实头像仍可使用。默认入口为首页、自动化任务和插件。 |
-| **自定义入口** | 右键添加或移除已注册入口，直接拖动排序。首页固定第一；最多直接显示 6 项，其余进入“更多”。偏好保存在本机。 |
-| **全局置顶** | 不同工作区的置顶会话集中显示，原组不再重复展示；取消后回到原组。 |
-| **会话右键菜单** | 复用宿主的置顶、重命名、分叉、归档/取消归档和复制 Session ID。支持 `Shift+F10` 或菜单键。 |
-| **独立首页草稿** | 先选工作区、模式、模型和权限，再输入内容。发送时才创建会话；切页或刷新可恢复文字与选项。 |
-| **统一窗口与工具区** | 顶部可拖窗，各主页面共用外框；同一右上角按钮展开/收起，优先恢复已有标签，保留原生调整宽度和分栏。 |
-| **侧边视频播放** | 在原生文件标签内播放 MP4、M4V、MOV、WebM，提供暂停、跳转、音量和全屏。隐藏时暂停，同一标签及文件版本下可恢复位置。 |
+| **Persistent Dock** | Keeps navigation and the real account avatar available when the chat list is collapsed. Defaults to Home, scheduled tasks, and plugins. |
+| **Customizable entries** | Select registered entries through the context menu and drag icons to reorder. Home stays first; up to six entries appear directly, with overflow in More. Preferences stay local. |
+| **Global pinned chats** | Collects pins from different workspaces. Hides duplicate workspace rows and restores them when unpinned. |
+| **Chat context menu** | Reuses native pin, rename, fork, archive/unarchive, and copy Session ID actions. Supports `Shift+F10` and the menu key. |
+| **Draft-first Home** | Choose a workspace, mode, model, and permissions before composing. A chat is created on send; text and selections survive navigation and refresh. |
+| **Consistent window and tools** | A draggable top strip and common frame across main pages. One corner button expands/collapses the tools, preferring existing tabs, with native resizing and split panes. |
+| **Side-panel video playback** | Plays MP4, M4V, MOV, and WebM in native file tabs, with pause, seeking, volume, and fullscreen. Hidden previews pause; the same tab and file version can restore their position. |
 
-文件、终端、浏览器、工具标签和自动化任务由 Harness 提供。本插件负责导航、会话展示、草稿首页、统一交互及新增视频预览，不提供新的任务执行引擎。
+Files, terminal, browser, tool tabs, and scheduled tasks are Harness capabilities. This plugin provides navigation, chat presentation, draft-first Home, consistent interactions, and video previews; it does not add a task execution engine.
 
-### 草稿与输入
+### Drafts and input
 
-`Enter` 发送，`Shift+Enter` 换行；中文输入法选词时的回车不会发送。`+` 选择本地文件，`@` 引用文件路径或已加载会话，麦克风复用宿主语音组件。附件只在发送时交给宿主，刷新后需重新选择。发送失败保留草稿，结果不明确时不会自动重发。
+`Enter` sends and `Shift+Enter` inserts a newline. Confirming an IME composition does not send. Use `+` for local files, `@` for file paths or loaded chats, and the microphone for the host voice component. Attachments are handed to the host only on send and must be reselected after refresh. Failed sends retain the draft; uncertain results are not automatically retried.
 
-### 恢复工具与播放
+### Restore tools and play videos
 
-有已有工具标签时，右上角按钮恢复原内容；当前会话没有标签时打开原生工具区。没有当前会话及可恢复内容时，才显示新建工具或选择会话入口。
+The top-right button restores existing tool tabs. If the active chat has no tabs, it opens the native tool area. The new-tool or chat-selection entry appears only when there is neither an active chat nor restorable content.
 
-收起抽屉、切换标签或关闭预览会暂停视频并释放临时媒体。重新打开同一标签、且文件版本未改变时，可恢复进度，**不会自动播放**。播放器保留键盘操作及焦点提示，窗口过渡遵循“减少动态效果”设置。
+Collapsing the drawer, switching tabs, or closing the preview pauses playback and releases temporary media. Reopening within the same tab lifecycle and unchanged file version can restore the position **without autoplay**. Native keyboard controls and focus indicators remain available; window transitions respect reduced-motion preferences.
 
-## 兼容与限制
+## Compatibility and limits
 
-| 项目 | 当前范围 |
+| Area | Current scope |
 |---|---|
-| **宿主与平台** | 功能基线在 macOS / Harness `0.2.1-rc.5` 实机验证。此包限制到该宿主版本；其他系统、深色模式和极窄窗口未全面实机验证。 |
-| **视频编码** | 扩展名识别不等于所有编码可解码；实际取决于系统/浏览器。已有 H.264/AAC MP4 实测，失败时可用系统应用打开。 |
-| **桌面视频体积** | 桌面端先完整读取临时 Blob；缓存和在途媒体字节共享 **256 MiB** 预算，超限可外部打开。这不是进程内存峰值上限。 |
-| **播放进度** | 恢复限于同一工具标签生命周期和同一文件版本，不保证应用重启后续播。 |
-| **草稿与语音** | 附件不跨刷新保留。语音需宿主组件和本机识别资源；`/` 命令及 `@` 候选取决于宿主目录和权限。 |
-| **语言** | README 提供中英文；部分新增界面文案仍为中文，尚未完成全界面国际化。 |
+| **Host and platform** | The feature baseline was tested on-device on macOS / Harness `0.2.1-rc.5`. This package restricts installation to that host version. Other operating systems, dark mode, and very narrow windows have not been fully tested on-device. |
+| **Video codecs** | Recognizing an extension does not guarantee that every codec decodes. Support depends on the system/browser; H.264/AAC MP4 has been tested. Unsupported files can open in a system application. |
+| **Desktop video size** | Desktop reads a complete temporary Blob before playback. Cached and in-flight media bytes share a **256 MiB** budget, with external opening available above it. This is not a process peak-memory cap. |
+| **Playback position** | Restoration is limited to the same tool tab lifecycle and file version, not guaranteed after an app restart. |
+| **Drafts and voice** | Attachments do not survive refresh. Voice requires the host component and local recognition resources. `/` commands and `@` suggestions depend on host catalogs and permissions. |
+| **Language** | The README is bilingual. Some added interface copy is still Chinese; full UI localization is not complete. |
 
-置顶会话被隐藏后，原生分组首屏可见行数可能减少；继续展开可查看后续会话。插件使用宿主槽位、服务及部分 DOM 结构，宿主升级后需重新验证，不能保证未来版本自动兼容。
+Hiding pinned chats can reduce the visible row count on a native group's first page. Expand the group to see more. The plugin uses host slots, services, and some DOM structure; host upgrades require renewed validation and are not automatically compatible.
 
-## 开发与贡献
+## Development and contributions
 
-在源码仓库根目录执行：
+Run from the source repository root:
 
 ```sh
 npm ci
@@ -94,10 +94,10 @@ npm test
 npm run build:client
 ```
 
-`npm test` 会先构建再运行测试；运行时共享宿主 React。修改源码后需要重新构建 `client.js`，并通过宿主加载更新。测试结果应以当前提交的实际运行记录为准，模拟演示不代替功能验收。
+`npm test` builds before running tests; the runtime shares the host's React. Rebuild `client.js` after editing source, then load the update through the host. Test results should come from the current commit's actual run; the simulated demo does not replace functional acceptance.
 
-[架构与状态归属](docs/ARCHITECTURE.md) · [贡献指南](CONTRIBUTING.md) · [版本与发布规则](docs/RELEASING.md) · [更新记录](CHANGELOG.md)
+[Architecture and state ownership](docs/ARCHITECTURE.md) · [Contributing](CONTRIBUTING.md) · [Versioning and releases](docs/RELEASING.md) · [Changelog](CHANGELOG.md)
 
-## 授权与来源
+## License and provenance
 
-DeepSeek Dock 是第三方独立插件，与 DeepSeek 官方没有隶属关系。项目使用 [MIT License](LICENSE)，引用代码及第三方许可见 [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md)。
+DeepSeek Dock is an independently developed third-party plugin and is not affiliated with DeepSeek. The project is licensed under the [MIT License](LICENSE). See [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) for referenced code and third-party licenses.

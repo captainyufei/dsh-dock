@@ -14,13 +14,13 @@ These are different package identities. The new version number does not remove e
 
 1. 在原窗口完成或保留未发送内容；附件仅存在内存中，重新加载后需重新选择。保存旧插件目录，便于回退。
 2. 在 Harness 插件页停用旧 `@local/chatgpt-rail`，确认没有旧版在其他位置重复启用。
-3. 按 [README](../README.md#安装) 安装 DeepSeek Dock，只启用新版。不要让两套布局同时运行。
+3. 按 [README](../README.zh-CN.md#安装) 安装 DeepSeek Dock，只启用新版。不要让两套布局同时运行。
 4. 按宿主提示重新加载或重启，再检查 Dock 顺序、草稿文字、置顶会话和右侧工具。
 5. 确认新版正常后，可从宿主插件页移除旧包；不用删除任何会话或工作区。
 
 1. Preserve unsent work and keep the old plugin directory for rollback. Attachments live in memory and must be selected again after reload.
 2. Disable `@local/chatgpt-rail` in Harness and check for duplicate enabled copies.
-3. Follow the [README](../README.en.md#install) to install DeepSeek Dock. Enable only the new package so two layouts do not run together.
+3. Follow the [README](../README.md#install) to install DeepSeek Dock. Enable only the new package so two layouts do not run together.
 4. Reload or restart when prompted; check Dock order, draft text, pins, and existing tools.
 5. After validating the new build, remove the old package through Harness if desired. Do not delete chats or workspaces.
 

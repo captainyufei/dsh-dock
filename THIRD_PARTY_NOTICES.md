@@ -1,6 +1,6 @@
 # Third-party notices
 
-The session-reference encoding in references.js follows DeepSeek Harness dsh-session-reference. Runtime voice/brand contributions remain provided by the installed Harness plugins. DeepSeek code is licensed as follows:
+The session-reference encoding in `src/references.js` follows DeepSeek Harness dsh-session-reference. Runtime voice/brand contributions remain provided by the installed Harness plugins. DeepSeek code is licensed as follows:
 
 MIT License
 

@@ -9,7 +9,7 @@
     <rect x="48" y="218" width="146" height="32" rx="16" fill="#e3eaff"/>
     <text x="121" y="240" text-anchor="middle" font-size="18" fill="#3c61ba">0.1.0-beta.1</text>
     <text x="210" y="240" font-size="18" fill="#686f78">Tools &amp; video beside your chat</text>
-  <text x="690" y="285" font-size="12" fill="#686f78">UI illustration / 界面示意</text></g>
+  <text x="690" y="285" font-size="12" fill="#686f78">UI illustration</text></g>
   <g id="interface-diagram" transform="translate(676 32)">
     <rect width="484" height="236" rx="15" fill="#fff" stroke="#dde0e5"/>
     <path d="M15 0H469Q484 0 484 15V30H0V15Q0 0 15 0" fill="#e8eaed"/>

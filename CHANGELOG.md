@@ -2,15 +2,17 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
-## Unreleased — Documentation and demos / 文档与演示
+## Unreleased — Repository, documentation, and demos / 仓库、文档与演示
 
-- Make English the default repository README, with a dedicated Simplified Chinese translation and language switch.
+- Make English the default repository README, with entirely English main-page copy and a dedicated Simplified Chinese translation.
+- Separate UI installation and web-profile CLI installation, with localized installation screenshots and secondary details in collapsible sections.
+- Separate source modules, tests, build tooling, and runtime bundles into `src/`, `tests/`, `scripts/`, and `dist/`.
 - Document the verified GitHub-tag installation flow, explicit activation, local ZIP fallback, third-party updates, and troubleshooting in both languages.
 - Add a fully English 45-second demo, including interface labels, example content, captions, and its own poster.
 - Add the same low-volume instrumental soundtrack to both language editions, with gentle fades.
 - Explain the README's benefits through five everyday workflows instead of grouped feature slogans.
 
-新增全英文宣传片；中英文演示加入轻量背景音乐；用切换页面、查找会话、恢复工具、核对视频和整理草稿五个场景说明用途。实测固定 Git 版本的安装与启用；补充 ZIP 备用方式、更新及排错步骤。仅更新文档与媒体，插件版本和已有标签不变。
+新增全英文宣传片；中英文演示加入轻量背景音乐；用切换页面、查找会话、恢复工具、核对视频和整理草稿五个场景说明用途。实测固定 Git 版本的安装与启用；补充 ZIP 备用方式、更新及排错步骤。英文主页正文清除中文；安装分为界面与 web profile CLI 两个入口，增加对应语言截图。源码、测试、构建工具与运行产物分别整理到 `src/`、`tests/`、`scripts/`、`dist/`。插件版本和已有标签不变。
 
 ## 0.1.0-beta.1 — 2026-11-01
 

@@ -32,62 +32,65 @@ DeepSeek Dock 是 DeepSeek Harness 的界面增强插件：常用入口留在左
 
 ## 安装
 
-**安装前：** 使用 macOS 和 DeepSeek Harness **0.2.1-rc.5**。若已安装旧版 `@local/chatgpt-rail`，先将它停用，详见[迁移说明](docs/MIGRATION.md)。DeepSeek Dock 尚未发布到 npm，请使用下面的完整来源地址。
+需要 **macOS / Harness 0.2.1-rc.5**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。本测试版尚未发布到 npm，请使用下面的完整 Git 地址，无需自行编译。
 
-### 推荐：从 GitHub 安装
+### 在 DeepSeek Harness 中安装
 
-1. 在 Harness 中打开 **插件 → 添加插件**。点击旁边箭头 → **安装第三方插件**，也会打开同一窗口。
-2. 将下面整行粘贴到 **包名或地址** 输入框：
+打开 **插件 → 添加插件**，将以下内容粘贴到 **包名或地址**，点击 **安装**：
 
-   ```text
-   git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
-   ```
+```text
+git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
+```
 
-3. 点击 **安装**，等待出现 **已安装** 和版本 `0.1.0-beta.1`。可展开 **查看安装详情** 查看进度或错误。
-4. 点击 **立即启用**。直接关闭窗口只会完成安装，插件仍处于关闭状态。若 Harness 提示重启，按提示操作。
-5. 在 **已安装插件** 中确认 **DeepSeek Dock** 已启用。收起会话列表后，左侧 Dock 的首页、自动化任务、插件入口应仍可使用。
+出现 **已安装** 和版本 `0.1.0-beta.1` 后，点击 **立即启用**。直接关闭窗口会让插件保持关闭。
 
-首次使用时，右键 Dock → **自定义 Dock**，选择常用入口。
+<img src="assets/readme/install.zh-CN.png" alt="在 Harness 中通过 GitHub 固定版本安装 DeepSeek Dock" width="640">
 
-这个地址固定到本次测试版。仓库已包含构建好的客户端，无需自行克隆仓库、运行 `npm install` 或编译。
+在 **已安装插件** 中确认 **DeepSeek Dock** 已开启。收起会话列表，首页、自动化任务和插件入口应仍显示在左侧 Dock；右键 Dock 可自定义入口。
+
+### 使用 `dsh` CLI 安装
+
+安装到 **web profile**：
+
+```sh
+dsh plugin --profile web add 'git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1'
+```
+
+若 Web UI 尚未运行，执行 `dsh web` 启动，再打开 **插件** 确认 DeepSeek Dock 已启用。此命令针对 web profile；桌面版请使用上面的安装窗口。
+
+### 更新或移除
+
+Git/本地来源的安装，先保存工作，打开 **插件 → DeepSeek Dock → 卸载** 并确认。再用上面任一方式安装新版本的完整来源并启用，按提示重新加载或重启，核对版本。重复使用上面的固定标签只会重装同一测试版。
+
+暂时不用时关闭开关；彻底移除时卸载后不再安装。两种操作都保留宿主管理的会话和工作区。
 
 <details>
-<summary>备用：下载 ZIP 后，从本地目录安装</summary>
+<summary>备用：通过本地 ZIP 安装</summary>
 
-1. [下载同一固定版本](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip)，解压到准备长期保留的目录。
-2. 找到直接包含 `package.json`、`client.js`、`cordis.patch.yml` 的那一层目录，不要选择 ZIP 文件或它的上级目录。
-3. 在 **插件 → 添加插件** 中输入该目录的完整绝对路径。例如，若放在 Mac 用户 `alex` 的插件目录：
+1. [下载本次版本](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip)，解压到准备长期保留的目录。
+2. 找到包含 `package.json` 和 `cordis.patch.yml` 的根目录，保留完整解压内容及全部子目录。
+3. 在访达中选中该文件夹，按 **Option–Command–C** 复制绝对路径，粘贴到 **插件 → 添加插件**。例如，用户名为 `alex` 时，路径可能是：
 
    ```text
    /Users/alex/Plugins/dsh-dock
    ```
 
-   在访达中选中解压后的文件夹，按 **Option–Command–C** 复制路径，再粘贴到输入框；不要原样填写示例。只写 `dsh-dock` 这样的目录名不够；安装后也请保留此目录。
-4. 点击 **安装 → 立即启用**，再按上面的步骤检查是否生效。
+   请使用你实际保存的文件夹路径，不要原样填示例或选择 ZIP 文件。
+4. 点击 **安装 → 立即启用**，再按上面的方法检查 Dock。安装后请保留本地目录。
 
 </details>
-
-### 更新或移除
-
-有新的兼容版本发布后：
-
-1. 保存正在编辑的内容，打开 **插件 → DeepSeek Dock → 卸载**，并确认。宿主目前要求通过 Git/本地来源安装的第三方插件先卸载、再安装新版。
-2. 按上面的安装步骤，填写新版本的完整 Git 地址，或新解压目录的路径，点击 **立即启用**。
-3. 按提示重新加载或重启，在插件详情中核对版本。重复使用上面的固定地址只会重装同一测试版，不会自动选择新版。
-
-暂时不用时，关闭 **已安装插件** 中的开关即可；彻底移除时，执行 **卸载** 后不再安装。两种操作都不会删除宿主管理的会话和工作区。
 
 <details>
 <summary>安装遇到问题？展开排查</summary>
 
-| 现象 | 处理方法 |
+| 问题 | 下一步 |
 |---|---|
-| 提示找不到包 | 粘贴完整 Git 地址，保留 `git+https://` 和版本标签。仅输入包名无法安装这个尚未发布到 npm 的包。 |
-| GitHub 下载失败 | 打开 **查看安装详情**，检查所报主机或网络错误，恢复 GitHub 连接后重试。切换 npm 安装源不能解决 GitHub 连接失败；能单独下载时可使用 ZIP 备用方式。 |
-| 安装完成，但 Dock 没出现 | 点击 **立即启用**，或在 **已安装插件** 中打开开关；按提示重启。若启用失败，复制对应诊断。 |
-| 宿主不兼容或本地目录无效 | 确认 Harness 为 `0.2.1-rc.5`；本地安装时，检查绝对路径所指目录是否直接包含上面列出的三个文件。 |
+| 找不到包 | 使用包含版本标签的完整 Git 地址；npm 上尚不能仅凭包名安装。 |
+| GitHub 下载失败 | 打开 **查看安装详情**，检查 GitHub 连接后重试。切换 npm 安装源不能修复 GitHub 连接；能单独下载时可用 ZIP 方式。 |
+| 已安装但 Dock 没出现 | 在 **已安装插件** 中启用，并按提示重启。若启用失败，复制诊断信息。 |
+| 宿主不匹配或目录无效 | 使用 Harness `0.2.1-rc.5`。本地安装时选中含 `package.json` 和 `cordis.patch.yml` 的根目录，确保解压内容完整。 |
 
-仍有问题时，请[提交 issue](https://github.com/captainyufei/dsh-dock/issues)，附 Harness 版本、macOS 版本、填写的来源和 **查看安装详情** 中的错误；发布日志前删去私人路径或令牌。
+[提交 issue](https://github.com/captainyufei/dsh-dock/issues) 时附 Harness/macOS 版本、填写的来源和安装错误；发布日志前删去私人路径或令牌。
 
 </details>
 
@@ -138,7 +141,7 @@ npm test
 npm run build:client
 ```
 
-`npm test` 会先构建再运行测试；运行时共享宿主 React。修改源码后需要重新构建 `client.js`，并通过宿主加载更新。测试结果应以当前提交的实际运行记录为准，模拟演示不代替功能验收。
+`npm test` 会先构建再运行测试；运行时共享宿主 React。修改源码后需要重新构建 `dist/client.js`，并通过宿主加载更新。测试结果应以当前提交的实际运行记录为准，模拟演示不代替功能验收。
 
 [架构与状态归属](docs/ARCHITECTURE.md) · [贡献指南](CONTRIBUTING.md) · [版本与发布规则](docs/RELEASING.md) · [更新记录](CHANGELOG.md)
 

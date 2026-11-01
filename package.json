@@ -3,10 +3,10 @@
   "version": "0.1.0-beta.1",
   "type": "module",
   "scripts": {
-    "test": "node build.mjs && node --test *.test.mjs",
-    "check:package": "node build.mjs && node scripts/check-package.mjs",
+    "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
+    "check:package": "node scripts/build.mjs && node scripts/check-package.mjs",
     "check": "npm test && npm run check:package",
-    "build:client": "node build.mjs"
+    "build:client": "node scripts/build.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",
@@ -16,10 +16,10 @@
   },
   "description": "A persistent, customizable Dock for DeepSeek Harness, with global pinned chats, a draft-first home, and side-panel video playback.",
   "exports": {
-    ".": "./index.js",
-    "./client": "./client.js",
-    "./locale/*.json": "./locale/*.json",
-    "./icon": "./icon.svg",
+    ".": "./dist/index.js",
+    "./client": "./dist/client.js",
+    "./locale/*.json": "./dist/locale/*.json",
+    "./icon": "./dist/icon.svg",
     "./package.json": "./package.json"
   },
   "dsh": {
@@ -44,12 +44,8 @@
     }
   },
   "files": [
-    "index.js",
-    "video-route.js",
-    "client.js",
+    "dist",
     "cordis.patch.yml",
-    "locale/*.json",
-    "icon.svg",
     "README.md",
     "THIRD_PARTY_NOTICES.md",
     "README.en.md",

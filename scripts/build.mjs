@@ -1,0 +1,13 @@
+import {build} from 'esbuild';
+import {copyFile,cp,mkdir,readFile,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const root=new URL('../',import.meta.url);
+const {name}=JSON.parse(await readFile(new URL('package.json',root),'utf8'));
+const result=await build({absWorkingDir:fileURLToPath(new URL('src/',root)),entryPoints:['client-entry.js'],bundle:true,format:'cjs',platform:'browser',external:['react','react-dom','@deepseek-ai/dsh-client-ui-primitives'],loader:{'.css':'text'},write:false,minify:false,legalComments:'inline',target:'es2022'});
+const output='window.__ModuleLoader__.load({id:'+JSON.stringify(name)+',factory(require){var module={exports:{}};var exports=module.exports;\n'+result.outputFiles[0].text+'\nreturn module.exports.default;}});\n';
+await mkdir(new URL('dist/',root),{recursive:true});
+await writeFile(new URL('dist/client.js',root),output);
+for(const name of ['index.js','video-route.js'])await copyFile(new URL('src/'+name,root),new URL('dist/'+name,root));
+await cp(new URL('src/locale/',root),new URL('dist/locale/',root),{recursive:true});
+await copyFile(new URL('assets/icon.svg',root),new URL('dist/icon.svg',root));
+console.log('Built dist/ (client.js: '+Buffer.byteLength(output)+' bytes)');

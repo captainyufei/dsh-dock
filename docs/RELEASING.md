@@ -24,7 +24,7 @@ The source of truth is `package.json.version`. Release tags use `v<version>` and
 ## Before publishing
 
 1. Update the version and changelog; synchronize the lockfile's root package version.
-2. Run `npm ci` and `npm test`. Inspect the newly built `client.js` and package identity.
+2. Run `npm ci` and `npm run check`. Inspect and commit the rebuilt `dist/` runtime and package identity. CI verifies that a clean rebuild does not change `dist/`.
 3. Review `npm pack --dry-run`, then pack the exact files to distribute. Keep personal data, caches, development dependencies, and unrelated history out of the archive.
 4. Install that artifact in a clean Harness profile at the declared supported version. Check Home, conversation, tasks, plugins, Dock collapse, pins, drafts, tools, and video playback.
 5. Verify disable/uninstall cleanup and the old-local-package migration path. Check keyboard access, IME handling, and reduced motion.
@@ -37,7 +37,9 @@ Before expanding `engines.dsh`, test each new baseline. Some UI integration uses
 
 ## Distribution
 
-GitHub source archives contain the prebuilt client. A runtime `.tgz` can be attached to a release after it is validated. Keep `dsh-dock.tgz` stable if documentation uses a `latest/download/dsh-dock.tgz` URL; use a tag-pinned URL for versioned filenames.
+The current `main` branch and future releases contain the complete prebuilt runtime in `dist/`, with package exports pointing there. The historical `v0.1.0-beta.1` tag is unchanged and keeps its runtime files at the repository root. For either layout, install from the repository root so Harness can read `package.json` and `cordis.patch.yml`; no install/prepare build hooks are needed. Source modules, tests, demo assets, and development scripts are excluded from the runtime `.tgz`.
+
+A runtime `.tgz` can be attached to a release after it is validated. Keep `dsh-dock.tgz` stable if documentation uses a `latest/download/dsh-dock.tgz` URL; use a tag-pinned URL for versioned filenames.
 
 The npm package identity is prepared for future distribution, but this beta is not published to npm. Verify ownership of the target npm scope before publishing. When npm distribution is enabled, configure the actual repository and workflow using [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/).
 

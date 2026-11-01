@@ -7,14 +7,32 @@
 ```text
 DeepSeek Harness
   ├─ Native layout, chat, workspace and tool services
-  │    └─ client-entry.js → Dock / pins / home draft / window chrome
+  │    └─ src/client-entry.js → Dock / pins / home draft / window chrome
   └─ Authenticated connection + file-system provider
-       └─ index.js → video-route.js → native document preview
+       └─ src/index.js → src/video-route.js → native document preview
 ```
 
 插件通过宿主注册槽位和服务接入，不替换主程序。React、原生菜单、会话操作、文件／终端／浏览器及工具标签由宿主提供。卸载时恢复自身布局标记并清理监听与挂载节点。
 
 The plugin registers with host slots and services instead of replacing the application. React, menus, chat actions, file/terminal/browser tools, and tool tabs are provided by the host. Disposal removes the plugin's markers, listeners, and mounts.
+
+## 目录结构 / Repository layout
+
+```text
+src/                  Source modules, styles, and locale JSON
+tests/                Behavior and lifecycle tests
+scripts/              Build and install-package verification
+dist/                 Committed runtime: client, server, locales, icon
+assets/               Source icon and README illustrations/media
+demo/                 Rebuildable simulated video project
+docs/                 Architecture, migration, release notes, gallery manifest
+package.json          Package identity, exports, host compatibility
+cordis.patch.yml      Host bundle activation
+```
+
+`src/` 保持原有模块间的相对引用。`dist/` 是宿主实际加载的完整预构建目录，随源码提交；安装入口仍是包含 `package.json` 和 `cordis.patch.yml` 的仓库根目录。`docs/screenshots.json` 列出展示图片，路径相对清单文件。
+
+Relative imports stay within `src/`. Harness loads the committed runtime through the package's `dist/` exports. Install the repository root, which contains `package.json` and `cordis.patch.yml`, rather than the `src/` or `dist/` directory. Gallery paths in `docs/screenshots.json` are relative to that manifest.
 
 ## 状态归属 / State ownership
 
@@ -48,9 +66,9 @@ The plugin does not rewrite, transcode, or upload the video and does not start a
 
 ## 构建与兼容 / Build and compatibility
 
-在仓库根目录执行 `npm ci`、`npm test`、`npm run build:client`。`build.mjs` 将客户端代码及样式构建为 `client.js`。宿主适配以 `0.2.1-rc.5` 为验证基准；升级宿主后应重新验证注册接口、布局及工具预览。
+在仓库根目录执行 `npm ci`、`npm run check`。`scripts/build.mjs` 将 `src/` 中的客户端代码及样式构建为 `dist/client.js`，并复制服务端入口、locale 与图标到 `dist/`。`npm run build:client` 可单独更新这些产物；直接调用构建脚本时，其路径解析不依赖当前工作目录。没有安装期构建钩子，普通安装直接使用已提交的 `dist/`。宿主适配以 `0.2.1-rc.5` 为验证基准；升级宿主后应重新验证注册接口、布局及工具预览。
 
-Run `npm ci`, `npm test`, and `npm run build:client` at the repository root. The build bundles client code and styles into `client.js`. Host integration was verified against `0.2.1-rc.5`; recheck service registration, layout, and previews after host upgrades.
+Run `npm ci` and `npm run check` at the repository root. `scripts/build.mjs` bundles client code and styles into `dist/client.js` and copies the server entries, locales, and icon into `dist/`. Use `npm run build:client` for a standalone rebuild. The build script resolves paths relative to itself; installation has no build hooks and uses the committed `dist/` files. Host integration was verified against `0.2.1-rc.5`; recheck service registration, layout, and previews after host upgrades.
 
 演示视频是独立文档资产，不随插件运行，不为业务代码引入动效制作依赖。
 

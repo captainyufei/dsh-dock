@@ -37,7 +37,7 @@ try{
  assert.equal(packed.name,packageJson.name);
  assert.equal(packed.version,packageJson.version);
  const paths=new Set(packed.files.map(file=>file.path));
- const runtime=['package.json','index.js','video-route.js','client.js','cordis.patch.yml','locale/en.json','locale/zh.json','icon.svg'];
+ const runtime=['package.json','dist/index.js','dist/video-route.js','dist/client.js','cordis.patch.yml','dist/locale/en.json','dist/locale/zh.json','dist/icon.svg'];
  const documents=['README.md','README.en.md','README.zh-CN.md','CHANGELOG.md','THIRD_PARTY_NOTICES.md'];
  const allowed=new Set([...runtime,...documents,'LICENSE']);
  for(const file of [...runtime,...documents])assert.ok(paths.has(file),`Tarball is missing ${file}`);
@@ -58,7 +58,7 @@ try{
  const packageName=/^\s+name:\s*['"]?([^\s'"]+)['"]?\s*$/m.exec(patch)?.[1];
  assert.equal(packageName,actual.name,'Bundle patch must activate the released package');
  let clientDefinition;
- const client=await readFile(join(unpacked,'client.js'),'utf8');
+ const client=await readFile(join(unpacked,actual.exports['./client']),'utf8');
  vm.runInNewContext(client,{window:{__ModuleLoader__:{load:definition=>{clientDefinition=definition;}}}},{timeout:5000});
  assert.equal(clientDefinition?.id,actual.name,'Client ModuleLoader ID must match the released package');
  assert.equal(typeof clientDefinition.factory,'function','Client bundle must expose its module factory');
@@ -66,11 +66,12 @@ try{
  for(const dependency of externals){
   assert.ok(actual.peerDependencies?.[dependency]||actual.dependencies?.[dependency],`Undeclared external module: ${dependency}`);
  }
- const server=await import(pathToFileURL(join(unpacked,'index.js')).href);
+ const server=await import(pathToFileURL(join(unpacked,actual.exports['.'])).href);
  assert.equal(typeof server.apply,'function','Packed server entry must load');
  assert.deepEqual(server.inject,['connection','fs'],'Media must use the host connection and filesystem');
  for(const locale of ['en','zh']){
-  const translated=JSON.parse(await readFile(join(unpacked,'locale',`${locale}.json`),'utf8'));
+  const localePath=actual.exports['./locale/*.json'].replace('*',locale);
+  const translated=JSON.parse(await readFile(join(unpacked,localePath),'utf8'));
   assert.equal(translated.meta.title,'DeepSeek Dock',`Unexpected ${locale} display name`);
  }
  console.log(JSON.stringify({ok:true,name:packed.name,version:packed.version,files:paths.size,bytes:packed.size,integrity:packed.integrity,externalModules:externals,packedServerLoaded:true,clientId:clientDefinition.id},null,2));

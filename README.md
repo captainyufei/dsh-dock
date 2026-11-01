@@ -1,6 +1,6 @@
 # DeepSeek Dock
 
-**English** · [简体中文](README.zh-CN.md)
+**English** · [Simplified Chinese](README.zh-CN.md)
 
 **Collapse the chat list. Still reach Home, tasks, and plugins in one click.**
 
@@ -16,7 +16,7 @@ DeepSeek Dock is a UI extension for DeepSeek Harness. It keeps navigation on the
 
 [![DeepSeek Dock demo: navigation, pins, tools, video, and drafts](assets/readme/poster.en.png)](assets/readme/demo.en.mp4)
 
-**[Watch in English · 45-second MP4](assets/readme/demo.en.mp4)** · [观看中文版](assets/readme/demo.mp4)
+**[Watch in English · 45-second MP4](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4)
 
 Each language edition has localized on-screen text and light background music. The video simulates the workflow with sample data; it is not a screen recording or performance test. Click the poster to open the English edition.
 
@@ -32,62 +32,65 @@ Home, conversations, plugins, and scheduled tasks share the outer window layout.
 
 ## Install
 
-**Requirements:** macOS with DeepSeek Harness **0.2.1-rc.5**. If you use the old `@local/chatgpt-rail` plugin, disable it first; see [migration](docs/MIGRATION.md). DeepSeek Dock is not published to npm, so use the complete source below.
+Requires **macOS / Harness 0.2.1-rc.5**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This beta is not published to npm; use its complete Git source below. No manual build is needed.
 
-### Recommended: install from GitHub
+### Install in DeepSeek Harness
 
-1. In Harness, open **Plugins → Add plugin**. The adjacent arrow → **Install a third-party plugin** opens the same dialog.
-2. Paste this entire line into **Package name or address** (包名或地址):
+Open **Plugins → Add plugin**, paste this into **Package name or address**, and click **Install**:
 
-   ```text
-   git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
-   ```
+```text
+git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
+```
 
-3. Click **Install** and wait for **Installed**, showing version `0.1.0-beta.1`. You can expand **Show install details** to see progress or errors.
-4. Click **Enable now**. Closing the dialog instead leaves the plugin installed but switched off. Follow any restart instruction shown by Harness.
-5. Confirm **DeepSeek Dock** is enabled under **Installed plugins**. Collapse the chat list: Home, scheduled tasks, and plugins should remain accessible in the left Dock.
+When **Installed** shows version `0.1.0-beta.1`, click **Enable now**. Closing the dialog instead leaves the plugin switched off.
 
-Right-click the Dock → **自定义 Dock** (Customize Dock) to choose your entries.
+<img src="assets/readme/install.en.png" alt="Installing DeepSeek Dock from its GitHub release in Harness" width="640">
 
-This source pins the beta release. The repository includes the built client; you do not need to clone it, run `npm install`, or build it yourself.
+Confirm **DeepSeek Dock** is on under **Installed plugins**. Collapse the chat list: Home, scheduled tasks, and plugins should remain in the left Dock. Right-click the Dock to customize its entries.
+
+### Install with the `dsh` CLI
+
+For the **web profile**, run:
+
+```sh
+dsh plugin --profile web add 'git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1'
+```
+
+Start `dsh web` if it is not already running, then open **Plugins** and make sure DeepSeek Dock is enabled. The command targets the web profile; desktop users should use the installation dialog above.
+
+### Update or remove
+
+For Git/local installations, save your work, open **Plugins → DeepSeek Dock → Uninstall**, and confirm. Install the new release's full source using either method above, then enable it. Follow any reload/restart notice and check its version. Reusing the fixed tag above reinstalls the same beta.
+
+To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
 <details>
-<summary>Alternative: install a downloaded ZIP from a local directory</summary>
+<summary>Alternative: install from a local ZIP</summary>
 
-1. [Download the same fixed version](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip) and extract it into a directory you will keep.
-2. Find the directory directly containing `package.json`, `client.js`, and `cordis.patch.yml`. Do not select the ZIP or its parent directory.
-3. In **Plugins → Add plugin**, enter that directory's full absolute path. For example, if you saved it under the macOS account `alex`:
+1. [Download this release](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip) and extract it into a directory you will keep.
+2. Find the root containing `package.json` and `cordis.patch.yml`; keep the complete extracted directory and all its subfolders.
+3. Select that folder in Finder and press **Option–Command–C** to copy its absolute path. Paste it into **Plugins → Add plugin**. For example, an account named `alex` might use:
 
    ```text
    /Users/alex/Plugins/dsh-dock
    ```
 
-   In Finder, select the extracted folder and press **Option–Command–C** to copy its pathname. Paste that actual path, including your own account name; do not copy the example unchanged. A directory name such as `dsh-dock` alone is insufficient. Keep the directory after installation.
-4. Click **Install → Enable now**, then perform the same success check above.
+   Use your actual folder path, not the example or the ZIP file.
+4. Click **Install → Enable now**, and check the Dock as described above. Keep the local directory after installation.
 
 </details>
-
-### Update or remove
-
-When a newer compatible release is available:
-
-1. Save any work in progress. Open **Plugins → DeepSeek Dock → Uninstall**, then confirm. Harness currently requires uninstalling and reinstalling third-party Git/local packages.
-2. Follow the installation steps above using the new release's full Git source, or its newly extracted local directory. Choose **Enable now**.
-3. Follow any reload/restart notice and check the installed version in the plugin details. Reusing the fixed source above reinstalls the same beta; it does not select a newer release.
-
-To stop using Dock temporarily, turn off its switch under **Installed plugins**. To remove it, use **Uninstall** without reinstalling. Neither action deletes host-managed chats or workspaces.
 
 <details>
 <summary>Troubleshooting installation</summary>
 
-| What you see | What to do |
+| Problem | Next step |
 |---|---|
-| Package not found | Paste the complete Git source, including `git+https://` and the tag. The package name alone cannot install this unpublished npm package. |
-| GitHub download fails | Open **Show install details**, check the reported host/network error, and retry when GitHub is reachable. Changing the npm registry does not fix a GitHub connection failure; use the ZIP alternative if you can download it separately. |
-| Installed, but no Dock | Select **Enable now** or switch the plugin on in **Installed plugins**. Follow any restart notice; if activation fails, copy its diagnostic. |
-| Unsupported host or invalid directory | Confirm Harness `0.2.1-rc.5`, or check that the absolute directory path directly contains all three files listed above. |
+| Package not found | Use the entire Git source, including the tag. The package name alone is not available on npm. |
+| GitHub download fails | Open **Show install details**, check GitHub connectivity, and retry. Changing the npm registry does not fix GitHub access. Use the ZIP option if you can download it separately. |
+| Installed, but no Dock | Enable it under **Installed plugins** and follow any restart notice. If activation fails, copy the diagnostic. |
+| Wrong host or invalid directory | Use Harness `0.2.1-rc.5`. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |
 
-If it still fails, [report an issue](https://github.com/captainyufei/dsh-dock/issues) with the Harness version, macOS version, source entered, and error from **Show install details**. Remove private paths or tokens from logs before posting.
+[Report an issue](https://github.com/captainyufei/dsh-dock/issues) with your Harness/macOS versions, source entered, and installation error. Remove private paths or tokens from logs before posting.
 
 </details>
 
@@ -138,7 +141,7 @@ npm test
 npm run build:client
 ```
 
-`npm test` builds before running tests; the runtime shares the host's React. Rebuild `client.js` after editing source, then load the update through the host. Test results should come from the current commit's actual run; the simulated demo does not replace functional acceptance.
+`npm test` builds before running tests; the runtime shares the host's React. Rebuild `dist/client.js` after editing source, then load the update through the host. Test results should come from the current commit's actual run; the simulated demo does not replace functional acceptance.
 
 [Architecture and state ownership](docs/ARCHITECTURE.md) · [Contributing](CONTRIBUTING.md) · [Versioning and releases](docs/RELEASING.md) · [Changelog](CHANGELOG.md)
 

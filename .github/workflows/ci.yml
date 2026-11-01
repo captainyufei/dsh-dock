@@ -22,8 +22,15 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
-      - name: Confirm the committed browser bundle matches its sources
-        run: git diff --exit-code -- client.js
+      - name: Confirm the committed runtime matches its sources
+        run: |
+          dist_changes="$(git status --porcelain --untracked-files=all -- dist/)"
+          if [ -n "$dist_changes" ]; then
+            echo "The committed dist/ does not match a clean build:"
+            printf '%s\n' "$dist_changes"
+            exit 1
+          fi
+          echo "The committed dist/ matches a clean build."
       - name: Build the installable tarball
         run: npm pack
       - name: Upload the checked package

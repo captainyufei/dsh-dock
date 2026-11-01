@@ -32,19 +32,21 @@ DeepSeek Dock 是 DeepSeek Harness 的界面增强插件：常用入口留在左
 
 ## 安装
 
-需要 **macOS / Harness 0.2.1-rc.5**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。本测试版尚未发布到 npm，请使用下面的完整 Git 地址，无需自行编译。
+需要 **macOS / Harness 0.2.1-rc.5**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。本测试版尚未发布到 npm，请使用下面的仓库地址，无需自行编译。
+
+这会安装 `main` 上的最新代码，不等同于最新稳定发布版。已安装的副本不会自动更新。
 
 ### 在 DeepSeek Harness 中安装
 
 打开 **插件 → 添加插件**，将以下内容粘贴到 **包名或地址**，点击 **安装**：
 
 ```text
-git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
+https://github.com/captainyufei/dsh-dock
 ```
 
-出现 **已安装** 和版本 `0.1.0-beta.1` 后，点击 **立即启用**。直接关闭窗口会让插件保持关闭。
+出现 **已安装** 后，点击 **立即启用**。直接关闭窗口会让插件保持关闭。
 
-<img src="assets/readme/install.zh-CN.png" alt="在 Harness 中通过 GitHub 固定版本安装 DeepSeek Dock" width="640">
+<img src="assets/readme/install.zh-CN.png" alt="在 Harness 中通过 GitHub 仓库安装 DeepSeek Dock" width="640">
 
 在 **已安装插件** 中确认 **DeepSeek Dock** 已开启。收起会话列表，首页、自动化任务和插件入口应仍显示在左侧 Dock；右键 Dock 可自定义入口。
 
@@ -53,19 +55,27 @@ git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
 安装到 **web profile**：
 
 ```sh
-dsh plugin --profile web add 'git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1'
+dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 ```
 
 若 Web UI 尚未运行，执行 `dsh web` 启动，再打开 **插件** 确认 DeepSeek Dock 已启用。此命令针对 web profile；桌面版请使用上面的安装窗口。
 
 ### 更新或移除
 
-Git/本地来源的安装，先保存工作，打开 **插件 → DeepSeek Dock → 卸载** 并确认。再用上面任一方式安装新版本的完整来源并启用，按提示重新加载或重启，核对版本。重复使用上面的固定标签只会重装同一测试版。
+要取得当前 `main` 代码，先保存工作，打开 **插件 → DeepSeek Dock → 卸载** 并确认。再使用上面同一仓库地址或 CLI 命令重新安装并启用，按提示重新加载或重启，在插件详情中核对来源和版本。必须重新安装；仅重新打开 Harness 不会下载新代码。
 
 暂时不用时关闭开关；彻底移除时卸载后不再安装。两种操作都保留宿主管理的会话和工作区。
 
 <details>
-<summary>备用：通过本地 ZIP 安装</summary>
+<summary>可复现的备用方式：固定发布版或本地 ZIP</summary>
+
+若希望始终安装同一公开测试版，而不跟随 `main`，在安装窗口使用以下来源：
+
+```text
+git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
+```
+
+此标签固定为 `0.1.0-beta.1`，重新安装它也不会取得更新代码。需要本地安装时：
 
 1. [下载本次版本](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip)，解压到准备长期保留的目录。
 2. 找到包含 `package.json` 和 `cordis.patch.yml` 的根目录，保留完整解压内容及全部子目录。
@@ -85,7 +95,7 @@ Git/本地来源的安装，先保存工作，打开 **插件 → DeepSeek Dock 
 
 | 问题 | 下一步 |
 |---|---|
-| 找不到包 | 使用包含版本标签的完整 Git 地址；npm 上尚不能仅凭包名安装。 |
+| 找不到包 | 使用上面的完整仓库地址。本包尚未发布到 npm，不能只填包名或 `@latest` 安装。 |
 | GitHub 下载失败 | 打开 **查看安装详情**，检查 GitHub 连接后重试。切换 npm 安装源不能修复 GitHub 连接；能单独下载时可用 ZIP 方式。 |
 | 已安装但 Dock 没出现 | 在 **已安装插件** 中启用，并按提示重启。若启用失败，复制诊断信息。 |
 | 宿主不匹配或目录无效 | 使用 Harness `0.2.1-rc.5`。本地安装时选中含 `package.json` 和 `cordis.patch.yml` 的根目录，确保解压内容完整。 |

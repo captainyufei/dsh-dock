@@ -32,19 +32,21 @@ Home, conversations, plugins, and scheduled tasks share the outer window layout.
 
 ## Install
 
-Requires **macOS / Harness 0.2.1-rc.5**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This beta is not published to npm; use its complete Git source below. No manual build is needed.
+Requires **macOS / Harness 0.2.1-rc.5**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This beta is not published to npm; use the repository URL below. No manual build is needed.
+
+This installs the latest code on `main`, not the latest stable release. Installed copies do not update automatically.
 
 ### Install in DeepSeek Harness
 
 Open **Plugins → Add plugin**, paste this into **Package name or address**, and click **Install**:
 
 ```text
-git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
+https://github.com/captainyufei/dsh-dock
 ```
 
-When **Installed** shows version `0.1.0-beta.1`, click **Enable now**. Closing the dialog instead leaves the plugin switched off.
+When **Installed** appears, click **Enable now**. Closing the dialog instead leaves the plugin switched off.
 
-<img src="assets/readme/install.en.png" alt="Installing DeepSeek Dock from its GitHub release in Harness" width="640">
+<img src="assets/readme/install.en.png" alt="Installing DeepSeek Dock from its GitHub repository in Harness" width="640">
 
 Confirm **DeepSeek Dock** is on under **Installed plugins**. Collapse the chat list: Home, scheduled tasks, and plugins should remain in the left Dock. Right-click the Dock to customize its entries.
 
@@ -53,19 +55,27 @@ Confirm **DeepSeek Dock** is on under **Installed plugins**. Collapse the chat l
 For the **web profile**, run:
 
 ```sh
-dsh plugin --profile web add 'git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1'
+dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 ```
 
 Start `dsh web` if it is not already running, then open **Plugins** and make sure DeepSeek Dock is enabled. The command targets the web profile; desktop users should use the installation dialog above.
 
 ### Update or remove
 
-For Git/local installations, save your work, open **Plugins → DeepSeek Dock → Uninstall**, and confirm. Install the new release's full source using either method above, then enable it. Follow any reload/restart notice and check its version. Reusing the fixed tag above reinstalls the same beta.
+To get the current `main` code, save your work, open **Plugins → DeepSeek Dock → Uninstall**, and confirm. Reinstall using the same repository URL or CLI command above, then enable it. Follow any reload/restart notice and check the source and version in the plugin details. Reinstallation is required; reopening Harness does not fetch new code.
 
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
 <details>
-<summary>Alternative: install from a local ZIP</summary>
+<summary>Reproducible alternative: fixed release or local ZIP</summary>
+
+To keep the same published beta instead of following `main`, use this source in the installation dialog:
+
+```text
+git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
+```
+
+This tag stays on `0.1.0-beta.1`; reinstalling it does not advance to newer code. For a local installation:
 
 1. [Download this release](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip) and extract it into a directory you will keep.
 2. Find the root containing `package.json` and `cordis.patch.yml`; keep the complete extracted directory and all its subfolders.
@@ -85,7 +95,7 @@ To disable Dock temporarily, turn off its switch. Uninstall without reinstalling
 
 | Problem | Next step |
 |---|---|
-| Package not found | Use the entire Git source, including the tag. The package name alone is not available on npm. |
+| Package not found | Use the complete repository URL above. This package is not published to npm; its package name or `@latest` is not an installation source. |
 | GitHub download fails | Open **Show install details**, check GitHub connectivity, and retry. Changing the npm registry does not fix GitHub access. Use the ZIP option if you can download it separately. |
 | Installed, but no Dock | Enable it under **Installed plugins** and follow any restart notice. If activation fails, copy the diagnostic. |
 | Wrong host or invalid directory | Use Harness `0.2.1-rc.5`. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |

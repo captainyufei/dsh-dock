@@ -11,9 +11,10 @@ Versions describe public DeepSeek Dock releases. Development changes are collect
 - Document the verified GitHub-tag installation flow, explicit activation, local ZIP fallback, third-party updates, and troubleshooting in both languages.
 - Add a fully English 45-second demo, including interface labels, example content, captions, and its own poster.
 - Add the same low-volume instrumental soundtrack to both language editions, with gentle fades.
+- Add 14-second silent looping GIF previews in both languages, linked to the full 45-second videos with music and a static-image fallback.
 - Explain the README's benefits through five everyday workflows instead of grouped feature slogans.
 
-新增全英文宣传片；中英文演示加入轻量背景音乐；用切换页面、查找会话、恢复工具、核对视频和整理草稿五个场景说明用途。实测固定 Git 版本的安装与启用；补充 ZIP 备用方式、更新及排错步骤。英文主页正文清除中文；安装分为界面与 web profile CLI 两个入口，增加对应语言截图。默认使用仓库地址取得 `main` 最新代码；固定标签与 ZIP 保留为可复现备用，并说明这不是最新稳定发布、已安装副本不会自动更新。源码、测试、构建工具与运行产物分别整理到 `src/`、`tests/`、`scripts/`、`dist/`。插件版本和已有标签不变。
+新增全英文宣传片；中英文演示加入轻量背景音乐；README 增加可点击的无声短循环 GIF，保留 45 秒完整视频和静态预览；用切换页面、查找会话、恢复工具、核对视频和整理草稿五个场景说明用途。实测固定 Git 版本的安装与启用；补充 ZIP 备用方式、更新及排错步骤。英文主页正文清除中文；安装分为界面与 web profile CLI 两个入口，增加对应语言截图。默认使用仓库地址取得 `main` 最新代码；固定标签与 ZIP 保留为可复现备用，并说明这不是最新稳定发布、已安装副本不会自动更新。源码、测试、构建工具与运行产物分别整理到 `src/`、`tests/`、`scripts/`、`dist/`。插件版本和已有标签不变。
 
 ## 0.1.0-beta.1 — 2026-11-01
 

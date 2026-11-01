@@ -3,7 +3,10 @@ import argparse,html,json,re
 D=Path(__file__).parent
 parser=argparse.ArgumentParser(description="Build the 45-second DeepSeek Dock demo.")
 parser.add_argument('--lang', choices=['zh','en'], default='zh')
+parser.add_argument('--output', type=Path, default=D, help='Write generated HTML to a separate directory.')
 args=parser.parse_args()
+OUT=args.output.resolve()
+(OUT/'compositions').mkdir(parents=True,exist_ok=True)
 translations=json.loads((D/'translations.en.json').read_text()) if args.lang=='en' else {}
 def translate(value):
  for source,target in sorted(translations.items(), key=lambda pair:len(pair[0]), reverse=True):
@@ -88,9 +91,9 @@ if args.lang=='en':
  js=js.replace('stagger:.085','stagger:.065')
  if re.search('[\u4e00-\u9fff]',body+js):
   raise ValueError('English composition contains untranslated Chinese text')
-(D/'compositions/ui-demo.html').write_text('<template><style>'+css+'</style><div id="root" data-composition-id="ui-demo" data-width="1920" data-height="1080">'+body+'</div><script>'+js+'</script></template>')
+(OUT/'compositions/ui-demo.html').write_text('<template><style>'+css+'</style><div id="root" data-composition-id="ui-demo" data-width="1920" data-height="1080">'+body+'</div><script>'+js+'</script></template>')
 root='''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=1920,height=1080"><title>DeepSeek Dock — Simulated feature demo</title><script src="assets/gsap.min.js"></script><style>*{box-sizing:border-box}html,body{margin:0;width:1920px;height:1080px;overflow:hidden}#root{position:relative;width:1920px;height:1080px}</style></head><body><div id="root" data-composition-id="main" data-start="0" data-duration="45" data-width="1920" data-height="1080"><div class="clip" id="ui-demo" data-composition-id="ui-demo" data-composition-src="compositions/ui-demo.html" data-start="0" data-duration="45" data-track-index="0" data-track-kind="graphics" data-width="1920" data-height="1080"></div><audio id="demo-bgm" class="clip" src="assets/audio/dock-bgm.mp3" data-start="0" data-duration="45" data-track-index="1" data-track-kind="audio" data-volume="1" preload="auto"></audio></div><script>const tl=gsap.timeline({paused:true});window.__timelines=window.__timelines||{};window.__timelines['main']=tl;</script></body></html>'''
 if args.lang=='en':root=root.replace('lang="zh-CN"','lang="en"')
-(D/'index.html').write_text(root)
-(D/'text.txt').write_text(re.sub('<[^>]+>','',body)+js)
+(OUT/'index.html').write_text(root)
+(OUT/'text.txt').write_text(re.sub('<[^>]+>','',body)+js)
 print(f'Built {args.lang} UI demo source')

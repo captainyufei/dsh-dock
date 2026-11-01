@@ -10,6 +10,8 @@
     "check": "npx --yes hyperframes@0.8.226 check",
     "render": "npm run render:zh && npm run render:en && npm run build:zh",
     "render:zh": "npm run build:zh && npx --yes hyperframes@0.8.226 render --output ../assets/readme/demo.mp4 --fps 30 --quality delivery --workers 2 --skill hyperframes",
-    "render:en": "npm run build:en && npx --yes hyperframes@0.8.226 render --output ../assets/readme/demo.en.mp4 --fps 30 --quality delivery --workers 2 --skill hyperframes"
+    "render:en": "npm run build:en && npx --yes hyperframes@0.8.226 render --output ../assets/readme/demo.en.mp4 --fps 30 --quality delivery --workers 2 --skill hyperframes",
+    "build:preview": "python3 build-preview.py --lang zh && python3 build-preview.py --lang en",
+    "render:preview": "python3 render-preview.py"
   }
 }

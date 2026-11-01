@@ -14,11 +14,11 @@ DeepSeek Dock is a UI extension for DeepSeek Harness. It keeps navigation on the
 
 ## See it in action
 
-[![DeepSeek Dock demo: navigation, pins, tools, video, and drafts](assets/readme/poster.en.png)](assets/readme/demo.en.mp4)
+[![DeepSeek Dock: navigation stays visible when the chat list collapses, and the tool drawer restores existing content](assets/readme/preview.en.gif)](assets/readme/demo.en.mp4)
 
-**[Watch in English · 45-second MP4](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4)
+**[Watch the full 45-second demo with music](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4) · [Static preview](assets/readme/poster.en.png)
 
-Each language edition has localized on-screen text and light background music. The video simulates the workflow with sample data; it is not a screen recording or performance test. Click the poster to open the English edition.
+The 14-second silent loop shows two actions: collapse the chat list with the Dock still visible, then reopen existing tools. Both formats use simulated UI and sample data; they are not screen recordings or performance tests.
 
 ## What changes in everyday use
 

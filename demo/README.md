@@ -68,3 +68,29 @@ Review findings and final artifact metadata are recorded in `verification.json`.
 ## 背景音乐 / Background music
 
 Both language versions place `assets/audio/dock-bgm.mp3` on the root timeline at 0–45 seconds with `data-volume="1"`. The file already includes a 1.2-second fade-in and a fade-out from 42.5–45 seconds. Do not add a second fade or reduce its gain again. It was generated for this project using ChatCut / Mureka 9; see the adjacent audio metadata and repository third-party notices for provenance and terms. The supplied track measures approximately −21.55 LUFS integrated, −6.14 dBTP true peak, and 3.4 LU loudness range. Audio measurements are technical checks, not a claim of human listening.
+
+## README 自动循环预览 / Autoplay README previews
+
+`../assets/readme/preview.gif` and `preview.en.gif` are separate **14-second**, **1200 × 675**, **15 fps** loops. Their first frame is a complete example chat. The sequence collapses the workspace list while keeping the Dock in place, expands it, opens the existing notes drawer, closes it, and returns to the exact starting image. The final state holds for about 2.5 seconds before looping. Both retain the visible simulation label. English contains no Chinese UI text.
+
+GIF does not carry audio. The existing 45-second MP4 files retain their background music and are not overwritten when building these previews. Click the README preview to open the corresponding complete MP4.
+
+Additional requirements for GIF encoding and validation: **FFmpeg**, **Python 3 with Pillow** (`python3 -m pip install Pillow`). HyperFrames remains pinned to 0.8.226.
+
+```sh
+npm run render:preview
+# Or render only one language:
+python3 render-preview.py --lang en
+```
+
+`build-preview.py` reuses the full demo's layout, icons, localized text, and font through `build-demo.py --output`. It generates an isolated HyperFrames project in `.preview-work/<language>/`, with its own seekable 14-second timeline and no audio track. It does not alter the default Chinese project or the full-length videos/posters.
+
+`render-preview.py` then runs the full HyperFrames check, renders a temporary lossless 15 fps PNG sequence, creates one global 256-color palette for the entire loop, and encodes the GIF with infinite looping (`loop=0`). No dithering and rectangle differencing keep flat surfaces clean and the file compact without a changing palette. It verifies the composited first/last frames are identical, duration is 12–15 seconds, and size is under 5 MB. Target size is under 2 MB per language. Generated projects, logs, lossless frame sequences, and palettes stay in the ignored `.preview-work/` directory.
+
+To compare encoding settings after a render without rendering again:
+
+```sh
+python3 render-preview.py --lang en --encode-only --colors 256 --dither none --width 1200 --fps 15
+```
+
+`preview-verification.json` records the delivered dimensions, frame count, duration, loop flag, first/last comparison, hashes, and visual review. The GIF is a simulated interaction preview, not a benchmark of live application smoothness.

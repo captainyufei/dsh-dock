@@ -1,0 +1,212 @@
+{
+  "product": "DeepSeek Dock",
+  "version": "0.1.0-beta.1",
+  "type": "simulated README loop",
+  "outputs": {
+    "zh": {
+      "file": "../assets/readme/preview.gif",
+      "width": 1200,
+      "height": 675,
+      "frames": 210,
+      "durationMilliseconds": 14000,
+      "loop": 0,
+      "bytes": 1161358,
+      "sha256": "20c0171d01b1417e4b55d48eb59f05a2ddf97a00ed0dd87106db8e1a1a080b8a",
+      "firstLastCompositedFramesIdentical": true,
+      "globalPaletteMaximumColors": 256,
+      "renderFps": 15,
+      "audio": false,
+      "dither": "none",
+      "intermediate": "lossless PNG frames"
+    },
+    "en": {
+      "file": "../assets/readme/preview.en.gif",
+      "width": 1200,
+      "height": 675,
+      "frames": 210,
+      "durationMilliseconds": 14000,
+      "loop": 0,
+      "bytes": 1342633,
+      "sha256": "cdefe850354c8b971019c14fb69796602b6b64bba98060f312a5773435ffb22c",
+      "firstLastCompositedFramesIdentical": true,
+      "globalPaletteMaximumColors": 256,
+      "renderFps": 15,
+      "audio": false,
+      "dither": "none",
+      "intermediate": "lossless PNG frames"
+    }
+  },
+  "hyperframesVersion": "0.8.226",
+  "checks": {
+    "zh": {
+      "ok": true,
+      "summary": {
+        "lint": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "runtime": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "layout": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 7
+        },
+        "motion": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "contrast": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "craft": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 1,
+          "infoCount": 0
+        },
+        "audio": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 1
+        }
+      }
+    },
+    "en": {
+      "ok": true,
+      "summary": {
+        "lint": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "runtime": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "layout": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 7
+        },
+        "motion": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "contrast": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0
+        },
+        "craft": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 1,
+          "infoCount": 0
+        },
+        "audio": {
+          "ok": true,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 1
+        }
+      }
+    }
+  },
+  "sequence": [
+    {
+      "seconds": [
+        0,
+        1.5
+      ],
+      "action": "Complete sample chat at the start"
+    },
+    {
+      "seconds": [
+        1.5,
+        3.9
+      ],
+      "action": "Collapse the workspace list; Dock stays fixed"
+    },
+    {
+      "seconds": [
+        3.9,
+        5.95
+      ],
+      "action": "Restore the list"
+    },
+    {
+      "seconds": [
+        5.95,
+        9.6
+      ],
+      "action": "Open the already-existing notes tab"
+    },
+    {
+      "seconds": [
+        9.6,
+        11.53
+      ],
+      "action": "Close the drawer and restore initial caption/cursor"
+    },
+    {
+      "seconds": [
+        11.53,
+        14
+      ],
+      "action": "Hold the exact first-frame state"
+    }
+  ],
+  "visualReview": {
+    "englishKeyframesSeconds": [
+      0,
+      2.7,
+      4.8,
+      7.5,
+      10.4,
+      13.933
+    ],
+    "chineseKeyframesSeconds": [
+      0,
+      2.7,
+      7.5,
+      13.933
+    ],
+    "encodedGifReviewedFrame": 112,
+    "englishHasChineseText": false,
+    "comparison": "Compared 128-color Bayer against 256-color no-dither. Selected no-dither for cleaner flat backgrounds, clearer small text, and faithful window-button colors; both final GIFs remain below 2 MB."
+  },
+  "reviewedFindings": [
+    "Workspace and drawer intentionally leave the clipped window during transitions; those specific containers are annotated. Fully collapsed workspace is hidden until it re-enters.",
+    "Small native UI labels remain below generic mobile-video type recommendations; prominent captions explain the actions.",
+    "GIF is silent by format. Existing full-length MP4s retain their music."
+  ],
+  "preservedAssets": {
+    "demo.mp4": "cbc0fa71629d5a63b318194c98df60b65b4ccf6128b950c9a70750b17875e7a8",
+    "demo.en.mp4": "a62f1db0d0661a3d37c9af8317c34bde14f8a697227008b6bc8e2e754079bd83",
+    "poster.png": "eabb0533e4e5a95a05c3a28feed1ee676847fd7b2eea95f9bc5b0fe4939128ee",
+    "poster.en.png": "d5ef1a22f9f30536fec0f7852f93cde580219b2bb7045b5ecf459ab31ca9cf3f"
+  },
+  "reproduce": "npm run render:preview",
+  "scope": "Fictional simulated UI. Not a live screen capture or a performance benchmark."
+}

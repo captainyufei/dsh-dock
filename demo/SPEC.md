@@ -17,3 +17,10 @@
 ## Language and sound
 - Build Chinese and fully English variants from one timeline using `build-demo.py --lang zh|en`. English localizes every visible text node and animation-driven label.
 - Both variants use the same 45-second local BGM at unity gain. The audio file contains its own fade-in/out. No voiceover.
+
+## README loop specification
+- Separate 14-second loop, 1200 × 675 delivery, 15 fps, one global 256-color palette, no dithering, silent GIF.
+- Complete example chat at frame zero; 1.5–2.15 s collapse, 3.9–4.55 s expand, 5.95–6.65 s open existing notes, 9.6–10.3 s close notes, 11.53–14 s hold the exact starting state.
+- Dock position is fixed. Conversation and panels use power3.inOut. Caption transition uses 0.18 s opacity only.
+- GIF loop extension must be 0 (infinite); composited first and last frames must match pixel-for-pixel.
+- Preview generation must leave the 45-second MP4 and poster bytes unchanged.

@@ -14,11 +14,11 @@ DeepSeek Dock 是 DeepSeek Harness 的界面增强插件：常用入口留在左
 
 ## 看它如何工作
 
-[![DeepSeek Dock 功能演示：导航、置顶、工具抽屉、视频与草稿](assets/readme/poster.png)](assets/readme/demo.mp4)
+[![DeepSeek Dock：收起会话列表后导航仍可见，工具抽屉恢复已有内容](assets/readme/preview.gif)](assets/readme/demo.mp4)
 
-**[播放中文版 · 45 秒 MP4](assets/readme/demo.mp4)** · [Watch in English](assets/readme/demo.en.mp4)
+**[45 秒完整演示 · 带背景音乐](assets/readme/demo.mp4)** · [Watch in English](assets/readme/demo.en.mp4) · [静态预览](assets/readme/poster.png)
 
-中英文版分别提供对应语言的画面文字与轻量背景音乐。视频使用示例数据模拟操作流程，不是实机录屏或性能测试；点击封面即可打开中文版。
+14 秒无声循环展示两步：收起会话列表，Dock 仍可见；再次打开抽屉，恢复已有工具。GIF 和完整视频均为使用示例数据的 UI 模拟，不是实机录屏或性能测试。
 
 ## 它解决哪些日常问题
 

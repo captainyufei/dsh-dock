@@ -1,0 +1,97 @@
+{
+  "name": "@captainyufei/dsh-dock",
+  "version": "0.1.0-beta.1",
+  "type": "module",
+  "scripts": {
+    "test": "node build.mjs && node --test *.test.mjs",
+    "check:package": "node build.mjs && node scripts/check-package.mjs",
+    "check": "npm test && npm run check:package",
+    "build:client": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "react": "^18.3.1",
+    "react-dom": "18.3.1",
+    "react-test-renderer": "^18.3.1"
+  },
+  "description": "A persistent, customizable Dock for DeepSeek Harness, with global pinned chats, a draft-first home, and side-panel video playback.",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-api-workspace-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-sidebar-documentpreview"
+      ]
+    }
+  },
+  "files": [
+    "index.js",
+    "video-route.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "author": "captainyufei",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/captainyufei/dsh-dock.git"
+  },
+  "homepage": "https://github.com/captainyufei/dsh-dock#readme",
+  "bugs": {
+    "url": "https://github.com/captainyufei/dsh-dock/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "dock",
+    "sidebar",
+    "ui",
+    "workspace"
+  ],
+  "engines": {
+    "node": ">=22",
+    "dsh": "0.2.1-rc.5"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-rc.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-client-ui-primitives": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "license": "MIT"
+}

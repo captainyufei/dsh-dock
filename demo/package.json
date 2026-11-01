@@ -1,0 +1,11 @@
+{
+  "name": "dsh-dock-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "python3 build-demo.py",
+    "dev": "npx --yes hyperframes@0.8.226 preview",
+    "check": "npx --yes hyperframes@0.8.226 check",
+    "render": "npx --yes hyperframes@0.8.226 render --output ../assets/readme/demo.mp4 --fps 30 --quality delivery --workers 2 --skill hyperframes"
+  }
+}

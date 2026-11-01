@@ -1,0 +1,14 @@
+node_modules/
+*.tgz
+coverage/
+.DS_Store
+.env
+.env.*
+!.env.example
+.tmp/
+artifacts/
+demo/node_modules/
+demo/.hyperframes/
+demo/output/
+demo/.cache/
+npm-debug.log*

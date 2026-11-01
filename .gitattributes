@@ -1,0 +1,5 @@
+client.js linguist-generated=true
+demo/index.html linguist-generated=true
+demo/compositions/ui-demo.html linguist-generated=true
+demo/text.txt linguist-generated=true
+demo/assets/gsap.min.js linguist-vendored=true -whitespace

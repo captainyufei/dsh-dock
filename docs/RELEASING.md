@@ -1,0 +1,46 @@
+# 版本与发布 / Versioning and releases
+
+The source of truth is `package.json.version`. Release tags use `v<version>` and must agree with the package metadata and changelog.
+
+以 `package.json.version` 为唯一版本源；标签、安装包和 CHANGELOG 必须一致。
+
+## Version policy
+
+| Change | Example |
+|---|---|
+| Work in progress | Git commits; no release for each UI adjustment |
+| Beta build handed to testers | `0.1.0-beta.1` → `0.1.0-beta.2` |
+| First community version after beta validation | `0.1.0` |
+| Compatible fixes | `0.1.0` → `0.1.1` |
+| New capability | `0.1.1` → `0.2.0` |
+| Breaking change before 1.0 | Increment the minor version and provide migration notes |
+| Stable behavior, configuration, and upgrade commitments | `1.0.0` |
+| Breaking a public commitment after 1.0 | Increment the major version |
+
+`0.x` remains early-stage software. The pre-1.0 minor/patch distinction above is this project's maintenance convention. Version numbers are not decimals: `0.9.0` can be followed by `0.10.0`. See [Semantic Versioning](https://semver.org/).
+
+日常改动先累计为提交；交付新测试包才增加 beta 序号。发布后的包不可覆盖，修正后发行新版本。普通文档修改无需单独发布运行包。
+
+## Before publishing
+
+1. Update the version and changelog; synchronize the lockfile's root package version.
+2. Run `npm ci` and `npm test`. Inspect the newly built `client.js` and package identity.
+3. Review `npm pack --dry-run`, then pack the exact files to distribute. Keep personal data, caches, development dependencies, and unrelated history out of the archive.
+4. Install that artifact in a clean Harness profile at the declared supported version. Check Home, conversation, tasks, plugins, Dock collapse, pins, drafts, tools, and video playback.
+5. Verify disable/uninstall cleanup and the old-local-package migration path. Check keyboard access, IME handling, and reduced motion.
+6. Confirm bilingual documentation, asset links, known limits, license, and third-party notices. A simulated demo is not installation or performance evidence.
+7. Create the matching tag and release. Record the artifact hash; download and verify the final hosted artifact.
+
+Before expanding `engines.dsh`, test each new baseline. Some UI integration uses host DOM structure, so a successful package install alone does not prove layout compatibility.
+
+发布前必须使用最终安装包验证，而不仅是在原开发目录验证。测试与安装应记录实际结果；未测平台或功能不写成已支持。
+
+## Distribution
+
+GitHub source archives contain the prebuilt client. A runtime `.tgz` can be attached to a release after it is validated. Keep `dsh-dock.tgz` stable if documentation uses a `latest/download/dsh-dock.tgz` URL; use a tag-pinned URL for versioned filenames.
+
+The npm package identity is prepared for future distribution, but this beta is not published to npm. Verify ownership of the target npm scope before publishing. When npm distribution is enabled, configure the actual repository and workflow using [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/).
+
+Community listing is separate from code publication. Submit the real repository and an accurate description under `ui` to [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/blob/main/contributing.md). The current contribution rules require a working `dsh.bundle`, the `dsh-plugin` topic, and a repository at least one day old; review is not automatic.
+
+发布 GitHub 不等于已被社区收录。提交前再次核对社区的当前规则，公开 npm 包也不是收录前提。

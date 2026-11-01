@@ -1,0 +1,35 @@
+name: Plugin checks
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Build, test and inspect the install package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Confirm the committed browser bundle matches its sources
+        run: git diff --exit-code -- client.js
+      - name: Build the installable tarball
+        run: npm pack
+      - name: Upload the checked package
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsh-dock-package
+          path: '*.tgz'
+          if-no-files-found: error
+          retention-days: 14

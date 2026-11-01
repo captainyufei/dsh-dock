@@ -1,0 +1,104 @@
+{
+  "product": "DeepSeek Dock",
+  "version": "0.1.0-beta.1",
+  "type": "simulated-demo",
+  "date": "2026-11-01",
+  "render": {
+    "tool": "HyperFrames",
+    "toolVersion": "0.8.226",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationSeconds": 45,
+    "frames": 1350,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "audio": false,
+    "file": "../assets/readme/demo.mp4",
+    "bytes": 2553847,
+    "sha256": "3d1b92286da268ac90f2170fec6733fc50cbaae6eed383557241321de43f7758",
+    "decodeCheck": "ffmpeg full decode completed without error"
+  },
+  "check": {
+    "ok": true,
+    "summary": {
+      "lint": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0,
+        "infoCount": 0
+      },
+      "runtime": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0,
+        "infoCount": 0
+      },
+      "layout": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0,
+        "infoCount": 3
+      },
+      "motion": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0,
+        "infoCount": 0
+      },
+      "contrast": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 1,
+        "infoCount": 0
+      },
+      "craft": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 2,
+        "infoCount": 0
+      },
+      "audio": {
+        "ok": true,
+        "errorCount": 0,
+        "warningCount": 0,
+        "infoCount": 1
+      }
+    },
+    "reviewedFindings": [
+      "Brief overlap of workspace and pinned headings during pin movement; stable pinned and unpinned states were visually reviewed.",
+      "Drawer crosses the clipped window boundary while entering; the stable open state is inside the window.",
+      "Small desktop UI labels are intentionally smaller than the generic mobile-video type recommendation.",
+      "Contrast analysis reports a hidden / occluded composer @ glyph during the customization section; the visible customization controls and captions were inspected.",
+      "Silent film is intentional, preserving the original README demo; there is no audio stream."
+    ]
+  },
+  "visualReview": {
+    "keyframesSeconds": [
+      0,
+      4.8,
+      10.8,
+      17.8,
+      23.5,
+      31,
+      39.5,
+      43.5,
+      44.75
+    ],
+    "finalEncodedFrameSeconds": 23.5,
+    "heroWidthsPixels": [
+      900,
+      360
+    ],
+    "posterSeconds": 23.5,
+    "gallerySeconds": [
+      4.8,
+      10.8,
+      17.8,
+      31
+    ],
+    "titleAndVersionGlyphsMissing": [],
+    "chineseGlyphsMissing": []
+  },
+  "scope": "Fictional simulated content. Not a live recording or performance benchmark. Plugin verified only on macOS / DeepSeek Harness 0.2.1-rc.5."
+}

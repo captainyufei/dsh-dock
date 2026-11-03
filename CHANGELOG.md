@@ -2,7 +2,10 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
-## Unreleased — Repository, documentation, and demos / 仓库、文档与演示
+## 0.1.1 — 2026-11-03
+
+- Use `0.1.1` for the current public package, without a prerelease suffix; retain the tested macOS / Harness `0.2.1-rc.5` scope.
+- Present the five core features consistently: a persistent customizable left Dock, Codex-inspired UI, cross-workspace pinned chats, a home that creates chats only on send, and video previews in the right file panel.
 
 - Make English the default repository README, with entirely English main-page copy and a dedicated Simplified Chinese translation.
 - Separate UI installation and web-profile CLI installation, with localized installation screenshots and secondary details in collapsible sections.
@@ -11,10 +14,11 @@ Versions describe public DeepSeek Dock releases. Development changes are collect
 - Document the verified GitHub-tag installation flow, explicit activation, local ZIP fallback, third-party updates, and troubleshooting in both languages.
 - Add a fully English 45-second demo, including interface labels, example content, captions, and its own poster.
 - Add the same low-volume instrumental soundtrack to both language editions, with gentle fades.
-- Add 14-second silent looping GIF previews in both languages, linked to the full 45-second videos with music and a static-image fallback.
+- Expand both silent README GIFs to a 45-second feature walkthrough, including Dock customization, pinning, draft submission, and video playback; retain the music-backed MP4 editions and static previews.
 - Explain the README's benefits through five everyday workflows instead of grouped feature slogans.
+- Declare the community screenshot gallery in the repository-root `screenshots.json`.
 
-新增全英文宣传片；中英文演示加入轻量背景音乐；README 增加可点击的无声短循环 GIF，保留 45 秒完整视频和静态预览；用切换页面、查找会话、恢复工具、核对视频和整理草稿五个场景说明用途。实测固定 Git 版本的安装与启用；补充 ZIP 备用方式、更新及排错步骤。英文主页正文清除中文；安装分为界面与 web profile CLI 两个入口，增加对应语言截图。默认使用仓库地址取得 `main` 最新代码；固定标签与 ZIP 保留为可复现备用，并说明这不是最新稳定发布、已安装副本不会自动更新。源码、测试、构建工具与运行产物分别整理到 `src/`、`tests/`、`scripts/`、`dist/`。插件版本和已有标签不变。
+当前版本统一为 `0.1.1`，去掉预发布后缀，已验证的平台与宿主范围不变。中英文 README 围绕左侧常驻可自定义 Dock、Codex 风格 UI、跨工作区置顶、发送才建会话的草稿首页和右侧视频预览说明功能。GIF 延长为 45 秒，完整展示自定义入口、置顶归位、草稿发送和视频播放；同步更新带音乐的双语 MP4 与静态图。此前未发版的仓库整理、英文主页、安装说明和音乐演示一并纳入本版。默认从仓库取得 `main` 代码；已安装副本仍需重新安装才能更新。旧版标签与历史记录保持不变。
 
 ## 0.1.0-beta.1 — 2026-11-01
 

@@ -1,211 +1,273 @@
 {
   "product": "DeepSeek Dock",
-  "version": "0.1.0-beta.1",
-  "type": "simulated-demo",
-  "date": "2026-11-01",
-  "renders": {
+  "version": "0.1.1",
+  "verifiedAt": "2026-11-03T02:09:25.907813+00:00",
+  "simulation": true,
+  "compatibility": "macOS / DeepSeek Harness 0.2.1-rc.5",
+  "hyperframes": "0.8.226",
+  "reviewMomentsSeconds": [
+    0,
+    2.6,
+    7.5,
+    8.9,
+    12,
+    17.8,
+    20.5,
+    24.5,
+    26.5,
+    31,
+    35,
+    38,
+    42.5,
+    44.933
+  ],
+  "humanAudioListeningClaimed": false,
+  "languages": {
     "zh": {
       "file": "../assets/readme/demo.mp4",
-      "language": "Chinese UI with bilingual captions",
-      "tool": "HyperFrames",
-      "toolVersion": "0.8.226",
-      "width": 1920,
-      "height": 1080,
-      "fps": 30,
-      "durationSeconds": 45,
-      "frames": 1350,
-      "codec": "h264",
-      "pixelFormat": "yuv420p",
+      "sha256": "5ba3dd124eb5c68a71c286d479cd853a6991247ea0b9c94ac036c158ce2f4fe1",
+      "bytes": 3858133,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "30/1",
+            "duration": "45.000000",
+            "nb_frames": "1350"
+          },
+          {
+            "codec_name": "aac",
+            "sample_rate": "48000",
+            "channels": 2,
+            "r_frame_rate": "0/0",
+            "duration": "45.000000",
+            "nb_frames": "2111"
+          }
+        ],
+        "format": {
+          "duration": "45.000000",
+          "size": "3858133"
+        }
+      },
+      "fullDecode": "passed",
+      "decodedAudioSha256": "1e2aeb5c0e1c47bef27b117f59f93ca850e4f46a2e3c0039adafc8a9bb38ade1",
       "audio": true,
-      "audioCodec": "aac",
-      "sampleRate": 48000,
-      "channels": 2,
-      "audioDurationSeconds": 45,
       "integratedLufs": -21.57,
       "truePeakDbtp": -6.24,
       "loudnessRangeLu": 3.4,
-      "bytes": 3718839,
-      "sha256": "cbc0fa71629d5a63b318194c98df60b65b4ccf6128b950c9a70750b17875e7a8",
-      "decodeCheck": "FFmpeg full decode completed without error"
+      "check": {
+        "lint": {
+          "errorCount": 0,
+          "warningCount": 2,
+          "infoCount": 0,
+          "warningCodes": [
+            "gsap_timeline_set_initial_hide"
+          ]
+        },
+        "runtime": {
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "warningCodes": []
+        },
+        "layout": {
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 3,
+          "warningCodes": []
+        },
+        "motion": {
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "warningCodes": []
+        },
+        "contrast": {
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "warningCodes": []
+        },
+        "craft": {
+          "errorCount": 0,
+          "warningCount": 1,
+          "infoCount": 0,
+          "warningCodes": [
+            "text_below_floor"
+          ]
+        },
+        "audio": {
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "warningCodes": []
+        }
+      },
+      "visibleFontCharactersCovered": true,
+      "posterSeconds": 31
     },
     "en": {
       "file": "../assets/readme/demo.en.mp4",
-      "language": "Fully English UI, examples, captions, and end card",
-      "tool": "HyperFrames",
-      "toolVersion": "0.8.226",
-      "width": 1920,
-      "height": 1080,
-      "fps": 30,
-      "durationSeconds": 45,
-      "frames": 1350,
-      "codec": "h264",
-      "pixelFormat": "yuv420p",
+      "sha256": "b69aa894f4059bf76e0fcbbb75970f683c7cd6df852df4bc3ae170e1f55051ab",
+      "bytes": 3950382,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 1080,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "30/1",
+            "duration": "45.000000",
+            "nb_frames": "1350"
+          },
+          {
+            "codec_name": "aac",
+            "sample_rate": "48000",
+            "channels": 2,
+            "r_frame_rate": "0/0",
+            "duration": "45.000000",
+            "nb_frames": "2111"
+          }
+        ],
+        "format": {
+          "duration": "45.000000",
+          "size": "3950382"
+        }
+      },
+      "fullDecode": "passed",
+      "decodedAudioSha256": "1e2aeb5c0e1c47bef27b117f59f93ca850e4f46a2e3c0039adafc8a9bb38ade1",
       "audio": true,
-      "audioCodec": "aac",
-      "sampleRate": 48000,
-      "channels": 2,
-      "audioDurationSeconds": 45,
       "integratedLufs": -21.57,
       "truePeakDbtp": -6.24,
       "loudnessRangeLu": 3.4,
-      "bytes": 3707483,
-      "sha256": "a62f1db0d0661a3d37c9af8317c34bde14f8a697227008b6bc8e2e754079bd83",
-      "decodeCheck": "FFmpeg full decode completed without error"
-    }
-  },
-  "checks": {
-    "zh": {
-      "ok": true,
-      "summary": {
+      "check": {
         "lint": {
-          "ok": true,
           "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 0
+          "warningCount": 2,
+          "infoCount": 0,
+          "warningCodes": [
+            "gsap_timeline_set_initial_hide"
+          ]
         },
         "runtime": {
-          "ok": true,
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 0
+          "infoCount": 0,
+          "warningCodes": []
         },
         "layout": {
-          "ok": true,
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 3
+          "infoCount": 3,
+          "warningCodes": []
         },
         "motion": {
-          "ok": true,
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 0
+          "infoCount": 0,
+          "warningCodes": []
         },
         "contrast": {
-          "ok": true,
           "errorCount": 0,
-          "warningCount": 1,
-          "infoCount": 0
+          "warningCount": 0,
+          "infoCount": 0,
+          "warningCodes": []
         },
         "craft": {
-          "ok": true,
           "errorCount": 0,
           "warningCount": 1,
-          "infoCount": 0
+          "infoCount": 0,
+          "warningCodes": [
+            "text_below_floor"
+          ]
         },
         "audio": {
-          "ok": true,
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 0
+          "infoCount": 0,
+          "warningCodes": []
         }
-      }
-    },
-    "en": {
-      "ok": true,
-      "summary": {
-        "lint": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 0
-        },
-        "runtime": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 0
-        },
-        "layout": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 3
-        },
-        "motion": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 0
-        },
-        "contrast": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 0
-        },
-        "craft": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 1,
-          "infoCount": 0
-        },
-        "audio": {
-          "ok": true,
-          "errorCount": 0,
-          "warningCount": 0,
-          "infoCount": 0
-        }
-      }
+      },
+      "visibleFontCharactersCovered": true,
+      "posterSeconds": 31
     }
   },
-  "audio": {
-    "source": "assets/audio/dock-bgm.mp3",
-    "sourceSha256": "60474342f2fe0524aee9799eb6c19906d54105621692c09dbc1126ed230d9c7d",
-    "timelineStartSeconds": 0,
-    "timelineDurationSeconds": 45,
-    "gain": 1,
-    "fades": "Already in the source file: 1.2 s in, 42.5–45 s out; no additional timeline fade.",
-    "decodedAudioIdenticalBetweenLanguages": true,
-    "decodedPcmSha256": "1e2aeb5c0e1c47bef27b117f59f93ca850e4f46a2e3c0039adafc8a9bb38ade1",
-    "review": "Stream presence, duration, complete decoding, identical audio, and loudness measured; no human listening claim."
-  },
-  "visualReview": {
-    "chineseKeyframesSeconds": [
-      0.4,
-      10.8,
-      17.8,
-      23.5,
-      31,
-      41,
-      43.5,
-      44.75
-    ],
-    "englishKeyframesSeconds": [
-      0.4,
-      4.8,
-      10.8,
-      15.7,
-      17.8,
-      23.5,
-      31,
-      39.5,
-      41,
-      43.5,
-      44.75
-    ],
-    "finalEncodedFrameSeconds": {
-      "zh": 23.5,
-      "en": 23.5
+  "audioSameAcrossLanguages": true,
+  "sourceBgmSha256": "60474342f2fe0524aee9799eb6c19906d54105621692c09dbc1126ed230d9c7d",
+  "fontSha256": "5dbec3fbe2bc1752949e93cd0907820ddab745c7b483098258d4ef4a651d0a6f",
+  "stills": {
+    "install.zh-CN.png": {
+      "sha256": "333c93fdac573572d218366744d9a741aee8e1df64f9472bfa3cdcaabbad6366",
+      "bytes": 109087,
+      "dimensions": [
+        1200,
+        852
+      ]
     },
-    "posterSeconds": 23.5,
-    "englishCjkCharacters": [],
-    "chineseMissingVisibleGlyphs": [],
-    "englishMissingVisibleGlyphs": []
+    "poster.en.png": {
+      "sha256": "24bd52c6758a31300431b76bc1357739af6fc76c13c873f44b58084a2e08b305",
+      "bytes": 177903,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "dock-customize.png": {
+      "sha256": "66fa98af5fbde0d27a6a8fb7c120454114eba60e071d5f64c16f81bfc4ed5a38",
+      "bytes": 159037,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "poster.png": {
+      "sha256": "fa96d109f47cbb6b22a633285e8fce520aa119c64212062d0b26421a509c89d0",
+      "bytes": 177605,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "pinned-chats.png": {
+      "sha256": "f00a4127c691580941a678b705552cecc81666f361b777dde55b1518abfa5002",
+      "bytes": 140626,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "video-preview.png": {
+      "sha256": "69af3a6a75b6822652ba5a3ec298130552bd52e561911e3dd967642ba8d7accc",
+      "bytes": 166360,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "dock-collapsed.png": {
+      "sha256": "4f94bdf88738446c2265d9749de361e89dd201b0e834573277928e275993dd4d",
+      "bytes": 121151,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "install.en.png": {
+      "sha256": "4b14b888e5c01e4b964abc65eb03c6ce4cbe2923066dcd5be468b259daad7433",
+      "bytes": 103919,
+      "dimensions": [
+        1200,
+        896
+      ]
+    }
   },
-  "reviewedFindings": [
-    "Small desktop UI labels are intentionally smaller than the generic mobile-video type recommendation; prominent feature captions remain readable.",
-    "A brief overlap of workspace and pinned headings occurs only during pin movement; stable states were visually reviewed.",
-    "The drawer passes beyond the clipped window boundary while entering; its stable open state remains inside the window.",
-    "The Chinese contrast analyzer reports an occluded composer @ symbol behind the customization dialog. The visible dialog and captions were inspected.",
-    "Context menus intentionally cover background workspace rows. Those specific background labels carry occlusion annotations."
-  ],
-  "reproduce": {
-    "defaultLanguage": "zh",
-    "buildChinese": "npm run build:zh",
-    "buildEnglish": "npm run build:en",
-    "renderBoth": "npm run render",
-    "restoreDefault": "npm run build:zh"
-  },
-  "scope": "Fictional simulated content. Not a live recording or performance benchmark. Plugin verified only on macOS / DeepSeek Harness 0.2.1-rc.5."
+  "review": "REVIEW.md"
 }

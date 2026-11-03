@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "DeepSeek Dock",
-    "description": "Keep tools and important chats within reach: a customizable Dock, global pins, a draft-first home, and side-panel video playback."
+    "description": "Codex-inspired UI with a persistent customizable left Dock, cross-workspace pinned chats, a home that creates chats only on send, and video previews in the right file panel."
   }
 }

@@ -1,10 +1,10 @@
 # 从本地旧版迁移 / Migrating from the local build
 
-| Identity | Local development build | Public beta |
+| Identity | Local development build | Public package |
 |---|---|---|
 | Display name | ChatGPT 风格图标栏 / DeepSeek 工作台 | DeepSeek Dock |
 | Package | `@local/chatgpt-rail` | `@captainyufei/dsh-dock` |
-| Version line | Up to `2.7.1` | Starts at `0.1.0-beta.1` |
+| Version line | Up to `2.7.1` | Started at `0.1.0-beta.1`; current line `0.1.1` |
 
 这是两个不同的包身份。新编号不代表功能退回，也不能依赖旧包的自动更新跨包迁移。
 

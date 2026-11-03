@@ -1,6 +1,6 @@
 # 技术说明 / Technical notes
 
-这些说明对应 DeepSeek Dock（`@captainyufei/dsh-dock`）的公开测试版。面向使用者的功能与限制见 [中文 README](../README.zh-CN.md) / [English README](../README.md)。
+这些说明对应 DeepSeek Dock（`@captainyufei/dsh-dock`）的公开版本。面向使用者的功能与限制见 [中文 README](../README.zh-CN.md) / [English README](../README.md)。
 
 ## 接入方式 / Integration
 
@@ -25,14 +25,15 @@ scripts/              Build and install-package verification
 dist/                 Committed runtime: client, server, locales, icon
 assets/               Source icon and README illustrations/media
 demo/                 Rebuildable simulated video project
-docs/                 Architecture, migration, release notes, gallery manifest
+docs/                 Architecture, migration, release notes
+screenshots.json      Community gallery manifest, paths relative to this root
 package.json          Package identity, exports, host compatibility
 cordis.patch.yml      Host bundle activation
 ```
 
-`src/` 保持原有模块间的相对引用。`dist/` 是宿主实际加载的完整预构建目录，随源码提交；安装入口仍是包含 `package.json` 和 `cordis.patch.yml` 的仓库根目录。`docs/screenshots.json` 列出展示图片，路径相对清单文件。
+`src/` 保持原有模块间的相对引用。`dist/` 是宿主实际加载的完整预构建目录，随源码提交；安装入口仍是包含 `package.json` 和 `cordis.patch.yml` 的仓库根目录。`screenshots.json` 列出展示图片，路径相对清单文件。
 
-Relative imports stay within `src/`. Harness loads the committed runtime through the package's `dist/` exports. Install the repository root, which contains `package.json` and `cordis.patch.yml`, rather than the `src/` or `dist/` directory. Gallery paths in `docs/screenshots.json` are relative to that manifest.
+Relative imports stay within `src/`. Harness loads the committed runtime through the package's `dist/` exports. Install the repository root, which contains `package.json` and `cordis.patch.yml`, rather than the `src/` or `dist/` directory. Gallery paths in `screenshots.json` are relative to that manifest.
 
 ## 状态归属 / State ownership
 

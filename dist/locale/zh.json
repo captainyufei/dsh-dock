@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "DeepSeek Dock",
-    "description": "常用入口常驻、重要会话集中：自定义 Dock、全局置顶、独立草稿首页与侧边视频播放。"
+    "description": "Codex 风格 UI：左侧常驻可自定义 Dock 栏、跨工作区会话置顶、发送消息时才创建会话的草稿首页，以及右侧文件面板视频预览。"
   }
 }

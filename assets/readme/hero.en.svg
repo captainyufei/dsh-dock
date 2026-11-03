@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
   <title id="title">DeepSeek Dock</title>
-  <desc id="desc">A permanent Dock, native workspace hierarchy, and an integrated tool drawer. Simplified interface illustration.</desc>
+  <desc id="desc">Codex-inspired UI for DeepSeek Harness: a persistent customizable left Dock, cross-workspace pinned chats, a draft-first home, and right-panel video previews. Simplified interface illustration.</desc>
   <rect width="1200" height="300" rx="24" fill="#f1f2f3"/>
   <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif">
-    <text x="48" y="59" font-size="18" fill="#686f78" letter-spacing="1.5">DEEPSEEK HARNESS · UI ENHANCEMENT</text>
+    <text x="48" y="59" font-size="18" fill="#686f78" letter-spacing="1.5">CODEX-INSPIRED UI · DEEPSEEK HARNESS</text>
     <text x="46" y="133" font-size="52" font-weight="650" fill="#171b22">DeepSeek Dock</text>
-    <text x="48" y="183" font-size="24" fill="#525b66">A persistent Dock. Global pinned chats.</text>
-    <rect x="48" y="218" width="146" height="32" rx="16" fill="#e3eaff"/>
-    <text x="121" y="240" text-anchor="middle" font-size="18" fill="#3c61ba">0.1.0-beta.1</text>
-    <text x="210" y="240" font-size="18" fill="#686f78">Tools &amp; video beside your chat</text>
+    <text x="48" y="183" font-size="24" fill="#525b66">Your Dock. Pinned chats. Draft-first Home.</text>
+    <rect x="48" y="218" width="90" height="32" rx="16" fill="#e3eaff"/>
+    <text x="93" y="240" text-anchor="middle" font-size="18" fill="#3c61ba">0.1.1</text>
+    <text x="154" y="240" font-size="18" fill="#686f78">Video previews beside your chat</text>
   <text x="690" y="285" font-size="12" fill="#686f78">UI illustration</text></g>
   <g id="interface-diagram" transform="translate(676 32)">
     <rect width="484" height="236" rx="15" fill="#fff" stroke="#dde0e5"/>

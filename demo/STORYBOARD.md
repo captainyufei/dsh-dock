@@ -1,10 +1,13 @@
-# 45-second feature demo
-| Time | Action | Chinese caption | English caption |
-|---|---|---|---|
-| 0–7.5 | Establish entire app. Collapse workspace list; Dock stays; expand. | 收起会话列表，常用入口仍在 | Collapse the list. Keep your Dock. |
-| 7.5–14.5 | Right-click Dock, open 自定义 Dock, close the dialog, then drag the Plugins icon before Tasks in the Dock. | 常用功能，按你的习惯摆放 | Choose and reorder your Dock. |
-| 14.5–21.5 | Right-click a chat → pin; appears only global pinned; unpin returns original folder. | 置顶只显示一次，取消即回原组 | Pin once. Unpin to return to the workspace. |
-| 21.5–29 | Open existing notes drawer, close, reopen same tab, select video. | 一个开关，恢复已有工具内容 | One toggle. Restore your existing tools. |
-| 29–38.5 | Play simulated motion sample, seek timeline; rounded gray focus style. | 在右侧直接播放、拖动进度 | Play and seek videos in the side panel. |
-| 38.5–42 | Return to home, type a draft; session count stays unchanged. | 先写草稿，发送时才创建会话 | Draft first. Create a chat when you send. |
-| 42–45 | Show whole workspace with plugin name and feature summary. | DeepSeek 的工作空间，更顺手 | A more familiar DeepSeek workspace. |
+# DeepSeek Dock 0.1.1 · shared 45-second story
+
+| Time | Visible action | What the action establishes |
+| --- | --- | --- |
+| 0–5.4 s | Start in a complete example chat. Collapse and restore the conversation sidebar. | Familiar Codex-inspired window layout; the Dock stays physically fixed. |
+| 5.4–13.3 s | Right-click Dock → Customize Dock. Add the optional Settings entry. Close the panel and drag Plugins above Automations. | Real selection and reorder operations, not a label-only claim. Settings is added deliberately, never a default entry. |
+| 13.3–21.2 s | Pin Product demo from Demo project, then Weekly notes from Personal workspace. Unpin Product demo. | Two workspaces feed one pinned area. Each original row disappears while pinned; unpin restores the original project row. |
+| 21.2–29.5 s | Open Home and type a local draft. Pause with no new sidebar row. Click Send; Release plan appears once. Return to Product demo. | Sending is the creation boundary: four existing chats become five only after Send. The new chat shows the user message and waiting state, not a fabricated model reply. |
+| 29.5–32.7 s | Toggle the right drawer open onto the existing notes tab. | Existing tool/file tabs are reused; no unnecessary create-new prompt. |
+| 32.7–42 s | Select the existing video tab, play the original motion sample, drag the playhead from roughly 0:02 to 0:20, pause, close the drawer. | File-tab video playback and seeking beside the conversation. |
+| 42–45 s | MP4: product and version recap. GIF: short branded replay card, then return to the exact opening state. | The GIF loops without a boundary jump. The replay reset is an editorial transition, not a product action. |
+
+All UI, conversations and video imagery are simulated. Chinese and English share `timeline.js`; all English visible text is localized. The same original 45-second background track remains in both MP4s. GIF has no audio.

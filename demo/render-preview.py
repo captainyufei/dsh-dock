@@ -4,7 +4,7 @@ Requires Python 3, Node.js / npx, Chrome supported by HyperFrames, FFmpeg,
 and Pillow for the final composited first/last frame check.
 """
 from pathlib import Path
-import argparse, hashlib, json, subprocess, sys
+import argparse, hashlib, json, shutil, subprocess, sys
 from PIL import Image, ImageChops
 
 BASE = Path(__file__).resolve().parent
@@ -25,6 +25,7 @@ for lang in languages:
         subprocess.run([sys.executable,str(BASE/'build-preview.py'),'--lang',lang],check=True)
         with (work/'check.json').open('w') as result, (work/'check.log').open('w') as log:
             subprocess.run(['npx','--yes','hyperframes@0.8.226','check',str(work),'--json'],stdout=result,stderr=log,check=True)
+        if (work/'frames').exists(): shutil.rmtree(work/'frames')
         with (work/'render.log').open('w') as log:
             subprocess.run(['npx','--yes','hyperframes@0.8.226','render',str(work),'--output',str(work/'frames'),'--format','png-sequence','--fps',str(args.fps),'--workers','2','--skill','hyperframes','--json'],stdout=log,stderr=subprocess.STDOUT,check=True)
     name = 'preview.gif' if lang=='zh' else 'preview.en.gif'
@@ -41,7 +42,7 @@ for lang in languages:
         last=gif.convert('RGB')
         equal=ImageChops.difference(first,last).getbbox() is None
         record={'file':'../assets/readme/'+name,'width':gif.width,'height':gif.height,'frames':gif.n_frames,'durationMilliseconds':duration,'loop':loop,'bytes':target.stat().st_size,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'firstLastCompositedFramesIdentical':equal,'globalPaletteMaximumColors':args.colors,'renderFps':args.fps,'audio':False,'dither':args.dither,'intermediate':'lossless PNG frames'}
-    if loop!=0 or not equal or not 12000<=duration<=15000:
+    if loop!=0 or not equal or not 44000<=duration<=45000:
         raise RuntimeError(f'GIF loop validation failed: {record}')
     if record['bytes']>5_000_000:
         raise RuntimeError(f'GIF exceeds 5 MB: {name}')

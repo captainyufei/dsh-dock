@@ -4,21 +4,21 @@
 
 This 45-second animation reconstructs the interactions in HTML, CSS, SVG, and GSAP. All projects, chats, files, and video content are fictional examples. It is not a screen recording or a performance benchmark.
 
-目标版本为 **DeepSeek Dock 0.1.0-beta.1**。插件目前仅在 **macOS / DeepSeek Harness 0.2.1-rc.5** 实测；模拟画面不扩大这一兼容范围。中文和全英文版本使用相同的轻量背景音乐，均无旁白。
+目标版本为 **DeepSeek Dock 0.1.1**。插件目前仅在 **macOS / DeepSeek Harness 0.2.1-rc.5** 实测；模拟画面不扩大这一兼容范围。中文和全英文版本使用相同的轻量背景音乐，均无旁白。
 
-The target release is **DeepSeek Dock 0.1.0-beta.1**. The plugin has only been verified on **macOS / DeepSeek Harness 0.2.1-rc.5**. The simulation does not imply wider compatibility. Both versions use the same light background music without voiceover. The English version localizes all visible UI labels, sample conversations, file names, captions, and the end card—not just the subtitles.
+The target release is **DeepSeek Dock 0.1.1**. The plugin has only been verified on **macOS / DeepSeek Harness 0.2.1-rc.5**. The simulation does not imply wider compatibility. Both versions use the same light background music without voiceover. The English version localizes all visible UI labels, sample conversations, file names, captions, and the end card—not just the subtitles.
 
 ## 展示内容 / Sequence
 
 | 时间 / Time | 功能 / Feature |
 | --- | --- |
-| 0–7.5 s | 会话列表收起后，Dock 继续常驻 / Dock remains visible when the workspace list is collapsed |
-| 7.5–14.5 s | 自定义常用入口及拖动排序 / Customize and reorder Dock entries |
-| 14.5–21.5 s | 跨工作区置顶，取消后回到原分组 / Global pinned chats; unpin to restore the workspace row |
-| 21.5–29 s | 同一开关打开、收起和恢复已有工具 / Open, close, and restore existing tools with one toggle |
-| 29–38.5 s | 对话旁播放视频并拖动进度 / Play and seek a video beside the conversation |
-| 38.5–42 s | 先写草稿，发送时才创建会话 / Draft first; create the conversation when sending |
-| 42–45 s | 名称、版本和功能回顾 / Product name, version, and feature recap |
+| 0–5.4 s | Codex 风格整体布局，收起会话列表后 Dock 常驻 / Codex-inspired layout; Dock stays fixed |
+| 5.4–13.3 s | 打开自定义面板、添加设置入口、拖动图标排序 / Open Customize Dock, add Settings, drag icons to reorder |
+| 13.3–21.2 s | 两个工作区的会话汇总置顶，去重，取消后归位 / Pin from two workspaces, deduplicate, unpin to restore |
+| 21.2–29.5 s | 草稿不新增会话，点击发送后只新增一条 / Draft keeps four chats; Send adds exactly one |
+| 29.5–32.7 s | 一个开关恢复已有文件和工具标签 / One toggle restores existing files and tools |
+| 32.7–42 s | 原生文件标签里播放、拖动视频进度、关闭抽屉 / Play and seek in the native file tab, then close the drawer |
+| 42–45 s | MP4 功能回顾；GIF 回到首帧 / MP4 recap; GIF replay returns to the opening frame |
 
 ## 复现 / Reproduce
 
@@ -41,10 +41,10 @@ npm run render
 检查关键帧 / Inspect key frames:
 
 ```sh
-npx --yes hyperframes@0.8.226 snapshot --at 0,4.8,10.8,17.8,23.5,31,39.5,43.5
+npx --yes hyperframes@0.8.226 snapshot --at 0,2.6,7.5,8.9,17.8,20.5,24.5,26.5,31,35,38,43.5
 ```
 
-`poster.png` and `poster.en.png` use the 23.5 s frame from their respective language, showing the complete workspace and notes drawer. Run `npm run build:zh` or `npm run build:en` before taking language-specific snapshots. Gallery images use 4.8 s, 10.8 s, 17.8 s, and 31 s. Keep the visible “模拟演示 / SIMULATED DEMO” stamp when exporting them.
+`poster.png` and `poster.en.png` use the 31 s notes-drawer frame. The community gallery uses 2.6 s, 7.5 s, 17.8 s, and 38 s. `render-film.py` rebuilds both movies and these images from isolated language projects, runs a full HyperFrames check before rendering, then restores the editable default to Chinese. The visible simulation/version stamp is preserved.
 
 For a persistent local preview:
 
@@ -54,7 +54,7 @@ npx --yes hyperframes@0.8.226 preview --status
 npx --yes hyperframes@0.8.226 preview --stop
 ```
 
-The generator `build-demo.py` and `translations.en.json` are the source of truth. `python3 build-demo.py --lang zh|en` selects the language while sharing one 45-second timeline. It writes `index.html`, `compositions/ui-demo.html`, and `text.txt`. Update the generator, then rebuild; avoid editing the generated HTML directly. The timeline is deterministic and uses no real accounts, files, model calls, or network content.
+The generator `build-demo.py`, shared action source `timeline.js`, and `translations.en.json` are the source of truth. `python3 build-demo.py --lang zh|en` selects the language while sharing one 45-second timeline. It writes `index.html`, `compositions/ui-demo.html`, and `text.txt`. Update the generator, then rebuild; avoid editing the generated HTML directly. The timeline is deterministic and uses no real accounts, files, model calls, or network content.
 
 ## 授权 / Credits
 
@@ -71,26 +71,22 @@ Both language versions place `assets/audio/dock-bgm.mp3` on the root timeline at
 
 ## README 自动循环预览 / Autoplay README previews
 
-`../assets/readme/preview.gif` and `preview.en.gif` are separate **14-second**, **1200 × 675**, **15 fps** loops. Their first frame is a complete example chat. The sequence collapses the workspace list while keeping the Dock in place, expands it, opens the existing notes drawer, closes it, and returns to the exact starting image. The final state holds for about 2.5 seconds before looping. Both retain the visible simulation label. English contains no Chinese UI text.
+`../assets/readme/preview.gif` and `preview.en.gif` are **45-second**, **1200 × 675**, **15 fps** loops. They cover the full sequence above, not a slowed-down short loop. The initial frame is a complete example chat. The final replay card briefly covers the illustrative reset, then the exact opening image returns before looping. All English UI text, examples and captions are localized.
 
-GIF does not carry audio. The existing 45-second MP4 files retain their background music and are not overwritten when building these previews. Click the README preview to open the corresponding complete MP4.
+GIF has no audio. Click the README preview for the corresponding 45-second MP4 with background music. The GIF and movie use the same `timeline.js`; only the closing/replay treatment differs. The animation is illustrative, not a benchmark of application smoothness or model response timing.
 
-Additional requirements for GIF encoding and validation: **FFmpeg**, **Python 3 with Pillow** (`python3 -m pip install Pillow`). HyperFrames remains pinned to 0.8.226.
+Additional requirements: **FFmpeg**, **Python 3 with Pillow** (`python3 -m pip install Pillow`). Final metadata and visible-glyph validation additionally use `fonttools[brotli]` (`python3 -m pip install 'fonttools[brotli]'`). HyperFrames is pinned to 0.8.226.
 
 ```sh
 npm run render:preview
-# Or render only one language:
+# Only English:
 python3 render-preview.py --lang en
-```
-
-`build-preview.py` reuses the full demo's layout, icons, localized text, and font through `build-demo.py --output`. It generates an isolated HyperFrames project in `.preview-work/<language>/`, with its own seekable 14-second timeline and no audio track. It does not alter the default Chinese project or the full-length videos/posters.
-
-`render-preview.py` then runs the full HyperFrames check, renders a temporary lossless 15 fps PNG sequence, creates one global 256-color palette for the entire loop, and encodes the GIF with infinite looping (`loop=0`). No dithering and rectangle differencing keep flat surfaces clean and the file compact without a changing palette. It verifies the composited first/last frames are identical, duration is 12–15 seconds, and size is under 5 MB. Target size is under 2 MB per language. Generated projects, logs, lossless frame sequences, and palettes stay in the ignored `.preview-work/` directory.
-
-To compare encoding settings after a render without rendering again:
-
-```sh
+# Re-encode already rendered lossless frames:
 python3 render-preview.py --lang en --encode-only --colors 256 --dither none --width 1200 --fps 15
 ```
 
-`preview-verification.json` records the delivered dimensions, frame count, duration, loop flag, first/last comparison, hashes, and visual review. The GIF is a simulated interaction preview, not a benchmark of live application smoothness.
+`build-preview.py` calls `build-demo.py --loop --output ...`, producing isolated projects in ignored `.preview-work/<language>/` with no audio track. `render-preview.py` checks each composition, renders lossless PNG frames, builds one global palette, and encodes infinite looping with rectangle differencing and no dithering. It requires a 44–45 second duration, identical first/last composited pixels, and size below 5 MB per language. This release is 45.000 seconds and under 3 MB each. Build cache and diagnostics stay outside public source.
+
+`verification.json` and `preview-verification.json` record current output hashes, encoding metadata, check results and review scope. `REVIEW.md` describes corrections and remaining limitations. Generating GIFs does not overwrite the separately rendered MP4s or posters.
+
+After rendering both formats, run `python3 verify-media.py` to regenerate the compact verification files with current hashes, full decoder checks, GIF boundary comparison, visible-font coverage, and technical audio measurements.

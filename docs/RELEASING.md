@@ -9,17 +9,17 @@ The source of truth is `package.json.version`. Release tags use `v<version>` and
 | Change | Example |
 |---|---|
 | Work in progress | Git commits; no release for each UI adjustment |
-| Beta build handed to testers | `0.1.0-beta.1` → `0.1.0-beta.2` |
-| First community version after beta validation | `0.1.0` |
-| Compatible fixes | `0.1.0` → `0.1.1` |
+| Optional pre-release testing | `0.2.0-beta.1` → `0.2.0-beta.2` |
+| Current public version line | `0.1.1` |
+| Compatible fixes | `0.1.1` → `0.1.2` |
 | New capability | `0.1.1` → `0.2.0` |
 | Breaking change before 1.0 | Increment the minor version and provide migration notes |
 | Stable behavior, configuration, and upgrade commitments | `1.0.0` |
 | Breaking a public commitment after 1.0 | Increment the major version |
 
-`0.x` remains early-stage software. The pre-1.0 minor/patch distinction above is this project's maintenance convention. Version numbers are not decimals: `0.9.0` can be followed by `0.10.0`. See [Semantic Versioning](https://semver.org/).
+`0.1.1` remains early-stage `0.x` software. Removing the beta suffix does not expand compatibility: the declared tested scope remains macOS / Harness `0.2.1-rc.5`. The pre-1.0 minor/patch distinction above is this project's maintenance convention. Version numbers are not decimals: `0.9.0` can be followed by `0.10.0`. See [Semantic Versioning](https://semver.org/).
 
-日常改动先累计为提交；交付新测试包才增加 beta 序号。发布后的包不可覆盖，修正后发行新版本。普通文档修改无需单独发布运行包。
+日常改动先累计为提交；常规兼容修复按 `0.1.1` → `0.1.2` 递增，不需要 beta 后缀。只有需要预发布测试时，才使用可选的 beta 序号。发布后的包不可覆盖，修正后发行新版本。普通文档修改无需单独发布运行包。
 
 ## Before publishing
 
@@ -41,7 +41,7 @@ The current `main` branch and future releases contain the complete prebuilt runt
 
 A runtime `.tgz` can be attached to a release after it is validated. Keep `dsh-dock.tgz` stable if documentation uses a `latest/download/dsh-dock.tgz` URL; use a tag-pinned URL for versioned filenames.
 
-The npm package identity is prepared for future distribution, but this beta is not published to npm. Verify ownership of the target npm scope before publishing. When npm distribution is enabled, configure the actual repository and workflow using [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/).
+The npm package identity is prepared for future distribution, but the package is not published to npm. Verify ownership of the target npm scope before publishing. When npm distribution is enabled, configure the actual repository and workflow using [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/).
 
 Community listing is separate from code publication. Submit the real repository and an accurate description under `ui` to [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/blob/main/contributing.md). The current contribution rules require a working `dsh.bundle`, the `dsh-plugin` topic, and a repository at least one day old; review is not automatic.
 

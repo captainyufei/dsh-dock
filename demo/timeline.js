@@ -1,0 +1,112 @@
+// One seekable 45-second story for MP4 and GIF. The loop only changes the ending.
+const loop = __LOOP__;
+const tl=gsap.timeline({paused:true});
+const move=(x,y,t,d=.45)=>tl.to('#cursor',{x,y,duration:d,ease:'power2.inOut'},t);
+const click=t=>{tl.to('#cursor',{scale:.82,duration:.08},t);tl.to('#cursor',{scale:1,duration:.12},t+.08);};
+const show=(s,t)=>tl.to(s,{autoAlpha:1,duration:.2,ease:'power2.out'},t);
+const hide=(s,t)=>tl.to(s,{autoAlpha:0,duration:.18},t);
+const shift=(s,y,t,d=.5)=>tl.to(s,{y,duration:d,ease:'power3.inOut'},t);
+function initial(t){
+ tl.set('#drawer',{x:620,autoAlpha:0},t);
+ tl.set('#workspace,#main-panel,#top-title,.chatbody,.chatcomposer',{x:0},t);
+ tl.set('#workspace,#chat-view,#source-row,#personal-row,#button-plus,.reply,#original-bubble,#placeholder,.document,.head,.viewport',{autoAlpha:1},t);
+ tl.set('#home-view,#custom,#dock-menu,#pin-menu,#personal-pin-menu,#unpin-menu,#pin-area,#pinned-personal,#new-session,#draft-note,#dock-settings,#video,#button-close,#pause-symbol,#saved',{autoAlpha:0},t);
+ tl.set('#dock-clock,#dock-plugin,#source-row,#rest-rows,#folder-row,.grouphead,#pinned-personal,#new-session',{y:0},t);
+ tl.set('#cursor',{x:1660,y:820,scale:1,autoAlpha:1},t);
+ tl.set('#top-title',{innerText:'产品演示'},t);
+ tl.set('#optional-heading',{autoAlpha:1},t);tl.set('#settings-row,.save-hint,.customfooter',{y:0},t);
+ tl.set('#source-row .row,#new-session .row',{backgroundColor:'#e9ebed'},t);
+ tl.set('#custom-count',{innerText:'Dock 中 · 3'},t);
+ tl.set('#add-settings',{innerText:'添加'},t);
+ tl.set('#draft-text span',{opacity:0},t);
+ tl.set('#send-button',{backgroundColor:'#b6c6fb'},t);
+ tl.set('#sent-bubble,#waiting-reply',{display:'none'},t);
+ tl.set('#original-bubble,.reply',{display:'block'},t);
+ tl.set('#play-symbol',{autoAlpha:1},t);
+ tl.set('#notes-tab',{backgroundColor:'#fff'},t);
+ tl.set('#video-tab',{backgroundColor:'#f2f3f3'},t);
+ tl.set('#path-notes',{innerText:'示例项目 / 项目说明.md'},t);
+ tl.set('#time-code',{innerText:'0:00 / 0:30'},t);
+ tl.set('#progress',{scaleX:0},t);tl.set('#knob',{x:0},t);
+ tl.set('#bar1,#bar2,#bar3,#bar4',{scaleY:.3},t);
+ tl.set('.caption',{autoAlpha:0},t);tl.set('#cap0',{autoAlpha:1},t);
+}
+initial(0);
+const stages=[[0,5.25],[5.4,13.1],[13.3,21],[21.2,29.25],[29.5,32.5],[32.7,41.8]];
+stages.forEach(([a,b],i)=>{if(i)show('#cap'+i,a);hide('#cap'+i,b);});
+// 1. Collapse only the conversation list; the Dock remains in one physical place.
+move(457,177,.7);click(1.25);
+tl.to('#workspace,#main-panel,#top-title',{x:-310,duration:.65,ease:'power3.inOut'},1.25);
+tl.to('.chatbody,.chatcomposer',{x:155,duration:.65,ease:'power3.inOut'},1.25);
+tl.set('#workspace',{autoAlpha:0},1.91);
+move(145,300,2);move(457,177,3.25);click(3.75);
+tl.set('#workspace',{autoAlpha:1},3.75);
+tl.to('#workspace,#main-panel,#top-title,.chatbody,.chatcomposer',{x:0,duration:.65,ease:'power3.inOut'},3.75);
+// 2. Context menu -> actual customizer labels -> explicitly add Settings.
+move(145,355,5.45);click(5.95);show('#dock-menu',5.95);
+move(260,413,6.25);click(6.75);hide('#dock-menu',6.75);show('#custom',6.75);
+move(1155,615,8);click(8.45);
+tl.set('#add-settings',{innerText:'移除'},8.45);tl.set('#custom-count',{innerText:'Dock 中 · 4'},8.45);show('#dock-settings',8.45);hide('#optional-heading',8.45);shift('#settings-row,.save-hint,.customfooter',-30,8.45,.3);
+move(1160,682,9.7);click(10.15);hide('#custom',10.15);
+// Drag happens on the Dock icons, as supported by the actual plugin.
+move(145,355,10.5);click(10.95);move(145,299,11.05,.7);
+shift('#dock-plugin',-56,11.05,.7);shift('#dock-clock',56,11.2,.55);
+// 3. Pin a chat in Demo project, then another from Personal workspace.
+move(335,462,13.4);click(13.9);show('#pin-menu',13.9);
+move(390,458,14.15);click(14.65);hide('#pin-menu',14.65);
+tl.set('#source-row',{autoAlpha:0},14.65);shift('#folder-row,.grouphead',100,14.65);shift('#rest-rows',52,14.65);show('#pin-area',14.65);
+move(320,717,15.65);click(16.15);show('#personal-pin-menu',16.15);
+move(390,768,16.45);click(16.95);hide('#personal-pin-menu',16.95);
+tl.set('#personal-row',{autoAlpha:0},16.95);show('#pinned-personal',16.95);
+shift('#folder-row,.grouphead',148,16.95);shift('#rest-rows',100,16.95);
+// Unpin Product demo: only its source workspace row returns, not a duplicate.
+move(335,410,18.45);click(18.95);show('#unpin-menu',18.95);
+move(390,423,19.25);click(19.75);hide('#unpin-menu',19.75);hide('#pinned-demo',19.75);
+shift('#pinned-personal',-48,19.75);shift('#folder-row,.grouphead',100,19.75);
+tl.set('#source-row',{y:100},19.75);show('#source-row',19.85);
+// 4. Home keeps a local draft. The sidebar does not gain a row while typing.
+move(145,241,21.35);click(21.85);hide('#chat-view',21.85);show('#home-view',21.85);
+tl.set('#top-title',{innerText:'DeepSeek'},21.85);
+move(865,590,22.2);click(22.7);hide('#placeholder',22.7);
+tl.to('#draft-text span',{opacity:1,duration:.01,stagger:.06},22.8);show('#draft-note',23.75);
+tl.to('#send-button',{backgroundColor:'#4d76ff',duration:.2},23.75);
+// Exactly one new row appears only at Send; no generated assistant reply is claimed.
+move(1638,699,25.1);click(25.6);hide('#home-view',25.6);show('#chat-view',25.6);
+tl.set('#original-bubble,.reply',{display:'none'},25.6);tl.set('#sent-bubble,#waiting-reply',{display:'block'},25.6);
+tl.set('#new-session',{y:100},25.6);show('#new-session',25.6);shift('#source-row,#rest-rows',148,25.6);
+tl.set('#top-title',{innerText:'发布计划'},25.6);tl.set('#source-row .row',{backgroundColor:'transparent'},25.6);
+// Return to an existing chat. The one new sidebar row is retained until replay reset.
+move(335,610,28.1);click(28.6);
+tl.set('#original-bubble,.reply',{display:'block'},28.6);tl.set('#sent-bubble,#waiting-reply',{display:'none'},28.6);
+tl.set('#top-title',{innerText:'产品演示'},28.6);tl.set('#source-row .row',{backgroundColor:'#e9ebed'},28.6);tl.set('#new-session .row',{backgroundColor:'transparent'},28.6);
+// 5. One click restores already-open file tabs; no new-file menu.
+move(1770,178,29.5);click(30);
+tl.set('#drawer',{autoAlpha:1},30);tl.to('#drawer',{x:0,duration:.65,ease:'power3.inOut'},30);
+tl.to('.chatbody,.chatcomposer',{x:-295,duration:.65,ease:'power3.inOut'},30);
+hide('#button-plus',30);show('#button-close',30);
+// 6. Select the native file tab, play, then drag the playhead to an existing point.
+move(1620,235,32.75);click(33.2);show('#video',33.2);hide('.document',33.2);
+tl.set('#path-notes',{innerText:'示例项目 / 产品演示.mp4'},33.2);
+tl.to('#notes-tab',{backgroundColor:'#f2f3f3',duration:.2},33.2);tl.to('#video-tab',{backgroundColor:'#fff',duration:.2},33.2);
+move(1227,878,33.55);click(34);hide('#play-symbol',34);show('#pause-symbol',34);
+tl.to('#bar1',{scaleY:.82,duration:2,ease:'power2.inOut'},34);tl.to('#bar2',{scaleY:.65,duration:2,ease:'power2.inOut'},34);
+tl.to('#bar3',{scaleY:1.35,duration:2,ease:'power2.inOut'},34);tl.to('#bar4',{scaleY:.8,duration:2,ease:'power2.inOut'},34);
+move(1246,909,36.1);click(36.55);move(1570,909,36.65,.55);
+tl.to('#bar1',{scaleY:1.6,duration:.55,ease:'power2.inOut'},36.65);tl.to('#bar2',{scaleY:1.25,duration:.55,ease:'power2.inOut'},36.65);
+tl.to('#bar3',{scaleY:.8,duration:.55,ease:'power2.inOut'},36.65);tl.to('#bar4',{scaleY:1,duration:.55,ease:'power2.inOut'},36.65);
+const media={seconds:0};
+const paintMedia=()=>{document.getElementById('time-code').textContent='0:'+String(Math.floor(media.seconds)).padStart(2,'0')+' / 0:30';gsap.set('#progress',{scaleX:media.seconds/30});gsap.set('#knob',{x:562*media.seconds/30});};
+tl.fromTo(media,{seconds:0},{seconds:2.6,duration:2.6,ease:'none',onUpdate:paintMedia,immediateRender:false},34);
+tl.fromTo(media,{seconds:2.6},{seconds:20,duration:.55,ease:'none',onUpdate:paintMedia,immediateRender:false},36.65);
+tl.fromTo(media,{seconds:20},{seconds:22.2,duration:2.2,ease:'none',onUpdate:paintMedia,immediateRender:false},37.2);
+move(1227,878,38.9);click(39.4);hide('#pause-symbol',39.4);show('#play-symbol',39.4);
+move(1770,178,39.8,.5);click(40.35);
+tl.to('#drawer',{x:620,duration:.65,ease:'power3.inOut'},40.35);tl.set('#drawer',{autoAlpha:0},41.01);
+tl.to('.chatbody,.chatcomposer',{x:0,duration:.65,ease:'power3.inOut'},40.35);hide('#button-close',40.35);show('#button-plus',40.35);
+// A clearly separated replay card hides only the illustrative reset, never an action.
+hide('#cursor',41.8);show('#endcard',42);tl.set('.viewport,.head',{autoAlpha:0},42.21);
+if(loop){
+ initial(42.8);tl.set('#pinned-demo',{autoAlpha:1},42.8);
+ tl.to('#endcard',{autoAlpha:0,duration:.45,ease:'power2.inOut'},43.5);
+}
+window.__timelines['ui-demo']=tl;

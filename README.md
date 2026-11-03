@@ -2,37 +2,37 @@
 
 **English** · [Simplified Chinese](README.zh-CN.md)
 
-**Collapse the chat list. Still reach Home, tasks, and plugins in one click.**
+**A persistent, customizable left Dock and a Codex-inspired UI for DeepSeek Harness.**
 
-![DeepSeek Dock: persistent navigation, cross-workspace pins, and video beside the conversation](assets/readme/hero.en.svg)
+![DeepSeek Dock: customizable navigation, Codex-inspired layout, global pins, drafts, and video previews](assets/readme/hero.en.svg)
 
-DeepSeek Dock is a UI extension for DeepSeek Harness. It keeps navigation on the left, collects important chats in one pinned section, and opens files and videos beside the conversation. Reopen the tool drawer to return to its existing content. Install it independently without modifying the host application.
+Pin important chats across workspaces, draft on Home without creating a chat until you send, and preview videos in the right file panel beside the conversation. DeepSeek Dock installs independently without modifying the host application, preserving DeepSeek branding and native tools.
 
-`0.1.0-beta.1` · Target environment: **macOS / Harness 0.2.1-rc.5** · Third-party community plugin
+`0.1.1` · Target environment: **macOS / Harness 0.2.1-rc.5** · Third-party community plugin
 
 [Install](#install) · [Features](#features) · [Compatibility and limits](#compatibility-and-limits) · [Migration](docs/MIGRATION.md) · [Report an issue](https://github.com/captainyufei/dsh-dock/issues)
 
 ## See it in action
 
-[![DeepSeek Dock: navigation stays visible when the chat list collapses, and the tool drawer restores existing content](assets/readme/preview.en.gif)](assets/readme/demo.en.mp4)
+[![DeepSeek Dock: customize the persistent Dock, use a consistent layout, pin chats across workspaces, draft before sending, and preview video beside the chat](assets/readme/preview.en.gif)](assets/readme/demo.en.mp4)
 
 **[Watch the full 45-second demo with music](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4) · [Static preview](assets/readme/poster.en.png)
 
-The 14-second silent loop shows two actions: collapse the chat list with the Dock still visible, then reopen existing tools. Both formats use simulated UI and sample data; they are not screen recordings or performance tests.
+The 45-second silent loop walks through all five features below. Click it for the version with music. Both formats use simulated UI and sample data; they are not screen recordings or performance tests.
 
-## What changes in everyday use
+## Features
 
-- **You often switch between Home, scheduled tasks, and plugins.** Their Dock icons stay visible when the chat list is collapsed. Switch pages with one click, without expanding the sidebar each time.
-- **Your important chats are scattered across workspaces.** Pin them into one section at the top of the sidebar, so you can find them without opening each project. Pinned chats appear only there; unpinning returns them to their original group without changing ownership.
-- **You close the tools, then need the same file or terminal again.** The top-right button restores existing tool tabs first. Continue with the content you already opened instead of creating another tab.
-- **You want to check a generated video against the conversation.** Play it in the file tab on the right while keeping the chat beside it, so you can compare the result with the requirements.
-- **You want to shape a question before sending it.** Home saves a draft and creates the chat only when you send. Unsent ideas stay out of the chat list instead of becoming empty entries.
-
-Home, conversations, plugins, and scheduled tasks share the outer window layout. Native folders, chat hierarchy, avatar, permission checks, and tools remain available.
+| Feature | What changes in everyday use |
+|---|---|
+| **Persistent, customizable Dock** | Switch between Home, scheduled tasks, and plugins even with the chat list collapsed. Choose the entries you use and drag them into your preferred order. |
+| **Codex-inspired UI** | Home, chats, plugins, and scheduled tasks share one window frame and draggable top strip. Moving between pages keeps the same navigation and tool controls, with DeepSeek branding and the native chat hierarchy. |
+| **Cross-workspace pins** | Find important chats from different workspaces in one pinned section. Each appears only once; unpinning returns it to its original group without changing workspace membership. |
+| **Draft-first Home** | Compose and revise before committing to a chat. A chat is created only when you send, so unsent ideas do not fill the sidebar with empty entries. |
+| **Video in the file panel** | Play and seek a generated video on the right while checking the conversation beside it. Reopening the tool drawer restores existing tabs so you can continue reviewing the same content. |
 
 ## Install
 
-Requires **macOS / Harness 0.2.1-rc.5**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This beta is not published to npm; use the repository URL below. No manual build is needed.
+Requires **macOS / Harness 0.2.1-rc.5**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This package is not published to npm; use the repository URL below. No manual build is needed.
 
 This installs the latest code on `main`, not the latest stable release. Installed copies do not update automatically.
 
@@ -67,17 +67,9 @@ To get the current `main` code, save your work, open **Plugins → DeepSeek Dock
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
 <details>
-<summary>Reproducible alternative: fixed release or local ZIP</summary>
+<summary>Alternative: install from a local ZIP</summary>
 
-To keep the same published beta instead of following `main`, use this source in the installation dialog:
-
-```text
-git+https://github.com/captainyufei/dsh-dock.git#v0.1.0-beta.1
-```
-
-This tag stays on `0.1.0-beta.1`; reinstalling it does not advance to newer code. For a local installation:
-
-1. [Download this release](https://github.com/captainyufei/dsh-dock/archive/refs/tags/v0.1.0-beta.1.zip) and extract it into a directory you will keep.
+1. [Download the current main branch](https://github.com/captainyufei/dsh-dock/archive/refs/heads/main.zip) and extract it into a directory you will keep. This is a snapshot of `main` at download time, not a fixed release.
 2. Find the root containing `package.json` and `cordis.patch.yml`; keep the complete extracted directory and all its subfolders.
 3. Select that folder in Finder and press **Option–Command–C** to copy its absolute path. Paste it into **Plugins → Add plugin**. For example, an account named `alex` might use:
 
@@ -104,25 +96,21 @@ This tag stays on `0.1.0-beta.1`; reinstalling it does not advance to newer code
 
 </details>
 
-## Features
+## Everyday controls
 
-| Capability | Behavior |
-|---|---|
-| **Persistent Dock** | Keeps navigation and the real account avatar available when the chat list is collapsed. Defaults to Home, scheduled tasks, and plugins. |
-| **Customizable entries** | Select registered entries through the context menu and drag icons to reorder. Home stays first; up to six entries appear directly, with overflow in More. Preferences stay local. |
-| **Global pinned chats** | Collects pins from different workspaces. Hides duplicate workspace rows and restores them when unpinned. |
-| **Chat context menu** | Reuses native pin, rename, fork, archive/unarchive, and copy Session ID actions. Supports `Shift+F10` and the menu key. |
-| **Draft-first Home** | Choose a workspace, mode, model, and permissions before composing. A chat is created on send; text and selections survive navigation and refresh. |
-| **Consistent window and tools** | A draggable top strip and common frame across main pages. One corner button expands/collapses the tools, preferring existing tabs, with native resizing and split panes. |
-| **Side-panel video playback** | Plays MP4, M4V, MOV, and WebM in native file tabs, with pause, seeking, volume, and fullscreen. Hidden previews pause; the same tab and file version can restore their position. |
+Right-click the Dock to select registered entries, then drag icons to reorder them. Home stays first; up to six entries appear directly, with the rest under **More**. Preferences stay local. Right-click a chat for the host's pin, rename, fork, archive/unarchive, and copy Session ID actions; `Shift+F10` and the menu key work too.
 
-Files, terminal, browser, tool tabs, and scheduled tasks are Harness capabilities. This plugin provides navigation, chat presentation, draft-first Home, consistent interactions, and video previews; it does not add a task execution engine.
+Files, terminal, browser, tool tabs, and scheduled tasks are Harness capabilities. DeepSeek Dock adds their surrounding UI and video previews; it does not add a task execution engine.
 
 ### Drafts and input
 
-`Enter` sends and `Shift+Enter` inserts a newline. Confirming an IME composition does not send. Use `+` for local files, `@` for file paths or loaded chats, and the microphone for the host voice component. Attachments are handed to the host only on send and must be reselected after refresh. Failed sends retain the draft; uncertain results are not automatically retried.
+Select a workspace, mode, model, and permissions before composing. Draft text and options survive page navigation and refresh; attachments must be reselected after refresh.
+
+`Enter` sends and `Shift+Enter` inserts a newline. Confirming an IME composition does not send. Use `+` for local files, `@` for file paths or loaded chats, and the microphone for the host voice component. Attachments are handed to the host only on send. Failed sends retain the draft; uncertain results are not automatically retried.
 
 ### Restore tools and play videos
+
+Native file tabs preview MP4, M4V, MOV, and WebM with pause, seeking, volume, and fullscreen controls, subject to the codec limits below.
 
 The top-right button restores existing tool tabs. If the active chat has no tabs, it opens the native tool area. The new-tool or chat-selection entry appears only when there is neither an active chat nor restorable content.
 
@@ -138,6 +126,8 @@ Collapsing the drawer, switching tabs, or closing the preview pauses playback an
 | **Playback position** | Restoration is limited to the same tool tab lifecycle and file version, not guaranteed after an app restart. |
 | **Drafts and voice** | Attachments do not survive refresh. Voice requires the host component and local recognition resources. `/` commands and `@` suggestions depend on host catalogs and permissions. |
 | **Language** | The README is bilingual. Some added interface copy is still Chinese; full UI localization is not complete. |
+
+Version `0.1.1` remains an early `0.x` release; removing the beta suffix does not expand the tested platform or host scope.
 
 Hiding pinned chats can reduce the visible row count on a native group's first page. Expand the group to see more. The plugin uses host slots, services, and some DOM structure; host upgrades require renewed validation and are not automatically compatible.
 
@@ -157,4 +147,4 @@ npm run build:client
 
 ## License and provenance
 
-DeepSeek Dock is an independently developed third-party plugin and is not affiliated with DeepSeek. The project is licensed under the [MIT License](LICENSE). See [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) for referenced code and third-party licenses.
+DeepSeek Dock is an independently developed third-party plugin and is not affiliated with DeepSeek or OpenAI. "Codex-inspired" describes the layout, not an affiliation. The project is licensed under the [MIT License](LICENSE). See [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md) for referenced code and third-party licenses.

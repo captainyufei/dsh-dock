@@ -1,6 +1,7 @@
 import React from 'react';
 
 const h=React.createElement;
+const NoTooltip=({children})=>children;
 
 // Scope to native browsing trees, leaving search results and Session data intact.
 // Hex escaping protects attribute selectors even if a Host id contains CSS syntax.
@@ -22,14 +23,15 @@ export function mountPinnedSessionsSeat(anchor){
  return {node,dispose:()=>node.remove()};
 }
 
-export function PinnedSessions({model,labels={}}){
+export function PinnedSessions({model,labels={},StateDot,Tooltip=NoTooltip}){
  const snapshot=React.useSyncExternalStore(model.subscribe,model.getSnapshot,model.getSnapshot);
  const [busy,setBusy]=React.useState(new Set());
  const [error,setError]=React.useState('');
  const mounted=React.useRef(true);
  React.useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);
  const title=labels.pinned||'置顶';
- const unpinLabel=labels.unpin||'取消置顶';
+ const unpinLabel=labels.unpin||'取消置顶聊天';
+ const runningLabel=labels.running||'进行中';
  function open(id){
   setError('');
   try{if(model.open(id)===false)setError(labels.openFailed||'这条会话当前无法打开。');}catch(reason){setError(reason?.message||labels.openFailed||'打开会话失败，请重试。');}
@@ -60,13 +62,16 @@ export function PinnedSessions({model,labels={}}){
      title:row.workspaceTitle?row.title+'\n'+row.workspaceTitle:row.title,
      'aria-current':snapshot.activeId===row.id?'page':undefined,
      onClick:()=>open(row.id),
-    },row.title),
-    h('button',{
-     type:'button',className:'cgpt-pinned-unpin',title:unpinLabel,
+    },
+     row.running&&h('span',{className:'cgpt-pinned-status',role:'img','aria-label':runningLabel,title:runningLabel},
+      StateDot?h(StateDot,{state:'ongoing'}):h('span',{className:'cgpt-pinned-spinner','aria-hidden':true})),
+     h('span',{className:'cgpt-pinned-title'},row.title)),
+    h(Tooltip,{label:unpinLabel,side:'left',delayMs:400},h('button',{
+     type:'button',className:'cgpt-pinned-unpin',
      'aria-label':unpinLabel+'：'+row.title,disabled:busy.has(row.id),
      onClick:()=>unpin(row.id),
-    },h('svg',{width:14,height:14,viewBox:'0 0 20 20',fill:'none','aria-hidden':true},
-     h('path',{d:'m3 3 14 14M8 3h5l-1 5 3 3v1H9l-4 5v-6L3 9V8l5-1V3Z',stroke:'currentColor',strokeWidth:1.3,strokeLinecap:'round',strokeLinejoin:'round'}))),
+    },h('svg',{width:16,height:16,viewBox:'0 0 24 24',fill:'currentColor','aria-hidden':true},
+     h('path',{transform:'rotate(40 12 12)',d:'M8 2h8a1 1 0 0 1 0 2h-1v5.2l2.8 3.1a1 1 0 0 1-.8 1.7H13v6.5L12 22l-1-1.5V14H7a1 1 0 0 1-.8-1.7L9 9.2V4H8a1 1 0 0 1 0-2Z'})))),
    ))),
   error&&h('div',{className:'cgpt-pinned-error',role:'alert'},error),
  );

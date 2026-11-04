@@ -1,6 +1,6 @@
 import React from 'react';
 import {createPortal} from 'react-dom';
-import {Menu as NativeMenu,MenuItemButton as NativeMenuItem,Modal as NativeModal} from '@deepseek-ai/dsh-client-ui-primitives';
+import {Menu as NativeMenu,MenuItemButton as NativeMenuItem,Modal as NativeModal,StateDot as NativeStateDot,Tooltip as NativeTooltip} from '@deepseek-ai/dsh-client-ui-primitives';
 import {createDraftController} from './draft-controller.js';
 import {createHostAdapter} from './host-adapter.js';
 import {createNativeControls} from './native-controls.js';
@@ -64,7 +64,7 @@ function HomeIcon({size=18,layout,slots,getRailLabels,pinnedModel,sessionContext
  },[size,layout,getRailLabels,rosterRevision,navigation]);
  return h(React.Fragment,null,
   h('span',{ref,style:{display:'flex'}},h('svg',{width:size,height:size,viewBox:'0 0 20 20','aria-hidden':true,fill:'currentColor'},h('path',{d:'M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z'}))),
-  pinnedSeat&&createPortal(h(PinnedSessions,{model:pinnedModel,labels:getRailLabels()}),pinnedSeat),
+  pinnedSeat&&createPortal(h(PinnedSessions,{model:pinnedModel,labels:getRailLabels(),StateDot:NativeStateDot,Tooltip:NativeTooltip}),pinnedSeat),
   contextSeat&&createPortal(h(SessionContextMenu,{controller:sessionContext,renderSlot,Menu:NativeMenu}),contextSeat),
   contextSeat&&createPortal(h(RailDockControls,{anchorRef:ref,navigationModel,Menu:NativeMenu,MenuItem:NativeMenuItem,Modal:NativeModal}),contextSeat),
   actionSeat&&createPortal(h(RailActionButtons,{navigationModel}),actionSeat),
@@ -89,7 +89,7 @@ export default {
     return {sessionId:s.id,label,mention:sessionMention(s.id,label)};
    });
   };
-  ctx.effect(()=>ctx.locale.register('chatgptRail',{zh:{'panel.home':'首页','sidebar.newChat':'新聊天','sidebar.pinned':'置顶','sidebar.unpin':'取消置顶','nav.browse':'浏览更多插件','nav.create':'创建你的插件','nav.settings':'设置'},en:{'panel.home':'Home','sidebar.newChat':'New chat','sidebar.pinned':'Pinned','sidebar.unpin':'Unpin','nav.browse':'Browse other plugins','nav.create':'Create your plugin','nav.settings':'Settings'}}),'chatgpt-rail:locale');
+  ctx.effect(()=>ctx.locale.register('chatgptRail',{zh:{'panel.home':'首页','sidebar.newChat':'新聊天','sidebar.pinned':'置顶','sidebar.unpin':'取消置顶聊天','nav.browse':'浏览更多插件','nav.create':'创建你的插件','nav.settings':'设置'},en:{'panel.home':'Home','sidebar.newChat':'New chat','sidebar.pinned':'Pinned','sidebar.unpin':'Unpin chat','nav.browse':'Browse other plugins','nav.create':'Create your plugin','nav.settings':'Settings'}}),'chatgpt-rail:locale');
   const dockPreferences=createDockPreferences();
   ctx.effect(()=>()=>dockPreferences.dispose(),'chatgpt-rail:dock-preferences');
   const navigationModel=createRailNavigationModel(ctx,{capacity:6,preferences:dockPreferences,nativePins:createNativePanelPinsSource(ctx.slots),getLabels:()=>{
@@ -106,7 +106,7 @@ export default {
   },'chatgpt-rail:draft');
   const getRailLabels=()=>({
    newSession:ctx.locale.bind('sidebar')('session.new.label'),newChat:ctx.locale.bind('chatgptRail')('sidebar.newChat'),more:ctx.locale.bind('sidebar')('panels.more'),search:ctx.locale.bind('workspace')('search.sessions.aria'),toggleOpen:ctx.locale.bind('sidebar')('toggle.open'),toggleCollapse:ctx.locale.bind('sidebar')('toggle.collapse'),
-   pinned:ctx.locale.bind('chatgptRail')('sidebar.pinned'),unpin:ctx.locale.bind('chatgptRail')('sidebar.unpin'),
+   pinned:ctx.locale.bind('chatgptRail')('sidebar.pinned'),unpin:ctx.locale.bind('chatgptRail')('sidebar.unpin'),running:ctx.locale.bind('workspace')('status.running'),
    sessionActionsTemplate:ctx.locale.bind('workspace')('actions.session.aria',{name:'__cgpt_session_title__'}),
    panels:Object.fromEntries(ctx.slots.entriesOfSlot('sidebar.panellist').map(({options})=>[options.id,typeof options.label==='function'?options.label():options.label])),
   });

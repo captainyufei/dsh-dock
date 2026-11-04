@@ -21,7 +21,7 @@ test('the global pin list follows Host updates, opens existing chats and keeps p
  const f=fixture();let view;
  act(()=>{view=TestRenderer.create(React.createElement(PinnedSessions,{model:f.model}));});
  const open=()=>view.root.findByProps({className:'cgpt-pinned-open'});
- assert.deepEqual(open().children,['Pinned chat']);
+ assert.deepEqual(open().findByProps({className:'cgpt-pinned-title'}).children,['Pinned chat']);
  assert.equal(open().props.title,'Pinned chat\nProject A');
  act(()=>open().props.onClick());
  assert.deepEqual(f.calls,[['open','one']]);
@@ -29,7 +29,7 @@ test('the global pin list follows Host updates, opens existing chats and keeps p
  view.root.findByType('section').props.onClick({stopPropagation(){stopped++;}});
  assert.equal(stopped,1);
  act(()=>f.update({rows:[{id:'two',title:'Renamed chat',workspaceTitle:'Project B'}],activeId:'two'}));
- assert.deepEqual(open().children,['Renamed chat']);
+ assert.deepEqual(open().findByProps({className:'cgpt-pinned-title'}).children,['Renamed chat']);
  assert.equal(open().props['aria-current'],'page');
  act(()=>view.unmount());
  assert.equal(f.count(),0);
@@ -44,7 +44,7 @@ test('unpin waits for the Host and presents a failure without hiding the origina
  let request;
  await act(async()=>{request=unpin().props.onClick();await Promise.resolve();});
  assert.equal(unpin().props.disabled,true);
- assert.equal(view.root.findByProps({className:'cgpt-pinned-open'}).children[0],'Pinned chat');
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-title'}).children[0],'Pinned chat');
  await act(async()=>{reject(new Error('Host refused'));await request;});
  assert.equal(unpin().props.disabled,false);
  assert.equal(view.root.findByProps({role:'alert'}).children[0],'Host refused');
@@ -99,7 +99,7 @@ test('native duplicate filtering follows confirmed Host pin snapshots, never the
  await act(async()=>workspace.set({...workspace.getSnapshot(),pinnedSessionIds:['one']}));
  const confirmedFilter=filterText(view);
  assert.equal(confirmedFilter,pinnedWorkspaceRules([{id:'one'}]));
- assert.equal(view.root.findByProps({className:'cgpt-pinned-open'}).children[0],'Pinned chat');
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-title'}).children[0],'Pinned chat');
  let unpinRequest;
  await act(async()=>{unpinRequest=view.root.findByProps({className:'cgpt-pinned-unpin'}).props.onClick();await Promise.resolve();});
  assert.equal(filterText(view),confirmedFilter);
@@ -120,7 +120,7 @@ test('a refused unpin keeps the native duplicate hidden while preserving the glo
  assert.equal(filterText(view),before);
  await act(async()=>{reject(new Error('Host pin update refused'));await request;});
  assert.equal(filterText(view),before);
- assert.equal(view.root.findByProps({className:'cgpt-pinned-open'}).children[0],'Pinned chat');
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-title'}).children[0],'Pinned chat');
  assert.equal(view.root.findByProps({role:'alert'}).children[0],'Host pin update refused');
  await act(async()=>view.unmount());assert.equal(f.count(),0);
 });
@@ -169,4 +169,21 @@ test('hostile and Unicode Session IDs remain exact CSS strings scoped only to na
  assert.deepEqual(globalRows.map(row=>row.props['data-cgpt-pinned-session']),ids);
  for(const row of globalRows)assert.equal(row.props['data-row-key'],undefined);
  await act(async()=>view.unmount());assert.equal(f.count(),0);
+});
+
+test('a pinned running chat uses the native state dot and clears it on the Host idle edge',()=>{
+ const f=fixture([{id:'one',title:'Active chat',running:true}]);let view;
+ const NativeDot=({state})=>React.createElement('i',{'data-native-state':state});
+ const NativeTooltip=({label,side,children})=>React.createElement('div',{'data-tooltip-label':label,'data-tooltip-side':side},children);
+ act(()=>{view=TestRenderer.create(React.createElement(PinnedSessions,{model:f.model,StateDot:NativeDot,Tooltip:NativeTooltip,labels:{running:'Running',unpin:'Unpin chat'}}));});
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-status'}).props['aria-label'],'Running');
+ assert.equal(view.root.findByProps({'data-native-state':'ongoing'}).type,'i');
+ assert.equal(view.root.findByProps({'data-tooltip-label':'Unpin chat'}).props['data-tooltip-side'],'left');
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-unpin'}).props['aria-label'],'Unpin chat：Active chat');
+ act(()=>f.update({rows:[{id:'one',title:'Active chat',running:false}],activeId:'one'}));
+ assert.equal(view.root.findAllByProps({className:'cgpt-pinned-status'}).length,0);
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-title'}).children[0],'Active chat');
+ assert.equal(view.root.findByProps({className:'cgpt-pinned-open'}).props['aria-current'],'page');
+ act(()=>view.unmount());
+ assert.equal(f.count(),0);
 });

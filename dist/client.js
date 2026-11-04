@@ -1320,13 +1320,13 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
       seen.add(id);
       const summary = byId[id];
       if (!summary || summary.blank || archived.has(id)) continue;
-      rows.push({ id, title: text2(summary.title) || text2(summary.projectionValues?.title) || "\u672A\u547D\u540D", workspaceTitle: workspaceTitles.get(id) || "" });
+      rows.push({ id, title: text2(summary.title) || text2(summary.projectionValues?.title) || "\u672A\u547D\u540D", workspaceTitle: workspaceTitles.get(id) || "", running: summary.running === true });
     }
     const activeId = panel.activePanelId === null ? Object.values(byId).find((summary) => (summary?.retainedBy?.mainView || 0) > 0)?.id : null;
     const nextActiveId = activeId ?? null;
     if (snapshot2 && snapshot2.activeId === nextActiveId && snapshot2.rows.length === rows.length && rows.every((row, index) => {
       const previous = snapshot2.rows[index];
-      return row.id === previous.id && row.title === previous.title && row.workspaceTitle === previous.workspaceTitle;
+      return row.id === previous.id && row.title === previous.title && row.workspaceTitle === previous.workspaceTitle && row.running === previous.running;
     })) return false;
     snapshot2 = Object.freeze({ rows: Object.freeze(rows.map((row) => Object.freeze(row))), activeId: nextActiveId });
     return true;
@@ -1383,6 +1383,7 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
 // pinned-sessions.js
 var import_react2 = __toESM(require("react"), 1);
 var h2 = import_react2.default.createElement;
+var NoTooltip = ({ children }) => children;
 var cssString = (value) => '"' + value.replace(/[^a-zA-Z0-9_-]/gu, (char) => "\\" + char.codePointAt(0).toString(16) + " ") + '"';
 function pinnedWorkspaceRules(rows) {
   const selectors = rows.map((row) => '[data-slot="sidebar.workspaces"] [role="tree"] [data-row-key=' + cssString("session:" + row.id) + "]");
@@ -1398,7 +1399,7 @@ function mountPinnedSessionsSeat(anchor) {
   browser.parentElement.insertBefore(node, browser);
   return { node, dispose: () => node.remove() };
 }
-function PinnedSessions({ model, labels = {} }) {
+function PinnedSessions({ model, labels = {}, StateDot, Tooltip = NoTooltip }) {
   const snapshot2 = import_react2.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
   const [busy, setBusy] = import_react2.default.useState(/* @__PURE__ */ new Set());
   const [error, setError] = import_react2.default.useState("");
@@ -1410,7 +1411,8 @@ function PinnedSessions({ model, labels = {} }) {
     };
   }, []);
   const title = labels.pinned || "\u7F6E\u9876";
-  const unpinLabel = labels.unpin || "\u53D6\u6D88\u7F6E\u9876";
+  const unpinLabel = labels.unpin || "\u53D6\u6D88\u7F6E\u9876\u804A\u5929";
+  const runningLabel = labels.running || "\u8FDB\u884C\u4E2D";
   function open(id) {
     setError("");
     try {
@@ -1450,25 +1452,33 @@ function PinnedSessions({ model, labels = {} }) {
     h2("ul", { className: "cgpt-pinned-list" }, snapshot2.rows.map((row) => h2(
       "li",
       { key: row.id, className: "cgpt-pinned-row", "data-cgpt-pinned-session": row.id, "data-active": snapshot2.activeId === row.id || void 0 },
-      h2("button", {
-        type: "button",
-        className: "cgpt-pinned-open",
-        title: row.workspaceTitle ? row.title + "\n" + row.workspaceTitle : row.title,
-        "aria-current": snapshot2.activeId === row.id ? "page" : void 0,
-        onClick: () => open(row.id)
-      }, row.title),
-      h2("button", {
+      h2(
+        "button",
+        {
+          type: "button",
+          className: "cgpt-pinned-open",
+          title: row.workspaceTitle ? row.title + "\n" + row.workspaceTitle : row.title,
+          "aria-current": snapshot2.activeId === row.id ? "page" : void 0,
+          onClick: () => open(row.id)
+        },
+        row.running && h2(
+          "span",
+          { className: "cgpt-pinned-status", role: "img", "aria-label": runningLabel, title: runningLabel },
+          StateDot ? h2(StateDot, { state: "ongoing" }) : h2("span", { className: "cgpt-pinned-spinner", "aria-hidden": true })
+        ),
+        h2("span", { className: "cgpt-pinned-title" }, row.title)
+      ),
+      h2(Tooltip, { label: unpinLabel, side: "left", delayMs: 400 }, h2("button", {
         type: "button",
         className: "cgpt-pinned-unpin",
-        title: unpinLabel,
         "aria-label": unpinLabel + "\uFF1A" + row.title,
         disabled: busy.has(row.id),
         onClick: () => unpin(row.id)
       }, h2(
         "svg",
-        { width: 14, height: 14, viewBox: "0 0 20 20", fill: "none", "aria-hidden": true },
-        h2("path", { d: "m3 3 14 14M8 3h5l-1 5 3 3v1H9l-4 5v-6L3 9V8l5-1V3Z", stroke: "currentColor", strokeWidth: 1.3, strokeLinecap: "round", strokeLinejoin: "round" })
-      ))
+        { width: 16, height: 16, viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": true },
+        h2("path", { transform: "rotate(40 12 12)", d: "M8 2h8a1 1 0 0 1 0 2h-1v5.2l2.8 3.1a1 1 0 0 1-.8 1.7H13v6.5L12 22l-1-1.5V14H7a1 1 0 0 1-.8-1.7L9 9.2V4H8a1 1 0 0 1 0-2Z" })
+      )))
     ))),
     error && h2("div", { className: "cgpt-pinned-error", role: "alert" }, error)
   );
@@ -3838,10 +3848,15 @@ html[data-platform="darwin"] [data-cgpt-window-frame][data-cgpt-right-motion]:no
 .cgpt-pinned-list{list-style:none;display:flex;flex-direction:column;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:0}
 .cgpt-pinned-row{display:flex;align-items:center;flex:none;height:32px;min-height:32px;margin:0;border-radius:7px}
 .cgpt-pinned-row:hover,.cgpt-pinned-row:focus-within,.cgpt-pinned-row[data-active]{background:var(--dsw-alias-interactive-bg-hover,#e9ebeb)}
-.cgpt-pinned-open{display:block;flex:1;min-width:0;height:32px;padding:5px 8px 5px 4px;border:0;border-radius:7px;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:22px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;text-align:left;cursor:pointer}
-.cgpt-pinned-unpin{display:flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;margin-right:3px;padding:4px;border:0;border-radius:5px;background:transparent;color:var(--dsw-alias-label-tertiary,#8c9094);opacity:0;cursor:pointer}
+.cgpt-pinned-open{display:flex;align-items:center;gap:7px;flex:1;min-width:0;height:32px;padding:5px 8px 5px 4px;border:0;border-radius:7px;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:22px;overflow:hidden;text-align:left;cursor:pointer}
+.cgpt-pinned-title{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cgpt-pinned-status{display:inline-flex;align-items:center;justify-content:center;flex:none;width:14px;height:16px}
+.cgpt-pinned-spinner{box-sizing:border-box;width:12px;height:12px;border:1.5px solid var(--dsw-alias-label-tertiary,#8c9094);border-right-color:transparent;border-radius:50%;animation:cgpt-pinned-spin .8s linear infinite}
+@keyframes cgpt-pinned-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.cgpt-pinned-spinner{animation:none}}
+.cgpt-pinned-unpin{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;margin-right:5px;padding:4px;border:0;border-radius:5px;background:transparent;color:var(--dsw-alias-label-secondary,#62676b);opacity:0;cursor:pointer}
 .cgpt-pinned-row:hover .cgpt-pinned-unpin,.cgpt-pinned-row:focus-within .cgpt-pinned-unpin{opacity:1}
-.cgpt-pinned-unpin:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-primary)}
+.cgpt-pinned-unpin:hover{color:var(--dsw-alias-label-primary,#303538)}
 .cgpt-pinned-unpin:disabled{cursor:wait;opacity:.4}
 .cgpt-pinned-open:focus-visible,.cgpt-pinned-unpin:focus-visible{outline:var(--dsw-focus-ring-width,2px) solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:-2px}
 .cgpt-pinned-error{flex:none;padding:4px;font-size:12px;line-height:18px;color:var(--dsw-alias-state-error-primary,#b94545)}
@@ -3956,7 +3971,7 @@ function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessio
     import_react8.default.Fragment,
     null,
     h8("span", { ref, style: { display: "flex" } }, h8("svg", { width: size, height: size, viewBox: "0 0 20 20", "aria-hidden": true, fill: "currentColor" }, h8("path", { d: "M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z" }))),
-    pinnedSeat && (0, import_react_dom2.createPortal)(h8(PinnedSessions, { model: pinnedModel, labels: getRailLabels() }), pinnedSeat),
+    pinnedSeat && (0, import_react_dom2.createPortal)(h8(PinnedSessions, { model: pinnedModel, labels: getRailLabels(), StateDot: import_dsh_client_ui_primitives.StateDot, Tooltip: import_dsh_client_ui_primitives.Tooltip }), pinnedSeat),
     contextSeat && (0, import_react_dom2.createPortal)(h8(SessionContextMenu, { controller: sessionContext, renderSlot, Menu: import_dsh_client_ui_primitives.Menu }), contextSeat),
     contextSeat && (0, import_react_dom2.createPortal)(h8(RailDockControls, { anchorRef: ref, navigationModel, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Modal: import_dsh_client_ui_primitives.Modal }), contextSeat),
     actionSeat && (0, import_react_dom2.createPortal)(h8(RailActionButtons, { navigationModel }), actionSeat)
@@ -3983,7 +3998,7 @@ var client_entry_default = {
         return { sessionId: s.id, label, mention: sessionMention(s.id, label) };
       });
     };
-    ctx.effect(() => ctx.locale.register("chatgptRail", { zh: { "panel.home": "\u9996\u9875", "sidebar.newChat": "\u65B0\u804A\u5929", "sidebar.pinned": "\u7F6E\u9876", "sidebar.unpin": "\u53D6\u6D88\u7F6E\u9876", "nav.browse": "\u6D4F\u89C8\u66F4\u591A\u63D2\u4EF6", "nav.create": "\u521B\u5EFA\u4F60\u7684\u63D2\u4EF6", "nav.settings": "\u8BBE\u7F6E" }, en: { "panel.home": "Home", "sidebar.newChat": "New chat", "sidebar.pinned": "Pinned", "sidebar.unpin": "Unpin", "nav.browse": "Browse other plugins", "nav.create": "Create your plugin", "nav.settings": "Settings" } }), "chatgpt-rail:locale");
+    ctx.effect(() => ctx.locale.register("chatgptRail", { zh: { "panel.home": "\u9996\u9875", "sidebar.newChat": "\u65B0\u804A\u5929", "sidebar.pinned": "\u7F6E\u9876", "sidebar.unpin": "\u53D6\u6D88\u7F6E\u9876\u804A\u5929", "nav.browse": "\u6D4F\u89C8\u66F4\u591A\u63D2\u4EF6", "nav.create": "\u521B\u5EFA\u4F60\u7684\u63D2\u4EF6", "nav.settings": "\u8BBE\u7F6E" }, en: { "panel.home": "Home", "sidebar.newChat": "New chat", "sidebar.pinned": "Pinned", "sidebar.unpin": "Unpin chat", "nav.browse": "Browse other plugins", "nav.create": "Create your plugin", "nav.settings": "Settings" } }), "chatgpt-rail:locale");
     const dockPreferences = createDockPreferences();
     ctx.effect(() => () => dockPreferences.dispose(), "chatgpt-rail:dock-preferences");
     const navigationModel = createRailNavigationModel(ctx, { capacity: 6, preferences: dockPreferences, nativePins: createNativePanelPinsSource(ctx.slots), getLabels: () => {
@@ -4027,6 +4042,7 @@ var client_entry_default = {
       toggleCollapse: ctx.locale.bind("sidebar")("toggle.collapse"),
       pinned: ctx.locale.bind("chatgptRail")("sidebar.pinned"),
       unpin: ctx.locale.bind("chatgptRail")("sidebar.unpin"),
+      running: ctx.locale.bind("workspace")("status.running"),
       sessionActionsTemplate: ctx.locale.bind("workspace")("actions.session.aria", { name: "__cgpt_session_title__" }),
       panels: Object.fromEntries(ctx.slots.entriesOfSlot("sidebar.panellist").map(({ options }) => [options.id, typeof options.label === "function" ? options.label() : options.label]))
     });

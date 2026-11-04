@@ -2,6 +2,13 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
+## Unreleased
+
+- Keep the native running indicator visible in global pinned chats and update it as the host starts or finishes a run.
+- Replace the crossed-out unpin glyph with a compact filled pin and a native hover tooltip.
+
+置顶会话同步显示宿主运行标志，开始和结束运行时即时更新；取消置顶改用简洁实心图钉与原生悬停提示。
+
 ## 0.1.1 — 2026-11-03
 
 - Use `0.1.1` for the current public package, without a prerelease suffix; retain the tested macOS / Harness `0.2.1-rc.5` scope.

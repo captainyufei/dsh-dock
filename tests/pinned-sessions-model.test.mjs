@@ -35,9 +35,9 @@ test('aggregates multiple workspaces in Host pin order without changing membersh
  const originalWorkspaces=structuredClone(f.workspaces.getSnapshot());
  const originalSessions=structuredClone(f.sessions.getSnapshot());
  assert.deepEqual(f.model.getSnapshot(),{rows:[
-  {id:'b',title:'Beta',workspaceTitle:'Project Two'},
-  {id:'c',title:'Gamma',workspaceTitle:''},
-  {id:'a',title:'Alpha',workspaceTitle:'Project One'},
+  {id:'b',title:'Beta',workspaceTitle:'Project Two',running:false},
+  {id:'c',title:'Gamma',workspaceTitle:'',running:false},
+  {id:'a',title:'Alpha',workspaceTitle:'Project One',running:false},
  ],activeId:null});
  assert.equal(f.model.open('b'),true);
  assert.deepEqual(f.calls,[['open','b']]);
@@ -55,14 +55,14 @@ test('publishes renamed titles, projection titles, workspace names and Host-conf
  assert.deepEqual(f.model.getSnapshot().rows.map(row=>row.title),['Renamed','Projected']);
  assert.equal(before.rows[0].title,'Beta');
  f.workspaces.set({...f.workspaces.getSnapshot(),items:[{workspaceId:'one',title:'Renamed Project',sessionIds:['a']}],pinnedSessionIds:['a']});
- assert.deepEqual(f.model.getSnapshot().rows,[{id:'a',title:'Projected',workspaceTitle:'Renamed Project'}]);
+ assert.deepEqual(f.model.getSnapshot().rows,[{id:'a',title:'Projected',workspaceTitle:'Renamed Project',running:false}]);
  assert.equal(updates.length,2);
  stop();
 });
 
 test('excludes archived, blank and missing summaries without deleting any Host pins',()=>{
  const f=fixture({pins:['missing','archived','blank','a'],archived:['archived'],byId:{a:summary('a',''),archived:summary('archived','Archived'),blank:summary('blank','Draft',{blank:true})}});
- assert.deepEqual(f.model.getSnapshot().rows,[{id:'a',title:'未命名',workspaceTitle:'Project One'}]);
+ assert.deepEqual(f.model.getSnapshot().rows,[{id:'a',title:'未命名',workspaceTitle:'Project One',running:false}]);
  for(const id of ['missing','archived','blank'])assert.equal(f.model.open(id),false);
  assert.deepEqual(f.calls,[]);
  assert.deepEqual(f.workspaces.getSnapshot().pinnedSessionIds,['missing','archived','blank','a']);
@@ -150,4 +150,25 @@ test('shares source subscriptions and releases every source after the final cons
  for(const source of [f.sessions,f.workspaces,f.panel])assert.equal(source.listenerCount(),1);
  stopAgain();
  for(const source of [f.sessions,f.workspaces,f.panel])assert.equal(source.listenerCount(),0);
+});
+
+// Titles and membership stay unchanged while the Host streams activity edges.
+test('pinned activity publishes running and idle edges without a rename or pin change',()=>{
+ const f=fixture({pins:['a']});let updates=0;
+ const stop=f.model.subscribe(()=>updates++);
+ const idle=f.model.getSnapshot();
+ f.sessions.set({...f.sessions.getSnapshot(),byId:{...f.sessions.getSnapshot().byId,a:summary('a','Alpha',{running:true})}});
+ const running=f.model.getSnapshot();
+ assert.equal(running.rows[0].running,true);
+ assert.notEqual(running,idle);
+ assert.equal(idle.rows[0].running,false);
+ assert.equal(updates,1);
+ f.sessions.set(structuredClone(f.sessions.getSnapshot()));
+ assert.equal(f.model.getSnapshot(),running);
+ assert.equal(updates,1);
+ f.sessions.set({...f.sessions.getSnapshot(),byId:{...f.sessions.getSnapshot().byId,a:summary('a','Alpha',{running:false})}});
+ assert.equal(f.model.getSnapshot().rows[0].running,false);
+ assert.equal(updates,2);
+ assert.deepEqual(f.workspaces.getSnapshot().pinnedSessionIds,['a']);
+ stop();
 });

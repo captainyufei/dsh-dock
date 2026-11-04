@@ -27,13 +27,13 @@ export function createPinnedSessionsModel({sessions,workspaces,layout,uiWorkspac
    seen.add(id);
    const summary=byId[id];
    if(!summary||summary.blank||archived.has(id))continue;
-   rows.push({id,title:text(summary.title)||text(summary.projectionValues?.title)||'未命名',workspaceTitle:workspaceTitles.get(id)||''});
+   rows.push({id,title:text(summary.title)||text(summary.projectionValues?.title)||'未命名',workspaceTitle:workspaceTitles.get(id)||'',running:summary.running===true});
   }
   const activeId=panel.activePanelId===null?Object.values(byId).find(summary=>(summary?.retainedBy?.mainView||0)>0)?.id:null;
   const nextActiveId=activeId??null;
   if(snapshot&&snapshot.activeId===nextActiveId&&snapshot.rows.length===rows.length&&rows.every((row,index)=>{
    const previous=snapshot.rows[index];
-   return row.id===previous.id&&row.title===previous.title&&row.workspaceTitle===previous.workspaceTitle;
+   return row.id===previous.id&&row.title===previous.title&&row.workspaceTitle===previous.workspaceTitle&&row.running===previous.running;
   }))return false;
   snapshot=Object.freeze({rows:Object.freeze(rows.map(row=>Object.freeze(row))),activeId:nextActiveId});
   return true;

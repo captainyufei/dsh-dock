@@ -1,6 +1,6 @@
 {
   "name": "@captainyufei/dsh-dock",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "scripts": {
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
@@ -12,7 +12,8 @@
     "esbuild": "0.28.2",
     "react": "^18.3.1",
     "react-dom": "18.3.1",
-    "react-test-renderer": "^18.3.1"
+    "react-test-renderer": "^18.3.1",
+    "semver": "7.8.6"
   },
   "description": "Codex-inspired UI for DeepSeek Harness with a persistent customizable left Dock, cross-workspace pinned chats, a draft-first home, and side-panel video previews.",
   "exports": {
@@ -72,10 +73,10 @@
   ],
   "engines": {
     "node": ">=22",
-    "dsh": "0.2.1-rc.5"
+    "dsh": "0.2.1-rc.5 || 0.2.2-rc.1"
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-rc.5",
+    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-rc.5 || 0.2.2-rc.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

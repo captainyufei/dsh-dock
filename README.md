@@ -8,7 +8,7 @@
 
 Pin important chats across workspaces, draft on Home without creating a chat until you send, and preview videos in the right file panel beside the conversation. DeepSeek Dock installs independently without modifying the host application, preserving DeepSeek branding and native tools.
 
-`0.1.1` · Target environment: **macOS / Harness 0.2.1-rc.5** · Third-party community plugin
+`0.1.2` · Supported hosts: **macOS / Harness 0.2.1-rc.5 or 0.2.2-rc.1** · Third-party community plugin
 
 [Install](#install) · [Features](#features) · [Compatibility and limits](#compatibility-and-limits) · [Migration](docs/MIGRATION.md) · [Report an issue](https://github.com/captainyufei/dsh-dock/issues)
 
@@ -32,7 +32,7 @@ The 45-second silent loop walks through all five features below. Click it for th
 
 ## Install
 
-Requires **macOS / Harness 0.2.1-rc.5**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This package is not published to npm; use the repository URL below. No manual build is needed.
+Requires **macOS / Harness 0.2.1-rc.5 or 0.2.2-rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This package is not published to npm; use the repository URL below. No manual build is needed.
 
 This installs the latest code on `main`, not the latest stable release. Installed copies do not update automatically.
 
@@ -62,7 +62,7 @@ Start `dsh web` if it is not already running, then open **Plugins** and make sur
 
 ### Update or remove
 
-To get the current `main` code, save your work, open **Plugins → DeepSeek Dock → Uninstall**, and confirm. Reinstall using the same repository URL or CLI command above, then enable it. Follow any reload/restart notice and check the source and version in the plugin details. Reinstallation is required; reopening Harness does not fetch new code.
+Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. Otherwise uninstall the plugin and reinstall using the same repository URL or CLI command above, then enable it. Confirm version **0.1.2 or newer** in the plugin details. Reopening Harness alone does not fetch new code.
 
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
@@ -90,7 +90,7 @@ To disable Dock temporarily, turn off its switch. Uninstall without reinstalling
 | Package not found | Use the complete repository URL above. This package is not published to npm; its package name or `@latest` is not an installation source. |
 | GitHub download fails | Open **Show install details**, check GitHub connectivity, and retry. Changing the npm registry does not fix GitHub access. Use the ZIP option if you can download it separately. |
 | Installed, but no Dock | Enable it under **Installed plugins** and follow any restart notice. If activation fails, copy the diagnostic. |
-| Wrong host or invalid directory | Use Harness `0.2.1-rc.5`. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |
+| Wrong host or invalid directory | Update Dock to `0.1.2` for Harness `0.2.2-rc.1`; `0.2.1-rc.5` remains supported. An older installed Dock copy retains its old version restriction. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |
 
 [Report an issue](https://github.com/captainyufei/dsh-dock/issues) with your Harness/macOS versions, source entered, and installation error. Remove private paths or tokens from logs before posting.
 
@@ -120,14 +120,14 @@ Collapsing the drawer, switching tabs, or closing the preview pauses playback an
 
 | Area | Current scope |
 |---|---|
-| **Host and platform** | The feature baseline was tested on-device on macOS / Harness `0.2.1-rc.5`. This package restricts installation to that host version. Other operating systems, dark mode, and very narrow windows have not been fully tested on-device. |
+| **Host and platform** | Supported host versions are `0.2.1-rc.5` and `0.2.2-rc.1` on macOS. The original feature baseline was validated on `0.2.1-rc.5`; the `0.2.2-rc.1` upgrade check covers installation, loading, Dock collapse/customization, drafts, page navigation, and tool-drawer controls. Other operating systems, dark mode, and very narrow windows have not been fully tested on-device. |
 | **Video codecs** | Recognizing an extension does not guarantee that every codec decodes. Support depends on the system/browser; H.264/AAC MP4 has been tested. Unsupported files can open in a system application. |
 | **Desktop video size** | Desktop reads a complete temporary Blob before playback. Cached and in-flight media bytes share a **256 MiB** budget, with external opening available above it. This is not a process peak-memory cap. |
 | **Playback position** | Restoration is limited to the same tool tab lifecycle and file version, not guaranteed after an app restart. |
 | **Drafts and voice** | Attachments do not survive refresh. Voice requires the host component and local recognition resources. `/` commands and `@` suggestions depend on host catalogs and permissions. |
 | **Language** | The README is bilingual. Some added interface copy is still Chinese; full UI localization is not complete. |
 
-Version `0.1.1` remains an early `0.x` release; removing the beta suffix does not expand the tested platform or host scope.
+Version `0.1.2` remains an early `0.x` release. Compatibility is explicitly limited to the two host versions above; a newer Harness release needs renewed validation.
 
 Hiding pinned chats can reduce the visible row count on a native group's first page. Expand the group to see more. The plugin uses host slots, services, and some DOM structure; host upgrades require renewed validation and are not automatically compatible.
 

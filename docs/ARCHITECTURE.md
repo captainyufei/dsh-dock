@@ -67,9 +67,9 @@ The plugin does not rewrite, transcode, or upload the video and does not start a
 
 ## 构建与兼容 / Build and compatibility
 
-在仓库根目录执行 `npm ci`、`npm run check`。`scripts/build.mjs` 将 `src/` 中的客户端代码及样式构建为 `dist/client.js`，并复制服务端入口、locale 与图标到 `dist/`。`npm run build:client` 可单独更新这些产物；直接调用构建脚本时，其路径解析不依赖当前工作目录。没有安装期构建钩子，普通安装直接使用已提交的 `dist/`。宿主适配以 `0.2.1-rc.5` 为验证基准；升级宿主后应重新验证注册接口、布局及工具预览。
+在仓库根目录执行 `npm ci`、`npm run check`。`scripts/build.mjs` 将 `src/` 中的客户端代码及样式构建为 `dist/client.js`，并复制服务端入口、locale 与图标到 `dist/`。`npm run build:client` 可单独更新这些产物；直接调用构建脚本时，其路径解析不依赖当前工作目录。没有安装期构建钩子，普通安装直接使用已提交的 `dist/`。宿主适配保留 `0.2.1-rc.5` 功能基线，并完成 `0.2.2-rc.1` 的加载与交互升级验收；升级宿主后应重新验证注册接口、布局及工具预览。
 
-Run `npm ci` and `npm run check` at the repository root. `scripts/build.mjs` bundles client code and styles into `dist/client.js` and copies the server entries, locales, and icon into `dist/`. Use `npm run build:client` for a standalone rebuild. The build script resolves paths relative to itself; installation has no build hooks and uses the committed `dist/` files. Host integration was verified against `0.2.1-rc.5`; recheck service registration, layout, and previews after host upgrades.
+Run `npm ci` and `npm run check` at the repository root. `scripts/build.mjs` bundles client code and styles into `dist/client.js` and copies the server entries, locales, and icon into `dist/`. Use `npm run build:client` for a standalone rebuild. The build script resolves paths relative to itself; installation has no build hooks and uses the committed `dist/` files. Host integration retains the `0.2.1-rc.5` feature baseline and adds loading and interaction upgrade checks on `0.2.2-rc.1`; recheck service registration, layout, and previews after host upgrades.
 
 演示视频是独立文档资产，不随插件运行，不为业务代码引入动效制作依赖。
 

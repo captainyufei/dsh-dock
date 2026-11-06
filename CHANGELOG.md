@@ -2,7 +2,13 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
-## Unreleased
+## 0.1.2 — 2026-11-06
+
+- Fix installation and startup refusal after the Harness `0.2.2-rc.1` update. Explicitly support `0.2.1-rc.5 || 0.2.2-rc.1` and keep the optional UI primitive peer range aligned.
+- Check supported and unsupported host versions, plus lockfile consistency, in the regression suite.
+- Update bilingual installation and compatibility instructions.
+
+修复升级 Harness `0.2.2-rc.1` 后因宿主版本声明过窄导致的安装和启动拦截；保留旧版支持，增加版本范围回归检查并同步双语说明。
 
 - Keep the native running indicator visible in global pinned chats and update it as the host starts or finishes a run.
 - Replace the crossed-out unpin glyph with a compact filled pin and a native hover tooltip.

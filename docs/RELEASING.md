@@ -10,14 +10,14 @@ The source of truth is `package.json.version`. Release tags use `v<version>` and
 |---|---|
 | Work in progress | Git commits; no release for each UI adjustment |
 | Optional pre-release testing | `0.2.0-beta.1` → `0.2.0-beta.2` |
-| Current public version line | `0.1.1` |
+| Current public version line | `0.1.2` |
 | Compatible fixes | `0.1.1` → `0.1.2` |
 | New capability | `0.1.1` → `0.2.0` |
 | Breaking change before 1.0 | Increment the minor version and provide migration notes |
 | Stable behavior, configuration, and upgrade commitments | `1.0.0` |
 | Breaking a public commitment after 1.0 | Increment the major version |
 
-`0.1.1` remains early-stage `0.x` software. Removing the beta suffix does not expand compatibility: the declared tested scope remains macOS / Harness `0.2.1-rc.5`. The pre-1.0 minor/patch distinction above is this project's maintenance convention. Version numbers are not decimals: `0.9.0` can be followed by `0.10.0`. See [Semantic Versioning](https://semver.org/).
+`0.1.2` remains early-stage `0.x` software. Its explicit host range is `0.2.1-rc.5 || 0.2.2-rc.1` on macOS; it does not automatically admit later release candidates. The compatibility matrix is checked alongside the package and lockfile metadata. The pre-1.0 minor/patch distinction above is this project's maintenance convention. Version numbers are not decimals: `0.9.0` can be followed by `0.10.0`. See [Semantic Versioning](https://semver.org/).
 
 日常改动先累计为提交；常规兼容修复按 `0.1.1` → `0.1.2` 递增，不需要 beta 后缀。只有需要预发布测试时，才使用可选的 beta 序号。发布后的包不可覆盖，修正后发行新版本。普通文档修改无需单独发布运行包。
 

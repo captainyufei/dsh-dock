@@ -11,12 +11,16 @@ function fixture(options = {}) {
   function VoiceInput(props) {
     nativeProps = props;
     props.useSpeechReadiness((value) => value);
+    const navigable = options.navigationSource ? props.usePluginNavigation((value) => value) : true;
     React.useEffect(() => () => { unmounted++; }, []);
-    return React.createElement('button', { 'aria-label': '真实语音' }, 'mic');
+    return React.createElement('button', { 'aria-label': '真实语音', disabled: !navigable }, 'mic');
   }
   const entry = { locale: 'voice-input', component: VoiceInput, inject() {
     injected++;
-    return { createRecording() {}, transcribe() {}, openSettings() {}, hooks: { speechReadiness: source } };
+    return { createRecording() {}, transcribe() {}, openSettings() {}, hooks: {
+      speechReadiness: source,
+      ...(options.navigationSource ? {pluginNavigation: options.navigationSource} : {}),
+    } };
   } };
   let entries = options.absent ? [] : [entry];
   const listeners = new Set();
@@ -54,6 +58,28 @@ test('native microphone mounts over a local controller and never requests a Sess
   assert.equal(f.injected, 1);
   await act(async () => tree.unmount());
   assert.equal(f.unmounted, 1);
+});
+
+test('the 0.2.2 voice navigation hook follows Host availability and releases its subscription', async () => {
+  let present = true;
+  const listeners = new Set();
+  const navigationSource = {
+    getSnapshot: () => present,
+    subscribe(listener) { listeners.add(listener); return () => listeners.delete(listener); },
+  };
+  const f = fixture({navigationSource});
+  const inputActions = {captureInsertion: () => ({}), insertText: () => true};
+  let tree;
+  await act(async () => { tree = TestRenderer.create(React.createElement(f.native.VoiceControl, {inputActions})); });
+  try {
+    assert.equal(tree.root.findByType('button').props.disabled, false);
+    assert.equal(listeners.size, 1);
+    await act(async () => { present = false; for (const listener of listeners) listener(); });
+    assert.equal(tree.root.findByType('button').props.disabled, true);
+    await act(async () => { present = true; for (const listener of listeners) listener(); });
+    assert.equal(tree.root.findByType('button').props.disabled, false);
+  } finally { await act(async () => tree.unmount()); }
+  assert.equal(listeners.size, 0);
 });
 
 test('late transcripts cannot overwrite an edited or locked draft', () => {

@@ -5,6 +5,7 @@ Versions describe public DeepSeek Dock releases. Development changes are collect
 ## 0.1.2 — 2026-11-06
 
 - Fix installation and startup refusal after the Harness `0.2.2-rc.1` update. Explicitly support `0.2.1-rc.5 || 0.2.2-rc.1` and keep the optional UI primitive peer range aligned.
+- Bind the official voice component's complete observable hook surface, including the new plugin-navigation hook, so Home renders the microphone on `0.2.2-rc.1`.
 - Check supported and unsupported host versions, plus lockfile consistency, in the regression suite.
 - Update bilingual installation and compatibility instructions.
 

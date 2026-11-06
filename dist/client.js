@@ -602,9 +602,6 @@ function createNativeControls(ctx, React9, helpers = {}) {
     if (cache.has(entry)) return cache.get(entry);
     let result;
     try {
-      let useSpeechReadiness = function(select = identity) {
-        return select(React9.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
-      };
       if (!entry.component || typeof entry.inject !== "function") {
         throw new Error("\u5F53\u524D\u8BED\u97F3\u63D2\u4EF6\u63A5\u53E3\u4E0E\u9996\u9875\u4E0D\u517C\u5BB9\uFF0C\u8BF7\u66F4\u65B0\u9996\u9875\u63D2\u4EF6\u6216\u8FD4\u56DE\u4F1A\u8BDD\u4F7F\u7528\u8BED\u97F3\u8F93\u5165\u3002");
       }
@@ -613,15 +610,25 @@ function createNativeControls(ctx, React9, helpers = {}) {
       if (typeof actions?.createRecording !== "function" || typeof actions?.transcribe !== "function" || typeof actions?.openSettings !== "function" || typeof source?.getSnapshot !== "function" || typeof source?.subscribe !== "function") {
         throw new Error("\u5F53\u524D\u8BED\u97F3\u63D2\u4EF6\u63A5\u53E3\u5DF2\u53D8\u5316\uFF0C\u9996\u9875\u8BED\u97F3\u6682\u4E0D\u53EF\u7528\u3002\u8BF7\u66F4\u65B0\u9996\u9875\u63D2\u4EF6\u3002");
       }
-      const subscribe = (listener) => source.subscribe(listener);
-      const getSnapshot = () => source.getSnapshot();
+      const { hooks, ...actionProps } = actions;
+      const hookProps = {};
+      for (const [name, store] of Object.entries(hooks)) {
+        if (typeof store?.getSnapshot !== "function" || typeof store?.subscribe !== "function") {
+          throw new Error("\u5F53\u524D\u8BED\u97F3\u63D2\u4EF6\u7684\u72B6\u6001\u63A5\u53E3\u4E0E\u9996\u9875\u4E0D\u517C\u5BB9\uFF0C\u8BF7\u66F4\u65B0\u9996\u9875\u63D2\u4EF6\u3002");
+        }
+        const subscribe = (listener) => store.subscribe(listener);
+        const getSnapshot = () => store.getSnapshot();
+        hookProps["use" + name[0].toUpperCase() + name.slice(1)] = function useVoiceSource(select = identity) {
+          return select(React9.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
+        };
+      }
       result = {
         available: true,
         id: ++nextVoiceId,
         component: entry.component,
         props: {
-          ...actions,
-          useSpeechReadiness,
+          ...actionProps,
+          ...hookProps,
           t: ctx.locale.bind(entry.locale)
         }
       };

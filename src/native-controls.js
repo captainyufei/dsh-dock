@@ -7,7 +7,7 @@
  * installed official voice contribution owns recording, device preference,
  * readiness, transcription, cancellation, and setup navigation.
  *
- * Verified against Harness 0.2.1-rc.5. A changed/missing contribution fails with
+ * Verified against Harness 0.2.1-rc.5 and 0.2.2-rc.1. A changed/missing contribution fails with
  * an explicit UI message. Its component/injection contract is version-sensitive
  * and must be checked when upgrading Harness.
  */
@@ -57,18 +57,28 @@ export function createNativeControls(ctx, React, helpers = {}) {
           typeof source?.subscribe !== "function") {
         throw new Error("当前语音插件接口已变化，首页语音暂不可用。请更新首页插件。");
       }
-      const subscribe = (listener) => source.subscribe(listener);
-      const getSnapshot = () => source.getSnapshot();
-      function useSpeechReadiness(select = identity) {
-        return select(React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
+      // Match the Host renderer's hooks -> use<Name> binding. New VoiceInput
+      // versions also consume pluginNavigation; binding only readiness leaves
+      // the microphone unable to render even though its actions are present.
+      const {hooks, ...actionProps} = actions;
+      const hookProps = {};
+      for (const [name, store] of Object.entries(hooks)) {
+        if (typeof store?.getSnapshot !== "function" || typeof store?.subscribe !== "function") {
+          throw new Error("当前语音插件的状态接口与首页不兼容，请更新首页插件。");
+        }
+        const subscribe = (listener) => store.subscribe(listener);
+        const getSnapshot = () => store.getSnapshot();
+        hookProps['use' + name[0].toUpperCase() + name.slice(1)] = function useVoiceSource(select = identity) {
+          return select(React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
+        };
       }
       result = {
         available: true,
         id: ++nextVoiceId,
         component: entry.component,
         props: {
-          ...actions,
-          useSpeechReadiness,
+          ...actionProps,
+          ...hookProps,
           t: ctx.locale.bind(entry.locale),
         },
       };

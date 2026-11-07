@@ -2,6 +2,21 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
+## 0.1.3 — 2026-11-07
+
+- Keep global pages and native conversations inside the shared window frame, with consistent bottom/trailing gutters and corner behavior when side panels open or close.
+- Align neutral page colors with the active theme for the Chat and Context Insights integrations while retaining their semantic colors.
+- Restore native window dragging from conversation-header gaps after large image controls scroll out of view; keep visible title actions and controls interactive.
+- Draw the full-height sidebar divider above opaque page headers and sticky composers without intercepting clicks or sidebar resizing.
+- Add horizontal padding to New Chat and remove the host shortcut's leftover hover fade from its label.
+- Document frame ownership, plugin theme integration, and the scoped drag-region workaround in `docs/SURFACES.md`.
+
+统一本机窗口框架，修复页面底部/右侧留白、切换页面的主题颜色、聊天顶部空白无法拖动、分隔线被遮挡，以及“新聊天”悬停时贴边和文字渐隐的问题。
+
+The new shared content-box behavior was verified on macOS / Harness `0.2.2-rc.1`. The declared `0.2.1-rc.5` compatibility is retained, but this release does not claim a new full visual pass on that host or on narrow-window drawer mode.
+
+新框架已在 macOS / Harness `0.2.2-rc.1` 本机验收；保留 `0.2.1-rc.5` 兼容范围，本次未重新完成该旧宿主及窄窗口抽屉模式的完整视觉验收。
+
 ## 0.1.2 — 2026-11-06
 
 - Fix installation and startup refusal after the Harness `0.2.2-rc.1` update. Explicitly support `0.2.1-rc.5 || 0.2.2-rc.1` and keep the optional UI primitive peer range aligned.

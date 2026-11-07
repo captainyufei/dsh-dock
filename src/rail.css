@@ -8,12 +8,14 @@
 [data-cgpt-brand-row] [data-slot="sidebar.brand.name"]>span{font-size:18px!important;letter-spacing:0!important}
 [data-cgpt-top-strip]{position:absolute!important;left:52px;right:12px;top:2px;height:36px!important;min-height:0!important;margin:0!important;padding:0!important;background:transparent!important}
 [data-cgpt-top-strip] button{width:28px!important;height:28px!important;color:#808487!important}
-[data-cgpt-new-chat]{height:30px!important;min-height:30px!important;margin:0 0 17px!important;padding:4px 0!important;border:0!important;border-radius:7px!important;background:transparent!important;justify-content:flex-start!important;box-shadow:none!important;font-size:14px!important;font-weight:400!important;overflow:visible!important}
-[data-cgpt-new-chat]>span:first-child{flex:initial!important}
+[data-cgpt-new-chat]{height:30px!important;min-height:30px!important;margin:0 0 17px!important;padding:4px 8px!important;border:0!important;border-radius:7px!important;background:transparent!important;justify-content:flex-start!important;box-shadow:none!important;font-size:14px!important;font-weight:400!important;overflow:visible!important}
+/* The hidden shortcut still matches the Host's :has(+shortcut) hover rule.
+   This compact label needs no fade now that the shortcut is not displayed. */
+[data-cgpt-new-chat]>span:first-child{flex:initial!important;overflow:visible!important;mask-image:none!important;-webkit-mask-image:none!important}
 [data-cgpt-new-chat]>span:first-child>span{width:auto!important;justify-content:flex-start!important;gap:9px!important}
 [data-cgpt-new-chat] svg{width:15px!important;height:15px!important}
 [data-cgpt-new-chat] svg{visibility:hidden!important}
-[data-cgpt-new-chat]::before{content:"";position:absolute;left:0;top:7px;width:16px;height:16px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3.5H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 17.5h11a1.5 1.5 0 0 0 1.5-1.5v-4M8 12l.7-3.1L15.5 2l2.5 2.5-6.9 6.8L8 12Z'/%3E%3C/svg%3E") center/16px no-repeat;pointer-events:none}
+[data-cgpt-new-chat]::before{content:"";position:absolute;left:8px;top:7px;width:16px;height:16px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3.5H4a1.5 1.5 0 0 0-1.5 1.5v11A1.5 1.5 0 0 0 4 17.5h11a1.5 1.5 0 0 0 1.5-1.5v-4M8 12l.7-3.1L15.5 2l2.5 2.5-6.9 6.8L8 12Z'/%3E%3C/svg%3E") center/16px no-repeat;pointer-events:none}
 [data-cgpt-new-chat]>span+span{display:none!important}
 [data-cgpt-new-chat]:hover{background:#eceeee!important}
 [data-cgpt-new-label]{font-size:0!important}
@@ -90,7 +92,9 @@ html[data-platform="darwin"] [data-cgpt-window-frame]>[data-side="rightbar"]{-we
 html[data-platform="darwin"] [data-cgpt-rail-column]{border-right:0!important}
 html[data-platform="darwin"] [data-cgpt-window-center]{position:relative!important;isolation:isolate;background:transparent!important;border-left:0!important}
 html[data-platform="darwin"] [data-cgpt-window-center]::before{content:"";position:absolute;inset:44px 8px 8px 0;border-radius:0 15px 15px 0;background:var(--cgpt-window-sheet);z-index:-1;pointer-events:none;transition:right var(--ds-transition-duration-slow) var(--ds-ease-in-out),border-top-right-radius var(--ds-transition-duration-slow) var(--ds-ease-in-out),border-bottom-right-radius var(--ds-transition-duration-slow) var(--ds-ease-in-out)}
-html[data-platform="darwin"] [data-cgpt-window-center]::after{content:"";position:absolute;left:0;top:44px;bottom:8px;width:1px;background:#e7e7e7;pointer-events:none}
+/* Paint the frame divider above opaque page headers and sticky composers;
+   keep it below menus and outside hit testing. Its bounds never scroll. */
+html[data-platform="darwin"] [data-cgpt-window-center]::after{content:"";position:absolute;z-index:10;left:0;top:44px;bottom:8px;width:1px;background:#e7e7e7;pointer-events:none}
 html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-collapsed] [data-cgpt-window-center]::before{border-top-left-radius:15px;border-bottom-left-radius:15px}
 html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-collapsed] [data-cgpt-window-center]::after{display:none}
 html[data-platform="darwin"] [data-cgpt-window-center] :has(> [data-slot="conversation.header"]),
@@ -230,3 +234,116 @@ html[data-platform="darwin"] [data-cgpt-window-frame][data-cgpt-right-motion]:no
 .cgpt-video-preview video::-webkit-media-controls-mute-button{outline-color:#8d97a5!important;border-radius:999px!important}
 .cgpt-video-preview video::-webkit-media-controls-volume-slider{outline-color:#8d97a5!important;border-radius:999px!important}
 .cgpt-video-preview video::-webkit-media-controls-fullscreen-button{outline-color:#8d97a5!important;border-radius:999px!important}
+
+/* Harness 0.2.2 gives every global page one persistent MainPanel wrapper.
+   Constrain that real box: an opaque plugin page must not paint over chrome.
+   Conversation has no data-global-panel and keeps its native title row.
+   Older hosts keep the existing surface adapter above. */
+html[data-platform="darwin"] [data-cgpt-window-frame]{
+ --cgpt-window-edge:8px;
+ --cgpt-window-radius:15px;
+ --cgpt-window-sidebar:#fafafa;
+ --cgpt-window-rule:var(--dsw-alias-border-l1,#e7e7e7);
+}
+html[data-platform="darwin"][data-ds-dark-theme] [data-cgpt-window-frame],
+html[data-platform="darwin"] [data-ds-dark-theme] [data-cgpt-window-frame]{--cgpt-window-sidebar:#202223}
+html[data-platform="darwin"] [data-cgpt-window-center]>[data-global-panel]{
+ --dsh-frame-top-clearance:0px;
+ box-sizing:border-box;
+ min-width:0;
+ min-height:0;
+ margin:var(--cgpt-window-chrome-height) var(--cgpt-window-edge) var(--cgpt-window-edge) 0;
+ /* The native narrow-window drawer otherwise adds a second 48px clearance. */
+ padding-top:0!important;
+ border-radius:0 var(--cgpt-window-radius) var(--cgpt-window-radius) 0;
+ background:var(--cgpt-window-sheet);
+ color:var(--dsw-alias-label-primary);
+ overflow:hidden;
+}
+html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-collapsed] [data-cgpt-window-center]>[data-global-panel]{
+ border-top-left-radius:var(--cgpt-window-radius);
+ border-bottom-left-radius:var(--cgpt-window-radius);
+}
+html[data-platform="darwin"] [data-cgpt-window-frame]:not([data-rightbar-collapsed]) [data-cgpt-window-center]>[data-global-panel]{
+ margin-right:0;
+ border-top-right-radius:0;
+ border-bottom-right-radius:0;
+}
+/* The native conversation also needs a real bounded box. Its title stays at
+   y=0; only the trailing/bottom edge shrink, so sticky input/footer surfaces
+   cannot cover the shared gutter. The direct main slot identifies 0.2.2's box. */
+html[data-platform="darwin"] [data-cgpt-window-center]>:not([data-global-panel]):has(>[data-slot="main"]){
+ min-width:0;
+ min-height:0;
+ margin:0 var(--cgpt-window-edge) var(--cgpt-window-edge) 0;
+ border-bottom-right-radius:var(--cgpt-window-radius);
+ overflow:hidden;
+}
+html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-collapsed] [data-cgpt-window-center]>:not([data-global-panel]):has(>[data-slot="main"]){
+ border-bottom-left-radius:var(--cgpt-window-radius);
+}
+html[data-platform="darwin"] [data-cgpt-window-frame]:not([data-rightbar-collapsed]) [data-cgpt-window-center]>:not([data-global-panel]):has(>[data-slot="main"]){
+ margin-right:0;
+ border-bottom-right-radius:0;
+}
+/* Header group rectangles are not controls. Keep their gaps in the native
+   drag region while the actual controls retain their own no-drag hit boxes. */
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"] :is(
+ :has(>[data-slot="conversation.session.header.actions"]),
+ :has(>[data-slot="conversation.session.header.utilities"]),
+ [data-conversation-header-leading],
+ [data-conversation-header-corner]
+){-webkit-app-region:drag!important}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"]>header{
+ user-select:none;
+ -webkit-user-select:none;
+}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"] :is(button,a,input,textarea,select,[role="button"],[role="tab"],[tabindex],[contenteditable="true"]){
+ -webkit-app-region:no-drag!important;
+}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"] :is(input,textarea,[contenteditable="true"]){
+ user-select:text;
+ -webkit-user-select:text;
+}
+/* The title's native context-menu trigger follows the visible label rather
+   than its old 8px horizontal padding; preserve its keyboard/context actions. */
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"] nav[aria-label]>span[tabindex]>:is(span,button){
+ padding-inline:0;
+}
+/* Scrolled-out controls can still subtract their unclipped rectangles from
+   Electron's native title-bar region. The conversation scrollport never owns
+   window dragging: reset its entire subtree to the initial, unregistered
+   region instead of letting buttons/images inherit a no-drag rectangle.
+   Keep the sibling header and body-portaled menus on the Host's drag rules. */
+html[data-platform="darwin"] [data-cgpt-window-center] [data-conversation-scroll],
+html[data-platform="darwin"] [data-cgpt-window-center] [data-conversation-scroll] *{
+ -webkit-app-region:initial!important;
+}
+/* dsh-chat owns its controls and semantic status colors. Map only its neutral
+   surface tokens to the same theme; never style arbitrary third-party nodes. */
+html[data-platform="darwin"] [data-cgpt-window-center]>[data-global-panel] .dc-app{
+ --dc-canvas:var(--cgpt-window-sheet);
+ --dc-panel:var(--cgpt-window-sheet);
+ --dc-side:var(--cgpt-window-sidebar);
+ --dc-side-hover:var(--dsw-alias-interactive-bg-hover);
+ --dc-side-active:var(--dsw-alias-interactive-bg-active,var(--dsw-alias-interactive-bg-hover));
+ --dc-well:var(--dsw-alias-interactive-bg-hover);
+ --dc-text-1:var(--dsw-alias-label-primary);
+ --dc-text-2:var(--dsw-alias-label-secondary);
+ --dc-text-3:var(--dsw-alias-label-tertiary);
+ --dc-line:var(--cgpt-window-rule);
+ --dc-line-strong:var(--dsw-alias-border-l2);
+ --dc-bubble-in:var(--cgpt-window-sheet);
+ --dc-bubble-in-line:var(--cgpt-window-rule);
+ --dc-chip-bg:var(--dsw-alias-interactive-bg-hover);
+ --dc-chip-text:var(--dsw-alias-label-secondary);
+ --dc-fp-chip-bg:var(--dsw-alias-interactive-bg-hover);
+ --dc-file-icon-bg:var(--dsw-alias-interactive-bg-hover);
+ --dc-file-icon-text:var(--dsw-alias-label-secondary);
+ --dc-dot:transparent;
+ font-family:inherit;
+}
+/* Context Insights supplies its own canvas token. Keep charts and cards intact. */
+html[data-platform="darwin"] [data-cgpt-window-center]>[data-global-panel] .lc-ov-page{
+ --lc-canvas:var(--cgpt-window-sheet);
+}

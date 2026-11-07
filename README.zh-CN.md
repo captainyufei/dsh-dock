@@ -8,7 +8,7 @@
 
 跨工作区集中置顶重要会话；首页先写草稿，发送时才创建会话；视频直接在右侧文件面板预览，方便与旁边的对话核对。DeepSeek Dock 独立安装，无需修改宿主程序，保留 DeepSeek 品牌和原生工具。
 
-`0.1.2` · 支持宿主：**macOS / Harness 0.2.1-rc.5 或 0.2.2-rc.1** · 第三方社区插件
+`0.1.3` · 支持宿主：**macOS / Harness 0.2.1-rc.5 或 0.2.2-rc.1** · 第三方社区插件
 
 [安装](#安装) · [功能](#功能) · [兼容与限制](#兼容与限制) · [旧版迁移](docs/MIGRATION.md) · [反馈问题](https://github.com/captainyufei/dsh-dock/issues)
 
@@ -62,7 +62,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 
 ### 更新或移除
 
-先保存工作。若插件管理器提供 DeepSeek Dock 的 **更新** 按钮，直接更新，再按提示重新加载或重启。否则卸载后，使用上面同一仓库地址或 CLI 命令重新安装并启用。在详情中确认版本为 **0.1.2 或更新版本**；仅重新打开 Harness 不会下载新代码。
+先保存工作。若插件管理器提供 DeepSeek Dock 的 **更新** 按钮，直接更新，再按提示重新加载或重启。否则卸载后，使用上面同一仓库地址或 CLI 命令重新安装并启用。在详情中确认版本为 **0.1.3 或更新版本**；仅重新打开 Harness 不会下载新代码。
 
 暂时不用时关闭开关；彻底移除时卸载后不再安装。两种操作都保留宿主管理的会话和工作区。
 
@@ -90,7 +90,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 | 找不到包 | 使用上面的完整仓库地址。本包尚未发布到 npm，不能只填包名或 `@latest` 安装。 |
 | GitHub 下载失败 | 打开 **查看安装详情**，检查 GitHub 连接后重试。切换 npm 安装源不能修复 GitHub 连接；能单独下载时可用 ZIP 方式。 |
 | 已安装但 Dock 没出现 | 在 **已安装插件** 中启用，并按提示重启。若启用失败，复制诊断信息。 |
-| 宿主不匹配或目录无效 | Harness `0.2.2-rc.1` 需将 Dock 更新至 `0.1.2`；仍支持 `0.2.1-rc.5`。旧版已安装副本仍带有原来的版本限制。本地安装时选中含 `package.json` 和 `cordis.patch.yml` 的根目录，确保解压内容完整。 |
+| 宿主不匹配或目录无效 | Harness `0.2.2-rc.1` 需将 Dock 更新至 `0.1.2` 或更新版本；仍支持 `0.2.1-rc.5`。旧版已安装副本仍带有原来的版本限制。本地安装时选中含 `package.json` 和 `cordis.patch.yml` 的根目录，确保解压内容完整。 |
 
 [提交 issue](https://github.com/captainyufei/dsh-dock/issues) 时附 Harness/macOS 版本、填写的来源和安装错误；发布日志前删去私人路径或令牌。
 
@@ -127,7 +127,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 | **草稿与语音** | 附件不跨刷新保留。语音需宿主组件和本机识别资源；`/` 命令及 `@` 候选取决于宿主目录和权限。 |
 | **语言** | README 提供中英文；部分新增界面文案仍为中文，尚未完成全界面国际化。 |
 
-`0.1.2` 仍属于早期 `0.x` 版本；兼容范围明确限制为上述两个宿主版本，后续 Harness 更新仍需重新验证。
+`0.1.3` 仍属于早期 `0.x` 版本；兼容范围明确限制为上述两个宿主版本，后续 Harness 更新仍需重新验证。
 
 置顶会话被隐藏后，原生分组首屏可见行数可能减少；继续展开可查看后续会话。插件使用宿主槽位、服务及部分 DOM 结构，宿主升级后需重新验证，不能保证未来版本自动兼容。
 
@@ -143,7 +143,7 @@ npm run build:client
 
 `npm test` 会先构建再运行测试；运行时共享宿主 React。修改源码后需要重新构建 `dist/client.js`，并通过宿主加载更新。测试结果应以当前提交的实际运行记录为准，模拟演示不代替功能验收。
 
-[架构与状态归属](docs/ARCHITECTURE.md) · [贡献指南](CONTRIBUTING.md) · [版本与发布规则](docs/RELEASING.md) · [更新记录](CHANGELOG.md)
+[架构与状态归属](docs/ARCHITECTURE.md) · [统一窗口框架](docs/SURFACES.md) · [贡献指南](CONTRIBUTING.md) · [版本与发布规则](docs/RELEASING.md) · [更新记录](CHANGELOG.md)
 
 ## 授权与来源
 

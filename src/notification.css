@@ -1,0 +1,60 @@
+/* The seat owns no hit area: only its bell and feed are interactive. In
+   particular, it must not add a no-drag rectangle over the title bar. */
+.cgpt-notification-seat{position:absolute;inset:0;z-index:4;pointer-events:none}
+.cgpt-notifications{display:contents}
+.cgpt-notification-button{position:absolute;top:53px;right:44px;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;border-radius:7px;background:transparent;color:#898e91;cursor:pointer;pointer-events:auto;-webkit-app-region:no-drag}
+.cgpt-notification-button:hover{background:#eceeee;color:#33383b}
+.cgpt-notification-button[aria-expanded="true"]{background:#e0eafb;color:#4389f5}
+.cgpt-notification-button:focus-visible,.cgpt-notification-read-all:focus-visible,.cgpt-notification-item:focus-visible{outline:2px solid var(--dsw-alias-state-business-primary,#5683e9);outline-offset:-2px}
+.cgpt-notification-dot{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#4389f5;box-shadow:0 0 0 1.5px #fafafa;pointer-events:none}
+.cgpt-notification-button[aria-expanded="true"]>.cgpt-notification-dot{box-shadow:0 0 0 1.5px #e0eafb}
+[data-cgpt-rail-nav] button>.cgpt-home-notification-dot{display:block!important;top:7px;right:8px;width:7px;height:7px;box-shadow:0 0 0 1.5px #f2f3f3}
+[data-cgpt-rail-nav] button[aria-current="page"]>.cgpt-home-notification-dot{box-shadow:0 0 0 1.5px #e3e6e6}
+
+/* Keep native scroll/folders mounted. Hide descendants explicitly: a child's
+   own visibility:visible overrides an inherited hidden even when the parent
+   declaration is important. Only the relocated header search is restored.
+   These selectors also outrank the rail's two-attribute visibility rules. */
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region],
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] *{visibility:hidden!important;pointer-events:none!important}
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] [data-cgpt-search-button],
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] [data-cgpt-search-button] *{visibility:visible!important;pointer-events:auto!important}
+.cgpt-notification-feed{position:absolute;top:136px;bottom:8px;left:60px;right:8px;display:flex;flex-direction:column;min-height:0;overflow:hidden;pointer-events:auto;color:var(--dsw-alias-label-primary,#202426);font-size:13px;-webkit-app-region:no-drag}
+.cgpt-notification-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;padding:0 7px 4px 8px;flex-shrink:0}
+.cgpt-notification-heading h2,.cgpt-notification-group-title{margin:0;font-size:12px;line-height:20px;font-weight:400;color:var(--dsw-alias-label-tertiary,#8a9094)}
+.cgpt-notification-read-all{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--dsw-alias-label-secondary,#7b8186);cursor:pointer}
+.cgpt-notification-read-all:hover:not(:disabled){background:#eceeee;color:#33383b}
+.cgpt-notification-read-all:disabled{opacity:.4;cursor:default}
+.cgpt-notification-list{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable;padding:0 0 10px}
+.cgpt-notification-group+.cgpt-notification-group{margin-top:22px}
+.cgpt-notification-group-title{padding:0 8px 7px}
+.cgpt-notification-item{position:relative;display:flex;align-items:flex-start;width:100%;box-sizing:border-box;min-height:55px;gap:9px;margin:0 0 3px;padding:8px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;white-space:normal;cursor:pointer}
+.cgpt-notification-item:hover,.cgpt-notification-item[data-selected]{background:#eceeee}
+.cgpt-notification-item:disabled{cursor:wait;opacity:.75}
+.cgpt-notification-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;text-align:left}
+.cgpt-notification-title-line{display:flex;align-items:baseline;min-width:0;gap:4px}
+.cgpt-notification-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:18px;font-weight:500;color:var(--dsw-alias-label-primary,#202426)}
+.cgpt-notification-workspace{flex:0 3 auto;min-width:0;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#8a9094)}
+.cgpt-notification-excerpt{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:12px;line-height:17px;color:var(--dsw-alias-label-secondary,#81868a);overflow-wrap:anywhere}
+.cgpt-notification-detail{font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary,#8a9094)}
+.cgpt-notification-item-dot{display:block;flex:none;width:6px;height:6px;margin-top:6px;border-radius:50%;background:#4389f5}
+.cgpt-notification-empty{padding:32px 15px;text-align:center;color:var(--dsw-alias-label-secondary,#81868a)}
+.cgpt-notification-empty>svg{width:24px;height:24px;opacity:.7;margin:0 auto 8px}
+.cgpt-notification-empty p{margin:0 0 6px;font-size:13px;color:var(--dsw-alias-label-primary,#202426)}
+.cgpt-notification-empty small{font-size:12px;line-height:1.6}
+.cgpt-notification-error{flex-shrink:0;margin:4px 8px 10px;font-size:12px;line-height:18px;color:var(--dsw-alias-state-error-primary,#bd4b4b)}
+[data-cgpt-rail-frame][data-sidebar-collapsed] .cgpt-notification-seat{visibility:hidden;pointer-events:none}
+[data-cgpt-rail-frame][data-sidebar-collapsed] :is(.cgpt-notification-button,.cgpt-notification-feed){visibility:hidden;pointer-events:none}
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-search-button],
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-search-button] *{visibility:hidden!important;pointer-events:none!important}
+
+[data-ds-dark-theme] .cgpt-notification-button{color:#949b9f}
+[data-ds-dark-theme] .cgpt-notification-button:hover{background:#303436;color:#e6e9eb}
+[data-ds-dark-theme] .cgpt-notification-button[aria-expanded="true"]{background:#25364f;color:#6da2fb}
+[data-ds-dark-theme] .cgpt-notification-dot{box-shadow:0 0 0 1.5px #202223}
+[data-ds-dark-theme] .cgpt-notification-button[aria-expanded="true"]>.cgpt-notification-dot{box-shadow:0 0 0 1.5px #25364f}
+[data-ds-dark-theme] .cgpt-notification-item:hover,[data-ds-dark-theme] .cgpt-notification-item[data-selected],[data-ds-dark-theme] .cgpt-notification-read-all:hover:not(:disabled){background:#303436;color:#e6e9eb}
+[data-ds-dark-theme] [data-cgpt-rail-nav] button>.cgpt-home-notification-dot{box-shadow:0 0 0 1.5px #252728}
+[data-ds-dark-theme] [data-cgpt-rail-nav] button[aria-current="page"]>.cgpt-home-notification-dot{box-shadow:0 0 0 1.5px #363b3d}
+
+.cgpt-notification-notice{flex-shrink:0;margin:4px 8px 10px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary,#81868a)}

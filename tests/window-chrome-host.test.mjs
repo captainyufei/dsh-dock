@@ -48,12 +48,13 @@ function fixture({platform='darwin',fallback=false}={}){
  };
 }
 
-test('the global chrome owns one frame seat, first native drag region and reversible markers without moving Host nodes',()=>{
+test('the global chrome owns its compact frame seats and drag region without moving Host nodes',()=>{
  const f=fixture(),host=mountWindowChrome(f.anchor);
  assert.equal(host.frame,f.frame);assert.equal(host.seat.className,'cgpt-window-chrome-seat');
- assert.equal(host.seat.parentElement,f.frame);assert.equal(f.frame.children.at(-1),host.seat);
+ assert.equal(host.seat.parentElement,f.frame);assert.equal(f.frame.children.at(-2),host.seat);
+ assert.equal(host.navigationSeat.className,'cgpt-window-navigation-seat');assert.equal(f.frame.children.at(-1),host.navigationSeat);
  assert.equal(f.frame.children[0].className,'cgpt-window-drag-strip');
- assert.deepEqual(f.frame.children.slice(1,-1),f.nativeChildren);
+ assert.deepEqual(f.frame.children.slice(1,-2),f.nativeChildren);
  assert.equal(f.frame.getAttribute('data-cgpt-window-frame'),'');
  assert.equal(f.center.getAttribute('data-cgpt-window-center'),'');
  assert.deepEqual(host.presentation.getSnapshot(),{sessionId:null,expanded:false,fullscreen:false});
@@ -107,9 +108,25 @@ test('center fallback works and cleanup restores prior values while retaining la
 
 test('no native drag region is mounted outside macOS and missing global anchors are harmless',()=>{
  const f=fixture({platform:'linux'}),host=mountWindowChrome(f.anchor);
+ assert.equal(host.navigationSeat,null);
  assert.deepEqual(f.frame.children,[...f.nativeChildren,host.seat]);host.dispose();
  assert.equal(mountWindowChrome(null),null);
  assert.equal(mountWindowChrome({closest:()=>null}),null);
+});
+
+test('leading navigation becomes inert only while the native narrow sidebar drawer is open',()=>{
+ const f=fixture(),host=mountWindowChrome(f.anchor);
+ const stop=host.presentation.subscribe(()=>{});
+ assert.equal(host.navigationSeat.hasAttribute('inert'),false);
+ f.frame.setAttribute('data-sidebar-drawer','');f.emit();
+ assert.equal(host.navigationSeat.hasAttribute('inert'),true);
+ f.frame.setAttribute('data-sidebar-collapsed','');f.emit();
+ assert.equal(host.navigationSeat.hasAttribute('inert'),false);
+ f.frame.removeAttribute('data-sidebar-collapsed');f.emit();
+ assert.equal(host.navigationSeat.hasAttribute('inert'),true);
+ f.frame.removeAttribute('data-sidebar-drawer');f.emit();
+ assert.equal(host.navigationSeat.hasAttribute('inert'),false);
+ stop();host.dispose();
 });
 
 test('presentation follows the visible SessionView across page, Session and fullscreen changes',()=>{

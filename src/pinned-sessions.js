@@ -1,4 +1,5 @@
 import React from 'react';
+import {PINNED_SESSION_ROW_ACTIONS} from './pinned-session-actions.js';
 
 const h=React.createElement;
 const NoTooltip=({children})=>children;
@@ -23,7 +24,7 @@ export function mountPinnedSessionsSeat(anchor){
  return {node,dispose:()=>node.remove()};
 }
 
-export function PinnedSessions({model,labels={},StateDot,Tooltip=NoTooltip}){
+export function PinnedSessions({model,labels={},StateDot,Tooltip=NoTooltip,renderSlot}){
  const snapshot=React.useSyncExternalStore(model.subscribe,model.getSnapshot,model.getSnapshot);
  const [busy,setBusy]=React.useState(new Set());
  const [error,setError]=React.useState('');
@@ -66,12 +67,14 @@ export function PinnedSessions({model,labels={},StateDot,Tooltip=NoTooltip}){
      row.running&&h('span',{className:'cgpt-pinned-status',role:'img','aria-label':runningLabel,title:runningLabel},
       StateDot?h(StateDot,{state:'ongoing'}):h('span',{className:'cgpt-pinned-spinner','aria-hidden':true})),
      h('span',{className:'cgpt-pinned-title'},row.title)),
-    h(Tooltip,{label:unpinLabel,side:'left',delayMs:400},h('button',{
+    h('div',{className:'cgpt-pinned-actions'},
+     renderSlot?.(PINNED_SESSION_ROW_ACTIONS,{sessionId:row.id,displayTitle:row.title}),
+     h(Tooltip,{label:unpinLabel,side:'left',delayMs:400},h('button',{
      type:'button',className:'cgpt-pinned-unpin',
      'aria-label':unpinLabel+'：'+row.title,disabled:busy.has(row.id),
      onClick:()=>unpin(row.id),
     },h('svg',{width:16,height:16,viewBox:'0 0 24 24',fill:'currentColor','aria-hidden':true},
-     h('path',{transform:'rotate(40 12 12)',d:'M8 2h8a1 1 0 0 1 0 2h-1v5.2l2.8 3.1a1 1 0 0 1-.8 1.7H13v6.5L12 22l-1-1.5V14H7a1 1 0 0 1-.8-1.7L9 9.2V4H8a1 1 0 0 1 0-2Z'})))),
+     h('path',{transform:'rotate(40 12 12)',d:'M8 2h8a1 1 0 0 1 0 2h-1v5.2l2.8 3.1a1 1 0 0 1-.8 1.7H13v6.5L12 22l-1-1.5V14H7a1 1 0 0 1-.8-1.7L9 9.2V4H8a1 1 0 0 1 0-2Z'}))))),
    ))),
   error&&h('div',{className:'cgpt-pinned-error',role:'alert'},error),
  );

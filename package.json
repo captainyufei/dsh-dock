@@ -1,6 +1,6 @@
 {
   "name": "@captainyufei/dsh-dock",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
@@ -15,7 +15,7 @@
     "react-test-renderer": "^18.3.1",
     "semver": "7.8.6"
   },
-  "description": "Codex-inspired UI for DeepSeek Harness with a persistent customizable left Dock, cross-workspace pinned chats, a draft-first home, and side-panel video previews.",
+  "description": "Application Dock, global search, completion inbox, navigation history, draft-first Home and side-panel video previews for DeepSeek Harness.",
   "exports": {
     ".": "./dist/index.js",
     "./client": "./dist/client.js",

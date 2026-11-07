@@ -24,4 +24,6 @@ test('the built plugin registers valid list contributions without touching Sessi
  assert.ok(registered.find(x=>x.options.name==='main'&&x.options.key==='home'));
  assert.ok(registered.find(x=>x.options.name==='shell.overlay'&&x.options.id==='chatgpt-rail.window-chrome'));
  assert.ok(registered.find(x=>x.options.name==='sidebar.panellist').options.children['chatgptRail.session.contextMenu']);
+ assert.deepEqual(Object.keys(registered.find(x=>x.options.name==='sidebar.panellist').options.children['chatgptRail.pinnedSession.row.action']).sort(),['kind','scope']);
+ assert.equal(registered.find(x=>x.options.name==='sidebar.panellist').options.children['chatgptRail.pinnedSession.row.action'].kind,'list');
 });

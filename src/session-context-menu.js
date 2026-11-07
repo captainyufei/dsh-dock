@@ -31,23 +31,46 @@ export function mirrorNativeSessionMenu(slots){
 }
 
 /** Transient presentation state; opening a menu never opens or creates a chat. */
-export function createSessionContextController({sessions}){
+export function createSessionContextController(ctx){
+ const {sessions}=ctx;
  let snapshot=null;
+ let nativeMenu=null;
  const listeners=new Set();
  const publish=value=>{snapshot=value;for(const listener of [...listeners])listener();};
+ const closeNative=()=>{
+  const owned=nativeMenu;
+  nativeMenu=null;
+  // A different trigger can open even the same Session. Only dismiss the
+  // exact occurrence we opened, never another feature's shared menu.
+  if(owned&&owned.service.active.getSnapshot()===owned.target)owned.service.close();
+ };
  return {
   getSnapshot:()=>snapshot,
   subscribe(listener){listeners.add(listener);return()=>listeners.delete(listener);},
   open({sessionId,x,y,trigger}){
    const summary=sessions.list.getSnapshot().byId?.[sessionId];
    if(!summary||summary.blank)return false;
+   const target={kind:'session',value:{sessionId,displayTitle:summary.title||summary.projectionValues?.title||''}};
+   const point={x:Number.isFinite(x)?Math.max(0,x):0,y:Number.isFinite(y)?Math.max(0,y):0};
    trigger?.focus?.({preventScroll:true});
-   publish({sessionId,displayTitle:summary.title||summary.projectionValues?.title||'',
-    x:Number.isFinite(x)?Math.max(0,x):0,y:Number.isFinite(y)?Math.max(0,y):0,trigger});
+   // Harness 0.2.2 moved its built-in actions out of the legacy menu Slot.
+   // Cordis get() is optional and does not require an injected service, so
+   // old hosts still load. Resolve per gesture to follow provider reloads.
+   const service=ctx.get?.('contextMenus');
+   if(typeof service?.open==='function'&&typeof service.close==='function'&&typeof service.active?.getSnapshot==='function'){
+    if(snapshot!==null)publish(null);
+    // Let the Host own repeated-gesture toggling, permissions, contributions,
+    // dialogs and focus return; do not mount a second legacy popup.
+    service.open(target,point);
+    nativeMenu=service.active.getSnapshot()===target?{service,target}:null;
+   }else{
+    closeNative();
+    publish({...target.value,...point,trigger});
+   }
    return true;
   },
-  close(){if(snapshot!==null)publish(null);},
-  dispose(){listeners.clear();snapshot=null;},
+  close(){closeNative();if(snapshot!==null)publish(null);},
+  dispose(){closeNative();listeners.clear();snapshot=null;},
  };
 }
 

@@ -4,7 +4,7 @@
 |---|---|---|
 | Display name | ChatGPT 风格图标栏 / DeepSeek 工作台 | DeepSeek Dock |
 | Package | `@local/chatgpt-rail` | `@captainyufei/dsh-dock` |
-| Version line | Up to `2.7.1` | Started at `0.1.0-beta.1`; current line `0.1.1` |
+| Version line | Up to `2.7.1` | Started at `0.1.0-beta.1`; current line `0.2.0` |
 
 这是两个不同的包身份。新编号不代表功能退回，也不能依赖旧包的自动更新跨包迁移。
 
@@ -38,3 +38,13 @@ These are different package identities. The new version number does not remove e
 停用 DeepSeek Dock 后重新启用保存的旧版；不要同时启用。旧版本的兼容性仍以它原来支持的宿主版本为准。
 
 Disable DeepSeek Dock before re-enabling the saved old package. Do not enable both. The old package still requires the host version it originally supported.
+
+## 已有安装升级 / Updating an existing installation
+
+通过插件管理器或官方 CLI 更新同名依赖，使安装来源与锁文件一起更新。仅复制文件到 `node_modules` 不会更新依赖记录，后续安装其他插件时可能被旧版本覆盖。本地目录或安装包作为来源时需保留该路径。
+
+Update the same package through the plugin manager or official CLI so the manifest and lockfile record its source. Copying files into `node_modules` alone is temporary: a later dependency operation can restore the old locked package. Keep a local directory or tarball when it remains the saved installation source.
+
+升级保留原 Dock 排序、首页草稿与会话数据。应用最近使用记录和返回/前进历史属于当前窗口；通知已读记录保存在同一 profile 的本地数据中。
+
+The update preserves Dock order, drafts and native chat data. Recent apps and Back/Forward history belong to the current window; inbox acknowledgements persist in the same profile's local data.

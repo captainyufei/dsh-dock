@@ -2,6 +2,23 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
+## 0.2.0 — 2026-11-08
+
+- Add an application Dock with monochrome icons, searchable All Apps, pinning/reordering and recent unpinned applications. Remove the six-icon presentation limit.
+- Add a centered global search palette for chat titles, workspaces and quick actions, plus Host-indexed chat text when available. Preserve title search when the body index is disabled.
+- Add a persistent completion inbox from committed session events, answer excerpts, pending native interactions and shared Home/bell unread dots. Keep read results and show legacy-history read failures separately.
+- Add macOS Back/Forward beside the native sidebar toggle, tracking global pages and existing chats in the current window.
+- Keep sidebar geometry alive across collapse/open rerenders for smoother transitions.
+- Restore the native session context-menu service on Harness 0.2.2 and reuse the native archive action in pinned rows.
+- Accept Dock drops in icon gaps, clear drag state on release/cancel/Escape, and replace rounded blue drop shadows with neutral insertion lines and unclipped keyboard focus.
+- Document package-manager upgrades so the manifest and lockfile persist the selected version instead of losing manual node_modules replacements.
+
+完整功能版：应用 Dock、全部应用、固定排序、最近使用、全局搜索、完成通知历史和未读蓝点、返回/前进与更顺滑的侧栏开合。同步修复会话右键菜单、置顶行原生归档入口、图标间距松手排序，以及蓝色框样式。
+
+New interactions were checked on macOS / Harness `0.2.2-rc.1`; `0.2.1-rc.5` stays in the declared compatibility range without a new full visual pass. The application Dock opens registered main pages; backend-only plugins stay in the plugin manager. Navigation history resets on reload, body search requires the Host index, and unreadable legacy logs may leave some completion history unavailable. Existing simulated demo media shows the earlier feature set.
+
+新增交互在 macOS / Harness `0.2.2-rc.1` 验证；保留旧宿主声明但未重新完成其完整视觉验收。应用栏覆盖有主页面的插件；返回/前进在刷新后重置，正文搜索依赖宿主索引，部分旧日志可能无法读取完成记录。演示素材仍展示较早版本的功能。
+
 ## 0.1.3 — 2026-11-07
 
 - Keep global pages and native conversations inside the shared window frame, with consistent bottom/trailing gutters and corner behavior when side panels open or close.

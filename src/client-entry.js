@@ -6,28 +6,41 @@ import {createHostAdapter} from './host-adapter.js';
 import {createNativeControls} from './native-controls.js';
 import {HomePage,Glyph} from './home-ui.js';
 import {sessionMention} from './references.js';
-import {wireRailLayout} from './rail-layout.js';
+import {wireRailLayout,wireRailGeometry} from './rail-layout.js';
 import {createPinnedSessionsModel} from './pinned-sessions-model.js';
 import {PinnedSessions,mountPinnedSessionsSeat} from './pinned-sessions.js';
+import {NATIVE_SESSION_ROW_ACTIONS,PINNED_SESSION_ROW_ACTIONS,mirrorNativePinnedActions} from './pinned-session-actions.js';
 import {wireSessionContextEvents} from './session-context-events.js';
 import {NATIVE_SESSION_MENU,SESSION_CONTEXT_MENU,mirrorNativeSessionMenu,createSessionContextController,mountSessionContextSeat,SessionContextMenu} from './session-context-menu.js';
 import {createRailNavigationModel} from './rail-navigation-model.js';
 import {RailActionButtons,RailOverflowContent,mountRailActionsSeat} from './rail-navigation.js';
 import {createDockPreferences} from './rail-dock-preferences.js';
 import {createNativePanelPinsSource} from './rail-native-pins.js';
-import {RailDockControls} from './rail-dock-ui.js';
 import {GlobalWindowChrome} from './window-chrome-ui.js';
+import {createAppDockModel} from './app-dock-model.js';
+import {mountAppDockSeat} from './app-dock-host.js';
+import {AppDock} from './app-dock-ui.js';
+import {createGlobalSearchModel} from './global-search-model.js';
+import {GlobalSearchPalette} from './global-search-ui.js';
+import {wireGlobalSearchEntry} from './global-search-entry.js';
+import {createNotificationModel} from './notification-model.js';
+import {NotificationBell,mountNotificationSeat} from './notification-ui.js';
 import {installVideoPreview} from './video-preview.js';
 import HOME_CSS from './home.css';
 import RAIL_CSS from './rail.css';
+import SEARCH_CSS from './global-search.css';
+import APP_DOCK_CSS from './app-dock.css';
+import NOTIFICATION_CSS from './notification.css';
 const h=React.createElement;
 const STORAGE='cgpt-rail.home-draft.v2';
 function readDraft(){try{return JSON.parse(localStorage.getItem(STORAGE)||'{}');}catch{return {};}}
-function HomeIcon({size=18,layout,slots,getRailLabels,pinnedModel,sessionContext,renderSlot,navigationModel}){
+function HomeIcon({size=18,layout,slots,getRailLabels,pinnedModel,sessionContext,renderSlot,navigationModel,appDockModel,notificationModel}){
  const ref=React.useRef(null);
  const [pinnedSeat,setPinnedSeat]=React.useState(null);
  const [contextSeat,setContextSeat]=React.useState(null);
  const [actionSeat,setActionSeat]=React.useState(null);
+ const [appSeat,setAppSeat]=React.useState(null);
+ const [notificationSeat,setNotificationSeat]=React.useState(null);
  const navigation=React.useSyncExternalStore(navigationModel.subscribe,navigationModel.getSnapshot,navigationModel.getSnapshot);
  const preferredWidth=React.useRef(392);
  const [rosterRevision,setRosterRevision]=React.useState(0);
@@ -47,6 +60,14 @@ function HomeIcon({size=18,layout,slots,getRailLabels,pinnedModel,sessionContext
   return()=>seat?.dispose();
  },[navigationModel]);
  React.useLayoutEffect(()=>{
+  const seat=mountAppDockSeat(ref.current,appDockModel);setAppSeat(seat?.node||null);
+  return()=>seat?.dispose();
+ },[appDockModel]);
+ React.useLayoutEffect(()=>{
+  const seat=mountNotificationSeat(ref.current,notificationModel);setNotificationSeat(seat?.node||null);
+  return()=>seat?.dispose();
+ },[notificationModel]);
+ React.useLayoutEffect(()=>{
   const document=ref.current?.ownerDocument;
   const region=ref.current?.closest('nav')?.parentElement?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
   if(!document||!region)return;
@@ -60,19 +81,33 @@ function HomeIcon({size=18,layout,slots,getRailLabels,pinnedModel,sessionContext
   return()=>{sessionContext.close();stop();seat.dispose();};
  },[sessionContext,getRailLabels]);
  React.useLayoutEffect(()=>{
-  return wireRailLayout(ref.current,{expanded:size<=16,labels:getRailLabels(),preferredWidth:preferredWidth.current,setWidth:width=>layout.panels.setSidebar(width),onWidth:width=>{preferredWidth.current=width;},navigation});
+  return wireRailLayout(ref.current,{labels:getRailLabels(),navigation});
  },[size,layout,getRailLabels,rosterRevision,navigation]);
+ // The Host changes icon size after its collapse fade. Keep grid ownership
+ // alive across that rerender so it cannot cancel the in-flight transition.
+ React.useLayoutEffect(()=>wireRailGeometry(ref.current,{
+  preferredWidth:preferredWidth.current,setWidth:width=>layout.panels.setSidebar(width),
+  onWidth:width=>{preferredWidth.current=width;},
+ }),[layout]);
  return h(React.Fragment,null,
   h('span',{ref,style:{display:'flex'}},h('svg',{width:size,height:size,viewBox:'0 0 20 20','aria-hidden':true,fill:'currentColor'},h('path',{d:'M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z'}))),
-  pinnedSeat&&createPortal(h(PinnedSessions,{model:pinnedModel,labels:getRailLabels(),StateDot:NativeStateDot,Tooltip:NativeTooltip}),pinnedSeat),
+  pinnedSeat&&createPortal(h(PinnedSessions,{model:pinnedModel,labels:getRailLabels(),StateDot:NativeStateDot,Tooltip:NativeTooltip,renderSlot}),pinnedSeat),
   contextSeat&&createPortal(h(SessionContextMenu,{controller:sessionContext,renderSlot,Menu:NativeMenu}),contextSeat),
-  contextSeat&&createPortal(h(RailDockControls,{anchorRef:ref,navigationModel,Menu:NativeMenu,MenuItem:NativeMenuItem,Modal:NativeModal}),contextSeat),
+  appSeat&&createPortal(h(AppDock,{model:appDockModel,notificationModel,Modal:NativeModal,Menu:NativeMenu,MenuItem:NativeMenuItem,Tooltip:NativeTooltip}),appSeat),
+  notificationSeat&&createPortal(h(NotificationBell,{model:notificationModel,Menu:NativeMenu,MenuItem:NativeMenuItem}),notificationSeat),
   actionSeat&&createPortal(h(RailActionButtons,{navigationModel}),actionSeat),
  );
 }
 function CompactBrand(){return h('span',null,'DeepSeek');}
+function GlobalSearchShell({ctx,model,Modal,getSearchLabel}){
+ React.useLayoutEffect(()=>{
+  let shortcuts;try{shortcuts=ctx.get('shortcuts');}catch{}
+  return wireGlobalSearchEntry({document,shortcuts,open:()=>model.open(),getSearchLabel});
+ },[ctx,model,getSearchLabel]);
+ return h(GlobalSearchPalette,{model,Modal});
+}
 export default {
- inject:['slots','locale','layout','sessions','workspaces','conversation','uiWorkspace','remote','remote.session','remote.permissionPresets','remote.agentPresets','remote.commands'],
+ inject:['slots','locale','layout','sessions','workspaces','conversation','uiWorkspace','uiSession','remote','remote.session','remote.permissionPresets','remote.agentPresets','remote.commands'],
  apply(ctx){
   installVideoPreview(ctx);
   const controller=createDraftController(readDraft());
@@ -80,6 +115,13 @@ export default {
   const controls=createNativeControls(ctx,React);
   const pinnedModel=createPinnedSessionsModel(ctx);
   const sessionContext=createSessionContextController(ctx);
+  const notificationModel=createNotificationModel(ctx);
+  ctx.effect(()=>()=>notificationModel.dispose(),'chatgpt-rail:notifications');
+  const searchModel=createGlobalSearchModel(ctx,{
+   openHome:()=>ctx.layout.selectPanel('home'),
+   openWorkspace:workspaceId=>{controller.update({workspaceId});ctx.layout.selectPanel('home');},
+  });
+  ctx.effect(()=>()=>searchModel.dispose(),'chatgpt-rail:global-search');
   ctx.effect(()=>()=>sessionContext.dispose(),'chatgpt-rail:session-context');
   adapter.listSessionReferences=()=>{
    const snapshot=ctx.sessions.list.getSnapshot();
@@ -96,8 +138,10 @@ export default {
    const t=ctx.locale.bind('chatgptRail');
    return {browsePlugins:t('nav.browse'),createPlugin:t('nav.create'),settings:t('nav.settings')};
   }});
+  const appDockModel=createAppDockModel({navigationModel,slots:ctx.slots,layout:ctx.layout});
+  ctx.effect(()=>()=>appDockModel.dispose(),'chatgpt-rail:app-dock');
   ctx.effect(()=>{
-   const tag=document.createElement('style');tag.dataset.cgptRailStyle='2';tag.textContent=RAIL_CSS+'\n'+HOME_CSS;document.head.appendChild(tag);return()=>tag.remove();
+   const tag=document.createElement('style');tag.dataset.cgptRailStyle='2';tag.textContent=RAIL_CSS+'\n'+HOME_CSS+'\n'+SEARCH_CSS+'\n'+APP_DOCK_CSS+'\n'+NOTIFICATION_CSS;document.head.appendChild(tag);return()=>tag.remove();
   },'chatgpt-rail:styles');
   ctx.effect(()=>{
    let previous='';
@@ -115,16 +159,21 @@ export default {
    name:'shell.overlay',id:'chatgpt-rail.window-chrome',
    inject:()=>({ctx,Menu:NativeMenu,MenuItem:NativeMenuItem,Modal:NativeModal}),
   },GlobalWindowChrome));
-  ctx.slots.inject('sidebar.panellist',()=>ctx.slots.inject(NATIVE_SESSION_MENU,()=>{
+  const getSearchLabel=()=>getRailLabels().search;
+  ctx.slots.inject('shell.overlay',()=>ctx.slots.register({
+   name:'shell.overlay',id:'chatgpt-rail.global-search',
+   inject:()=>({ctx,model:searchModel,Modal:NativeModal,getSearchLabel}),
+  },GlobalSearchShell));
+  ctx.slots.inject('sidebar.panellist',()=>ctx.slots.inject(NATIVE_SESSION_MENU,()=>ctx.slots.inject(NATIVE_SESSION_ROW_ACTIONS,()=>{
    const nativeSpec=ctx.slots.spec(NATIVE_SESSION_MENU);
    const stopHome=ctx.slots.register({name:'sidebar.panellist',id:'home',order:-10,locale:'chatgptRail',label:()=>ctx.locale.bind('chatgptRail')('panel.home'),
-    children:{[SESSION_CONTEXT_MENU]:{kind:'list',scope:'root',inject:nativeSpec.inject}},
-    inject:()=>({layout:ctx.layout,slots:ctx.slots,getRailLabels,pinnedModel,sessionContext,navigationModel}),
+    children:{[SESSION_CONTEXT_MENU]:{kind:'list',scope:'root',inject:nativeSpec.inject},[PINNED_SESSION_ROW_ACTIONS]:{kind:'list',scope:'root'}},
+    inject:()=>({layout:ctx.layout,slots:ctx.slots,getRailLabels,pinnedModel,sessionContext,navigationModel,appDockModel,notificationModel}),
    },HomeIcon);
-   let stopMenu;
-   try{stopMenu=mirrorNativeSessionMenu(ctx.slots);}catch(error){stopHome();throw error;}
-   return()=>{stopMenu();stopHome();};
-  }));
+   let stopMenu,stopPinnedActions;
+   try{stopMenu=mirrorNativeSessionMenu(ctx.slots);stopPinnedActions=mirrorNativePinnedActions(ctx.slots);}catch(error){stopPinnedActions?.();stopMenu?.();stopHome();throw error;}
+   return()=>{stopPinnedActions();stopMenu();stopHome();};
+  })));
   ctx.slots.inject('sidebar.panellist.actions',()=>ctx.slots.register({
    name:'sidebar.panellist.actions',id:'entry-customization',priority:-20,
    inject:()=>({navigationModel,MenuItem:NativeMenuItem}),

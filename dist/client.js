@@ -33,7 +33,7 @@ __export(client_entry_exports, {
   default: () => client_entry_default
 });
 module.exports = __toCommonJS(client_entry_exports);
-var import_react8 = __toESM(require("react"), 1);
+var import_react10 = __toESM(require("react"), 1);
 var import_react_dom2 = require("react-dom");
 var import_dsh_client_ui_primitives = require("@deepseek-ai/dsh-client-ui-primitives");
 
@@ -220,7 +220,7 @@ function createDraftController(initialState = {}, options = {}) {
       return () => listeners.delete(listener);
     },
     update,
-    setText: (text2) => update({ text: text2 }),
+    setText: (text4) => update({ text: text4 }),
     addFiles,
     removeFile,
     submit,
@@ -572,8 +572,8 @@ function createHostAdapter(ctx, options = {}) {
 }
 
 // native-controls.js
-function createNativeControls(ctx, React9, helpers = {}) {
-  const h9 = React9.createElement;
+function createNativeControls(ctx, React11, helpers = {}) {
+  const h11 = React11.createElement;
   const VOICE_SLOT = "conversation.input.activity";
   const cache = /* @__PURE__ */ new WeakMap();
   let nextVoiceId = 0;
@@ -606,8 +606,8 @@ function createNativeControls(ctx, React9, helpers = {}) {
         throw new Error("\u5F53\u524D\u8BED\u97F3\u63D2\u4EF6\u63A5\u53E3\u4E0E\u9996\u9875\u4E0D\u517C\u5BB9\uFF0C\u8BF7\u66F4\u65B0\u9996\u9875\u63D2\u4EF6\u6216\u8FD4\u56DE\u4F1A\u8BDD\u4F7F\u7528\u8BED\u97F3\u8F93\u5165\u3002");
       }
       const actions = entry.inject();
-      const source = actions?.hooks?.speechReadiness;
-      if (typeof actions?.createRecording !== "function" || typeof actions?.transcribe !== "function" || typeof actions?.openSettings !== "function" || typeof source?.getSnapshot !== "function" || typeof source?.subscribe !== "function") {
+      const source2 = actions?.hooks?.speechReadiness;
+      if (typeof actions?.createRecording !== "function" || typeof actions?.transcribe !== "function" || typeof actions?.openSettings !== "function" || typeof source2?.getSnapshot !== "function" || typeof source2?.subscribe !== "function") {
         throw new Error("\u5F53\u524D\u8BED\u97F3\u63D2\u4EF6\u63A5\u53E3\u5DF2\u53D8\u5316\uFF0C\u9996\u9875\u8BED\u97F3\u6682\u4E0D\u53EF\u7528\u3002\u8BF7\u66F4\u65B0\u9996\u9875\u63D2\u4EF6\u3002");
       }
       const { hooks, ...actionProps } = actions;
@@ -619,7 +619,7 @@ function createNativeControls(ctx, React9, helpers = {}) {
         const subscribe = (listener) => store.subscribe(listener);
         const getSnapshot = () => store.getSnapshot();
         hookProps["use" + name[0].toUpperCase() + name.slice(1)] = function useVoiceSource(select = identity) {
-          return select(React9.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
+          return select(React11.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
         };
       }
       result = {
@@ -639,7 +639,7 @@ function createNativeControls(ctx, React9, helpers = {}) {
     return result;
   }
   function useSlotEntries(key) {
-    const subscribe = React9.useCallback((listener) => {
+    const subscribe = React11.useCallback((listener) => {
       if (typeof ctx.slots?.subscribe !== "function") return noop;
       try {
         return ctx.slots.subscribe(key, listener);
@@ -647,23 +647,23 @@ function createNativeControls(ctx, React9, helpers = {}) {
         return noop;
       }
     }, [key]);
-    const getSnapshot = React9.useCallback(() => {
+    const getSnapshot = React11.useCallback(() => {
       try {
         return ctx.slots.entries(key);
       } catch (_) {
         return [];
       }
     }, [key]);
-    const empty = React9.useRef([]);
-    const read = React9.useCallback(() => {
+    const empty = React11.useRef([]);
+    const read2 = React11.useCallback(() => {
       const value = getSnapshot();
       if (value.length === empty.current.length && value.every((entry, index) => entry === empty.current[index])) return empty.current;
       empty.current = value;
       return value;
     }, [getSnapshot]);
-    return React9.useSyncExternalStore(subscribe, read, read);
+    return React11.useSyncExternalStore(subscribe, read2, read2);
   }
-  class VoiceBoundary extends React9.Component {
+  class VoiceBoundary extends React11.Component {
     constructor(props) {
       super(props);
       this.state = { error: null };
@@ -676,7 +676,7 @@ function createNativeControls(ctx, React9, helpers = {}) {
     }
     render() {
       if (this.state.error) {
-        return h9(
+        return h11(
           "span",
           { role: "alert", className: "cgpt-home-control-error" },
           "\u9996\u9875\u8BED\u97F3\u6682\u4E0D\u53EF\u7528\uFF1A" + this.state.error
@@ -696,11 +696,11 @@ function createNativeControls(ctx, React9, helpers = {}) {
     className = ""
   }) {
     const list = useSlotEntries(VOICE_SLOT);
-    const voice = React9.useMemo(() => resolveVoice(list), [list]);
-    const [notice, setNotice] = React9.useState("");
-    const owner = React9.useRef({ locked, onError });
+    const voice = React11.useMemo(() => resolveVoice(list), [list]);
+    const [notice, setNotice] = React11.useState("");
+    const owner = React11.useRef({ locked, onError });
     owner.current = { locked, onError };
-    const localActions = React9.useMemo(() => {
+    const localActions = React11.useMemo(() => {
       if (inputActions) return inputActions;
       if (typeof controller?.getSnapshot !== "function" || typeof controller?.setText !== "function") return null;
       return createTextareaInputActions({
@@ -710,9 +710,9 @@ function createNativeControls(ctx, React9, helpers = {}) {
           const snapshot2 = controller.getSnapshot();
           return snapshot2.textRevision ?? snapshot2.draftRev ?? snapshot2;
         },
-        setText: (text2) => {
+        setText: (text4) => {
           try {
-            controller.setText(text2);
+            controller.setText(text4);
             return true;
           } catch (error) {
             report(error, owner.current.onError);
@@ -723,15 +723,15 @@ function createNativeControls(ctx, React9, helpers = {}) {
       });
     }, [inputActions, controller, textareaRef]);
     const validInput = typeof localActions?.captureInsertion === "function" && typeof localActions?.insertText === "function";
-    React9.useEffect(() => {
+    React11.useEffect(() => {
       setNotice("");
     }, [list]);
     const reason = voice.available && validInput ? null : voice.available ? "\u9996\u9875\u8BED\u97F3\u8349\u7A3F\u63A5\u53E3\u672A\u5C31\u7EEA\uFF0C\u8BF7\u91CD\u65B0\u6253\u5F00\u9996\u9875\u3002" : voice.reason;
     if (reason) {
-      return h9(
+      return h11(
         "span",
         { className: "cgpt-home-voice-unavailable " + className },
-        h9("button", {
+        h11("button", {
           type: "button",
           title: reason,
           "aria-label": "\u8BED\u97F3\u8F93\u5165\u4E0D\u53EF\u7528",
@@ -741,16 +741,16 @@ function createNativeControls(ctx, React9, helpers = {}) {
             report(reason, onError);
           }
         }, "\u8BED\u97F3"),
-        notice ? h9("span", { role: "status", className: "cgpt-home-control-error" }, notice) : null
+        notice ? h11("span", { role: "status", className: "cgpt-home-control-error" }, notice) : null
       );
     }
-    return h9(
+    return h11(
       "span",
       { className: "cgpt-home-native-voice " + className },
-      h9(
+      h11(
         VoiceBoundary,
         { key: draftKey + ":" + voice.id, onError },
-        h9(voice.component, {
+        h11(voice.component, {
           ...voice.props,
           sessionId: void 0,
           inputActions: localActions,
@@ -770,20 +770,20 @@ function createNativeControls(ctx, React9, helpers = {}) {
     const owner = /* @__PURE__ */ Symbol("home-textarea");
     return {
       captureInsertion() {
-        const text2 = String(getText() ?? "");
+        const text4 = String(getText() ?? "");
         const element = textareaRef?.current;
         return {
-          start: element?.selectionStart ?? text2.length,
-          end: element?.selectionEnd ?? text2.length,
+          start: element?.selectionStart ?? text4.length,
+          end: element?.selectionEnd ?? text4.length,
           draftRev: getRevision(),
           owner
         };
       },
-      insertText(text2, span) {
+      insertText(text4, span) {
         if (isLocked() || !span || span.owner !== owner || span.draftRev !== getRevision()) return false;
         const before = String(getText() ?? "");
         if (!Number.isInteger(span.start) || !Number.isInteger(span.end) || span.start < 0 || span.end < span.start || span.end > before.length) return false;
-        const insertion = String(text2);
+        const insertion = String(text4);
         const next = before.slice(0, span.start) + insertion + before.slice(span.end);
         if (setText(next) === false) return false;
         const caret = span.start + insertion.length;
@@ -805,10 +805,10 @@ function createNativeControls(ctx, React9, helpers = {}) {
   function BrandMark({ size = 64, className = "" }) {
     const list = useSlotEntries("sidebar.brand.mark");
     const entry = list.find((candidate) => candidate.component?.name === "OfficialBrandMark" || String(candidate.registrant ?? "").includes("ui-brand-official"));
-    return h9(
+    return h11(
       "span",
       { className: "cgpt-home-brand " + className, "aria-hidden": true },
-      entry ? h9(entry.component, { size }) : h9("span", { style: { fontSize: size / 3 } }, "DeepSeek")
+      entry ? h11(entry.component, { size }) : h11("span", { style: { fontSize: size / 3 } }, "DeepSeek")
     );
   }
   return { VoiceControl, BrandMark, createTextareaInputActions, getCapabilities };
@@ -939,18 +939,18 @@ function HomePage({ controller, adapter, VoiceControl, BrandMark }) {
       if (mounted.current) report(e);
     }
   };
-  const insert = (text2) => {
+  const insert = (text4) => {
     const node = textareaRef.current, snapshot2 = controller.getSnapshot();
     let start = node?.selectionStart ?? snapshot2.text.length;
     const end = node?.selectionEnd ?? start;
     const trigger = snapshot2.text.slice(0, start).match(/(?:^|\s)(@[^\s@]*)$/u);
     if (trigger) start -= trigger[1].length;
     try {
-      controller.setText(snapshot2.text.slice(0, start) + text2 + snapshot2.text.slice(end));
+      controller.setText(snapshot2.text.slice(0, start) + text4 + snapshot2.text.slice(end));
       setMenu(null);
       setTimeout(() => {
         node?.focus();
-        node?.setSelectionRange(start + text2.length, start + text2.length);
+        node?.setSelectionRange(start + text4.length, start + text4.length);
       }, 0);
     } catch (e) {
       report(e);
@@ -1171,7 +1171,115 @@ function sessionMention(sessionId, label) {
 }
 
 // rail-layout.js
-function wireRailLayout(anchor, { expanded, labels = {}, onWidth, preferredWidth = 392, setWidth, navigation } = {}) {
+function wireRailGeometry(anchor, { preferredWidth = 392, setWidth, onWidth } = {}) {
+  const root = anchor?.closest?.("nav")?.parentElement;
+  const column = root?.closest?.('[data-slot="sidebar"]')?.parentElement;
+  const frame = column?.parentElement;
+  if (!frame?.style) return () => {
+  };
+  const owned = [];
+  for (const [node, name] of [[column, "data-cgpt-rail-column"], [frame, "data-cgpt-rail-frame"]]) {
+    const before = node.getAttribute(name);
+    node.setAttribute(name, "");
+    owned.push(() => {
+      if (node.getAttribute(name) !== "") return;
+      if (before === null) node.removeAttribute(name);
+      else node.setAttribute(name, before);
+    });
+  }
+  const properties = new Map(["--cgpt-rail-columns", "--cgpt-rail-content-width"].map((name) => [name, {
+    before: frame.style.getPropertyValue(name),
+    priority: frame.style.getPropertyPriority(name),
+    installed: null
+  }]));
+  const write = (name, value) => {
+    properties.get(name).installed = value;
+    if (frame.style.getPropertyValue(name) !== value) frame.style.setProperty(name, value);
+  };
+  owned.push(() => {
+    for (const [name, { before, priority, installed }] of properties) {
+      if (installed === null || frame.style.getPropertyValue(name) !== installed) continue;
+      if (before) frame.style.setProperty(name, before, priority);
+      else frame.style.removeProperty(name);
+    }
+  });
+  const validWidth = (value) => Number.isFinite(value) && value >= 264 && value <= 420;
+  let preferred = validWidth(preferredWidth) ? Math.round(preferredWidth) : 392;
+  let disposed = false, lastNative, lastCollapsed, lastDrawer, lastDragging = false, frameWidth, restoreTarget;
+  const sync = (resized = false, records = []) => {
+    if (disposed) return;
+    const native = frame.style.gridTemplateColumns;
+    const collapsed = frame.hasAttribute("data-sidebar-collapsed");
+    const drawer = frame.hasAttribute("data-sidebar-drawer"), dragging = frame.hasAttribute("data-dragging");
+    if (!resized && native === lastNative && collapsed === lastCollapsed && drawer === lastDrawer && dragging === lastDragging) return;
+    const tracks = native.match(/^(\d+(?:\.\d+)?)px\s+minmax\((\d+(?:\.\d+)?)px,\s*1fr\)\s+minmax\(0px,\s*(\d+(?:\.\d+)?)px\)$/);
+    if (!tracks) return;
+    const nativeLeading = Number(tracks[1]), nativeMinimum = Number(tracks[2]), nativeRight = Number(tracks[3]);
+    const wasDragging = lastDragging || records.some((record) => record.attributeName === "data-dragging" && record.oldValue !== null);
+    const changedWidth = native !== lastNative;
+    const changedToggle = lastCollapsed !== void 0 && collapsed !== lastCollapsed;
+    let notifyWidth;
+    if (!drawer && !collapsed && !changedToggle && (dragging || wasDragging) && changedWidth && validWidth(nativeLeading) && preferred !== Math.round(nativeLeading)) {
+      preferred = Math.round(nativeLeading);
+      notifyWidth = preferred;
+    }
+    lastNative = native;
+    lastCollapsed = collapsed;
+    lastDrawer = drawer;
+    lastDragging = dragging;
+    if (drawer) {
+      restoreTarget = void 0;
+      const drawerWidth = Number.parseFloat(column.style.width);
+      write("--cgpt-rail-content-width", (Number.isFinite(drawerWidth) ? drawerWidth : preferred) + "px");
+      write("--cgpt-rail-columns", native);
+      return;
+    }
+    const constrained = nativeLeading > 420;
+    const leading = collapsed ? 52 : constrained ? nativeLeading : preferred;
+    const minimum = Math.max(0, nativeMinimum - Math.max(0, leading - nativeLeading));
+    const columns = (width) => {
+      const right = Number.isFinite(width) && width >= 0 ? Math.max(0, Math.min(nativeRight, width - nativeLeading - nativeMinimum)) : nativeRight;
+      return leading + "px minmax(" + minimum + "px, 1fr) minmax(0px, " + right + "px)";
+    };
+    write("--cgpt-rail-content-width", (constrained && !collapsed ? nativeLeading : preferred) + "px");
+    write("--cgpt-rail-columns", columns(frameWidth));
+    const restore = !collapsed && !constrained && Math.abs(nativeLeading - preferred) > 1;
+    if (!restore) restoreTarget = void 0;
+    else if (typeof setWidth === "function" && restoreTarget !== nativeLeading + ":" + preferred) {
+      restoreTarget = nativeLeading + ":" + preferred;
+      setWidth(preferred);
+    }
+    if (typeof frame.getBoundingClientRect === "function") {
+      frameWidth = frame.getBoundingClientRect()?.width;
+      write("--cgpt-rail-columns", columns(frameWidth));
+    }
+    if (notifyWidth !== void 0) onWidth?.(notifyWidth);
+  };
+  let mutationObserver, resizeObserver;
+  if (typeof MutationObserver === "function") {
+    mutationObserver = new MutationObserver((records) => sync(false, records));
+    mutationObserver.observe(frame, { attributes: true, attributeOldValue: true, attributeFilter: ["style", "data-sidebar-collapsed", "data-sidebar-drawer", "data-dragging"] });
+  }
+  if (typeof frame.getBoundingClientRect === "function" && typeof ResizeObserver === "function") {
+    resizeObserver = new ResizeObserver(() => sync(true));
+    resizeObserver.observe(frame);
+  }
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    mutationObserver?.disconnect();
+    resizeObserver?.disconnect();
+    for (const undo of owned.reverse()) undo();
+  };
+  try {
+    sync();
+  } catch (error) {
+    dispose();
+    throw error;
+  }
+  return dispose;
+}
+function wireRailLayout(anchor, { labels = {}, navigation } = {}) {
   const nav = anchor?.closest?.("nav");
   const root = nav?.parentElement;
   if (!nav || !root) return () => {
@@ -1188,49 +1296,6 @@ function wireRailLayout(anchor, { expanded, labels = {}, onWidth, preferredWidth
   }
   mark(root, "data-cgpt-rail");
   mark(nav, "data-cgpt-rail-nav");
-  const sidebarSlot = root.closest('[data-slot="sidebar"]');
-  const column = sidebarSlot?.parentElement;
-  const frame = column?.parentElement;
-  mark(column, "data-cgpt-rail-column");
-  mark(frame, "data-cgpt-rail-frame");
-  let frameObserver, frameResizeObserver, layoutDisposed = false;
-  if (frame?.style) {
-    const property = "--cgpt-rail-columns";
-    const before = frame.style.getPropertyValue(property);
-    const priority = frame.style.getPropertyPriority(property);
-    let installed = null, lastNative, lastCollapsed;
-    const syncColumns = (resized = false) => {
-      if (layoutDisposed) return;
-      const native = frame.style.gridTemplateColumns, collapsed = frame.hasAttribute("data-sidebar-collapsed");
-      if (!resized && native === lastNative && collapsed === lastCollapsed) return;
-      const tracks = native.match(/^(\d+(?:\.\d+)?)px\s+minmax\((\d+(?:\.\d+)?)px,\s*1fr\)\s+minmax\(0px,\s*(\d+(?:\.\d+)?)px\)$/);
-      if (!tracks) return;
-      lastNative = native;
-      lastCollapsed = collapsed;
-      const nativeLeading = Number(tracks[1]), nativeMinimum = Number(tracks[2]), nativeRight = Number(tracks[3]);
-      const leading = collapsed ? 52 : nativeLeading;
-      const extra = Math.max(0, leading - nativeLeading), minimum = Math.max(0, nativeMinimum - extra);
-      const width = typeof frame.getBoundingClientRect === "function" ? frame.getBoundingClientRect()?.width : void 0;
-      const right = Number.isFinite(width) && width >= 0 ? Math.max(0, Math.min(nativeRight, width - nativeLeading - nativeMinimum)) : nativeRight;
-      const columns = leading + "px minmax(" + minimum + "px, 1fr) minmax(0px, " + right + "px)";
-      installed = columns;
-      if (frame.style.getPropertyValue(property) !== columns) frame.style.setProperty(property, columns);
-    };
-    syncColumns();
-    if (typeof MutationObserver === "function") {
-      frameObserver = new MutationObserver(() => syncColumns());
-      frameObserver.observe(frame, { attributes: true, attributeFilter: ["style", "data-sidebar-collapsed"] });
-    }
-    if (typeof frame.getBoundingClientRect === "function" && typeof ResizeObserver === "function") {
-      frameResizeObserver = new ResizeObserver(() => syncColumns(true));
-      frameResizeObserver.observe(frame);
-    }
-    owned.push(() => {
-      if (installed === null || frame.style.getPropertyValue(property) !== installed) return;
-      if (before) frame.style.setProperty(property, before, priority);
-      else frame.style.removeProperty(property);
-    });
-  }
   const brand = root.querySelector('[data-slot="sidebar.brand.name"]');
   const brandRow = brand?.closest("[data-window-drag]");
   mark(brandRow, "data-cgpt-brand-row");
@@ -1254,6 +1319,7 @@ function wireRailLayout(anchor, { expanded, labels = {}, onWidth, preferredWidth
   const settings = root.querySelector('[data-slot="sidebar.settings"]');
   mark(settings?.parentElement?.parentElement, "data-cgpt-foot-area");
   for (const button of nav.querySelectorAll("button[aria-label]")) {
+    if (button.closest("[data-cgpt-app-dock]")) continue;
     const name = button.getAttribute("aria-label");
     const id = Object.keys(labels.panels || {}).find((id2) => labels.panels[id2] === name) || (name === labels.more ? "more" : null);
     if (!id) continue;
@@ -1273,28 +1339,10 @@ function wireRailLayout(anchor, { expanded, labels = {}, onWidth, preferredWidth
   }
   const search = root.querySelector('[data-slot="sidebar.workspaces"] button[aria-label="' + (labels.search || "\u641C\u7D22\u4F1A\u8BDD").replaceAll('"', '\\"') + '"]');
   mark(search, "data-cgpt-search-button");
-  const currentWidth = Number.parseFloat(root.style.width || "0");
-  if (expanded && typeof setWidth === "function" && Math.abs(currentWidth - preferredWidth) > 1) setWidth(preferredWidth);
-  let observer;
-  let animationFrame;
-  if (expanded && typeof ResizeObserver === "function") {
-    const observe = () => {
-      observer = new ResizeObserver((entries) => {
-        const width = entries[0]?.target?.getBoundingClientRect().width;
-        if (width >= 264 && width <= 420) onWidth?.(Math.round(width));
-      });
-      observer.observe(root);
-    };
-    if (typeof requestAnimationFrame === "function") animationFrame = requestAnimationFrame(observe);
-    else observe();
-  }
+  let disposed = false;
   return () => {
-    if (layoutDisposed) return;
-    layoutDisposed = true;
-    if (animationFrame !== void 0) cancelAnimationFrame(animationFrame);
-    observer?.disconnect();
-    frameObserver?.disconnect();
-    frameResizeObserver?.disconnect();
+    if (disposed) return;
+    disposed = true;
     for (const undo of owned.reverse()) undo();
   };
 }
@@ -1307,7 +1355,7 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
   let subscriptions = [];
   let snapshot2;
   let publishedSnapshot;
-  const text2 = (value) => typeof value === "string" ? value.trim() : "";
+  const text4 = (value) => typeof value === "string" ? value.trim() : "";
   function refresh() {
     const list = sessions.list.getSnapshot();
     const workspaceState = workspaces.list.getSnapshot();
@@ -1317,7 +1365,7 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
     const workspaceTitles = /* @__PURE__ */ new Map();
     for (const workspace of workspaceState.items || []) {
       for (const id of workspace.sessionIds || []) {
-        if (!workspaceTitles.has(id)) workspaceTitles.set(id, text2(workspace.title));
+        if (!workspaceTitles.has(id)) workspaceTitles.set(id, text4(workspace.title));
       }
     }
     const seen = /* @__PURE__ */ new Set();
@@ -1327,7 +1375,7 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
       seen.add(id);
       const summary = byId[id];
       if (!summary || summary.blank || archived.has(id)) continue;
-      rows.push({ id, title: text2(summary.title) || text2(summary.projectionValues?.title) || "\u672A\u547D\u540D", workspaceTitle: workspaceTitles.get(id) || "", running: summary.running === true });
+      rows.push({ id, title: text4(summary.title) || text4(summary.projectionValues?.title) || "\u672A\u547D\u540D", workspaceTitle: workspaceTitles.get(id) || "", running: summary.running === true });
     }
     const activeId = panel.activePanelId === null ? Object.values(byId).find((summary) => (summary?.retainedBy?.mainView || 0) > 0)?.id : null;
     const nextActiveId = activeId ?? null;
@@ -1356,9 +1404,9 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
       listeners.add(registered);
       if (listeners.size === 1) {
         try {
-          for (const source of sources) subscriptions.push(source.subscribe(changed));
+          for (const source2 of sources) subscriptions.push(source2.subscribe(changed));
         } catch (error) {
-          for (const stop3 of subscriptions.splice(0)) stop3();
+          for (const stop5 of subscriptions.splice(0)) stop5();
           listeners.delete(registered);
           throw error;
         }
@@ -1366,7 +1414,7 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
       }
       return () => {
         listeners.delete(registered);
-        if (listeners.size === 0) for (const stop3 of subscriptions.splice(0)) stop3();
+        if (listeners.size === 0) for (const stop5 of subscriptions.splice(0)) stop5();
       };
     },
     open(id) {
@@ -1389,6 +1437,44 @@ function createPinnedSessionsModel({ sessions, workspaces, layout, uiWorkspace }
 
 // pinned-sessions.js
 var import_react2 = __toESM(require("react"), 1);
+
+// pinned-session-actions.js
+var NATIVE_SESSION_ROW_ACTIONS = "sidebar.workspaces.session.row.action";
+var PINNED_SESSION_ROW_ACTIONS = "chatgptRail.pinnedSession.row.action";
+function mirrorNativePinnedActions(slots) {
+  let stops = [];
+  const clear = () => {
+    for (const stop5 of stops.splice(0).reverse()) stop5();
+  };
+  function sync() {
+    clear();
+    try {
+      for (const entry of slots.entriesOfSlot(NATIVE_SESSION_ROW_ACTIONS)) {
+        if (entry.options.id !== "archive") continue;
+        stops.push(slots.register({
+          name: PINNED_SESSION_ROW_ACTIONS,
+          id: entry.options.id,
+          order: entry.options.order,
+          priority: entry.options.priority,
+          inject: entry.inject,
+          locale: entry.locale,
+          ...entry.store === void 0 ? {} : { store: entry.store }
+        }, entry.component));
+      }
+    } catch (error) {
+      clear();
+      throw error;
+    }
+  }
+  sync();
+  const unsubscribe = slots.subscribe(NATIVE_SESSION_ROW_ACTIONS, sync);
+  return () => {
+    unsubscribe();
+    clear();
+  };
+}
+
+// pinned-sessions.js
 var h2 = import_react2.default.createElement;
 var NoTooltip = ({ children }) => children;
 var cssString = (value) => '"' + value.replace(/[^a-zA-Z0-9_-]/gu, (char) => "\\" + char.codePointAt(0).toString(16) + " ") + '"';
@@ -1406,7 +1492,7 @@ function mountPinnedSessionsSeat(anchor) {
   browser.parentElement.insertBefore(node, browser);
   return { node, dispose: () => node.remove() };
 }
-function PinnedSessions({ model, labels = {}, StateDot, Tooltip = NoTooltip }) {
+function PinnedSessions({ model, labels = {}, StateDot, Tooltip = NoTooltip, renderSlot }) {
   const snapshot2 = import_react2.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
   const [busy, setBusy] = import_react2.default.useState(/* @__PURE__ */ new Set());
   const [error, setError] = import_react2.default.useState("");
@@ -1444,15 +1530,15 @@ function PinnedSessions({ model, labels = {}, StateDot, Tooltip = NoTooltip }) {
     }
   }
   if (snapshot2.rows.length === 0 && !error) return null;
-  const stop3 = (event) => event.stopPropagation();
+  const stop5 = (event) => event.stopPropagation();
   return h2(
     "section",
     {
       className: "cgpt-pinned-section",
       "aria-label": title,
-      onClick: stop3,
-      onPointerDown: stop3,
-      onContextMenu: stop3
+      onClick: stop5,
+      onPointerDown: stop5,
+      onContextMenu: stop5
     },
     h2("style", { "data-cgpt-pinned-workspace-filter": "" }, pinnedWorkspaceRules(snapshot2.rows)),
     h2("h2", { className: "cgpt-pinned-heading" }, title),
@@ -1475,17 +1561,22 @@ function PinnedSessions({ model, labels = {}, StateDot, Tooltip = NoTooltip }) {
         ),
         h2("span", { className: "cgpt-pinned-title" }, row.title)
       ),
-      h2(Tooltip, { label: unpinLabel, side: "left", delayMs: 400 }, h2("button", {
-        type: "button",
-        className: "cgpt-pinned-unpin",
-        "aria-label": unpinLabel + "\uFF1A" + row.title,
-        disabled: busy.has(row.id),
-        onClick: () => unpin(row.id)
-      }, h2(
-        "svg",
-        { width: 16, height: 16, viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": true },
-        h2("path", { transform: "rotate(40 12 12)", d: "M8 2h8a1 1 0 0 1 0 2h-1v5.2l2.8 3.1a1 1 0 0 1-.8 1.7H13v6.5L12 22l-1-1.5V14H7a1 1 0 0 1-.8-1.7L9 9.2V4H8a1 1 0 0 1 0-2Z" })
-      )))
+      h2(
+        "div",
+        { className: "cgpt-pinned-actions" },
+        renderSlot?.(PINNED_SESSION_ROW_ACTIONS, { sessionId: row.id, displayTitle: row.title }),
+        h2(Tooltip, { label: unpinLabel, side: "left", delayMs: 400 }, h2("button", {
+          type: "button",
+          className: "cgpt-pinned-unpin",
+          "aria-label": unpinLabel + "\uFF1A" + row.title,
+          disabled: busy.has(row.id),
+          onClick: () => unpin(row.id)
+        }, h2(
+          "svg",
+          { width: 16, height: 16, viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": true },
+          h2("path", { transform: "rotate(40 12 12)", d: "M8 2h8a1 1 0 0 1 0 2h-1v5.2l2.8 3.1a1 1 0 0 1-.8 1.7H13v6.5L12 22l-1-1.5V14H7a1 1 0 0 1-.8-1.7L9 9.2V4H8a1 1 0 0 1 0-2Z" })
+        )))
+      )
     ))),
     error && h2("div", { className: "cgpt-pinned-error", role: "alert" }, error)
   );
@@ -1502,23 +1593,23 @@ function wireSessionContextEvents(region, { onRequest, isMoreButton, moreLabelPa
   const owned = /* @__PURE__ */ new Map();
   let disposed = false;
   function mark(node, name, value) {
-    let attributes = owned.get(node);
-    if (!attributes) {
-      attributes = /* @__PURE__ */ new Map();
-      owned.set(node, attributes);
+    let attributes2 = owned.get(node);
+    if (!attributes2) {
+      attributes2 = /* @__PURE__ */ new Map();
+      owned.set(node, attributes2);
     }
-    if (!attributes.has(name)) attributes.set(name, { before: node.getAttribute(name), written: value });
+    if (!attributes2.has(name)) attributes2.set(name, { before: node.getAttribute(name), written: value });
     node.setAttribute(name, value);
   }
   function restore(node, name) {
-    const attributes = owned.get(node), record = attributes?.get(name);
+    const attributes2 = owned.get(node), record = attributes2?.get(name);
     if (!record) return;
     if (node.getAttribute(name) === record.written) {
       if (record.before === null) node.removeAttribute(name);
       else node.setAttribute(name, record.before);
     }
-    attributes.delete(name);
-    if (attributes.size === 0) owned.delete(node);
+    attributes2.delete(name);
+    if (attributes2.size === 0) owned.delete(node);
   }
   function matchesMore(label) {
     if (typeof label !== "string") return false;
@@ -1539,12 +1630,12 @@ function wireSessionContextEvents(region, { onRequest, isMoreButton, moreLabelPa
         }
       }
     }
-    for (const [node, attributes] of [...owned]) {
+    for (const [node, attributes2] of [...owned]) {
       if (!region.contains(node)) {
-        for (const name of [...attributes.keys()]) restore(node, name);
+        for (const name of [...attributes2.keys()]) restore(node, name);
       } else {
-        if (attributes.has(MORE) && !buttons.has(node)) restore(node, MORE);
-        if (attributes.has("tabindex") && !rows.has(node)) restore(node, "tabindex");
+        if (attributes2.has(MORE) && !buttons.has(node)) restore(node, MORE);
+        if (attributes2.has("tabindex") && !rows.has(node)) restore(node, "tabindex");
       }
     }
   }
@@ -1596,7 +1687,7 @@ function wireSessionContextEvents(region, { onRequest, isMoreButton, moreLabelPa
     observer?.disconnect();
     region.removeEventListener("contextmenu", onContextMenu, true);
     region.removeEventListener("keydown", onKeyDown, true);
-    for (const [node, attributes] of [...owned]) for (const name of [...attributes.keys()]) restore(node, name);
+    for (const [node, attributes2] of [...owned]) for (const name of [...attributes2.keys()]) restore(node, name);
   }
   return cleanup;
 }
@@ -1610,7 +1701,7 @@ var h3 = import_react3.default.createElement;
 function mirrorNativeSessionMenu(slots) {
   let stops = [];
   const clear = () => {
-    for (const stop3 of stops.splice(0).reverse()) stop3();
+    for (const stop5 of stops.splice(0).reverse()) stop5();
   };
   function sync() {
     clear();
@@ -1640,12 +1731,19 @@ function mirrorNativeSessionMenu(slots) {
     clear();
   };
 }
-function createSessionContextController({ sessions }) {
+function createSessionContextController(ctx) {
+  const { sessions } = ctx;
   let snapshot2 = null;
+  let nativeMenu = null;
   const listeners = /* @__PURE__ */ new Set();
   const publish = (value) => {
     snapshot2 = value;
     for (const listener of [...listeners]) listener();
+  };
+  const closeNative = () => {
+    const owned = nativeMenu;
+    nativeMenu = null;
+    if (owned && owned.service.active.getSnapshot() === owned.target) owned.service.close();
   };
   return {
     getSnapshot: () => snapshot2,
@@ -1656,20 +1754,26 @@ function createSessionContextController({ sessions }) {
     open({ sessionId, x, y, trigger }) {
       const summary = sessions.list.getSnapshot().byId?.[sessionId];
       if (!summary || summary.blank) return false;
+      const target = { kind: "session", value: { sessionId, displayTitle: summary.title || summary.projectionValues?.title || "" } };
+      const point = { x: Number.isFinite(x) ? Math.max(0, x) : 0, y: Number.isFinite(y) ? Math.max(0, y) : 0 };
       trigger?.focus?.({ preventScroll: true });
-      publish({
-        sessionId,
-        displayTitle: summary.title || summary.projectionValues?.title || "",
-        x: Number.isFinite(x) ? Math.max(0, x) : 0,
-        y: Number.isFinite(y) ? Math.max(0, y) : 0,
-        trigger
-      });
+      const service = ctx.get?.("contextMenus");
+      if (typeof service?.open === "function" && typeof service.close === "function" && typeof service.active?.getSnapshot === "function") {
+        if (snapshot2 !== null) publish(null);
+        service.open(target, point);
+        nativeMenu = service.active.getSnapshot() === target ? { service, target } : null;
+      } else {
+        closeNative();
+        publish({ ...target.value, ...point, trigger });
+      }
       return true;
     },
     close() {
+      closeNative();
       if (snapshot2 !== null) publish(null);
     },
     dispose() {
+      closeNative();
       listeners.clear();
       snapshot2 = null;
     }
@@ -1698,10 +1802,10 @@ function SessionContextMenu({ controller, renderSlot, Menu: Menu2 }) {
     });
   }, [request, controller]);
   if (request === null) return null;
-  const stop3 = (event) => event.stopPropagation();
+  const stop5 = (event) => event.stopPropagation();
   return h3(
     "div",
-    { className: "cgpt-context-layer", onClick: stop3, onPointerDown: stop3, onContextMenu: stop3 },
+    { className: "cgpt-context-layer", onClick: stop5, onPointerDown: stop5, onContextMenu: stop5 },
     h3(Menu2, {
       key: request.sessionId + "@" + request.x + "," + request.y,
       open: true,
@@ -1727,7 +1831,7 @@ function createRailNavigationModel({ slots, layout, locale }, { capacity = 6, ge
   const listeners = /* @__PURE__ */ new Set();
   let subscriptions = [];
   let snapshot2, publishedSnapshot, memoryPreference = null;
-  const text2 = (value) => typeof value === "string" ? value.trim() : "";
+  const text4 = (value) => typeof value === "string" ? value.trim() : "";
   function normalizeIds(value) {
     if (!Array.isArray(value)) return null;
     return ["home", ...new Set(value.filter((id) => typeof id === "string" && id.trim() && id !== "home"))];
@@ -1769,7 +1873,7 @@ function createRailNavigationModel({ slots, layout, locale }, { capacity = 6, ge
   }
   function translated(namespace, key, fallback) {
     const value = locale?.bind?.(namespace)?.(key);
-    return text2(value) && value !== key ? value : fallback;
+    return text4(value) && value !== key ? value : fallback;
   }
   function refresh() {
     const labels = getLabels?.() || {};
@@ -1777,14 +1881,14 @@ function createRailNavigationModel({ slots, layout, locale }, { capacity = 6, ge
     const rows = panelEntries().map((entry) => {
       const id = entry.options.id;
       const label = typeof entry.options.label === "function" ? entry.options.label() : entry.options.label;
-      return { id, label: text2(label) || id, kind: "panel", icon: id, active: activeId === id };
+      return { id, label: text4(label) || id, kind: "panel", icon: id, active: activeId === id };
     });
     const provider = customization();
     if (provider?.face) {
-      rows.push({ id: "action:browse-plugins", label: text2(labels.browsePlugins) || translated("entryCustomization", "install", "\u6D4F\u89C8\u66F4\u591A\u63D2\u4EF6"), kind: "action", icon: "browse", active: false });
-      rows.push({ id: "action:create-plugin", label: text2(labels.createPlugin) || translated("entryCustomization", "create", "\u521B\u5EFA\u4F60\u7684\u63D2\u4EF6"), kind: "action", icon: "create", active: false });
+      rows.push({ id: "action:browse-plugins", label: text4(labels.browsePlugins) || translated("entryCustomization", "install", "\u6D4F\u89C8\u66F4\u591A\u63D2\u4EF6"), kind: "action", icon: "browse", active: false });
+      rows.push({ id: "action:create-plugin", label: text4(labels.createPlugin) || translated("entryCustomization", "create", "\u521B\u5EFA\u4F60\u7684\u63D2\u4EF6"), kind: "action", icon: "create", active: false });
     }
-    if (settingsEntry()) rows.push({ id: "action:settings", label: text2(labels.settings) || translated("settings", "trigger", "\u8BBE\u7F6E"), kind: "action", icon: "settings", active: false });
+    if (settingsEntry()) rows.push({ id: "action:settings", label: text4(labels.settings) || translated("settings", "trigger", "\u8BBE\u7F6E"), kind: "action", icon: "settings", active: false });
     const preference = readPreference(), customized = preference !== null;
     const byId = new Map(rows.map((row) => [row.id, row]));
     const ids = preference || rows.filter((row) => row.kind === "panel").map((row) => row.id);
@@ -1842,14 +1946,14 @@ function createRailNavigationModel({ slots, layout, locale }, { capacity = 6, ge
           if (typeof nativePins?.subscribe === "function") subscriptions.push(nativePins.subscribe(changed));
           changed();
         } catch (error) {
-          for (const stop3 of subscriptions.splice(0)) stop3();
+          for (const stop5 of subscriptions.splice(0)) stop5();
           listeners.delete(registered);
           throw error;
         }
       }
       return () => {
         listeners.delete(registered);
-        if (listeners.size === 0) for (const stop3 of subscriptions.splice(0)) stop3();
+        if (listeners.size === 0) for (const stop5 of subscriptions.splice(0)) stop5();
       };
     },
     setDockIds(ids) {
@@ -1938,10 +2042,10 @@ function RailActionButtons({ navigationModel }) {
       if (alive.current) setError(reason?.message || "\u5165\u53E3\u6682\u65F6\u65E0\u6CD5\u6253\u5F00\uFF0C\u8BF7\u91CD\u8BD5\u3002");
     }
   }
-  const stop3 = (event) => event.stopPropagation();
+  const stop5 = (event) => event.stopPropagation();
   return h4(
     "span",
-    { className: "cgpt-rail-action-buttons", onClick: stop3, onPointerDown: stop3, onContextMenu: stop3 },
+    { className: "cgpt-rail-action-buttons", onClick: stop5, onPointerDown: stop5, onContextMenu: stop5 },
     snapshot2.visible.map((entry, index) => entry.kind !== "action" ? null : h4("button", {
       key: entry.id,
       type: "button",
@@ -2017,7 +2121,7 @@ function createDockPreferences(options = {}) {
   const listeners = /* @__PURE__ */ new Set();
   let snapshot2 = null, disposed = false, listening = false;
   const equal = (a, b) => a === b || a !== null && b !== null && a.length === b.length && a.every((id, index) => id === b[index]);
-  function read() {
+  function read2() {
     const raw = storage?.getItem?.(key) ?? null;
     if (raw === null) return null;
     try {
@@ -2038,7 +2142,7 @@ function createDockPreferences(options = {}) {
   }
   function sync() {
     try {
-      publish(read());
+      publish(read2());
     } catch {
     }
   }
@@ -2104,13 +2208,13 @@ function createNativePanelPinsSource(slots) {
     const entry = slots.entriesOfSlot(SIDEBAR).find((candidate) => candidate.locale === "sidebar" && typeof candidate.inject === "function");
     if (!entry) return null;
     if (!faces.has(entry)) {
-      let source = null;
+      let source2 = null;
       try {
         const candidate = entry.inject()?.hooks?.entryPins;
-        if (typeof candidate?.getSnapshot === "function" && typeof candidate?.subscribe === "function") source = candidate;
+        if (typeof candidate?.getSnapshot === "function" && typeof candidate?.subscribe === "function") source2 = candidate;
       } catch {
       }
-      faces.set(entry, source);
+      faces.set(entry, source2);
     }
     return faces.get(entry);
   }
@@ -2183,271 +2287,8 @@ function createNativePanelPinsSource(slots) {
   };
 }
 
-// rail-dock-ui.js
-var import_react5 = __toESM(require("react"), 1);
-
-// rail-dock-events.js
-function wireDockEvents(anchor, { navigationModel, onContext, onError = () => {
-} }) {
-  const nav = anchor?.closest?.("nav"), root = nav?.parentElement;
-  if (!nav || !root) return () => {
-  };
-  let dragged = null, suppressedClick = null, pointer = null, dropMark = null;
-  let pendingListeners = [];
-  const buttonOf = (target) => target?.closest?.("[data-cgpt-nav-button],[data-cgpt-rail-action]");
-  const idOf = (button) => button?.getAttribute("data-cgpt-nav-button") || button?.getAttribute("data-cgpt-rail-action");
-  const editable = (target) => target?.closest?.('input,textarea,select,[contenteditable="true"]');
-  function request(event, keyboard = false) {
-    if (editable(event.target)) return;
-    const button = buttonOf(event.target), inside = button && nav.contains(button);
-    if (!inside) {
-      if (keyboard || event.target?.closest?.('button,[role="button"],a,[data-cgpt-account-seat]')) return;
-      const bounds = root.getBoundingClientRect();
-      if (event.clientX < bounds.left || event.clientX >= bounds.left + 52 || event.clientY < bounds.top + 44) return;
-    }
-    const rect = button?.getBoundingClientRect();
-    event.preventDefault();
-    event.stopPropagation();
-    onContext({ id: inside ? idOf(button) : null, x: keyboard ? rect.right + 6 : event.clientX, y: keyboard ? rect.top : event.clientY, trigger: inside ? button : null });
-  }
-  const context = (event) => request(event);
-  const keydown = (event) => {
-    if (event.key === "ContextMenu" || event.key === "F10" && event.shiftKey) request(event, true);
-  };
-  function start(event) {
-    const button = buttonOf(event.target), id = idOf(button);
-    if (!button || !nav.contains(button) || id === "home" || !navigationModel.getSnapshot().visible.some((entry) => entry.id === id)) return;
-    dragged = id;
-    event.stopPropagation();
-    if (event.dataTransfer) {
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/plain", id);
-    }
-  }
-  function over(event) {
-    if (!dragged || !nav.contains(buttonOf(event.target))) return;
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
-  }
-  const suppressTrailingClick = (id) => {
-    suppressedClick = { id, until: Date.now() + 350 };
-  };
-  function end() {
-    if (dragged) suppressTrailingClick(dragged);
-    dragged = null;
-  }
-  function saveMove(id, button, y) {
-    const target = idOf(button), current = navigationModel.getSnapshot().dockIds;
-    if (id === target || !current.includes(target)) return;
-    const ids = current.filter((value) => value !== id), rect = button.getBoundingClientRect();
-    const index = ids.indexOf(target) + (y >= rect.top + rect.height / 2 ? 1 : 0);
-    ids.splice(Math.max(1, index), 0, id);
-    try {
-      navigationModel.setDockIds(ids);
-    } catch (error) {
-      onError(error);
-    }
-  }
-  function drop(event) {
-    if (!dragged) return;
-    const button = buttonOf(event.target), target = idOf(button);
-    if (!button || !nav.contains(button) || !navigationModel.getSnapshot().dockIds.includes(target)) {
-      end();
-      return;
-    }
-    event.preventDefault();
-    event.stopPropagation();
-    const id = dragged;
-    end();
-    saveMove(id, button, event.clientY);
-  }
-  function clearPointer() {
-    for (const release of pendingListeners.splice(0)) release();
-    dropMark?.removeAttribute("data-cgpt-dock-drop");
-    dropMark = null;
-    const previous = pointer;
-    pointer = null;
-    if (previous) {
-      previous.button.removeAttribute("data-cgpt-dock-dragging");
-      if (previous.captured) try {
-        previous.button.releasePointerCapture?.(previous.pointerId);
-      } catch {
-      }
-    }
-  }
-  function watchPendingPointer() {
-    const document2 = root.ownerDocument, view = document2?.defaultView;
-    for (const [target, name, handler] of [[document2, "pointerup", pointerUp], [document2, "pointercancel", pointerCancel], [view, "blur", pointerCancel]]) {
-      if (typeof target?.addEventListener !== "function" || typeof target?.removeEventListener !== "function") continue;
-      target.addEventListener(name, handler, true);
-      pendingListeners.push(() => target.removeEventListener(name, handler, true));
-    }
-  }
-  function pointerDown(event) {
-    if (event.button !== 0 || event.isPrimary === false) return;
-    suppressedClick = null;
-    clearPointer();
-    const button = buttonOf(event.target), id = idOf(button);
-    if (!button || !nav.contains(button) || id === "home" || !navigationModel.getSnapshot().visible.some((entry) => entry.id === id)) return;
-    pointer = { button, id, pointerId: event.pointerId, x: event.clientX, y: event.clientY, active: false, captured: false };
-    watchPendingPointer();
-  }
-  function pointerMove(event) {
-    if (!pointer || event.pointerId !== pointer.pointerId) return;
-    if (!pointer.active && Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) < 6) return;
-    if (!pointer.active) {
-      pointer.active = true;
-      if (typeof pointer.button.setPointerCapture === "function") try {
-        pointer.button.setPointerCapture(pointer.pointerId);
-        pointer.captured = true;
-      } catch {
-      }
-    }
-    pointer.button.setAttribute("data-cgpt-dock-dragging", "");
-    event.preventDefault();
-    event.stopPropagation();
-    const target = buttonOf(root.ownerDocument?.elementFromPoint(event.clientX, event.clientY));
-    dropMark?.removeAttribute("data-cgpt-dock-drop");
-    dropMark = null;
-    if (target && nav.contains(target) && idOf(target) !== pointer.id && navigationModel.getSnapshot().dockIds.includes(idOf(target))) {
-      const rect = target.getBoundingClientRect();
-      target.setAttribute("data-cgpt-dock-drop", event.clientY < rect.top + rect.height / 2 ? "before" : "after");
-      dropMark = target;
-    }
-  }
-  function pointerUp(event) {
-    if (!pointer || event.pointerId !== pointer.pointerId) return;
-    const { active, id } = pointer;
-    const target = active ? buttonOf(root.ownerDocument?.elementFromPoint(event.clientX, event.clientY)) : null;
-    clearPointer();
-    if (!active) return;
-    suppressTrailingClick(id);
-    event.preventDefault();
-    event.stopPropagation();
-    if (target && nav.contains(target)) saveMove(id, target, event.clientY);
-  }
-  function pointerCancel(event) {
-    if (pointer && event?.pointerId !== void 0 && event.pointerId !== pointer.pointerId) return;
-    if (pointer?.active) suppressTrailingClick(pointer.id);
-    clearPointer();
-  }
-  function click(event) {
-    if (!suppressedClick) return;
-    if (Date.now() >= suppressedClick.until) {
-      suppressedClick = null;
-      return;
-    }
-    const button = buttonOf(event.target);
-    if (event.detail === 0 || !nav.contains(button) || idOf(button) !== suppressedClick.id) return;
-    suppressedClick = null;
-    event.preventDefault();
-    event.stopPropagation();
-  }
-  const bindings = [["contextmenu", context], ["keydown", keydown], ["dragstart", start], ["dragover", over], ["drop", drop], ["dragend", end], ["click", click], ["pointerdown", pointerDown], ["pointermove", pointerMove], ["pointerup", pointerUp], ["pointercancel", pointerCancel]];
-  for (const [name, handler] of bindings) root.addEventListener(name, handler, true);
-  return () => {
-    for (const [name, handler] of bindings) root.removeEventListener(name, handler, true);
-    dragged = null;
-    suppressedClick = null;
-    clearPointer();
-  };
-}
-
-// rail-dock-ui.js
-var h5 = import_react5.default.createElement;
-var stop = (event) => event.stopPropagation();
-function DockCustomizer({ navigationModel, Modal, onClose }) {
-  const snapshot2 = import_react5.default.useSyncExternalStore(navigationModel.subscribe, navigationModel.getSnapshot, navigationModel.getSnapshot);
-  const [error, setError] = import_react5.default.useState("");
-  const selected = snapshot2.dockIds.map((id) => snapshot2.all.find((entry) => entry.id === id)).filter(Boolean);
-  const available = snapshot2.all.filter((entry) => !snapshot2.dockIds.includes(entry.id));
-  function change(action) {
-    setError("");
-    try {
-      action();
-    } catch (reason) {
-      setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58 Dock \u8BBE\u7F6E\uFF0C\u8BF7\u91CD\u8BD5\u3002");
-    }
-  }
-  const item = (entry) => h5("span", { className: "cgpt-dock-entry-name" }, entry.label);
-  const row = (entry, index) => h5(
-    "li",
-    { key: entry.id, className: "cgpt-dock-entry" },
-    item(entry),
-    entry.id === "home" ? h5("span", { className: "cgpt-dock-fixed" }, "\u56FA\u5B9A") : h5(
-      "span",
-      { className: "cgpt-dock-row-actions" },
-      h5("button", { type: "button", "aria-label": "\u4E0A\u79FB " + entry.label, disabled: index <= 1, onClick: () => change(() => navigationModel.move(entry.id, -1)) }, "\u2191"),
-      h5("button", { type: "button", "aria-label": "\u4E0B\u79FB " + entry.label, disabled: index === selected.length - 1, onClick: () => change(() => navigationModel.move(entry.id, 1)) }, "\u2193"),
-      h5("button", { type: "button", "aria-label": "\u4ECE Dock \u79FB\u9664 " + entry.label, onClick: () => change(() => navigationModel.toggleDock(entry.id, false)) }, "\u79FB\u9664")
-    )
-  );
-  const availableRows = (kind) => available.filter((entry) => entry.kind === kind).map((entry) => h5(
-    "li",
-    { key: entry.id, className: "cgpt-dock-entry" },
-    item(entry),
-    h5("button", { type: "button", "aria-label": "\u6DFB\u52A0\u5230 Dock " + entry.label, onClick: () => change(() => navigationModel.toggleDock(entry.id, true)) }, "\u6DFB\u52A0")
-  ));
-  return h5("div", { className: "cgpt-dock-ui", onClick: stop, onPointerDown: stop, onContextMenu: stop }, h5(
-    Modal,
-    {
-      open: true,
-      title: "\u81EA\u5B9A\u4E49 Dock",
-      description: "\u9009\u62E9\u5E38\u7528\u5165\u53E3\uFF1B\u76F4\u63A5\u663E\u793A\u524D " + snapshot2.capacity + " \u4E2A\uFF0C\u8D85\u51FA\u540E\u653E\u5165\u201C\u66F4\u591A\u201D\u3002\u4E5F\u53EF\u62D6\u52A8\u56FE\u6807\u8C03\u6574\u987A\u5E8F\u3002",
-      closeLabel: "\u5173\u95ED",
-      onClose,
-      className: "cgpt-dock-modal",
-      footer: h5("div", { className: "cgpt-dock-footer" }, h5("button", { type: "button", onClick: () => change(() => navigationModel.resetDock()), disabled: !snapshot2.customized }, "\u6062\u590D\u9ED8\u8BA4"), h5("button", { type: "button", className: "cgpt-dock-done", onClick: onClose }, "\u5B8C\u6210"))
-    },
-    h5("h3", { className: "cgpt-dock-section-title" }, "Dock \u4E2D \xB7 " + selected.length),
-    h5("ol", { className: "cgpt-dock-list" }, selected.map(row)),
-    available.some((entry) => entry.kind === "panel") && h5(import_react5.default.Fragment, null, h5("h3", { className: "cgpt-dock-section-title" }, "\u53EF\u6DFB\u52A0\u7684\u529F\u80FD"), h5("ul", { className: "cgpt-dock-list" }, availableRows("panel"))),
-    available.some((entry) => entry.kind === "action") && h5("details", { className: "cgpt-dock-optional" }, h5("summary", null, "\u5176\u4ED6\u5165\u53E3"), h5("ul", { className: "cgpt-dock-list" }, availableRows("action"))),
-    h5("p", { className: "cgpt-dock-hint" }, "\u66F4\u6539\u81EA\u52A8\u4FDD\u5B58\u3002\u5DF2\u5B89\u88C5\u63D2\u4EF6\u63D0\u4F9B\u7684\u65B0\u5165\u53E3\u4E5F\u53EF\u653E\u5165 Dock\u3002"),
-    error && h5("p", { className: "cgpt-dock-error", role: "alert" }, error)
-  ));
-}
-function RailDockControls({ anchorRef, navigationModel, Menu: Menu2, MenuItem, Modal }) {
-  const [request, setRequest] = import_react5.default.useState(null), [customizing, setCustomizing] = import_react5.default.useState(false), [error, setError] = import_react5.default.useState("");
-  const snapshot2 = import_react5.default.useSyncExternalStore(navigationModel.subscribe, navigationModel.getSnapshot, navigationModel.getSnapshot);
-  import_react5.default.useLayoutEffect(() => wireDockEvents(anchorRef.current, { navigationModel, onContext: setRequest, onError: (reason) => setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58 Dock \u8BBE\u7F6E\uFF0C\u8BF7\u91CD\u8BD5\u3002") }), [anchorRef, navigationModel]);
-  const close = import_react5.default.useCallback(() => setRequest(null), []);
-  const stopCustomizing = import_react5.default.useCallback(() => setCustomizing(false), []);
-  function customize() {
-    setRequest(null);
-    setError("");
-    setCustomizing(true);
-  }
-  function remove() {
-    try {
-      navigationModel.toggleDock(request.id, false);
-      setRequest(null);
-    } catch (reason) {
-      setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58 Dock \u8BBE\u7F6E\uFF0C\u8BF7\u91CD\u8BD5\u3002");
-    }
-  }
-  const canRemove = request?.id && request.id !== "home" && snapshot2.dockIds.includes(request.id);
-  return h5(
-    "div",
-    { className: "cgpt-dock-ui", onClick: stop, onPointerDown: stop, onContextMenu: stop },
-    request && h5(Menu2, {
-      open: true,
-      portal: true,
-      autoFocus: true,
-      onClose: close,
-      className: "cgpt-dock-context",
-      listClassName: "cgpt-dock-context",
-      getAnchorRect: () => ({ left: request.x, right: request.x, top: request.y, bottom: request.y, width: 0, height: 0 }),
-      anchor: h5("button", { type: "button", tabIndex: -1, "aria-hidden": true, className: "cgpt-context-anchor", style: { left: request.x, top: request.y } })
-    }, h5(MenuItem, { onSelect: customize }, "\u81EA\u5B9A\u4E49 Dock\u2026"), canRemove && h5(MenuItem, { onSelect: remove }, "\u4ECE Dock \u79FB\u9664")),
-    customizing && h5(DockCustomizer, { navigationModel, Modal, onClose: stopCustomizing }),
-    error && h5("div", { role: "alert", className: "cgpt-dock-toast" }, error, h5("button", { type: "button", onClick: () => setError(""), "aria-label": "\u5173\u95ED\u63D0\u793A" }, "\xD7"))
-  );
-}
-
 // window-chrome-ui.js
-var import_react6 = __toESM(require("react"), 1);
+var import_react5 = __toESM(require("react"), 1);
 var import_react_dom = require("react-dom");
 
 // window-drag-strip.js
@@ -2595,7 +2436,9 @@ var OBSERVED_ATTRIBUTES = Object.freeze([
   "data-sidebar-right-open",
   "data-rightbar-fullscreen",
   "data-rightbar-collapsed",
-  "hidden"
+  "hidden",
+  "data-sidebar-drawer",
+  "data-sidebar-collapsed"
 ]);
 function mountWindowChrome(anchor) {
   const frame = anchor?.closest?.("[data-shell-overlay]")?.parentElement;
@@ -2642,6 +2485,8 @@ function mountWindowChrome(anchor) {
   }
   const seat = document2.createElement("div");
   seat.className = "cgpt-window-chrome-seat";
+  const navigationSeat = document2.documentElement?.dataset?.platform === "darwin" ? document2.createElement("div") : null;
+  if (navigationSeat) navigationSeat.className = "cgpt-window-navigation-seat";
   let dragStrip, motion;
   try {
     mark(frame, "data-cgpt-window-frame");
@@ -2649,15 +2494,21 @@ function mountWindowChrome(anchor) {
     ownLeadingWidth();
     dragStrip = mountWindowDragStrip(frame);
     frame.appendChild(seat);
+    if (navigationSeat) frame.appendChild(navigationSeat);
     motion = mountWindowMotion(frame);
     undos.push(() => motion.dispose());
   } catch (error) {
     seat.remove();
+    navigationSeat?.remove();
     dragStrip?.dispose();
     for (const undo of undos.reverse()) undo();
     throw error;
   }
   function refresh() {
+    if (navigationSeat) {
+      if (frame.hasAttribute("data-sidebar-drawer") && !frame.hasAttribute("data-sidebar-collapsed")) navigationSeat.setAttribute("inert", "");
+      else navigationSeat.removeAttribute("inert");
+    }
     const panel = Array.from(frame.querySelectorAll(PANEL2)).find((node) => node.getAttribute("data-sidebar-right-session")?.trim() && !node.closest("[hidden]"));
     const sessionId = panel?.getAttribute("data-sidebar-right-session") || null;
     const expanded = Boolean(panel?.hasAttribute("data-sidebar-right-open"));
@@ -2717,6 +2568,7 @@ function mountWindowChrome(anchor) {
   return {
     frame,
     seat,
+    navigationSeat,
     presentation,
     motion,
     dispose() {
@@ -2725,6 +2577,7 @@ function mountWindowChrome(anchor) {
       disconnect();
       listeners.clear();
       seat.remove();
+      navigationSeat?.remove();
       dragStrip?.dispose();
       for (const undo of undos.reverse()) undo();
     }
@@ -2738,25 +2591,25 @@ var failure2 = (code, message, cause) => Object.assign(new Error(message, cause 
 function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } = {}) {
   const { sessions, workspaces, layout, uiWorkspace, sidebarRight: sidebar, sidebarRightTabs: types } = ctx;
   const registrySource = typeof types?.subscribe === "function" ? { subscribe: (listener) => types.subscribe(listener) } : null;
-  const sources = [...new Set([sessions?.list, workspaces?.list, layout?.panelInfo, sidebar?.mounted, sidebar?.openTabs, presentation, registrySource].filter((source) => typeof source?.subscribe === "function"))];
+  const sources = [...new Set([sessions?.list, workspaces?.list, layout?.panelInfo, sidebar?.mounted, sidebar?.openTabs, presentation, registrySource].filter((source2) => typeof source2?.subscribe === "function"))];
   const listeners = /* @__PURE__ */ new Set();
   const duration = Number.isFinite(timeoutMs) && timeoutMs >= 0 ? timeoutMs : 6e3;
   let subscriptions = [], snapshot2, publishedSnapshot, pending = null, disposed = false;
-  const read = (source, fallback) => {
+  const read2 = (source2, fallback) => {
     try {
-      return source?.getSnapshot?.() ?? fallback;
+      return source2?.getSnapshot?.() ?? fallback;
     } catch {
       return fallback;
     }
   };
-  const panel = () => read(layout?.panelInfo, { activePanelId: void 0 }).activePanelId;
+  const panel = () => read2(layout?.panelInfo, { activePanelId: void 0 }).activePanelId;
   function catalog() {
-    const list = read(sessions?.list, { ids: [], byId: {} }), workspace = read(workspaces?.list, { items: [], archivedSessionIds: [] });
+    const list = read2(sessions?.list, { ids: [], byId: {} }), workspace = read2(workspaces?.list, { items: [], archivedSessionIds: [] });
     return { list, workspace, archived: new Set(workspace.archivedSessionIds || []) };
   }
   function contextOf({ list, archived }) {
     const candidates = Object.values(list.byId || {}).filter((summary) => summary && typeof summary.id === "string" && (summary.retainedBy?.mainView || 0) > 0 && !archived.has(summary.id) && (!summary.blank || panel() === null));
-    const mounted = read(sidebar?.mounted, null);
+    const mounted = read2(sidebar?.mounted, null);
     return candidates.find((summary) => summary.id === mounted) || candidates[0] || null;
   }
   function capable() {
@@ -2768,20 +2621,20 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     }
   }
   function visibleExpanded() {
-    const mounted = read(sidebar?.mounted, null), shown = read(presentation, null);
+    const mounted = read2(sidebar?.mounted, null), shown = read2(presentation, null);
     return !disposed && panel() === null && typeof mounted === "string" && mounted.length > 0 && shown?.sessionId === mounted && shown.expanded === true;
   }
   function currentTabSession(data = catalog()) {
-    const mounted = read(sidebar?.mounted, null);
+    const mounted = read2(sidebar?.mounted, null);
     return panel() === null && typeof mounted === "string" && mounted ? mounted : contextOf(data)?.id ?? null;
   }
   function hasTabsFor(id) {
-    const tabs = read(sidebar?.openTabs, null);
+    const tabs = read2(sidebar?.openTabs, null);
     return typeof id === "string" && Array.isArray(tabs) && tabs.some((tab) => tab?.sessionId === id);
   }
   function visibleExistingSession(id, data = catalog()) {
     const summary = data.list.byId?.[id];
-    return panel() === null && typeof id === "string" && read(sidebar?.mounted, null) === id && summary?.id === id && !summary.blank && !data.archived.has(id);
+    return panel() === null && typeof id === "string" && read2(sidebar?.mounted, null) === id && summary?.id === id && !summary.blank && !data.archived.has(id);
   }
   function expandable() {
     return isSource(sidebar?.mounted) && isSource(sidebar?.openTabs) && isSource(presentation) && typeof sidebar?.commandTarget === "function" && typeof sidebar?.toggleExpanded === "function" && typeof sidebar?.isExpanded === "function";
@@ -2839,14 +2692,14 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     if (disposed || operation.controller.signal.aborted) throw abortReason(operation);
     if (!isSource(sidebar?.mounted) || !isSource(presentation) || typeof sidebar?.commandTarget !== "function" || typeof sidebar?.toggleExpanded !== "function" || typeof sidebar?.isExpanded !== "function") throw failure2("unavailable", "\u539F\u751F\u53F3\u4FA7\u680F\u6682\u65F6\u65E0\u6CD5\u6536\u8D77\u3002");
     if (panel() !== null) throw failure2("cancelled", "\u9875\u9762\u5DF2\u5207\u6362\uFF0C\u5DF2\u505C\u6B62\u6536\u8D77\u53F3\u4FA7\u680F\u3002");
-    const mounted = read(sidebar.mounted, null), shown = read(presentation, null);
+    const mounted = read2(sidebar.mounted, null), shown = read2(presentation, null);
     if (mounted !== operation.id && !(operation.issued && mounted == null && (!shown?.expanded || shown.sessionId === operation.id))) throw failure2("cancelled", "\u4F1A\u8BDD\u9762\u677F\u5DF2\u5207\u6362\uFF0C\u5DF2\u505C\u6B62\u6536\u8D77\u53F3\u4FA7\u680F\u3002");
     if (shown?.expanded && shown.sessionId !== operation.id) throw failure2("cancelled", "\u53F3\u4FA7\u680F\u5DF2\u5207\u6362\uFF0C\u5DF2\u505C\u6B62\u6536\u8D77\u64CD\u4F5C\u3002");
   }
   function expandGuard(operation) {
     if (disposed || operation.controller.signal.aborted) throw abortReason(operation);
     if (!expandable()) throw failure2("unavailable", "\u539F\u751F\u53F3\u4FA7\u680F\u6682\u65F6\u65E0\u6CD5\u5C55\u5F00\u3002");
-    const data = catalog(), retained = contextOf(data)?.id ?? null, mounted = read(sidebar.mounted, null);
+    const data = catalog(), retained = contextOf(data)?.id ?? null, mounted = read2(sidebar.mounted, null);
     if (operation.catalogBound) {
       const summary = data.list.byId?.[operation.id];
       if (!summary || data.archived.has(operation.id) || summary.blank && !operation.allowBlank) throw failure2("session-unavailable", "\u539F\u4F1A\u8BDD\u5DF2\u4E0D\u53EF\u7528\uFF0C\u672A\u5C55\u5F00\u53F3\u4FA7\u680F\u3002");
@@ -2881,7 +2734,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     const retained = contextOf(data)?.id ?? null;
     if (retained === operation.id) operation.retainedReady = true;
     else if (operation.retainedReady || retained !== null && retained !== operation.initialContext) throw failure2("cancelled", "\u4F1A\u8BDD\u5DF2\u5207\u6362\uFF0C\u5DF2\u53D6\u6D88\u65B0\u5EFA\u6807\u7B7E\u9875\u3002");
-    const mounted = read(sidebar.mounted, null);
+    const mounted = read2(sidebar.mounted, null);
     if (mounted === operation.id) operation.surfaceReady = true;
     else if (operation.surfaceReady || mounted != null && mounted !== operation.initialMounted && mounted !== operation.initialContext) throw failure2("cancelled", "\u4F1A\u8BDD\u9762\u677F\u5DF2\u5207\u6362\uFF0C\u5DF2\u53D6\u6D88\u65B0\u5EFA\u6807\u7B7E\u9875\u3002");
   }
@@ -2892,7 +2745,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       const cleanup = () => {
         if (timer !== null) clearTimeout(timer);
         operation.controller.signal.removeEventListener("abort", abort);
-        for (const stop3 of stops.splice(0)) stop3();
+        for (const stop5 of stops.splice(0)) stop5();
       };
       const finish = (ok, value) => {
         if (settled) return;
@@ -2915,11 +2768,11 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       const remaining = Math.max(0, operation.deadline - Date.now());
       timer = setTimeout(() => finish(false, failure2("timeout", message)), remaining);
       try {
-        for (const source of sources) {
+        for (const source2 of sources) {
           if (settled) break;
-          const stop3 = source.subscribe(check);
-          if (settled) stop3();
-          else stops.push(stop3);
+          const stop5 = source2.subscribe(check);
+          if (settled) stop5();
+          else stops.push(stop5);
         }
         check();
       } catch (reason) {
@@ -2962,7 +2815,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     const data = catalog(), summary = data.list.byId?.[id];
     const allowBlank = Boolean(summary?.blank && initial.context?.id === id && panel() === null);
     if (!summary || summary.id !== id || data.archived.has(id) || summary.blank && !allowBlank) throw failure2("session-unavailable", "\u8BF7\u9009\u62E9\u4E00\u4E2A\u53EF\u7528\u7684\u5DF2\u6709\u4F1A\u8BDD\u3002");
-    Object.assign(operation, { id, allowBlank, initialContext: initial.context?.id ?? null, initialMounted: read(sidebar.mounted, null), retainedReady: initial.context?.id === id, surfaceReady: false, navigationIssued: false });
+    Object.assign(operation, { id, allowBlank, initialContext: initial.context?.id ?? null, initialMounted: read2(sidebar.mounted, null), retainedReady: initial.context?.id === id, surfaceReady: false, navigationIssued: false });
     if (id !== initial.context?.id) {
       if (typeof uiWorkspace?.openSession !== "function") throw failure2("unavailable", "\u5F53\u524D\u65E0\u6CD5\u6253\u5F00\u6240\u9009\u4F1A\u8BDD\u3002");
       await awaitAction(operation, uiWorkspace.openSession(id), "\u6253\u5F00\u6240\u9009\u4F1A\u8BDD\u8D85\u65F6\uFF0C\u8BF7\u91CD\u8BD5\u3002");
@@ -2970,24 +2823,24 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     operation.navigationIssued = true;
     await waitFor(operation, () => {
       const target = sidebar.commandTarget(null);
-      return operation.retainedReady && read(sidebar.mounted, null) === id && target?.sessionId === id;
+      return operation.retainedReady && read2(sidebar.mounted, null) === id && target?.sessionId === id;
     }, "\u4F1A\u8BDD\u9762\u677F\u51C6\u5907\u8D85\u65F6\uFF0C\u5C1A\u672A\u65B0\u5EFA\u6807\u7B7E\u9875\uFF0C\u8BF7\u91CD\u8BD5\u3002");
     guard(operation);
     await awaitAction(operation, mutate(() => sidebar.openTab("guide", { revealIfOpened: false })), "\u65B0\u5EFA\u6807\u7B7E\u9875\u7ED3\u679C\u5C1A\u672A\u786E\u8BA4\uFF0C\u8BF7\u68C0\u67E5\u53F3\u4FA7\u680F\u3002");
     operation.opened = true;
     await waitFor(operation, () => {
-      const shown = read(presentation, null);
+      const shown = read2(presentation, null);
       return shown?.sessionId === id && shown.expanded;
     }, "\u6807\u7B7E\u9875\u5165\u53E3\u5C1A\u672A\u663E\u793A\uFF0C\u8BF7\u68C0\u67E5\u53F3\u4FA7\u680F\u3002");
     guard(operation);
     if (fullscreen) {
-      if (!read(presentation, null)?.fullscreen) {
+      if (!read2(presentation, null)?.fullscreen) {
         const target = sidebar.commandTarget(null);
         if (target?.sessionId !== id) throw failure2("cancelled", "\u4F1A\u8BDD\u9762\u677F\u5DF2\u5207\u6362\uFF0C\u5B8C\u6574\u89C6\u56FE\u672A\u5207\u6362\u3002");
         await awaitAction(operation, sidebar.toggleFullscreen(target), "\u5B8C\u6574\u89C6\u56FE\u5207\u6362\u8D85\u65F6\uFF0C\u8BF7\u68C0\u67E5\u53F3\u4FA7\u680F\u3002");
       }
       await waitFor(operation, () => {
-        const shown = read(presentation, null);
+        const shown = read2(presentation, null);
         return shown?.sessionId === id && shown.expanded && shown.fullscreen;
       }, "\u5B8C\u6574\u89C6\u56FE\u5207\u6362\u8D85\u65F6\uFF0C\u8BF7\u68C0\u67E5\u53F3\u4FA7\u680F\u3002");
       guard(operation);
@@ -3006,8 +2859,8 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     operation.issued = true;
     await awaitAction(operation, result, "\u5DF2\u8BF7\u6C42\u6536\u8D77\uFF0C\u4F46\u53F3\u4FA7\u680F\u72B6\u6001\u5C1A\u672A\u786E\u8BA4\uFF0C\u8BF7\u68C0\u67E5\u3002");
     await waitFor(operation, () => {
-      const shown = read(presentation, null);
-      return read(sidebar.mounted, null) == null || !shown?.expanded || shown.sessionId !== operation.id;
+      const shown = read2(presentation, null);
+      return read2(sidebar.mounted, null) == null || !shown?.expanded || shown.sessionId !== operation.id;
     }, "\u5DF2\u8BF7\u6C42\u6536\u8D77\uFF0C\u4F46\u53F3\u4FA7\u680F\u72B6\u6001\u5C1A\u672A\u786E\u8BA4\uFF0C\u8BF7\u68C0\u67E5\u3002");
     collapseGuard(operation);
     return Object.freeze({ sessionId: operation.id, collapsed: true });
@@ -3021,7 +2874,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
     operation.navigationIssued = true;
     await waitFor(operation, () => {
       const target2 = sidebar.commandTarget(null);
-      return read(sidebar.mounted, null) === operation.id && target2?.sessionId === operation.id;
+      return read2(sidebar.mounted, null) === operation.id && target2?.sessionId === operation.id;
     }, "\u539F\u4F1A\u8BDD\u9762\u677F\u51C6\u5907\u8D85\u65F6\uFF0C\u5C1A\u672A\u5C55\u5F00\u53F3\u4FA7\u680F\uFF0C\u8BF7\u91CD\u8BD5\u3002");
     expandGuard(operation);
     const target = sidebar.commandTarget(null);
@@ -3035,7 +2888,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       await awaitAction(operation, result, "\u5DF2\u8BF7\u6C42\u5C55\u5F00\uFF0C\u4F46\u53F3\u4FA7\u680F\u72B6\u6001\u5C1A\u672A\u786E\u8BA4\uFF0C\u8BF7\u68C0\u67E5\u3002");
     }
     await waitFor(operation, () => {
-      const shown = read(presentation, null);
+      const shown = read2(presentation, null);
       return shown?.sessionId === operation.id && shown.expanded === true && sidebar.isExpanded() === true;
     }, "\u5DF2\u8BF7\u6C42\u5C55\u5F00\uFF0C\u4F46\u53F3\u4FA7\u680F\u72B6\u6001\u5C1A\u672A\u786E\u8BA4\uFF0C\u8BF7\u68C0\u67E5\u3002");
     expandGuard(operation);
@@ -3056,22 +2909,22 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       listeners.add(registered);
       if (listeners.size === 1) {
         try {
-          for (const source of sources) {
+          for (const source2 of sources) {
             if (disposed || !listeners.size) break;
-            const stop3 = source.subscribe(changed);
-            if (disposed || !listeners.size) stop3();
-            else subscriptions.push(stop3);
+            const stop5 = source2.subscribe(changed);
+            if (disposed || !listeners.size) stop5();
+            else subscriptions.push(stop5);
           }
           if (!disposed && listeners.size) changed();
         } catch (reason) {
-          for (const stop3 of subscriptions.splice(0)) stop3();
+          for (const stop5 of subscriptions.splice(0)) stop5();
           listeners.delete(registered);
           throw reason;
         }
       }
       return () => {
         listeners.delete(registered);
-        if (!listeners.size) for (const stop3 of subscriptions.splice(0)) stop3();
+        if (!listeners.size) for (const stop5 of subscriptions.splice(0)) stop5();
       };
     },
     openTab(options = {}) {
@@ -3097,7 +2950,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       if (disposed) return Promise.reject(failure2("closed", "\u7A97\u53E3\u5DE5\u5177\u5DF2\u5173\u95ED\u3002"));
       if (pending) return pending.kind === "collapse" ? pending.promise : Promise.reject(failure2("busy", "\u7A97\u53E3\u64CD\u4F5C\u6B63\u5728\u8FDB\u884C\uFF0C\u8BF7\u7A0D\u540E\u518D\u6536\u8D77\u53F3\u4FA7\u680F\u3002"));
       if (!visibleExpanded()) return Promise.resolve(Object.freeze({ collapsed: false }));
-      const operation = { kind: "collapse", id: read(sidebar.mounted, null), controller: new AbortController(), deadline: Date.now() + duration, issued: false };
+      const operation = { kind: "collapse", id: read2(sidebar.mounted, null), controller: new AbortController(), deadline: Date.now() + duration, issued: false };
       operation.promise = Promise.resolve().then(() => collapse(operation)).finally(() => {
         if (pending === operation) pending = null;
         changed();
@@ -3112,7 +2965,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       const data = catalog(), id = currentTabSession(data), hadTabs = hasTabsFor(id);
       if (!hadTabs && !visibleExistingSession(id, data)) return Promise.resolve(Object.freeze({ expanded: false }));
       const context = contextOf(data), summary = data.list.byId?.[id];
-      const operation = { kind: "expand", id, hadTabs, initialPanel: panel(), initialMounted: read(sidebar?.mounted, null), catalogBound: context?.id === id, allowBlank: Boolean(summary?.blank && panel() === null), controller: new AbortController(), deadline: Date.now() + duration, navigationIssued: false, surfaceReady: false, issued: false };
+      const operation = { kind: "expand", id, hadTabs, initialPanel: panel(), initialMounted: read2(sidebar?.mounted, null), catalogBound: context?.id === id, allowBlank: Boolean(summary?.blank && panel() === null), controller: new AbortController(), deadline: Date.now() + duration, navigationIssued: false, surfaceReady: false, issued: false };
       operation.promise = Promise.resolve().then(() => expand(operation)).finally(() => {
         if (pending === operation) pending = null;
         changed();
@@ -3125,7 +2978,7 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
       if (disposed) return;
       disposed = true;
       pending?.controller.abort(failure2("closed", "\u7A97\u53E3\u5DE5\u5177\u5DF2\u5173\u95ED\uFF0C\u5DF2\u53D6\u6D88\u7B49\u5F85\u3002"));
-      for (const stop3 of subscriptions.splice(0)) stop3();
+      for (const stop5 of subscriptions.splice(0)) stop5();
       listeners.clear();
       refresh();
       publishedSnapshot = snapshot2;
@@ -3133,24 +2986,190 @@ function createWindowChromeModel(ctx, { presentation, motion, timeoutMs = 6e3 } 
   };
 }
 
+// window-navigation-model.js
+var source = (value) => typeof value?.getSnapshot === "function" && typeof value?.subscribe === "function";
+var same = (a, b) => a?.kind === b?.kind && a?.id === b?.id;
+function createWindowNavigationModel(ctx, { limit = 80 } = {}) {
+  const { layout, uiWorkspace, sessions, workspaces, slots } = ctx;
+  const capacity = Number.isFinite(limit) ? Math.max(2, Math.min(80, Math.floor(limit))) : 80;
+  const selection = source(uiWorkspace?.selection) ? uiWorkspace.selection : null;
+  const sources = [...new Set([layout?.panelInfo, selection, sessions?.list, workspaces?.list].filter(source))];
+  const listeners = /* @__PURE__ */ new Set();
+  let entries = [], cursor = -1, snapshot2, subscriptions = [], queued = false, epoch = 0, disposed = false;
+  const read2 = (observable, fallback) => observable?.getSnapshot?.() ?? fallback;
+  function panelExists(id) {
+    const list = typeof slots?.entries === "function" ? slots.entries("main") : slots?.entriesOfSlot?.("main");
+    return Array.isArray(list) && list.some((entry) => entry.options?.key === id);
+  }
+  function available(entry) {
+    if (!entry) return false;
+    if (entry.kind === "panel") return typeof layout?.selectPanel === "function" && panelExists(entry.id);
+    const catalog = read2(sessions?.list, { byId: {} });
+    return typeof uiWorkspace?.openSession === "function" && Boolean(catalog.byId?.[entry.id]) && !read2(workspaces?.list, {}).archivedSessionIds?.includes(entry.id);
+  }
+  function current() {
+    const panel = read2(layout?.panelInfo, {}).activePanelId;
+    if (typeof panel === "string") {
+      const entry2 = { kind: "panel", id: panel };
+      return available(entry2) ? entry2 : null;
+    }
+    if (panel !== null) return null;
+    const selected = selection ? read2(selection, {}) : null;
+    const id = selection ? selected.sessionId : Object.values(read2(sessions?.list, { byId: {} }).byId || {}).find((row) => (row?.retainedBy?.mainView || 0) > 0)?.id;
+    if (typeof id !== "string" || !id) return null;
+    const entry = { kind: "session", id, ...selected?.subagentAddress ? { target: { ...selected.subagentAddress } } : {} };
+    return available(entry) ? entry : null;
+  }
+  function seek(direction) {
+    for (let index = cursor + direction; index >= 0 && index < entries.length; index += direction) {
+      if (available(entries[index]) && !same(entries[index], entries[cursor])) return index;
+    }
+    return -1;
+  }
+  function publish() {
+    const selected = entries[cursor];
+    const next = {
+      canBack: !disposed && seek(-1) !== -1,
+      canForward: !disposed && seek(1) !== -1,
+      current: selected ? Object.freeze({ kind: selected.kind, id: selected.id }) : null
+    };
+    if (snapshot2 && snapshot2.canBack === next.canBack && snapshot2.canForward === next.canForward && same(snapshot2.current, next.current)) return;
+    snapshot2 = Object.freeze(next);
+    for (const listener of [...listeners]) listener();
+  }
+  function settle() {
+    if (disposed) return;
+    queued = false;
+    const selected = current();
+    if (selected && !same(selected, entries[cursor])) {
+      entries = entries.slice(0, cursor + 1);
+      entries.push(selected);
+      if (entries.length > capacity) entries.splice(0, entries.length - capacity);
+      cursor = entries.length - 1;
+    } else if (selected) {
+      entries[cursor] = selected;
+    }
+    publish();
+  }
+  function changed() {
+    if (disposed || queued) return;
+    queued = true;
+    const scheduled = epoch;
+    queueMicrotask(() => {
+      if (!disposed && queued && epoch === scheduled) settle();
+    });
+  }
+  function disconnect() {
+    epoch++;
+    queued = false;
+    for (const stop5 of subscriptions.splice(0).reverse()) stop5();
+  }
+  function move(direction) {
+    if (disposed) return false;
+    settle();
+    const index = seek(direction);
+    if (index === -1) return false;
+    const entry = entries[index];
+    if (entry.kind === "panel") layout.selectPanel(entry.id);
+    else uiWorkspace.openSession(entry.target ?? entry.id);
+    if (!same(current(), entry)) return false;
+    cursor = index;
+    publish();
+    return true;
+  }
+  settle();
+  return {
+    getSnapshot: () => snapshot2,
+    subscribe(listener) {
+      if (disposed) return () => {
+      };
+      const registered = () => listener();
+      listeners.add(registered);
+      if (listeners.size === 1) {
+        try {
+          for (const observable of sources) subscriptions.push(observable.subscribe(changed));
+          if (typeof slots?.subscribe === "function") subscriptions.push(slots.subscribe("main", changed));
+          settle();
+        } catch (error) {
+          listeners.delete(registered);
+          disconnect();
+          throw error;
+        }
+      }
+      let stopped = false;
+      return () => {
+        if (stopped) return;
+        stopped = true;
+        listeners.delete(registered);
+        if (!listeners.size) disconnect();
+      };
+    },
+    back: () => move(-1),
+    forward: () => move(1),
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      disconnect();
+      listeners.clear();
+      entries = [];
+      cursor = -1;
+      publish();
+    }
+  };
+}
+
 // window-chrome-ui.js
-var h6 = import_react6.default.createElement;
-var stop2 = (event) => event.stopPropagation();
+var h5 = import_react5.default.createElement;
+var stop = (event) => event.stopPropagation();
 function PlusIcon() {
-  return h6("svg", { width: 18, height: 18, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.35, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h6("rect", { x: 3, y: 3, width: 14, height: 14, rx: 2.5 }), h6("path", { d: "M10 6.5v7M6.5 10h7" }));
+  return h5("svg", { width: 18, height: 18, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.35, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h5("rect", { x: 3, y: 3, width: 14, height: 14, rx: 2.5 }), h5("path", { d: "M10 6.5v7M6.5 10h7" }));
 }
 function CollapseIcon() {
-  return h6("svg", { width: 18, height: 18, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.35, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h6("rect", { x: 3, y: 3, width: 14, height: 14, rx: 2.5 }), h6("path", { d: "M12 3v14" }));
+  return h5("svg", { width: 18, height: 18, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.35, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h5("rect", { x: 3, y: 3, width: 14, height: 14, rx: 2.5 }), h5("path", { d: "M12 3v14" }));
 }
 function ExpandIcon() {
-  return h6("svg", { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h6("path", { d: "M3.5 8V3.5H8M12 3.5h4.5V8M16.5 12v4.5H12M8 16.5H3.5V12" }));
+  return h5("svg", { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h5("path", { d: "M3.5 8V3.5H8M12 3.5h4.5V8M16.5 12v4.5H12M8 16.5H3.5V12" }));
+}
+function NavigationArrow({ forward = false }) {
+  return h5(
+    "svg",
+    { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true },
+    h5("path", { d: forward ? "M4 10h12M10.5 4.5 16 10l-5.5 5.5" : "M16 10H4M9.5 4.5 4 10l5.5 5.5" })
+  );
+}
+function WindowNavigationToolbar({ model }) {
+  const snapshot2 = import_react5.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const [error, setError] = import_react5.default.useState(null);
+  const alive = import_react5.default.useRef(true);
+  import_react5.default.useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
+  import_react5.default.useEffect(() => setError(null), [snapshot2.current]);
+  async function navigate(direction) {
+    setError(null);
+    try {
+      await model[direction]();
+    } catch (reason) {
+      if (alive.current) setError(reason?.message || "\u6682\u65F6\u65E0\u6CD5\u5207\u6362\u9875\u9762\uFF0C\u8BF7\u91CD\u8BD5\u3002");
+    }
+  }
+  return h5(
+    "div",
+    { className: "cgpt-window-navigation", role: "group", "aria-label": "\u9875\u9762\u5BFC\u822A", onClick: stop, onPointerDown: stop, onContextMenu: stop },
+    h5("button", { type: "button", className: "cgpt-window-navigation-button", "aria-label": "\u8FD4\u56DE", title: "\u8FD4\u56DE", disabled: !snapshot2.canBack, onClick: () => navigate("back") }, h5(NavigationArrow)),
+    h5("button", { type: "button", className: "cgpt-window-navigation-button", "aria-label": "\u524D\u8FDB", title: "\u524D\u8FDB", disabled: !snapshot2.canForward, onClick: () => navigate("forward") }, h5(NavigationArrow, { forward: true })),
+    error && h5("div", { className: "cgpt-window-notice", "data-error": true, role: "alert" }, h5("span", null, error), h5("button", { type: "button", "aria-label": "\u5173\u95ED\u63D0\u793A", onClick: () => setError(null) }, "\xD7"))
+  );
 }
 function WindowChromeToolbar({ model, Menu: Menu2, MenuItem, Modal }) {
-  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
-  const [open, setOpen] = import_react6.default.useState(false), [picker, setPicker] = import_react6.default.useState(null), [query, setQuery] = import_react6.default.useState(""), [notice, setNotice] = import_react6.default.useState(null);
-  const [direction, setDirection] = import_react6.default.useState(null);
-  const alive = import_react6.default.useRef(true);
-  const action = import_react6.default.useRef(null), scope = import_react6.default.useRef({ model, id: snapshot2.context?.id ?? null });
+  const snapshot2 = import_react5.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const [open, setOpen] = import_react5.default.useState(false), [picker, setPicker] = import_react5.default.useState(null), [query, setQuery] = import_react5.default.useState(""), [notice, setNotice] = import_react5.default.useState(null);
+  const [direction, setDirection] = import_react5.default.useState(null);
+  const alive = import_react5.default.useRef(true);
+  const action = import_react5.default.useRef(null), scope = import_react5.default.useRef({ model, id: snapshot2.context?.id ?? null });
   const contextId = snapshot2.context?.id ?? null;
   if (scope.current.model !== model || scope.current.id !== contextId) {
     const pending = action.current;
@@ -3158,23 +3177,23 @@ function WindowChromeToolbar({ model, Menu: Menu2, MenuItem, Modal }) {
     else if (pending) pending.invalid = true;
     scope.current = { model, id: contextId };
   }
-  import_react6.default.useEffect(() => {
+  import_react5.default.useEffect(() => {
     alive.current = true;
     return () => {
       alive.current = false;
     };
   }, []);
-  import_react6.default.useEffect(() => {
+  import_react5.default.useEffect(() => {
     if (!notice || notice.error) return;
     const timer = setTimeout(() => setNotice(null), 4500);
     return () => clearTimeout(timer);
   }, [notice]);
-  import_react6.default.useEffect(() => {
+  import_react5.default.useEffect(() => {
     setOpen(false);
     setPicker(null);
   }, [snapshot2.expanded, snapshot2.hasTabs, snapshot2.canExpand, contextId, model]);
-  const closeMenu = import_react6.default.useCallback(() => setOpen(false), []);
-  const closePicker = import_react6.default.useCallback(() => setPicker(null), []);
+  const closeMenu = import_react5.default.useCallback(() => setOpen(false), []);
+  const closePicker = import_react5.default.useCallback(() => setPicker(null), []);
   function begin(target = contextId) {
     const ticket = { model, target, from: contextId, switched: false, invalid: false };
     action.current = ticket;
@@ -3219,10 +3238,10 @@ function WindowChromeToolbar({ model, Menu: Menu2, MenuItem, Modal }) {
   const busy = snapshot2.busy || Boolean(direction);
   const busyText = direction === "collapse" ? "\u6B63\u5728\u6536\u8D77\u53F3\u4FA7\u9762\u677F\u2026" : direction === "expand" ? "\u6B63\u5728\u5C55\u5F00\u53F3\u4FA7\u9762\u677F\u2026" : "\u6B63\u5728\u6253\u5F00\u6807\u7B7E\u9875\u2026";
   const panelAction = snapshot2.expanded ? "\u6536\u8D77\u53F3\u4FA7\u9762\u677F" : "\u5C55\u5F00\u53F3\u4FA7\u9762\u677F";
-  return h6(
+  return h5(
     "div",
-    { className: "cgpt-window-toolbar", onClick: stop2, onPointerDown: stop2, onContextMenu: stop2 },
-    snapshot2.expanded || snapshot2.hasTabs || snapshot2.canExpand ? h6("button", { type: "button", className: "cgpt-window-plus", "aria-label": panelAction, title: busy ? busyText : panelAction, "aria-expanded": snapshot2.expanded, "aria-busy": busy, disabled: busy, onClick: () => changePanel(snapshot2.expanded ? "collapse" : "expand") }, h6(CollapseIcon)) : h6(
+    { className: "cgpt-window-toolbar", onClick: stop, onPointerDown: stop, onContextMenu: stop },
+    snapshot2.expanded || snapshot2.hasTabs || snapshot2.canExpand ? h5("button", { type: "button", className: "cgpt-window-plus", "aria-label": panelAction, title: busy ? busyText : panelAction, "aria-expanded": snapshot2.expanded, "aria-busy": busy, disabled: busy, onClick: () => changePanel(snapshot2.expanded ? "collapse" : "expand") }, h5(CollapseIcon)) : h5(
       Menu2,
       {
         open,
@@ -3232,13 +3251,13 @@ function WindowChromeToolbar({ model, Menu: Menu2, MenuItem, Modal }) {
         onClose: closeMenu,
         className: "cgpt-window-plus-menu",
         listClassName: "cgpt-window-plus-menu",
-        anchor: h6("button", { type: "button", className: "cgpt-window-plus", "aria-label": "\u65B0\u5EFA\u6807\u7B7E\u9875\u83DC\u5355", title: busy ? busyText : "\u65B0\u5EFA\u6807\u7B7E\u9875", "aria-haspopup": "menu", "aria-expanded": open, "aria-busy": busy, disabled: busy, onClick: () => setOpen((value) => !value) }, h6(PlusIcon))
+        anchor: h5("button", { type: "button", className: "cgpt-window-plus", "aria-label": "\u65B0\u5EFA\u6807\u7B7E\u9875\u83DC\u5355", title: busy ? busyText : "\u65B0\u5EFA\u6807\u7B7E\u9875", "aria-haspopup": "menu", "aria-expanded": open, "aria-busy": busy, disabled: busy, onClick: () => setOpen((value) => !value) }, h5(PlusIcon))
       },
-      h6(MenuItem, { icon: h6("span", { "aria-hidden": true, className: "cgpt-window-menu-plus" }, "+"), disabled: !snapshot2.available || snapshot2.busy, onSelect: () => choose(false) }, "\u65B0\u5EFA\u6807\u7B7E\u9875"),
-      h6(MenuItem, { icon: h6(ExpandIcon), disabled: !snapshot2.available || snapshot2.busy, onSelect: () => choose(true) }, "\u5728\u5B8C\u6574\u89C6\u56FE\u4E2D\u6253\u5F00\u65B0\u6807\u7B7E\u9875"),
-      h6("p", { className: "cgpt-window-menu-context" }, snapshot2.available ? snapshot2.context ? "\u57FA\u4E8E\u4F1A\u8BDD\uFF1A" + snapshot2.context.title : "\u9009\u62E9\u5DF2\u6709\u4F1A\u8BDD\u540E\u6253\u5F00\u5DE5\u5177\u6807\u7B7E\u9875" : "\u539F\u751F\u6807\u7B7E\u9875\u529F\u80FD\u6682\u4E0D\u53EF\u7528")
+      h5(MenuItem, { icon: h5("span", { "aria-hidden": true, className: "cgpt-window-menu-plus" }, "+"), disabled: !snapshot2.available || snapshot2.busy, onSelect: () => choose(false) }, "\u65B0\u5EFA\u6807\u7B7E\u9875"),
+      h5(MenuItem, { icon: h5(ExpandIcon), disabled: !snapshot2.available || snapshot2.busy, onSelect: () => choose(true) }, "\u5728\u5B8C\u6574\u89C6\u56FE\u4E2D\u6253\u5F00\u65B0\u6807\u7B7E\u9875"),
+      h5("p", { className: "cgpt-window-menu-context" }, snapshot2.available ? snapshot2.context ? "\u57FA\u4E8E\u4F1A\u8BDD\uFF1A" + snapshot2.context.title : "\u9009\u62E9\u5DF2\u6709\u4F1A\u8BDD\u540E\u6253\u5F00\u5DE5\u5177\u6807\u7B7E\u9875" : "\u539F\u751F\u6807\u7B7E\u9875\u529F\u80FD\u6682\u4E0D\u53EF\u7528")
     ),
-    !snapshot2.expanded && !snapshot2.hasTabs && !snapshot2.canExpand && picker && h6(
+    !snapshot2.expanded && !snapshot2.hasTabs && !snapshot2.canExpand && picker && h5(
       Modal,
       {
         open: true,
@@ -3247,25 +3266,25 @@ function WindowChromeToolbar({ model, Menu: Menu2, MenuItem, Modal }) {
         closeLabel: "\u5173\u95ED",
         onClose: closePicker,
         className: "cgpt-window-session-modal",
-        footer: h6("button", { type: "button", className: "cgpt-window-secondary", onClick: closePicker }, "\u53D6\u6D88")
+        footer: h5("button", { type: "button", className: "cgpt-window-secondary", onClick: closePicker }, "\u53D6\u6D88")
       },
-      snapshot2.sessions.length > 0 && h6("input", { type: "search", className: "cgpt-window-session-search", "aria-label": "\u641C\u7D22\u5DF2\u6709\u4F1A\u8BDD", placeholder: "\u641C\u7D22\u5DF2\u6709\u4F1A\u8BDD", value: query, "data-modal-autofocus": true, onChange: (event) => setQuery(event.target.value) }),
-      h6("ul", { className: "cgpt-window-session-list" }, filtered.map((entry) => h6("li", { key: entry.id }, h6("button", { type: "button", onClick: () => run(picker.fullscreen, entry.id), "aria-label": "\u5728\u300C" + entry.title + "\u300D\u4E2D\u6253\u5F00\u6807\u7B7E\u9875" }, h6("span", null, entry.title), entry.workspaceTitle && h6("small", null, entry.workspaceTitle))))),
-      filtered.length === 0 && h6("p", { className: "cgpt-window-empty" }, snapshot2.sessions.length ? "\u6CA1\u6709\u5339\u914D\u7684\u4F1A\u8BDD\u3002" : "\u6682\u65E0\u5DF2\u6709\u4F1A\u8BDD\u3002\u8BF7\u5148\u6253\u5F00\u4E00\u4E2A\u4F1A\u8BDD\uFF0C\u518D\u4F7F\u7528\u5DE5\u5177\u6807\u7B7E\u9875\u3002")
+      snapshot2.sessions.length > 0 && h5("input", { type: "search", className: "cgpt-window-session-search", "aria-label": "\u641C\u7D22\u5DF2\u6709\u4F1A\u8BDD", placeholder: "\u641C\u7D22\u5DF2\u6709\u4F1A\u8BDD", value: query, "data-modal-autofocus": true, onChange: (event) => setQuery(event.target.value) }),
+      h5("ul", { className: "cgpt-window-session-list" }, filtered.map((entry) => h5("li", { key: entry.id }, h5("button", { type: "button", onClick: () => run(picker.fullscreen, entry.id), "aria-label": "\u5728\u300C" + entry.title + "\u300D\u4E2D\u6253\u5F00\u6807\u7B7E\u9875" }, h5("span", null, entry.title), entry.workspaceTitle && h5("small", null, entry.workspaceTitle))))),
+      filtered.length === 0 && h5("p", { className: "cgpt-window-empty" }, snapshot2.sessions.length ? "\u6CA1\u6709\u5339\u914D\u7684\u4F1A\u8BDD\u3002" : "\u6682\u65E0\u5DF2\u6709\u4F1A\u8BDD\u3002\u8BF7\u5148\u6253\u5F00\u4E00\u4E2A\u4F1A\u8BDD\uFF0C\u518D\u4F7F\u7528\u5DE5\u5177\u6807\u7B7E\u9875\u3002")
     ),
-    busy && !direction && h6("div", { className: "cgpt-window-notice", role: "status" }, busyText),
-    !busy && notice && h6("div", { className: "cgpt-window-notice", "data-error": notice.error || void 0, role: notice.error ? "alert" : "status" }, h6("span", null, notice.text), h6("button", { type: "button", "aria-label": "\u5173\u95ED\u63D0\u793A", onClick: () => setNotice(null) }, "\xD7"))
+    busy && !direction && h5("div", { className: "cgpt-window-notice", role: "status" }, busyText),
+    !busy && notice && h5("div", { className: "cgpt-window-notice", "data-error": notice.error || void 0, role: notice.error ? "alert" : "status" }, h5("span", null, notice.text), h5("button", { type: "button", "aria-label": "\u5173\u95ED\u63D0\u793A", onClick: () => setNotice(null) }, "\xD7"))
   );
 }
 function GlobalWindowChrome({ ctx, Menu: Menu2, MenuItem, Modal }) {
-  const ref = import_react6.default.useRef(null), [host, setHost] = import_react6.default.useState(null);
-  const [, refreshServices] = import_react6.default.useState(0);
-  import_react6.default.useLayoutEffect(() => {
+  const ref = import_react5.default.useRef(null), [host, setHost] = import_react5.default.useState(null);
+  const [, refreshServices] = import_react5.default.useState(0);
+  import_react5.default.useLayoutEffect(() => {
     const mounted = mountWindowChrome(ref.current);
     setHost(mounted);
     return () => mounted?.dispose();
   }, []);
-  import_react6.default.useEffect(() => ctx.slots.subscribe("rightbar", () => refreshServices((value) => value + 1)), [ctx.slots]);
+  import_react5.default.useEffect(() => ctx.slots.subscribe("rightbar", () => refreshServices((value) => value + 1)), [ctx.slots]);
   const optional = (name) => {
     try {
       return ctx.get?.(name);
@@ -3274,13 +3293,1655 @@ function GlobalWindowChrome({ ctx, Menu: Menu2, MenuItem, Modal }) {
     }
   };
   const sidebarRight = optional("sidebarRight"), sidebarRightTabs = optional("sidebarRightTabs");
-  const model = import_react6.default.useMemo(() => host ? createWindowChromeModel({ sessions: ctx.sessions, workspaces: ctx.workspaces, layout: ctx.layout, uiWorkspace: ctx.uiWorkspace, sidebarRight, sidebarRightTabs }, { presentation: host.presentation, motion: host.motion }) : null, [host, ctx.sessions, ctx.workspaces, ctx.layout, ctx.uiWorkspace, sidebarRight, sidebarRightTabs]);
-  import_react6.default.useEffect(() => () => model?.dispose(), [model]);
-  return h6(import_react6.default.Fragment, null, h6("span", { ref, className: "cgpt-window-chrome-anchor", "aria-hidden": true }), host && model && (0, import_react_dom.createPortal)(h6(WindowChromeToolbar, { model, Menu: Menu2, MenuItem, Modal }), host.seat));
+  const model = import_react5.default.useMemo(() => host ? createWindowChromeModel({ sessions: ctx.sessions, workspaces: ctx.workspaces, layout: ctx.layout, uiWorkspace: ctx.uiWorkspace, sidebarRight, sidebarRightTabs }, { presentation: host.presentation, motion: host.motion }) : null, [host, ctx.sessions, ctx.workspaces, ctx.layout, ctx.uiWorkspace, sidebarRight, sidebarRightTabs]);
+  const navigation = import_react5.default.useMemo(() => host?.navigationSeat ? createWindowNavigationModel(ctx) : null, [host, ctx]);
+  import_react5.default.useEffect(() => () => model?.dispose(), [model]);
+  import_react5.default.useEffect(() => () => navigation?.dispose(), [navigation]);
+  return h5(import_react5.default.Fragment, null, h5("span", { ref, className: "cgpt-window-chrome-anchor", "aria-hidden": true }), host && model && (0, import_react_dom.createPortal)(h5(WindowChromeToolbar, { model, Menu: Menu2, MenuItem, Modal }), host.seat), host?.navigationSeat && navigation && (0, import_react_dom.createPortal)(h5(WindowNavigationToolbar, { model: navigation }), host.navigationSeat));
+}
+
+// app-dock-model.js
+var RECENT_LIMIT = 5;
+function createAppDockModel({ navigationModel, slots, layout }) {
+  const listeners = /* @__PURE__ */ new Set();
+  let recent = [], dismissed = /* @__PURE__ */ new Set(), lastActive, icons = /* @__PURE__ */ new Map(), snapshot2, published, stops = [], disposed = false, operation = 0;
+  let state = { libraryOpen: false, query: "", filter: "all", error: "", loadingId: null };
+  function refresh() {
+    const nav = navigationModel.getSnapshot(), main = new Set((slots.entries("main") || []).map((entry) => entry.options?.key));
+    const activeId = layout.panelInfo.getSnapshot().activePanelId;
+    const valid = nav.all.filter((row) => row.kind === "panel" && main.has(row.id)), ids = new Set(valid.map((row) => row.id));
+    recent = recent.filter((id) => ids.has(id));
+    if (activeId !== lastActive) {
+      lastActive = activeId;
+      if (ids.has(activeId)) {
+        recent = [activeId, ...recent.filter((id) => id !== activeId)].slice(0, RECENT_LIMIT);
+        dismissed.delete(activeId);
+      }
+    }
+    const pins = new Set(nav.dockIds), recentIds = new Set(recent);
+    const apps = valid.map((row) => ({ id: row.id, label: row.label, iconUrl: icons.get(row.id) || "", active: row.id === activeId || row.id === "home" && activeId === null, pinned: pins.has(row.id), recent: recentIds.has(row.id) }));
+    const byId = new Map(apps.map((row) => [row.id, row]));
+    const pinned = nav.dockIds.map((id) => byId.get(id)).filter(Boolean);
+    const temporary = recent.filter((id) => !pins.has(id) && !dismissed.has(id)).map((id) => byId.get(id)).filter(Boolean);
+    const canShowNativeMore = nav.overflow.some((row) => row.kind === "action") || slots.entriesOfSlot("sidebar.panellist.actions").some((entry) => entry.options?.id !== "entry-customization");
+    const next = { ...state, apps, dock: [...pinned, ...temporary], canShowNativeMore, reservedEntryCount: nav.visible.filter((row) => row.kind === "action").length + (canShowNativeMore ? 1 : 0) };
+    if (snapshot2 && JSON.stringify(snapshot2) === JSON.stringify(next)) return;
+    snapshot2 = Object.freeze({ ...next, apps: Object.freeze(apps.map(Object.freeze)), dock: Object.freeze([...pinned, ...temporary]) });
+  }
+  function changed() {
+    if (disposed) return;
+    refresh();
+    if (snapshot2 === published) return;
+    published = snapshot2;
+    for (const listener of [...listeners]) listener();
+  }
+  function available(id) {
+    refresh();
+    return snapshot2.apps.find((row) => row.id === id);
+  }
+  function change(action) {
+    state.error = "";
+    try {
+      action();
+      changed();
+      return true;
+    } catch (error) {
+      state.error = error?.message || "\u65E0\u6CD5\u4FDD\u5B58\u5E94\u7528\u680F\u8BBE\u7F6E";
+      changed();
+      return false;
+    }
+  }
+  function disconnect() {
+    for (const stop5 of stops.splice(0)) stop5();
+  }
+  refresh();
+  published = snapshot2;
+  const model = {
+    getSnapshot() {
+      refresh();
+      return snapshot2;
+    },
+    subscribe(listener) {
+      if (disposed) return () => {
+      };
+      const registered = () => listener();
+      listeners.add(registered);
+      if (listeners.size === 1) try {
+        stops.push(navigationModel.subscribe(changed));
+        stops.push(layout.panelInfo.subscribe(changed));
+        stops.push(slots.subscribe("main", changed));
+        changed();
+      } catch (error) {
+        listeners.delete(registered);
+        disconnect();
+        throw error;
+      }
+      return () => {
+        listeners.delete(registered);
+        if (!listeners.size) disconnect();
+      };
+    },
+    setIcons(next) {
+      if (disposed) return;
+      const entries = [...next].filter(([id, url]) => typeof id === "string" && typeof url === "string");
+      if (entries.length === icons.size && entries.every(([id, url]) => icons.get(id) === url)) return;
+      icons = new Map(entries);
+      changed();
+    },
+    openLibrary() {
+      if (disposed) return;
+      state = { ...state, libraryOpen: true, query: "", filter: "all", error: "" };
+      changed();
+    },
+    closeLibrary() {
+      if (disposed) return;
+      operation++;
+      state = { ...state, libraryOpen: false, error: "", loadingId: null };
+      changed();
+    },
+    setQuery(value) {
+      if (disposed) return;
+      state.query = String(value).slice(0, 200);
+      changed();
+    },
+    setFilter(value) {
+      if (disposed || !["all", "pinned", "recent"].includes(value)) return;
+      state.filter = value;
+      changed();
+    },
+    async open(id) {
+      if (disposed || state.loadingId) return false;
+      if (!available(id)) {
+        state.error = "\u8FD9\u4E2A\u5E94\u7528\u5165\u53E3\u5DF2\u4E0D\u53EF\u7528\uFF0C\u8BF7\u5237\u65B0\u5E94\u7528\u5217\u8868\u3002";
+        changed();
+        return false;
+      }
+      const epoch = ++operation;
+      state.loadingId = id;
+      state.error = "";
+      changed();
+      try {
+        await navigationModel.run(id);
+        if (disposed || epoch !== operation) return true;
+        recent = [id, ...recent.filter((value) => value !== id)].slice(0, RECENT_LIMIT);
+        dismissed.delete(id);
+        state = { ...state, libraryOpen: false, loadingId: null, error: "" };
+        changed();
+        return true;
+      } catch (error) {
+        if (!disposed && epoch === operation) {
+          state.error = error?.message || "\u5E94\u7528\u6682\u65F6\u65E0\u6CD5\u6253\u5F00";
+          state.loadingId = null;
+          changed();
+        }
+        return false;
+      }
+    },
+    pin(id, enabled) {
+      if (disposed) return false;
+      return change(() => {
+        if (!available(id)) throw new Error("\u8FD9\u4E2A\u5E94\u7528\u5165\u53E3\u5DF2\u4E0D\u53EF\u7528");
+        navigationModel.toggleDock(id, enabled);
+        if (!enabled) dismissed.add(id);
+        else dismissed.delete(id);
+      });
+    },
+    move(id, delta) {
+      if (disposed) return false;
+      return change(() => navigationModel.move(id, delta));
+    },
+    place(id, targetId, after) {
+      if (disposed) return false;
+      return change(() => {
+        const a = available(id), b = available(targetId);
+        if (!a?.pinned || !b?.pinned || id === "home" || id === targetId) return;
+        const ids = [...navigationModel.getSnapshot().dockIds].filter((value) => value !== id);
+        ids.splice(Math.max(1, ids.indexOf(targetId) + (after ? 1 : 0)), 0, id);
+        navigationModel.setDockIds(ids);
+      });
+    },
+    dismissRecent(id) {
+      if (disposed) return;
+      dismissed.add(id);
+      changed();
+    },
+    openPluginManager() {
+      return model.open("plugins");
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      operation++;
+      disconnect();
+      listeners.clear();
+    }
+  };
+  return model;
+}
+
+// app-icons.js
+var SVG_NS = "http://www.w3.org/2000/svg";
+var SHAPES = /* @__PURE__ */ new Set(["path", "circle", "ellipse", "rect", "line", "polyline", "polygon", "g"]);
+var GEOMETRY = { path: ["d", "pathLength"], circle: ["cx", "cy", "r", "pathLength"], ellipse: ["cx", "cy", "rx", "ry", "pathLength"], rect: ["x", "y", "width", "height", "rx", "ry", "pathLength"], line: ["x1", "y1", "x2", "y2", "pathLength"], polyline: ["points", "pathLength"], polygon: ["points", "pathLength"], g: [] };
+var PRESENTATION = ["fill", "stroke", "fill-rule", "clip-rule", "stroke-width", "stroke-linecap", "stroke-linejoin", "stroke-miterlimit", "stroke-dasharray", "stroke-dashoffset", "opacity", "fill-opacity", "stroke-opacity", "transform"];
+var NUMBERS = /^[\s,+.\-\deE]+$/;
+var escape = (value) => value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var nameOf = (node) => String(node?.localName || node?.tagName || "").toLowerCase();
+function allowedValue(name, value) {
+  if (!value || value.length > 16e3 || /[<>&"'\\]/.test(value) || /url\s*\(/i.test(value)) return false;
+  if (name === "d") return /^[\s,0-9.+\-eEmMzZlLhHvVcCsSqQtTaA]+$/.test(value);
+  if (name === "fill" || name === "stroke") return /^(?:none|currentColor|transparent|#[0-9a-f]{3,8}|[a-z]+|(?:rgb|rgba|hsl|hsla)\([\d\s.,%+\-/]+\))$/i.test(value);
+  if (name === "fill-rule" || name === "clip-rule") return /^(?:nonzero|evenodd)$/.test(value);
+  if (name === "stroke-linecap") return /^(?:butt|round|square)$/.test(value);
+  if (name === "stroke-linejoin") return /^(?:miter|round|bevel)$/.test(value);
+  if (name === "transform") return /^(?:\s*(?:matrix|translate|scale|rotate|skewX|skewY)\([\s,+.\-\deE]+\)\s*)+$/.test(value);
+  if (name === "stroke-dasharray" && value === "none") return true;
+  return NUMBERS.test(value);
+}
+function attributes(node, names) {
+  return names.flatMap((name) => {
+    const value = node.getAttribute?.(name)?.trim();
+    return typeof value === "string" && allowedValue(name, value) ? [" " + name + '="' + escape(value) + '"'] : [];
+  }).join("");
+}
+function svgImage(root) {
+  if (nameOf(root) !== "svg" || root.namespaceURI && root.namespaceURI !== SVG_NS) return null;
+  let count = 0, geometry = 0;
+  const masks = /* @__PURE__ */ new Map(), copiedMasks = /* @__PURE__ */ new Map(), maskIds = /* @__PURE__ */ new Map(), visitingMasks = /* @__PURE__ */ new Set();
+  for (const defs of root.children || []) {
+    if (nameOf(defs) !== "defs" || defs.namespaceURI && defs.namespaceURI !== SVG_NS) continue;
+    for (const mask of defs.children || []) {
+      if (nameOf(mask) !== "mask" || mask.namespaceURI && mask.namespaceURI !== SVG_NS) continue;
+      const id = mask.getAttribute?.("id");
+      if (typeof id === "string" && /^[a-z_][\w.:-]{0,127}$/i.test(id)) masks.set(id, masks.has(id) ? null : mask);
+    }
+  }
+  function maskAttribute(node, depth) {
+    const value = node.getAttribute?.("mask")?.trim();
+    if (value == null || value === "none") return "";
+    const match = /^url\(#([a-z_][\w.:-]{0,127})\)$/i.exec(value);
+    const mask = match && masks.get(match[1]);
+    if (!mask || visitingMasks.has(match[1])) throw new Error("Unsupported icon mask");
+    const sourceId = match[1];
+    if (!maskIds.has(sourceId)) maskIds.set(sourceId, "app-icon-mask-" + (maskIds.size + 1));
+    if (!copiedMasks.has(sourceId)) {
+      if (depth > 12 || ++count > 256) throw new Error("Oversized icon");
+      visitingMasks.add(sourceId);
+      let units = "";
+      for (const name of ["maskUnits", "maskContentUnits"]) {
+        const unit = mask.getAttribute?.(name);
+        if (unit != null) {
+          if (unit !== "userSpaceOnUse" && unit !== "objectBoundingBox") throw new Error("Unsupported mask units");
+          units += " " + name + '="' + unit + '"';
+        }
+      }
+      const type = mask.getAttribute?.("mask-type");
+      if (type != null) {
+        if (type !== "luminance" && type !== "alpha") throw new Error("Unsupported mask type");
+        units += ' mask-type="' + type + '"';
+      }
+      const before = geometry;
+      const children = Array.from(mask.children || []).map((child) => copy2(child, depth + 1)).join("");
+      if (geometry === before) throw new Error("Empty icon mask");
+      copiedMasks.set(sourceId, '<mask id="' + maskIds.get(sourceId) + '"' + units + attributes(mask, ["x", "y", "width", "height", ...PRESENTATION]) + ">" + children + "</mask>");
+      visitingMasks.delete(sourceId);
+    }
+    return ' mask="url(#' + maskIds.get(sourceId) + ')"';
+  }
+  function copy2(node, depth) {
+    if (depth > 12 || ++count > 256) throw new Error("Oversized icon");
+    const name = nameOf(node);
+    if (!SHAPES.has(name) || node.namespaceURI && node.namespaceURI !== SVG_NS) return "";
+    if (name !== "g") geometry++;
+    return "<" + name + attributes(node, [...GEOMETRY[name], ...PRESENTATION]) + maskAttribute(node, depth) + ">" + Array.from(node.children || []).map((child) => copy2(child, depth + 1)).join("") + "</" + name + ">";
+  }
+  try {
+    const children = Array.from(root.children || []).map((child) => copy2(child, 0)).join("");
+    if (!geometry) return null;
+    const raw = root.getAttribute?.("viewBox")?.trim();
+    const box = raw?.split(/[\s,]+/).map(Number);
+    let viewBox = "0 0 24 24";
+    if (box?.length === 4 && box.every(Number.isFinite) && box[2] > 0 && box[3] > 0) viewBox = box.join(" ");
+    else {
+      const width = Number(root.getAttribute?.("width")), height = Number(root.getAttribute?.("height"));
+      if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) viewBox = "0 0 " + width + " " + height;
+    }
+    const rootFill = root.getAttribute?.("fill")?.trim();
+    const rootMask = maskAttribute(root, 0);
+    const definitions = copiedMasks.size ? "<defs>" + Array.from(copiedMasks.values()).join("") + "</defs>" : "";
+    const markup = '<svg xmlns="' + SVG_NS + '" viewBox="' + viewBox + '" color="#fff"' + (rootFill && allowedValue("fill", rootFill) ? "" : ' fill="currentColor"') + attributes(root, PRESENTATION) + rootMask + ">" + definitions + children + "</svg>";
+    if (markup.length > 32768) return null;
+    return "data:image/svg+xml," + encodeURIComponent(markup);
+  } catch {
+    return null;
+  }
+}
+function imageURL(node, document2) {
+  const raw = String(node.currentSrc || node.getAttribute?.("src") || "").trim();
+  if (!raw || raw.length > 256e3 || /[\u0000-\u001f\u007f]/.test(raw)) return null;
+  if (/^data:/i.test(raw)) {
+    if (/^data:image\/(?:png|jpeg|webp);base64,[a-z0-9+/]+=*$/i.test(raw)) return raw;
+    const svg = /^data:image\/svg\+xml(?:;charset=utf-8)?(;base64)?,(.*)$/is.exec(raw);
+    if (!svg) return null;
+    const Parser = document2?.defaultView?.DOMParser;
+    if (typeof Parser !== "function") return null;
+    try {
+      const markup = svg[1] ? document2.defaultView.atob(svg[2]) : decodeURIComponent(svg[2]);
+      if (markup.length > 32768 || /<!DOCTYPE|<!ENTITY/i.test(markup)) return null;
+      const parsed = new Parser().parseFromString(markup, "image/svg+xml");
+      if (parsed.querySelector?.("parsererror")) return null;
+      return svgImage(parsed.documentElement);
+    } catch {
+      return null;
+    }
+  }
+  try {
+    const base = new URL(document2?.baseURI || document2?.location?.href);
+    const url = new URL(raw, base);
+    if (url.username || url.password) return null;
+    const sameOrigin = url.origin !== "null" ? url.origin === base.origin : url.protocol === "dsh-app:" && url.protocol === base.protocol && url.host === base.host;
+    if (sameOrigin && ["https:", "http:", "dsh-app:"].includes(url.protocol)) return url.href;
+    if (url.protocol === "https:" && /\.(?:png|jpe?g|webp|gif|avif|ico|svg)$/i.test(url.pathname)) return url.href;
+  } catch {
+  }
+  return null;
+}
+function readNativeAppIcons(nav) {
+  const icons = /* @__PURE__ */ new Map();
+  for (const button of nav?.querySelectorAll?.("[data-cgpt-nav-button]") || []) {
+    if (button.closest?.("[data-cgpt-app-button],[data-cgpt-app-dock]")) continue;
+    const id = button.getAttribute?.("data-cgpt-nav-button");
+    if (!id || icons.has(id)) continue;
+    const node = button.querySelector?.("svg,img");
+    if (!node) continue;
+    const url = nameOf(node) === "svg" ? svgImage(node) : nameOf(node) === "img" ? imageURL(node, node.ownerDocument || nav.ownerDocument) : null;
+    if (url) icons.set(id, url);
+  }
+  return icons;
+}
+
+// app-dock-host.js
+function mountAppDockSeat(anchor, model) {
+  const nav = anchor?.closest?.("nav");
+  if (!nav) return null;
+  const document2 = nav.ownerDocument, view = document2.defaultView;
+  const seat = document2.createElement("span");
+  seat.className = "cgpt-app-dock-seat";
+  seat.setAttribute("data-cgpt-app-dock", "");
+  const previousMode = nav.getAttribute("data-cgpt-app-mode"), previousMore = nav.getAttribute("data-cgpt-app-native-more");
+  const previousExtra = nav.style.getPropertyValue("--cgpt-app-extra-height");
+  let disposed = false, queued = false;
+  const reflect = () => {
+    const value = model.getSnapshot();
+    nav.setAttribute("data-cgpt-app-native-more", String(value.canShowNativeMore));
+    nav.style.setProperty("--cgpt-app-extra-height", (value.reservedEntryCount || 0) * 44 + "px");
+  };
+  const read2 = () => {
+    if (disposed) return;
+    queued = false;
+    model.setIcons(readNativeAppIcons(nav));
+  };
+  const queue = () => {
+    if (disposed || queued) return;
+    queued = true;
+    queueMicrotask(read2);
+  };
+  nav.appendChild(seat);
+  nav.setAttribute("data-cgpt-app-mode", "");
+  let stop5, observer;
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    stop5?.();
+    observer?.disconnect();
+    seat.remove();
+    if (previousMode === null) nav.removeAttribute("data-cgpt-app-mode");
+    else nav.setAttribute("data-cgpt-app-mode", previousMode);
+    if (previousMore === null) nav.removeAttribute("data-cgpt-app-native-more");
+    else nav.setAttribute("data-cgpt-app-native-more", previousMore);
+    if (previousExtra) nav.style.setProperty("--cgpt-app-extra-height", previousExtra);
+    else nav.style.removeProperty("--cgpt-app-extra-height");
+  };
+  try {
+    stop5 = model.subscribe(reflect);
+    reflect();
+    read2();
+    if (view?.MutationObserver) {
+      observer = new view.MutationObserver((records) => {
+        if (records.some((record) => !record.target?.closest?.("[data-cgpt-app-dock]"))) queue();
+      });
+      observer.observe(nav, { childList: true, subtree: true, attributes: true, attributeFilter: ["src", "d", "viewBox", "fill", "stroke", "data-cgpt-nav-button"] });
+    }
+  } catch (error) {
+    dispose();
+    throw error;
+  }
+  return { node: seat, dispose };
+}
+
+// app-dock-ui.js
+var import_react7 = __toESM(require("react"), 1);
+
+// notification-ui.js
+var import_react6 = __toESM(require("react"), 1);
+var h6 = import_react6.default.createElement;
+var stop2 = (event) => event.stopPropagation();
+var pendingKinds = /* @__PURE__ */ new Set(["approval", "question", "plan-review"]);
+var attention = (item) => pendingKinds.has(item.kind) || item.unread === true;
+var MODE_ATTRIBUTE = "data-cgpt-notification-mode";
+function mountNotificationSeat(anchor, model) {
+  const root = anchor?.closest?.("nav")?.parentElement;
+  if (!root) return null;
+  const document2 = root.ownerDocument, frame = root.closest('[data-slot="sidebar"]')?.parentElement?.parentElement;
+  const previousMode = root.getAttribute(MODE_ATTRIBUTE);
+  const node = document2.createElement("span");
+  node.className = "cgpt-notification-seat";
+  root.appendChild(node);
+  let observer, unsubscribe, disposed = false;
+  const syncMode = () => {
+    if (disposed) return;
+    if (model.getSnapshot().open && !frame?.hasAttribute("data-sidebar-collapsed")) root.setAttribute(MODE_ATTRIBUTE, "");
+    else root.removeAttribute(MODE_ATTRIBUTE);
+  };
+  const closeIfHidden = () => {
+    if (disposed) return;
+    if (frame?.hasAttribute("data-sidebar-collapsed")) model.close();
+    syncMode();
+  };
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    observer?.disconnect();
+    unsubscribe?.();
+    node.remove();
+    if (previousMode === null) root.removeAttribute(MODE_ATTRIBUTE);
+    else root.setAttribute(MODE_ATTRIBUTE, previousMode);
+    model.close();
+  };
+  try {
+    unsubscribe = model.subscribe(syncMode);
+    if (frame && document2.defaultView?.MutationObserver) {
+      observer = new document2.defaultView.MutationObserver(closeIfHidden);
+      observer.observe(frame, { attributes: true, attributeFilter: ["data-sidebar-collapsed"] });
+    }
+    closeIfHidden();
+  } catch (error) {
+    dispose();
+    throw error;
+  }
+  return { node, dispose };
+}
+function BellIcon() {
+  return h6(
+    "svg",
+    { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true },
+    h6("path", { d: "M6 7a4 4 0 0 1 8 0c0 5 1.5 5.2 1.5 6.5H4.5C4.5 12.2 6 12 6 7Zm2 9a2.2 2.2 0 0 0 4 0" })
+  );
+}
+function ReadIcon() {
+  return h6(
+    "svg",
+    { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true },
+    h6("path", { d: "m3 10 3 3 7-7m-3 7 7-7" })
+  );
+}
+function HomeNotificationBadge({ model }) {
+  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  return snapshot2.count > 0 ? h6("span", { className: "cgpt-notification-dot cgpt-home-notification-dot", role: "img", "aria-label": snapshot2.count + " \u6761\u672A\u8BFB\u6216\u5F85\u5904\u7406\u901A\u77E5" }) : null;
+}
+function NotificationBell({ model }) {
+  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const bell = import_react6.default.useRef(null), feedId = import_react6.default.useId();
+  const [selectedId, setSelectedId] = import_react6.default.useState(null);
+  const close = import_react6.default.useCallback(() => {
+    model.close();
+    bell.current?.focus({ preventScroll: true });
+  }, [model]);
+  import_react6.default.useEffect(() => {
+    if (!snapshot2.open) return;
+    const document2 = bell.current?.ownerDocument;
+    const escape2 = (event) => {
+      if (event.key !== "Escape" || event.defaultPrevented || event.isComposing || event.target?.closest?.('[role="dialog"],[role="menu"]')) return;
+      event.preventDefault();
+      event.stopPropagation();
+      close();
+    };
+    document2?.addEventListener("keydown", escape2);
+    return () => document2?.removeEventListener("keydown", escape2);
+  }, [snapshot2.open, close]);
+  const title = snapshot2.count ? "\u901A\u77E5 \xB7 " + snapshot2.count + " \u6761\u672A\u8BFB\u6216\u5F85\u5904\u7406" : "\u901A\u77E5";
+  const priority = snapshot2.items.filter(attention), recent = snapshot2.items.filter((item) => !attention(item));
+  const busy = snapshot2.busyId !== null && snapshot2.busyId !== void 0;
+  const canMarkRead = snapshot2.items.some((item) => !pendingKinds.has(item.kind) && item.unread === true);
+  const select = async (item) => {
+    if (busy) return;
+    try {
+      if (await model.select(item.id) !== false) setSelectedId(item.id);
+    } catch {
+    }
+  };
+  const row = (item) => h6(
+    "button",
+    {
+      key: item.id,
+      type: "button",
+      className: "cgpt-notification-item",
+      disabled: busy,
+      "data-notification-id": item.id,
+      "data-selected": selectedId === item.id ? "" : void 0,
+      "aria-current": selectedId === item.id ? "true" : void 0,
+      onClick: () => {
+        void select(item);
+      }
+    },
+    h6(
+      "span",
+      { className: "cgpt-notification-copy" },
+      h6(
+        "span",
+        { className: "cgpt-notification-title-line" },
+        h6("span", { className: "cgpt-notification-title" }, item.title),
+        item.workspaceTitle && h6("span", { className: "cgpt-notification-workspace" }, item.workspaceTitle)
+      ),
+      h6("span", { className: "cgpt-notification-excerpt" }, snapshot2.busyId === item.id ? "\u6B63\u5728\u6253\u5F00\u2026" : item.excerpt || item.detail),
+      pendingKinds.has(item.kind) && item.excerpt && h6("span", { className: "cgpt-notification-detail" }, item.detail)
+    ),
+    attention(item) && h6("span", { className: "cgpt-notification-item-dot", role: "img", "aria-label": pendingKinds.has(item.kind) ? "\u5F85\u5904\u7406" : "\u672A\u8BFB" })
+  );
+  const readButton = typeof model.markAllRead === "function" && h6("button", {
+    type: "button",
+    className: "cgpt-notification-read-all",
+    disabled: busy || !canMarkRead,
+    "aria-label": "\u5C06\u5B8C\u6210\u901A\u77E5\u5168\u90E8\u6807\u4E3A\u5DF2\u8BFB",
+    title: "\u5C06\u5B8C\u6210\u901A\u77E5\u5168\u90E8\u6807\u4E3A\u5DF2\u8BFB",
+    onClick: () => {
+      void Promise.resolve(model.markAllRead()).catch(() => {
+      });
+    }
+  }, h6(ReadIcon));
+  return h6(
+    "span",
+    { className: "cgpt-notifications", onClick: stop2, onPointerDown: stop2, onContextMenu: stop2 },
+    h6("button", {
+      ref: bell,
+      type: "button",
+      className: "cgpt-notification-button",
+      "aria-label": title,
+      title,
+      "aria-controls": feedId,
+      "aria-expanded": snapshot2.open,
+      onClick: () => snapshot2.open ? model.close() : model.open()
+    }, h6(BellIcon), snapshot2.count > 0 && h6("span", { className: "cgpt-notification-dot", "aria-hidden": true })),
+    snapshot2.open && h6(
+      "section",
+      { id: feedId, className: "cgpt-notification-feed", role: "region", "aria-label": "\u4F1A\u8BDD\u901A\u77E5", "aria-busy": snapshot2.loading || void 0 },
+      h6("div", { className: "cgpt-notification-heading" }, h6("h2", null, priority.length ? "\u4F18\u5148\u4E8B\u9879" : "\u901A\u77E5"), readButton),
+      snapshot2.error && h6("p", { className: "cgpt-notification-error", role: "alert" }, snapshot2.error),
+      snapshot2.notice && h6("p", { className: "cgpt-notification-notice", role: "status" }, snapshot2.notice),
+      h6(
+        "div",
+        { className: "cgpt-notification-list" },
+        priority.length > 0 && h6("div", { className: "cgpt-notification-group", "aria-label": "\u4F18\u5148\u4E8B\u9879" }, priority.map(row)),
+        recent.length > 0 && h6(
+          "div",
+          { className: "cgpt-notification-group", "aria-label": "\u6700\u8FD1\u5B8C\u6210" },
+          h6("h3", { className: "cgpt-notification-group-title" }, "\u6700\u8FD1\u5B8C\u6210"),
+          recent.map(row)
+        ),
+        !snapshot2.items.length && h6(
+          "div",
+          { className: "cgpt-notification-empty", role: "status" },
+          h6(BellIcon),
+          h6("p", null, snapshot2.loading ? "\u6B63\u5728\u8BFB\u53D6\u4F1A\u8BDD\u8BB0\u5F55\u2026" : snapshot2.available ? "\u6682\u65E0\u901A\u77E5\u8BB0\u5F55" : "\u4F1A\u8BDD\u63D0\u9192\u6682\u4E0D\u53EF\u7528"),
+          !snapshot2.loading && h6("small", null, snapshot2.available ? "\u4F1A\u8BDD\u5B8C\u6210\u6216\u9700\u8981\u4F60\u5904\u7406\u65F6\uFF0C\u4F1A\u663E\u793A\u5728\u8FD9\u91CC\u3002" : "\u5F53\u524D\u5BBF\u4E3B\u5C1A\u672A\u63D0\u4F9B\u4F1A\u8BDD\u63D0\u9192\u72B6\u6001\u3002")
+        )
+      )
+    )
+  );
+}
+
+// app-dock-ui.js
+var h7 = import_react7.default.createElement;
+var stop3 = (event) => event.stopPropagation();
+var PATHS = {
+  home: "m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9",
+  plugins: "M14.5 17.1A8 8 0 1 1 18 10c0 3.6-3.3 4.8-5.5 2.5M6.4 10.6l4.2-4.2 2.1 2.1a3 3 0 0 1-4.2 4.2ZM5 9.2l1.4 1.4M9.2 5l1.4 1.4",
+  schedules: "M17.6 10a7.6 7.6 0 1 1-15.2 0 7.6 7.6 0 0 1 15.2 0ZM10 5.5V10l-2.7 2",
+  apps: "M4 4h3v3H4V4Zm6.5 0h3v3h-3V4ZM17 4h3v3h-3V4ZM4 10.5h3v3H4v-3Zm6.5 0h3v3h-3v-3Zm6.5 0h3v3h-3v-3ZM4 17h3v3H4v-3Zm6.5 0h3v3h-3v-3Zm6.5 0h3v3h-3v-3Z",
+  search: "M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Zm4.7-1.8L20 20",
+  close: "m6 6 12 12M18 6 6 18",
+  pin: "m8 3 8 0-1 6 4 4H5l4-4-1-6Zm4 10v8"
+};
+function Glyph2({ name, size = 18 }) {
+  const legacy = name === "plugins" || name === "schedules";
+  return h7("svg", { width: size, height: size, viewBox: legacy ? "0 0 20 20" : "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: legacy ? 1.5 : 1.7, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h7("path", { d: PATHS[name] || PATHS.apps }));
+}
+function AppArtwork({ app }) {
+  const [failed, setFailed] = import_react7.default.useState(null);
+  const label = Array.from(app.label || "?")[0];
+  const url = !["plugins", "schedules"].includes(app.id) && app.iconUrl && failed !== app.iconUrl ? app.iconUrl : null;
+  const monochrome = url?.startsWith("data:image/svg+xml,");
+  const source2 = url && h7("img", { src: url, alt: "", draggable: false, onError: () => setFailed(app.iconUrl) });
+  return h7(
+    "span",
+    { className: "cgpt-app-artwork", "aria-hidden": true },
+    url ? monochrome ? h7("span", { className: "cgpt-app-symbol", style: { maskImage: "url(" + JSON.stringify(url) + ")", WebkitMaskImage: "url(" + JSON.stringify(url) + ")" } }, source2) : source2 : PATHS[app.id] ? h7(Glyph2, { name: app.id, size: 20 }) : h7("span", { className: "cgpt-app-letter" }, label)
+  );
+}
+function wireAppDockPointer(root, { model, onError = () => {
+} }) {
+  if (!root?.addEventListener) return () => {
+  };
+  const document2 = root.ownerDocument, view = document2?.defaultView;
+  let pointer = null, dropMark = null, suppressed = null, releases = [];
+  const buttonOf = (target) => target?.closest?.("[data-cgpt-app-button]");
+  const idOf = (button) => button?.getAttribute?.("data-cgpt-app-button");
+  const pinned = (id) => model.getSnapshot().dock.some((app) => app.id === id && app.pinned);
+  const hit = (x, y) => {
+    const element = document2?.elementFromPoint?.(x, y), button = buttonOf(element);
+    if (!element || !root.contains(element)) return null;
+    if (button) return pinned(idOf(button)) ? button : null;
+    const targets = Array.from(root.querySelectorAll?.("[data-cgpt-app-button]") || []).filter((node) => pinned(idOf(node))).map((node) => ({ node, rect: node.getBoundingClientRect() })).filter(({ rect }) => [rect.left, rect.right, rect.top, rect.height].every(Number.isFinite) && rect.right > rect.left && rect.height > 0);
+    if (!targets.length || x < Math.min(...targets.map(({ rect }) => rect.left)) || x >= Math.max(...targets.map(({ rect }) => rect.right))) return null;
+    const top = Math.min(...targets.map(({ rect }) => rect.top)), bottom = Math.max(...targets.map(({ rect }) => rect.top + rect.height));
+    if (y < top - 4 || y > bottom + 4) return null;
+    const distance = ({ rect }) => Math.max(rect.top - y, y - rect.top - rect.height, 0);
+    return targets.reduce((nearest, target) => distance(target) <= distance(nearest) ? target : nearest).node;
+  };
+  function clear() {
+    for (const release of releases.splice(0)) release();
+    dropMark?.removeAttribute("data-app-drop");
+    dropMark = null;
+    const previous = pointer;
+    pointer = null;
+    if (previous) {
+      previous.button.removeAttribute("data-app-dragging");
+      if (previous.captured) try {
+        previous.button.releasePointerCapture?.(previous.pointerId);
+      } catch {
+      }
+    }
+  }
+  const suppress = (id) => {
+    suppressed = { id, until: Date.now() + 350 };
+  };
+  function cancel(event) {
+    if (pointer && event?.pointerId !== void 0 && event.pointerId !== pointer.pointerId) return;
+    if (pointer?.active) suppress(pointer.id);
+    clear();
+  }
+  function key(event) {
+    if (event.key !== "Escape" || !pointer) return;
+    const id = pointer.active ? pointer.id : null;
+    event.preventDefault();
+    event.stopPropagation();
+    cancel();
+    if (id) suppressed = { id, until: Infinity };
+  }
+  function move(event) {
+    if (!pointer || event.pointerId !== pointer.pointerId) return;
+    if (!root.contains(pointer.button) || !pinned(pointer.id)) {
+      cancel();
+      return;
+    }
+    if (!pointer.active && Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) < 6) return;
+    if (!pointer.active) {
+      pointer.active = true;
+      try {
+        pointer.button.setPointerCapture?.(pointer.pointerId);
+        pointer.captured = typeof pointer.button.setPointerCapture === "function";
+      } catch {
+      }
+    }
+    pointer.button.setAttribute("data-app-dragging", "");
+    event.preventDefault();
+    event.stopPropagation();
+    dropMark?.removeAttribute("data-app-drop");
+    dropMark = null;
+    const target = hit(event.clientX, event.clientY);
+    if (target && idOf(target) !== pointer.id) {
+      const rect = target.getBoundingClientRect();
+      target.setAttribute("data-app-drop", event.clientY < rect.top + rect.height / 2 ? "before" : "after");
+      dropMark = target;
+    }
+  }
+  function up(event) {
+    if (!pointer || event.pointerId !== pointer.pointerId) return;
+    const { id, active, button } = pointer;
+    const target = active ? hit(event.clientX, event.clientY) : null;
+    const valid = root.contains(button) && pinned(id);
+    clear();
+    if (!active) return;
+    suppress(id);
+    event.preventDefault();
+    event.stopPropagation();
+    if (!valid || !target || id === idOf(target)) return;
+    const rect = target.getBoundingClientRect();
+    try {
+      model.place(id, idOf(target), event.clientY >= rect.top + rect.height / 2);
+    } catch (error) {
+      onError(error);
+    }
+  }
+  function down(event) {
+    if (event.button !== 0 || event.isPrimary === false) return;
+    suppressed = null;
+    clear();
+    const button = buttonOf(event.target), id = idOf(button);
+    if (!button || !root.contains(button) || id === "home" || !pinned(id) || model.getSnapshot().loadingId != null) return;
+    pointer = { id, button, pointerId: event.pointerId, x: event.clientX, y: event.clientY, active: false, captured: false };
+    for (const [target, name, handler] of [[document2, "pointermove", move], [document2, "pointerup", up], [document2, "pointercancel", cancel], [document2, "lostpointercapture", cancel], [document2, "keydown", key], [view, "blur", cancel]]) {
+      if (!target?.addEventListener) continue;
+      target.addEventListener(name, handler, true);
+      releases.push(() => target.removeEventListener(name, handler, true));
+    }
+  }
+  function click(event) {
+    if (!suppressed) return;
+    if (Date.now() >= suppressed.until) {
+      suppressed = null;
+      return;
+    }
+    const button = buttonOf(event.target);
+    if (event.detail === 0 || !root.contains(button) || idOf(button) !== suppressed.id) return;
+    suppressed = null;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation?.();
+  }
+  root.addEventListener("pointerdown", down, true);
+  root.addEventListener("click", click, true);
+  return () => {
+    clear();
+    suppressed = null;
+    root.removeEventListener("pointerdown", down, true);
+    root.removeEventListener("click", click, true);
+  };
+}
+function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
+  const snapshot2 = import_react7.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const [menu, setMenu] = import_react7.default.useState(null), [error, setError] = import_react7.default.useState(""), [pendingId, setPendingId] = import_react7.default.useState(null);
+  const dockRef = import_react7.default.useRef(null);
+  const operation = import_react7.default.useRef(null), alive = import_react7.default.useRef(true), search = import_react7.default.useRef(null);
+  const previousLibrary = import_react7.default.useRef(snapshot2.libraryOpen);
+  import_react7.default.useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+      operation.current = null;
+    };
+  }, [model]);
+  import_react7.default.useLayoutEffect(() => wireAppDockPointer(dockRef.current, { model, onError: (reason) => setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58\u5E94\u7528\u987A\u5E8F\uFF0C\u8BF7\u91CD\u8BD5\u3002") }), [model]);
+  import_react7.default.useLayoutEffect(() => {
+    if (previousLibrary.current && !snapshot2.libraryOpen) {
+      operation.current = null;
+      setPendingId(null);
+      setMenu(null);
+    }
+    previousLibrary.current = snapshot2.libraryOpen;
+  }, [snapshot2.libraryOpen]);
+  import_react7.default.useEffect(() => {
+    if (menu && !snapshot2.apps.some((app) => app.id === menu.id)) setMenu(null);
+  }, [menu, snapshot2.apps]);
+  const busy = snapshot2.loadingId != null || pendingId !== null;
+  const appError = error || snapshot2.error;
+  const pinned = snapshot2.dock.filter((app) => app.pinned), recent = snapshot2.dock.filter((app) => !app.pinned);
+  const query = (snapshot2.query || "").trim().toLocaleLowerCase();
+  const shown = snapshot2.apps.filter((app) => (snapshot2.filter !== "pinned" || app.pinned) && (snapshot2.filter !== "recent" || app.recent) && (!query || app.label.toLocaleLowerCase().includes(query)));
+  const selected = menu && snapshot2.apps.find((app) => app.id === menu.id);
+  const pinnedOrder = snapshot2.dock.filter((app) => app.pinned).map((app) => app.id), selectedIndex = selected ? pinnedOrder.indexOf(selected.id) : -1;
+  async function run(action, id) {
+    if (busy || operation.current) return;
+    const current = { id };
+    operation.current = current;
+    setPendingId(id);
+    setError("");
+    setMenu(null);
+    try {
+      await action();
+    } catch (reason) {
+      if (alive.current && operation.current === current) setError(reason?.message || "\u6682\u65F6\u65E0\u6CD5\u6253\u5F00\uFF0C\u8BF7\u91CD\u8BD5\u3002");
+    } finally {
+      if (alive.current && operation.current === current) {
+        operation.current = null;
+        setPendingId(null);
+      }
+    }
+  }
+  function change(action) {
+    if (busy) return;
+    setError("");
+    try {
+      action();
+      setMenu(null);
+    } catch (reason) {
+      setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58\u5E94\u7528\u680F\u8BBE\u7F6E\uFF0C\u8BF7\u91CD\u8BD5\u3002");
+    }
+  }
+  function openMenu(event, app, keyboard = false) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (busy) return;
+    if (!Menu2 || !MenuItem) {
+      model.openLibrary();
+      return;
+    }
+    event.currentTarget.focus?.({ preventScroll: true });
+    const rect = event.currentTarget.getBoundingClientRect?.();
+    setMenu({ id: app.id, x: keyboard ? (rect?.right || 0) + 6 : event.clientX, y: keyboard ? rect?.top || 0 : event.clientY });
+  }
+  function menuKey(event, app) {
+    if (event.key === "ContextMenu" || event.key === "F10" && event.shiftKey) openMenu(event, app, true);
+  }
+  function dockButton(app) {
+    return h7(
+      "button",
+      {
+        key: app.id,
+        type: "button",
+        className: "cgpt-app-dock-button",
+        "data-cgpt-app-button": app.id,
+        "data-app-pinned": app.pinned ? "" : void 0,
+        "aria-label": app.label,
+        title: app.label + (app.active ? " \xB7 \u5F53\u524D\u9875\u9762" : ""),
+        "aria-current": app.active ? "page" : void 0,
+        "aria-disabled": busy || void 0,
+        draggable: false,
+        onClick: () => void run(() => model.open(app.id), app.id),
+        onContextMenu: (event) => openMenu(event, app),
+        onKeyDown: (event) => menuKey(event, app)
+      },
+      h7(AppArtwork, { app }),
+      app.id === "home" && notificationModel && h7(HomeNotificationBadge, { model: notificationModel }),
+      (pendingId === app.id || snapshot2.loadingId === app.id) && h7("span", { className: "cgpt-app-opening", "aria-hidden": true })
+    );
+  }
+  const closeLibrary = () => {
+    setError("");
+    model.closeLibrary();
+  };
+  return h7(
+    "div",
+    { ref: dockRef, className: "cgpt-app-dock", "data-cgpt-app-dock": "", onClick: stop3, onPointerDown: stop3, onContextMenu: stop3 },
+    h7(
+      "div",
+      { className: "cgpt-app-dock-scroll", "aria-label": "\u5E94\u7528 Dock" },
+      h7("div", { className: "cgpt-app-dock-group", "aria-label": "\u56FA\u5B9A\u5E94\u7528" }, pinned.map(dockButton)),
+      recent.length > 0 && h7(import_react7.default.Fragment, null, pinned.length > 0 && h7("div", { className: "cgpt-app-dock-divider", role: "separator" }), h7("div", { className: "cgpt-app-dock-group", "aria-label": "\u6700\u8FD1\u4F7F\u7528\u7684\u5E94\u7528" }, recent.map(dockButton)))
+    ),
+    h7("button", { type: "button", className: "cgpt-app-library-button", "aria-label": "\u5168\u90E8\u5E94\u7528", title: "\u5168\u90E8\u5E94\u7528", "aria-expanded": snapshot2.libraryOpen, onClick: () => {
+      setError("");
+      model.openLibrary();
+    } }, h7(Glyph2, { name: "apps", size: 21 })),
+    appError && !snapshot2.libraryOpen && h7("div", { className: "cgpt-app-toast", role: "alert" }, String(appError), h7("button", { type: "button", "aria-label": "\u67E5\u770B\u5E94\u7528\u8BE6\u60C5", onClick: () => model.openLibrary() }, "\u67E5\u770B")),
+    selected && Menu2 && MenuItem && h7(
+      Menu2,
+      {
+        open: true,
+        portal: true,
+        autoFocus: true,
+        onClose: () => setMenu(null),
+        className: "cgpt-app-context",
+        listClassName: "cgpt-app-context",
+        getAnchorRect: () => ({ left: menu.x, right: menu.x, top: menu.y, bottom: menu.y, width: 0, height: 0 }),
+        anchor: h7("button", { type: "button", tabIndex: -1, "aria-hidden": true, className: "cgpt-app-context-anchor", style: { left: menu.x, top: menu.y } })
+      },
+      h7(MenuItem, { onSelect: () => void run(() => model.open(selected.id), selected.id) }, "\u6253\u5F00 " + selected.label),
+      selected.id !== "home" && h7(MenuItem, { onSelect: () => change(() => model.pin(selected.id, !selected.pinned)) }, selected.pinned ? "\u4ECE Dock \u79FB\u9664" : "\u56FA\u5B9A\u5230 Dock"),
+      selected.pinned && selected.id !== "home" && h7(
+        import_react7.default.Fragment,
+        null,
+        h7(MenuItem, { disabled: selectedIndex <= 1, onSelect: () => change(() => model.move(selected.id, -1)) }, "\u4E0A\u79FB"),
+        h7(MenuItem, { disabled: selectedIndex === pinnedOrder.length - 1, onSelect: () => change(() => model.move(selected.id, 1)) }, "\u4E0B\u79FB")
+      ),
+      !selected.pinned && selected.recent && h7(MenuItem, { onSelect: () => change(() => model.dismissRecent(selected.id)) }, "\u4E0D\u518D\u663E\u793A\u5728\u6700\u8FD1\u4F7F\u7528"),
+      h7(MenuItem, { onSelect: () => {
+        setMenu(null);
+        model.openLibrary();
+      } }, "\u5168\u90E8\u5E94\u7528\u2026")
+    ),
+    h7(
+      Modal,
+      { open: snapshot2.libraryOpen, title: "\u5E94\u7528", headless: true, onClose: closeLibrary, shortcutModal: "dsh-dock.apps", className: "cgpt-app-library-modal", contentClassName: "cgpt-app-library-content" },
+      h7(
+        "div",
+        { className: "cgpt-app-library", onClick: stop3, onPointerDown: stop3, onContextMenu: stop3 },
+        h7(
+          "header",
+          { className: "cgpt-app-library-header" },
+          h7("div", null, h7("h2", null, "\u5E94\u7528"), h7("p", null, "\u4F60\u7684\u63D2\u4EF6\u4E0E\u5DE5\u5177\uFF0C\u90FD\u5728\u8FD9\u91CC\u3002")),
+          h7("button", { type: "button", className: "cgpt-app-close", "aria-label": "\u5173\u95ED\u5E94\u7528\u603B\u89C8", onClick: closeLibrary }, h7(Glyph2, { name: "close" }))
+        ),
+        h7("div", { className: "cgpt-app-search" }, h7(Glyph2, { name: "search" }), h7("input", { ref: search, type: "search", value: snapshot2.query || "", placeholder: "\u641C\u7D22\u5E94\u7528", "aria-label": "\u641C\u7D22\u5E94\u7528", "data-modal-autofocus": true, autoComplete: "off", spellCheck: false, onChange: (event) => model.setQuery(event.target.value) })),
+        h7("div", { className: "cgpt-app-filters", role: "group", "aria-label": "\u5E94\u7528\u8303\u56F4" }, [["all", "\u5168\u90E8"], ["pinned", "\u5DF2\u56FA\u5B9A"], ["recent", "\u6700\u8FD1\u4F7F\u7528"]].map(([id, label]) => h7("button", { key: id, type: "button", "aria-pressed": snapshot2.filter === id, onClick: () => {
+          model.setFilter(id);
+          search.current?.focus();
+        } }, label))),
+        h7(
+          "div",
+          { className: "cgpt-app-library-body", "aria-busy": busy },
+          appError && h7("p", { className: "cgpt-app-error", role: "alert" }, String(appError)),
+          shown.length > 0 ? h7("ul", { className: "cgpt-app-grid", "aria-label": "\u5E94\u7528\u5217\u8868" }, shown.map((app) => h7(
+            "li",
+            { key: app.id, className: "cgpt-app-card", "data-app-active": app.active ? "" : void 0 },
+            h7(
+              "button",
+              { type: "button", className: "cgpt-app-launch", "aria-label": "\u6253\u5F00 " + app.label, "aria-current": app.active ? "page" : void 0, "aria-disabled": busy || void 0, onClick: () => void run(() => model.open(app.id), app.id), onContextMenu: (event) => openMenu(event, app), onKeyDown: (event) => menuKey(event, app) },
+              h7(AppArtwork, { app }),
+              h7("span", { className: "cgpt-app-label" }, app.label),
+              h7("span", { className: "cgpt-app-status" }, pendingId === app.id || snapshot2.loadingId === app.id ? "\u6B63\u5728\u6253\u5F00\u2026" : app.active ? "\u5F53\u524D\u9875\u9762" : app.recent ? "\u6700\u8FD1\u4F7F\u7528" : "\u6253\u5F00\u5E94\u7528")
+            ),
+            app.id === "home" ? h7("span", { className: "cgpt-app-fixed-note" }, "\u56FA\u5B9A\u5165\u53E3") : h7("button", { type: "button", className: "cgpt-app-pin", "aria-label": (app.pinned ? "\u4ECE Dock \u79FB\u9664 " : "\u56FA\u5B9A\u5230 Dock ") + app.label, "aria-pressed": app.pinned, disabled: busy, onClick: () => change(() => model.pin(app.id, !app.pinned)) }, h7(Glyph2, { name: "pin", size: 13 }), app.pinned ? "\u5DF2\u56FA\u5B9A" : "\u56FA\u5B9A")
+          ))) : h7("div", { className: "cgpt-app-empty", role: "status" }, h7(Glyph2, { name: "apps", size: 30 }), h7("p", null, query ? "\u6CA1\u6709\u627E\u5230\u8FD9\u4E2A\u5E94\u7528" : snapshot2.filter === "recent" ? "\u6253\u5F00\u8FC7\u7684\u5E94\u7528\u4F1A\u51FA\u73B0\u5728\u8FD9\u91CC" : snapshot2.filter === "pinned" ? "\u5C06\u5E38\u7528\u5E94\u7528\u56FA\u5B9A\u5230 Dock" : "\u6682\u65E0\u53EF\u7528\u7684\u5E94\u7528\u5165\u53E3"))
+        ),
+        h7("footer", { className: "cgpt-app-library-footer" }, h7("span", null, shown.length + " \u4E2A\u5E94\u7528"), h7("button", { type: "button", disabled: busy, onClick: () => void run(() => model.openPluginManager(), "plugins") }, "\u7BA1\u7406\u63D2\u4EF6", h7("span", { "aria-hidden": true }, " \u2197")))
+      )
+    )
+  );
+}
+
+// global-search-model.js
+var CATEGORIES = [["all", "\u5168\u90E8"], ["actions", "\u64CD\u4F5C"], ["sessions", "\u804A\u5929"], ["workspaces", "\u5DE5\u4F5C\u533A"], ["text", "\u6587\u672C"]];
+var text2 = (value) => typeof value === "string" ? value.trim() : "";
+var read = (source2) => source2?.getSnapshot?.() || {};
+var time = (value) => typeof value === "number" ? value : Date.parse(value) || 0;
+var INDEX_DISABLED = "\u5F53\u524D DSH \u672A\u542F\u7528\u804A\u5929\u6B63\u6587\u641C\u7D22\uFF0C\u73B0\u6309\u4F1A\u8BDD\u6807\u9898\u548C\u5DE5\u4F5C\u533A\u67E5\u627E\u3002";
+function sanitizeQuery(value) {
+  let query = String(value).replace(/\0/g, "").slice(0, 500);
+  const last = query.charCodeAt(query.length - 1);
+  if (last >= 55296 && last <= 56319) query = query.slice(0, -1);
+  return query;
+}
+function createGlobalSearchModel(ctx, { openHome, openWorkspace, debounceMs = 180 } = {}) {
+  const listeners = /* @__PURE__ */ new Set();
+  const supportsText = typeof ctx.sessions.search === "function";
+  const categories = CATEGORIES.filter(([id]) => id !== "text" || supportsText).map(([id, label]) => ({ id, label }));
+  let state = { open: false, query: "", category: "all", loading: false, error: "", notice: "", busyId: null, hasMore: false };
+  let remoteItems = [], snapshot2, rows = /* @__PURE__ */ new Map(), stops = [], timer, request, queryEpoch = 0, actionEpoch = 0, disposed = false, textUnavailable = false;
+  const mainPanels = () => new Set((ctx.slots?.entries?.("main") || []).map((entry) => entry.options?.key));
+  function catalog() {
+    const list = read(ctx.sessions.list), workspaceState = read(ctx.workspaces.list);
+    const workspaces = workspaceState.items || [], archived = new Set(workspaceState.archivedSessionIds || []), membership = /* @__PURE__ */ new Map();
+    for (const workspace of workspaces) for (const id of workspace.sessionIds || []) {
+      if (!membership.has(id)) membership.set(id, text2(workspace.title) || text2(workspace.path));
+    }
+    const sessions = [...new Set(list.ids || [])].map((id) => list.byId?.[id]).filter((s) => s?.id && s.origin !== "subagent" && !s.blank && !archived.has(s.id)).sort((a, b) => time(b.updatedAt) - time(a.updatedAt) || a.id.localeCompare(b.id));
+    const sessionRows = sessions.map((s) => ({
+      id: "session:" + s.id,
+      sessionId: s.id,
+      kind: "session",
+      title: text2(s.title) || text2(s.projectionValues?.title) || "\u672A\u547D\u540D\u804A\u5929",
+      detail: membership.get(s.id) || text2(s.cwd).split(/[\\/]/).filter(Boolean).at(-1) || ""
+    }));
+    const workspaceRows = workspaces.filter((w) => w.workspaceId).map((w) => ({ id: "workspace:" + w.workspaceId, workspaceId: w.workspaceId, kind: "workspace", title: text2(w.title) || text2(w.path) || "\u672A\u547D\u540D\u5DE5\u4F5C\u533A", detail: text2(w.path) }));
+    const panels = mainPanels();
+    const actions = [
+      { id: "action:home", kind: "action", title: "\u65B0\u804A\u5929", panel: "home" },
+      { id: "action:plugins", kind: "action", title: "\u6253\u5F00\u63D2\u4EF6", panel: "plugins" },
+      { id: "action:schedules", kind: "action", title: "\u81EA\u52A8\u5316\u4EFB\u52A1", panel: "schedules" }
+    ].filter((row) => panels.has(row.panel));
+    return { sessionRows, workspaceRows, actions };
+  }
+  function publish() {
+    const { sessionRows, workspaceRows, actions } = catalog(), query = state.query.trim().toLocaleLowerCase();
+    const terms = query.split(/\s+/).filter(Boolean);
+    const matches = (row) => terms.every((term) => [row.title, row.detail, row.sessionId].filter(Boolean).join(" ").toLocaleLowerCase().includes(term));
+    const byId = new Map(sessionRows.map((row) => [row.sessionId, row])), hits = /* @__PURE__ */ new Map();
+    for (const item of remoteItems) {
+      if (byId.has(item?.sessionId) && !hits.has(item.sessionId)) hits.set(item.sessionId, text2(item.snippet));
+    }
+    const local = sessionRows.filter(matches);
+    const seen = new Set(local.map((row) => row.sessionId));
+    const combined = [...local, ...[...hits.keys()].filter((id) => !seen.has(id)).map((id) => byId.get(id))].map((row) => ({ ...row, ...hits.has(row.sessionId) ? { snippet: hits.get(row.sessionId) } : {} }));
+    const body = [...hits].map(([id, snippet]) => ({ ...byId.get(id), id: "text:" + id, kind: "text", snippet }));
+    const all = state.category === "all", groups = [];
+    let truncated = false;
+    const add = (id, label, items, limit = 20) => {
+      if ((all || state.category === id) && items.length) {
+        truncated ||= items.length > limit;
+        groups.push({ id, label, items: items.slice(0, limit) });
+      }
+    };
+    add("actions", "\u5FEB\u6377\u64CD\u4F5C", actions.filter(matches));
+    add("sessions", query ? "\u804A\u5929" : "\u6700\u8FD1\u804A\u5929", combined, all ? 8 : 20);
+    add("workspaces", "\u5DE5\u4F5C\u533A", workspaceRows.filter(matches), all ? 5 : 20);
+    if (state.category === "text" && body.length) groups.push({ id: "text", label: "\u804A\u5929\u5185\u5BB9", items: body.slice(0, 20) });
+    rows = new Map(groups.flatMap((group) => group.items).map((row) => [row.id, row]));
+    snapshot2 = { ...state, hasMore: truncated || ["all", "sessions", "text"].includes(state.category) && state.hasMore, categories: categories.filter((c) => !textUnavailable || c.id !== "text"), groups };
+    for (const listener of [...listeners]) listener();
+  }
+  function cancelSearch() {
+    queryEpoch++;
+    clearTimeout(timer);
+    timer = void 0;
+    request?.abort();
+    request = void 0;
+  }
+  function scheduleSearch() {
+    cancelSearch();
+    remoteItems = [];
+    state.hasMore = false;
+    state.error = "";
+    state.notice = "";
+    state.loading = false;
+    const query = state.query.trim();
+    if (!state.open || !query || !supportsText) return;
+    if (textUnavailable) {
+      state.notice = INDEX_DISABLED;
+      return;
+    }
+    state.loading = true;
+    const epoch = queryEpoch;
+    timer = setTimeout(async () => {
+      timer = void 0;
+      const controller = new AbortController();
+      request = controller;
+      try {
+        const result = await ctx.sessions.search(query, controller.signal);
+        if (disposed || epoch !== queryEpoch || controller.signal.aborted) return;
+        if (!result?.ok) throw new Error(result?.error?.message || "\u804A\u5929\u5185\u5BB9\u641C\u7D22\u5931\u8D25");
+        remoteItems = Array.isArray(result.value?.items) ? result.value.items : [];
+        state.hasMore = result.value?.hasMore === true;
+      } catch (error) {
+        if (disposed || epoch !== queryEpoch || controller.signal.aborted) return;
+        if (/session search is disabled/i.test(error?.message || "")) {
+          textUnavailable = true;
+          if (state.category === "text") state.category = "sessions";
+          state.notice = INDEX_DISABLED;
+        } else state.error = "\u804A\u5929\u5185\u5BB9\u641C\u7D22\u6682\u4E0D\u53EF\u7528\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5\uFF1B\u4ECD\u53EF\u641C\u7D22\u4F1A\u8BDD\u6807\u9898\u3002";
+      } finally {
+        if (!disposed && epoch === queryEpoch && !controller.signal.aborted) {
+          request = void 0;
+          state.loading = false;
+          publish();
+        }
+      }
+    }, debounceMs);
+  }
+  function stopSources() {
+    for (const stop5 of stops.splice(0)) stop5();
+  }
+  function close() {
+    if (!state.open) return;
+    cancelSearch();
+    actionEpoch++;
+    stopSources();
+    remoteItems = [];
+    state = { ...state, open: false, loading: false, busyId: null, error: "", notice: "", hasMore: false };
+    publish();
+  }
+  publish();
+  return {
+    getSnapshot: () => snapshot2,
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    open() {
+      if (disposed || state.open) return;
+      state = { ...state, open: true, query: "", category: "all", loading: false, error: "", notice: "", busyId: null, hasMore: false };
+      try {
+        for (const source2 of [ctx.sessions.list, ctx.workspaces.list]) if (source2?.subscribe) stops.push(source2.subscribe(publish));
+        if (ctx.slots?.subscribe) stops.push(ctx.slots.subscribe("main", publish));
+      } catch (error) {
+        stopSources();
+        state.open = false;
+        publish();
+        throw error;
+      }
+      publish();
+    },
+    close,
+    setQuery(query) {
+      if (disposed || !state.open || state.busyId) return;
+      const next = sanitizeQuery(query);
+      if (next === state.query) return;
+      state.query = next;
+      scheduleSearch();
+      publish();
+    },
+    setCategory(id) {
+      if (disposed || !state.open || state.busyId || !snapshot2.categories.some((c) => c.id === id)) return;
+      state.category = id;
+      publish();
+    },
+    async select(id) {
+      if (disposed || !state.open || state.busyId) return false;
+      publish();
+      const row = rows.get(id);
+      if (!row) return false;
+      const epoch = ++actionEpoch;
+      state.busyId = id;
+      state.error = "";
+      publish();
+      try {
+        if (row.kind === "session" || row.kind === "text") await ctx.uiWorkspace.openSession(row.sessionId);
+        else if (row.kind === "workspace") {
+          if (!openWorkspace) throw new Error("\u5F53\u524D\u7248\u672C\u4E0D\u652F\u6301\u4ECE\u641C\u7D22\u6253\u5F00\u5DE5\u4F5C\u533A");
+          await openWorkspace(row.workspaceId);
+        } else if (row.panel === "home" && openHome) await openHome();
+        else await ctx.layout.selectPanel(row.panel);
+        if (!disposed && epoch === actionEpoch) close();
+        return true;
+      } catch (error) {
+        if (!disposed && epoch === actionEpoch) {
+          state.error = error?.message || "\u65E0\u6CD5\u6253\u5F00\uFF0C\u8BF7\u91CD\u8BD5";
+          state.busyId = null;
+          publish();
+        }
+        return false;
+      }
+    },
+    dispose() {
+      if (disposed) return;
+      close();
+      disposed = true;
+      cancelSearch();
+      stopSources();
+      listeners.clear();
+    }
+  };
+}
+
+// global-search-ui.js
+var import_react8 = __toESM(require("react"), 1);
+var h8 = import_react8.default.createElement;
+var stop4 = (event) => event.stopPropagation();
+var ICONS = {
+  search: "M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Zm4.7-1.8L20 20",
+  action: "m13 2-8 11h6l-1 9 9-13h-6l1-7Z",
+  session: "M20 11.5a8 8 0 0 1-8 8 9 9 0 0 1-3.6-.8L4 20l1.3-4.4a9 9 0 0 1-.8-3.6 8 8 0 1 1 15.5-.5Z",
+  workspace: "M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v10H3V6Z",
+  text: "M5 3h10l4 4v14H5V3Zm9 0v5h5M8 12h8M8 16h6"
+};
+var ACTION_ICONS = {
+  "action:home": "M12 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-7M17 3l4 4-11 11-5 1 1-5L17 3Zm-3 3 4 4",
+  "action:plugins": "M3 3h7v7H3V3Zm11 0h7v7h-7V3ZM3 14h7v7H3v-7Zm11 0h7v7h-7v-7Z",
+  "action:schedules": "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM12 7v5l3 2"
+};
+function Icon({ kind = "search", itemId }) {
+  const path = kind === "action" ? ACTION_ICONS[itemId] || ICONS.action : ICONS[kind] || ICONS.search;
+  return h8("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h8("path", { d: path }));
+}
+function GlobalSearchPalette({ model, Modal }) {
+  const snapshot2 = import_react8.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const [activeId, setActiveId] = import_react8.default.useState(null);
+  const [pendingId, setPendingId] = import_react8.default.useState(null);
+  const inputRef = import_react8.default.useRef(null), rows = import_react8.default.useRef(/* @__PURE__ */ new Map()), composing = import_react8.default.useRef(false), selection = import_react8.default.useRef(null);
+  const instance = import_react8.default.useId(), listId = instance + "-results", statusId = instance + "-status";
+  const groups = snapshot2.groups || [], items = groups.flatMap((group) => group.items || []);
+  const currentId = items.some((item) => item.id === activeId) ? activeId : items[0]?.id ?? null;
+  const busy = snapshot2.busyId != null || pendingId !== null;
+  const optionId = (id) => instance + "-option-" + encodeURIComponent(id);
+  import_react8.default.useEffect(() => {
+    setActiveId(snapshot2.open ? currentId : null);
+    if (!snapshot2.open) {
+      composing.current = false;
+      selection.current = null;
+      setPendingId(null);
+    }
+  }, [snapshot2.open, currentId]);
+  import_react8.default.useEffect(() => () => {
+    selection.current = null;
+  }, [model]);
+  import_react8.default.useLayoutEffect(() => {
+    if (snapshot2.open && currentId !== null) rows.current.get(currentId)?.scrollIntoView?.({ block: "nearest" });
+  }, [snapshot2.open, currentId, groups]);
+  async function select(id) {
+    if (id === null || busy || selection.current || !snapshot2.open) return;
+    const operation = { id };
+    selection.current = operation;
+    setPendingId(id);
+    try {
+      await model.select(id);
+    } catch {
+    } finally {
+      if (selection.current === operation) {
+        selection.current = null;
+        setPendingId(null);
+      }
+    }
+  }
+  function onKeyDown(event) {
+    if (composing.current || event.isComposing || event.nativeEvent?.isComposing || event.keyCode === 229 || event.nativeEvent?.keyCode === 229) return;
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (items.length) {
+        const index = items.findIndex((item) => item.id === currentId), delta = event.key === "ArrowDown" ? 1 : -1;
+        setActiveId(items[(index + delta + items.length) % items.length].id);
+      }
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      void select(currentId);
+    }
+  }
+  const needsTextQuery = snapshot2.category === "text" && !snapshot2.query?.trim();
+  const emptyLabel = needsTextQuery ? "\u8F93\u5165\u5173\u952E\u8BCD\uFF0C\u641C\u7D22\u804A\u5929\u5185\u5BB9" : snapshot2.query?.trim() ? "\u6CA1\u6709\u627E\u5230\u5339\u914D\u7684\u7ED3\u679C" : "\u6682\u65E0\u53EF\u7528\u7ED3\u679C";
+  const error = typeof snapshot2.error === "string" ? snapshot2.error : snapshot2.error?.message;
+  const status = snapshot2.loading ? "\u6B63\u5728\u641C\u7D22\u2026" : items.length ? "\u627E\u5230 " + items.length + " \u6761\u7ED3\u679C" + (snapshot2.hasMore ? "\uFF0C\u7EE7\u7EED\u8F93\u5165\u53EF\u7F29\u5C0F\u8303\u56F4" : "") : emptyLabel;
+  return h8(Modal, {
+    open: snapshot2.open,
+    title: "\u641C\u7D22",
+    headless: true,
+    className: "cgpt-global-search-modal",
+    contentClassName: "cgpt-global-search-modal-content",
+    shortcutModal: "dsh-dock.search",
+    onClose: () => model.close()
+  }, h8(
+    "div",
+    { className: "cgpt-global-search", onClick: stop4, onPointerDown: stop4, onContextMenu: stop4 },
+    h8(
+      "div",
+      { className: "cgpt-global-search-input-row" },
+      h8(Icon),
+      h8("input", {
+        ref: inputRef,
+        type: "text",
+        role: "combobox",
+        className: "cgpt-global-search-input",
+        value: snapshot2.query || "",
+        placeholder: "\u641C\u7D22\u4F1A\u8BDD\u3001\u5DE5\u4F5C\u533A\u6216\u64CD\u4F5C\u2026",
+        "aria-label": "\u641C\u7D22\u4F1A\u8BDD\u3001\u5DE5\u4F5C\u533A\u6216\u64CD\u4F5C",
+        "aria-autocomplete": "list",
+        "aria-expanded": Boolean(snapshot2.open),
+        "aria-controls": listId,
+        "aria-activedescendant": snapshot2.open && currentId !== null ? optionId(currentId) : void 0,
+        "aria-describedby": statusId,
+        "aria-busy": Boolean(snapshot2.loading),
+        autoComplete: "off",
+        spellCheck: false,
+        "data-modal-autofocus": true,
+        onChange: (event) => model.setQuery(event.target.value),
+        onKeyDown,
+        onCompositionStart: () => {
+          composing.current = true;
+        },
+        onCompositionEnd: () => {
+          composing.current = false;
+        }
+      }),
+      h8("button", { type: "button", className: "cgpt-global-search-close", "aria-label": "\u5173\u95ED\u641C\u7D22", onClick: () => model.close() }, h8("kbd", null, "esc"))
+    ),
+    h8(
+      "div",
+      { className: "cgpt-global-search-results", id: listId, role: "listbox", "aria-label": "\u641C\u7D22\u7ED3\u679C", "aria-busy": Boolean(snapshot2.loading || busy) },
+      error && h8("div", { className: "cgpt-global-search-message cgpt-global-search-error", role: "alert" }, error),
+      snapshot2.notice && h8("div", { className: "cgpt-global-search-message", role: "status" }, snapshot2.notice),
+      groups.filter((group) => group.items?.length).map((group, index) => h8(
+        "div",
+        { key: group.id, role: "group", "aria-labelledby": instance + "-group-" + index, className: "cgpt-global-search-group" },
+        h8("div", { id: instance + "-group-" + index, className: "cgpt-global-search-heading" }, group.label),
+        group.items.map((item) => h8(
+          "div",
+          {
+            key: item.id,
+            id: optionId(item.id),
+            role: "option",
+            tabIndex: -1,
+            "aria-selected": item.id === currentId,
+            "aria-disabled": busy || void 0,
+            "data-search-item": item.id,
+            className: "cgpt-global-search-option" + (item.snippet ? " cgpt-global-search-option-snippet" : ""),
+            ref: (node) => {
+              if (node) rows.current.set(item.id, node);
+              else rows.current.delete(item.id);
+            },
+            onMouseEnter: () => setActiveId(item.id),
+            onMouseDown: (event) => event.preventDefault(),
+            onClick: () => void select(item.id)
+          },
+          h8("span", { className: "cgpt-global-search-icon" }, h8(Icon, { kind: item.kind, itemId: item.id })),
+          h8("span", { className: "cgpt-global-search-copy" }, h8("span", { className: "cgpt-global-search-title" }, item.title), item.snippet && h8("span", { className: "cgpt-global-search-snippet" }, item.snippet)),
+          item.detail && h8("span", { className: "cgpt-global-search-detail" }, item.detail),
+          item.shortcut && h8("kbd", { className: "cgpt-global-search-shortcut" }, item.shortcut),
+          (snapshot2.busyId === item.id || pendingId === item.id) && h8("span", { className: "cgpt-global-search-spinner", "aria-label": "\u6B63\u5728\u6253\u5F00" })
+        ))
+      )),
+      snapshot2.loading && h8("div", { className: "cgpt-global-search-message" }, h8("span", { className: "cgpt-global-search-spinner", "aria-hidden": true }), "\u6B63\u5728\u641C\u7D22\u2026"),
+      !snapshot2.loading && !items.length && !error && h8("div", { className: "cgpt-global-search-empty" }, h8(Icon, { kind: needsTextQuery ? "text" : "search" }), h8("p", null, emptyLabel)),
+      snapshot2.hasMore && !snapshot2.loading && h8("div", { className: "cgpt-global-search-message cgpt-global-search-more" }, "\u7ED3\u679C\u8F83\u591A\uFF0C\u8BF7\u7EE7\u7EED\u8F93\u5165\u4EE5\u7F29\u5C0F\u8303\u56F4\u3002")
+    ),
+    h8("div", { id: statusId, className: "cgpt-global-search-sr-only", role: "status", "aria-live": "polite" }, status),
+    h8(
+      "div",
+      { className: "cgpt-global-search-footer" },
+      h8("div", { className: "cgpt-global-search-categories", role: "group", "aria-label": "\u641C\u7D22\u8303\u56F4" }, (snapshot2.categories || []).map((category) => h8("button", {
+        key: category.id,
+        type: "button",
+        "aria-pressed": snapshot2.category === category.id,
+        onClick: () => {
+          model.setCategory(category.id);
+          inputRef.current?.focus();
+        }
+      }, category.label))),
+      h8("span", { className: "cgpt-global-search-hint", "aria-hidden": true }, h8("kbd", null, "\u2191\u2193"), " \u9009\u62E9 ", h8("kbd", null, "\u21B5"), " \u6253\u5F00")
+    )
+  ));
+}
+
+// global-search-entry.js
+var wrappers = /* @__PURE__ */ new WeakMap();
+function liveResolver(resolve) {
+  let record;
+  while ((record = wrappers.get(resolve)) && !record.active) resolve = record.original;
+  return resolve;
+}
+function wireGlobalSearchEntry({ document: document2, shortcuts, open, getSearchLabel }) {
+  if (typeof document2?.addEventListener !== "function" || typeof open !== "function") {
+    throw new TypeError("A document and search opener are required.");
+  }
+  const records = /* @__PURE__ */ new Map(), seen = /* @__PURE__ */ new WeakSet();
+  let current, unsubscribe, disposed = false;
+  function onClick(event) {
+    if (disposed || event.defaultPrevented || event.button > 0) return;
+    const target = event.target?.closest ? event.target : event.target?.parentElement;
+    if (!target) return;
+    let trigger = target.closest("[data-cgpt-search-button]");
+    if (!trigger) {
+      const button = target.closest("button");
+      const label = typeof getSearchLabel === "function" ? getSearchLabel() : void 0;
+      if (!button?.closest('[data-slot="sidebar.workspaces"]') || !label || button.getAttribute("aria-label") !== label) return;
+      trigger = button;
+    }
+    if (trigger.disabled || trigger.getAttribute("aria-disabled") === "true") return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    trigger.focus?.({ preventScroll: true });
+    open();
+  }
+  function release(record) {
+    record.active = false;
+    if (record.command.resolve === record.wrapper) {
+      record.command.resolve = liveResolver(record.original);
+    }
+  }
+  function sync() {
+    if (disposed) return;
+    const command = shortcuts?.registry?.commands?.get?.("session.search");
+    if (command !== current) {
+      const previous = records.get(current);
+      if (previous) release(previous);
+      current = command;
+    }
+    if (!command || typeof command !== "object" && typeof command !== "function" || typeof command.resolve !== "function" || seen.has(command)) return;
+    seen.add(command);
+    const record = { command, original: command.resolve, wrapper: null, active: true };
+    record.wrapper = function(...args) {
+      const result = Reflect.apply(record.original, this, args);
+      if (!record.active || result?.status !== "handled") return result;
+      return { ...result, run: function(...runArgs) {
+        if (!record.active) return typeof result.run === "function" ? Reflect.apply(result.run, this, runArgs) : void 0;
+        return open();
+      } };
+    };
+    try {
+      command.resolve = record.wrapper;
+    } catch {
+      return;
+    }
+    if (command.resolve !== record.wrapper) return;
+    wrappers.set(record.wrapper, record);
+    records.set(command, record);
+  }
+  function dispose() {
+    if (disposed) return;
+    disposed = true;
+    document2.removeEventListener("click", onClick, true);
+    unsubscribe?.();
+    for (const record of records.values()) release(record);
+    records.clear();
+  }
+  document2.addEventListener("click", onClick, true);
+  try {
+    sync();
+    if (typeof shortcuts?.catalog?.subscribe === "function") unsubscribe = shortcuts.catalog.subscribe(sync);
+  } catch (error) {
+    dispose();
+    throw error;
+  }
+  return dispose;
+}
+
+// notification-model.js
+var text3 = (value) => typeof value === "string" ? value.trim() : "";
+var time2 = (value) => typeof value === "number" && Number.isFinite(value) ? value : Date.parse(value) || 0;
+var isSource2 = (value) => typeof value?.getSnapshot === "function" && typeof value?.subscribe === "function";
+var DETAILS = { approval: "\u7B49\u5F85\u5BA1\u6279", question: "\u7B49\u5F85\u56DE\u7B54", "plan-review": "\u7B49\u5F85\u786E\u8BA4\u8BA1\u5212", completed: "\u4EFB\u52A1\u5DF2\u5B8C\u6210", error: "\u4EFB\u52A1\u51FA\u9519", aborted: "\u4EFB\u52A1\u5DF2\u53D6\u6D88", blocked: "\u4EFB\u52A1\u88AB\u963B\u6B62", "max-tokens": "\u5DF2\u8FBE\u5230\u957F\u5EA6\u9650\u5236", interrupted: "\u4EFB\u52A1\u5DF2\u4E2D\u65AD" };
+var PENDING = /* @__PURE__ */ new Set(["approval", "question", "plan-review"]);
+var STORAGE_KEY = "dsh-dock:notification-inbox:v1";
+var MAX_RECORDS = 200;
+var sameItems = (a, b) => a.length === b.length && a.every((item, i) => Object.keys(item).every((key) => item[key] === b[i][key]));
+function preview(content) {
+  if (!Array.isArray(content)) return "";
+  return content.filter((block) => block?.type === "text").slice(0, 8).map((block) => text3(block.text).slice(0, 400)).join(" ").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/[`*_#]/g, "").replace(/\s+/g, " ").slice(0, 180);
+}
+function latestCompletion(records) {
+  let excerpt = "", latest = null;
+  const events = (Array.isArray(records) ? records : []).filter((row) => row?.type === "event").map((row) => row.event).filter(Boolean).sort((a, b) => a.seq - b.seq);
+  for (const event of events) {
+    if (event.type === "turn/start") excerpt = "";
+    if (event.type === "assistant/message") excerpt = preview(event.data?.message?.content) || excerpt;
+    const kind = event.data?.reason?.kind;
+    if (event.type !== "turn/end" || !Object.hasOwn(DETAILS, kind) || PENDING.has(kind) || !Number.isSafeInteger(event.seq) || event.seq < 0 || !time2(event.time)) continue;
+    latest = { seq: event.seq, occurredAt: time2(event.time), kind, excerpt };
+  }
+  return latest;
+}
+function createNotificationModel(ctx, options = {}) {
+  const listeners = /* @__PURE__ */ new Set(), records = /* @__PURE__ */ new Map(), fingerprints = /* @__PURE__ */ new Map(), requests = /* @__PURE__ */ new Map(), queue = /* @__PURE__ */ new Set(), failures = /* @__PURE__ */ new Set(), unsupported = /* @__PURE__ */ new Set(), running = /* @__PURE__ */ new Map(), awaitingEnd = /* @__PURE__ */ new Map();
+  const now = options.now || Date.now;
+  let storage = options.storage;
+  if (storage === void 0) try {
+    storage = globalThis.localStorage;
+  } catch {
+  }
+  let storageError = "", since = now(), state = { open: false, busyId: null, error: "" }, snapshot2, publishedSnapshot, stops = [], timer, actionEpoch = 0, disposed = false, started = false;
+  try {
+    const saved = JSON.parse(storage?.getItem(STORAGE_KEY) || "null");
+    if (saved?.version === 1) {
+      if (Number.isFinite(saved.since) && saved.since > 0) since = saved.since;
+      for (const item of (Array.isArray(saved.records) ? saved.records : []).slice(0, MAX_RECORDS)) {
+        if (text3(item.id) && Number.isSafeInteger(item.seq) && item.seq >= 0 && time2(item.occurredAt) > 0 && Object.hasOwn(DETAILS, item.kind) && !PENDING.has(item.kind))
+          records.set(item.id, { seq: item.seq, occurredAt: time2(item.occurredAt), kind: item.kind, excerpt: text3(item.excerpt).slice(0, 180), unread: item.unread === true });
+      }
+    }
+  } catch {
+  }
+  function persist() {
+    const entries = [...records].sort((a, b) => b[1].occurredAt - a[1].occurredAt).slice(0, MAX_RECORDS);
+    records.clear();
+    for (const [id, record] of entries) records.set(id, record);
+    try {
+      storage?.setItem(STORAGE_KEY, JSON.stringify({ version: 1, since, records: entries.map(([id, record]) => ({ id, ...record })) }));
+    } catch {
+      storageError = "\u901A\u77E5\u5DF2\u8BFB\u53D6\uFF0C\u4F46\u672C\u673A\u5B58\u50A8\u4E0D\u53EF\u7528\uFF0C\u5237\u65B0\u540E\u5DF2\u8BFB\u72B6\u6001\u53EF\u80FD\u4E22\u5931\u3002";
+    }
+  }
+  function sources() {
+    return [(ctx.uiSession || ctx.get?.("uiSession"))?.sessionStatus, ctx.sessions?.list, ctx.workspaces?.list];
+  }
+  function roster() {
+    const [statusSource, sessionSource, workspaceSource] = sources();
+    if (!isSource2(sessionSource) || !isSource2(workspaceSource)) return { available: false, rows: [], statuses: /* @__PURE__ */ new Map(), phase: "pending" };
+    const list = sessionSource.getSnapshot(), workspaces = workspaceSource.getSnapshot(), statuses = isSource2(statusSource) ? statusSource.getSnapshot() : /* @__PURE__ */ new Map();
+    const archived = new Set(workspaces?.archivedSessionIds || []), titles = /* @__PURE__ */ new Map();
+    for (const workspace of workspaces?.items || []) for (const id of workspace.sessionIds || []) titles.set(id, text3(workspace.title));
+    const rows = [...new Set(list?.ids || [])].map((id) => list.byId?.[id]).filter((row) => row?.id && !row.blank && row.origin !== "subagent" && !archived.has(row.id));
+    return { available: typeof ctx.uiWorkspace?.openSession === "function", rows, statuses: statuses instanceof Map ? statuses : /* @__PURE__ */ new Map(), phase: list?.phase, titles };
+  }
+  function refresh() {
+    if (disposed) return;
+    let items = [], available = false, error = state.error;
+    try {
+      const data = roster();
+      available = data.available;
+      if (available) items = data.rows.map((row) => {
+        const status = data.statuses.get(row.id), pending = status?.pendingInteraction?.kind, record = records.get(row.id);
+        if (!PENDING.has(pending) && !record) return null;
+        const kind = PENDING.has(pending) ? pending : record.kind;
+        return { id: row.id, title: text3(row.title) || text3(row.projectionValues?.title) || "\u672A\u547D\u540D\u804A\u5929", workspaceTitle: data.titles.get(row.id) || "", kind, detail: DETAILS[kind], excerpt: PENDING.has(pending) ? DETAILS[kind] : record.excerpt, unread: PENDING.has(pending) || record?.unread === true, occurredAt: PENDING.has(pending) ? time2(row.updatedAt) : record.occurredAt };
+      }).filter(Boolean).sort((a, b) => Number(b.unread) - Number(a.unread) || b.occurredAt - a.occurredAt || a.id.localeCompare(b.id));
+    } catch {
+      available = false;
+      error = "\u901A\u77E5\u6682\u65F6\u65E0\u6CD5\u8BFB\u53D6\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5\u3002";
+    }
+    if (!error && storageError) error = storageError;
+    if (!error && failures.size) error = "\u90E8\u5206\u5B8C\u6210\u8BB0\u5F55\u6682\u65F6\u65E0\u6CD5\u8BFB\u53D6\uFF0C\u7A0D\u540E\u4F1A\u81EA\u52A8\u91CD\u8BD5\u3002";
+    const loading = requests.size > 0 || queue.size > 0;
+    const notice = unsupported.size ? `${unsupported.size} \u4E2A\u65E7\u7248\u4F1A\u8BDD\u65E0\u6CD5\u8BFB\u53D6\u5386\u53F2\u8BB0\u5F55\uFF0C\u5176\u4F59\u901A\u77E5\u6B63\u5E38\u3002` : "";
+    if (snapshot2 && snapshot2.open === state.open && snapshot2.busyId === state.busyId && snapshot2.error === error && snapshot2.available === available && snapshot2.loading === loading && snapshot2.notice === notice && sameItems(snapshot2.items, items)) return;
+    snapshot2 = Object.freeze({ ...state, error, available, loading, notice, count: items.filter((item) => item.unread).length, items: Object.freeze(items.map((item) => Object.freeze(item))) });
+  }
+  function publish() {
+    if (disposed) return;
+    refresh();
+    if (snapshot2 === publishedSnapshot) return;
+    publishedSnapshot = snapshot2;
+    for (const listener of [...listeners]) listener();
+  }
+  function enqueue(id) {
+    if (!disposed) {
+      queue.add(id);
+    }
+  }
+  function readMethod() {
+    return ctx.remote?.session?.events || ctx.remote?.session?.page;
+  }
+  function pump() {
+    if (disposed || !started || typeof readMethod() !== "function") return;
+    for (const id of [...queue]) {
+      if (requests.size >= 3) break;
+      if (requests.has(id)) continue;
+      queue.delete(id);
+      const controller = new AbortController();
+      requests.set(id, controller);
+      Promise.resolve().then(() => readMethod().call(ctx.remote.session, { address: { kind: "session", sessionId: id }, maxMessages: 50, turnWindow: { minMessages: 1, minTurns: 2 } }, controller.signal)).then((result) => {
+        if (disposed || controller.signal.aborted) return;
+        if (result?.ok === false) throw result.error || new Error("history unavailable");
+        const page = result?.ok === true ? result.value : result;
+        if (!Array.isArray(page?.records)) throw new Error("invalid history");
+        failures.delete(id);
+        unsupported.delete(id);
+        const latest = latestCompletion(page.records), previous = records.get(id);
+        if (latest && awaitingEnd.has(id) && latest.seq > awaitingEnd.get(id)) awaitingEnd.delete(id);
+        if (latest && (!previous || latest.seq > previous.seq)) {
+          const hostUnread = roster().statuses.get(id)?.completionUnread === true;
+          records.set(id, { ...latest, unread: hostUnread || latest.occurredAt >= since });
+          persist();
+        }
+      }).catch((error) => {
+        if (disposed || controller.signal.aborted) return;
+        if (error?.code === "gateway/internal" && /Session migration from v\d+ to v\d+ refuses/.test(error.message || "")) {
+          unsupported.add(id);
+          failures.delete(id);
+        } else failures.add(id);
+      }).finally(() => {
+        if (requests.get(id) === controller) requests.delete(id);
+        if (!disposed) {
+          pump();
+          publish();
+        }
+      });
+    }
+    publish();
+  }
+  function synchronize(force = false) {
+    if (disposed) return;
+    try {
+      const data = roster();
+      if (typeof readMethod() === "function") {
+        const sorted = [...data.rows].sort((a, b) => time2(b.updatedAt) - time2(a.updatedAt));
+        const initial = new Set(sorted.map((row) => row.id));
+        for (const row of sorted) {
+          const status = data.statuses.get(row.id), fingerprint = `${time2(row.updatedAt)}:${status?.running ?? row.running ?? false}:${status?.completionUnread === true}`;
+          const previous = fingerprints.get(row.id), isRunning = (status?.running ?? row.running) === true;
+          if (running.get(row.id) === true && !isRunning) awaitingEnd.set(row.id, records.get(row.id)?.seq ?? -1);
+          running.set(row.id, isRunning);
+          if (previous === void 0 && initial.has(row.id) || previous !== void 0 && previous !== fingerprint || force && initial.has(row.id)) enqueue(row.id);
+          fingerprints.set(row.id, fingerprint);
+        }
+        if (data.phase === "ready") {
+          const visible = new Set(data.rows.map((row) => row.id));
+          for (const id of fingerprints.keys()) if (!visible.has(id)) {
+            fingerprints.delete(id);
+            running.delete(id);
+            awaitingEnd.delete(id);
+            queue.delete(id);
+            failures.delete(id);
+            unsupported.delete(id);
+            requests.get(id)?.abort();
+          }
+        }
+      }
+    } catch {
+    }
+    pump();
+    publish();
+  }
+  function start() {
+    if (started || disposed) return;
+    started = true;
+    persist();
+    try {
+      for (const source2 of sources()) if (isSource2(source2)) stops.push(source2.subscribe(() => synchronize()));
+    } catch {
+      state.error = "\u901A\u77E5\u6682\u65F6\u65E0\u6CD5\u8BFB\u53D6\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5\u3002";
+    }
+    synchronize();
+    timer = setInterval(() => {
+      try {
+        for (const row of [...roster().rows].sort((a, b) => time2(b.updatedAt) - time2(a.updatedAt)).slice(0, 6)) enqueue(row.id);
+        for (const id of failures) enqueue(id);
+        for (const id of awaitingEnd.keys()) enqueue(id);
+      } catch {
+      }
+      pump();
+    }, options.pollMs || 3e4);
+    timer?.unref?.();
+  }
+  function close() {
+    if (disposed || !state.open) return;
+    actionEpoch++;
+    state = { ...state, open: false, busyId: null, error: "" };
+    publish();
+  }
+  refresh();
+  publishedSnapshot = snapshot2;
+  return {
+    getSnapshot() {
+      refresh();
+      return snapshot2;
+    },
+    subscribe(listener) {
+      if (disposed) return () => {
+      };
+      const registered = () => listener();
+      listeners.add(registered);
+      start();
+      return () => listeners.delete(registered);
+    },
+    open() {
+      if (disposed || state.open) return;
+      actionEpoch++;
+      state = { ...state, open: true, busyId: null, error: "" };
+      start();
+      synchronize(true);
+    },
+    close,
+    markAllRead() {
+      if (disposed) return;
+      for (const record of records.values()) record.unread = false;
+      persist();
+      publish();
+    },
+    async select(sessionId) {
+      if (disposed || !state.open || state.busyId !== null) return false;
+      publish();
+      if (!snapshot2.available || !snapshot2.items.some((item) => item.id === sessionId)) return false;
+      const selectedSeq = records.get(sessionId)?.seq, epoch = ++actionEpoch;
+      state.busyId = sessionId;
+      state.error = "";
+      publish();
+      try {
+        await ctx.uiWorkspace.openSession(sessionId);
+        if (!disposed && epoch === actionEpoch) {
+          const record = records.get(sessionId);
+          if (record && record.seq === selectedSeq) {
+            record.unread = false;
+            persist();
+          }
+          state.busyId = null;
+          publish();
+        }
+        return true;
+      } catch (error) {
+        if (!disposed && epoch === actionEpoch) {
+          state.busyId = null;
+          state.error = text3(error?.message) || "\u65E0\u6CD5\u6253\u5F00\u4F1A\u8BDD\uFF0C\u8BF7\u91CD\u8BD5\u3002";
+          publish();
+        }
+        return false;
+      }
+    },
+    dispose() {
+      if (disposed) return;
+      actionEpoch++;
+      disposed = true;
+      clearInterval(timer);
+      for (const stop5 of stops.splice(0)) stop5();
+      for (const request of requests.values()) request.abort();
+      requests.clear();
+      queue.clear();
+      listeners.clear();
+      snapshot2 = Object.freeze({ ...snapshot2, open: false, busyId: null, loading: false });
+    }
+  };
 }
 
 // video-preview.js
-var import_react7 = __toESM(require("react"), 1);
+var import_react9 = __toESM(require("react"), 1);
 
 // desktop-video-source.js
 var DESKTOP_VIDEO_BYTE_LIMIT = 256 * 1024 * 1024;
@@ -3450,12 +5111,12 @@ var VIDEO_PREVIEW_ID = "@local/chatgpt-rail/video";
 var SLOT = "sidebar.right.tab.document";
 var NS = "chatgptRailVideo";
 var EXTENSIONS = Object.freeze(["mp4", "m4v", "mov", "webm"]);
-var h7 = import_react7.default.createElement;
+var h9 = import_react9.default.createElement;
 var copy = {
   zh: { title: "\u89C6\u9891", player: "\u89C6\u9891\u9884\u89C8\uFF1A{name}", loading: "\u6B63\u5728\u8BFB\u53D6\u89C6\u9891\u2026", progress: "\u6B63\u5728\u8F7D\u5165\u89C6\u9891 {percent}%", hidden: "\u89C6\u9891\u5DF2\u6682\u505C\u3002", unavailable: "\u6682\u65F6\u65E0\u6CD5\u8BFB\u53D6\u89C6\u9891\u3002", failed: "\u6682\u65F6\u65E0\u6CD5\u64AD\u653E\u6B64\u89C6\u9891\u3002", decode: "\u65E0\u6CD5\u64AD\u653E\u6B64\u89C6\u9891\uFF0C\u53EF\u80FD\u662F\u4E0D\u652F\u6301\u7684\u7F16\u7801\u3002", "too-large": "\u89C6\u9891\u8D85\u8FC7\u684C\u9762\u9884\u89C8\u4E0A\u9650\uFF08256 MiB\uFF09\u3002", busy: "\u8BF7\u5148\u5173\u95ED\u5176\u4ED6\u89C6\u9891\uFF0C\u518D\u91CD\u65B0\u8F7D\u5165\u3002", changed: "\u89C6\u9891\u5DF2\u53D8\u5316\u6216\u6570\u636E\u4E0D\u5B8C\u6574\uFF0C\u8BF7\u91CD\u65B0\u8F7D\u5165\u3002", external: "\u53EF\u4F7F\u7528\u9876\u90E8\u7684\u6253\u5F00\u65B9\u5F0F\uFF0C\u5728\u7CFB\u7EDF\u5E94\u7528\u4E2D\u6253\u5F00\u3002", retry: "\u91CD\u65B0\u8F7D\u5165" },
   en: { title: "Video", player: "Video preview: {name}", loading: "Loading video\u2026", progress: "Loading video {percent}%", hidden: "Video paused.", unavailable: "This video is unavailable.", failed: "This video could not be played.", decode: "This video may use an unsupported encoding.", "too-large": "This video exceeds the desktop preview limit (256 MiB).", busy: "Close another video, then reload.", changed: "This video changed or is incomplete. Reload it to continue.", external: "Use the opening options above to open it in a system application.", retry: "Reload" }
 };
-var fallbackT = (key, values = {}) => Object.entries(values).reduce((text2, [name, value]) => text2.replaceAll("{" + name + "}", String(value)), copy.zh[key] || key);
+var fallbackT = (key, values = {}) => Object.entries(values).reduce((text4, [name, value]) => text4.replaceAll("{" + name + "}", String(value)), copy.zh[key] || key);
 function videoMediaUrl(base, path, version) {
   if (typeof base !== "string" || typeof path !== "string" || !path || /[\u0000-\u001f\u007f]/u.test(path) || /^[/\\]{2}/u.test(path) || !(/^[A-Za-z]:[/\\]/u.test(path) || path.startsWith("/"))) return null;
   try {
@@ -3492,10 +5153,10 @@ function createVideoProgress() {
       const held = record(signal);
       return held?.address === address && held.version === version ? held.time : 0;
     },
-    remember(signal, address, version, time) {
-      if (!Number.isFinite(time) || time < 0) return;
+    remember(signal, address, version, time3) {
+      if (!Number.isFinite(time3) || time3 < 0) return;
       const held = record(signal);
-      if (held) Object.assign(held, { address, version, time });
+      if (held) Object.assign(held, { address, version, time: time3 });
     },
     dispose() {
       if (disposed) return;
@@ -3515,14 +5176,14 @@ var frameStyle = { position: "relative", display: "flex", flex: "1 1 auto", flex
 var noticeStyle = { display: "flex", flex: "1 1 auto", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, minHeight: 120, padding: 24, color: "var(--dsw-alias-label-secondary,#888)", textAlign: "center", whiteSpace: "normal", lineHeight: 1.6 };
 var retryStyle = { border: "1px solid var(--dsw-alias-border-l2,#ddd)", borderRadius: 7, padding: "5px 12px", background: "transparent", color: "inherit", font: "inherit", cursor: "pointer" };
 function VideoPlayer({ src, version, address, request, tab, progress, t, name }) {
-  const ref = import_react7.default.useRef(null), alive = import_react7.default.useRef(true), reported = import_react7.default.useRef(null);
-  const [failure4, setFailure] = import_react7.default.useState(null), [ready, setReady] = import_react7.default.useState(false);
-  const remember = import_react7.default.useCallback((element) => progress?.remember(tab.signal, address, version, element?.ended ? 0 : element?.currentTime), [progress, tab.signal, address, version]);
-  import_react7.default.useEffect(() => {
+  const ref = import_react9.default.useRef(null), alive = import_react9.default.useRef(true), reported = import_react9.default.useRef(null);
+  const [failure4, setFailure] = import_react9.default.useState(null), [ready, setReady] = import_react9.default.useState(false);
+  const remember = import_react9.default.useCallback((element) => progress?.remember(tab.signal, address, version, element?.ended ? 0 : element?.currentTime), [progress, tab.signal, address, version]);
+  import_react9.default.useEffect(() => {
     alive.current = true;
     const element = ref.current;
     let retired = false;
-    const stop3 = () => {
+    const stop5 = () => {
       if (!element) return;
       remember(element);
       try {
@@ -3531,7 +5192,7 @@ function VideoPlayer({ src, version, address, request, tab, progress, t, name })
       }
     };
     const retire = () => {
-      stop3();
+      stop5();
       if (element && !retired) {
         retired = true;
         try {
@@ -3549,7 +5210,7 @@ function VideoPlayer({ src, version, address, request, tab, progress, t, name })
       retire();
     };
   }, [tab.signal, remember]);
-  import_react7.default.useEffect(() => {
+  import_react9.default.useEffect(() => {
     if (!tab.visible) {
       const element = ref.current;
       remember(element);
@@ -3589,22 +5250,22 @@ function VideoPlayer({ src, version, address, request, tab, progress, t, name })
       request.failed?.();
     }
   }
-  return h7(
+  return h9(
     "div",
     { className: "cgpt-video-preview", "data-video-preview": failure4 ? "failed" : ready ? "ready" : "loading", style: frameStyle },
-    h7("video", { key: src, ref, src, controls: true, preload: "metadata", playsInline: true, "aria-label": t("player", { name }), style: { display: failure4 ? "none" : "block", width: "100%", height: "100%", minHeight: 0, flex: "1 1 auto", objectFit: "contain", background: "#111" }, onLoadedMetadata: loaded, onError: failed, onTimeUpdate: (event) => remember(event.currentTarget), onPause: (event) => remember(event.currentTarget), onSeeked: (event) => remember(event.currentTarget), onEnded: () => progress?.remember(tab.signal, address, version, 0) }),
-    !ready && !failure4 && h7("div", { role: "status", style: { ...noticeStyle, position: "absolute", inset: 0, pointerEvents: "none", color: "#ddd" } }, t("loading")),
-    failure4 && h7("div", { role: "alert", style: noticeStyle }, h7("p", { style: { margin: 0 } }, t(failure4)), h7("p", { style: { margin: 0 } }, t("external")), h7("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")))
+    h9("video", { key: src, ref, src, controls: true, preload: "metadata", playsInline: true, "aria-label": t("player", { name }), style: { display: failure4 ? "none" : "block", width: "100%", height: "100%", minHeight: 0, flex: "1 1 auto", objectFit: "contain", background: "#111" }, onLoadedMetadata: loaded, onError: failed, onTimeUpdate: (event) => remember(event.currentTarget), onPause: (event) => remember(event.currentTarget), onSeeked: (event) => remember(event.currentTarget), onEnded: () => progress?.remember(tab.signal, address, version, 0) }),
+    !ready && !failure4 && h9("div", { role: "status", style: { ...noticeStyle, position: "absolute", inset: 0, pointerEvents: "none", color: "#ddd" } }, t("loading")),
+    failure4 && h9("div", { role: "alert", style: noticeStyle }, h9("p", { style: { margin: 0 } }, t(failure4)), h9("p", { style: { margin: 0 } }, t("external")), h9("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")))
   );
 }
 function DesktopVideo({ src, bytes, desktopSources, request, tab, ...playerProps }) {
   const sourceKey = src + "\0" + bytes;
-  const [state, setState] = import_react7.default.useState({ key: sourceKey, kind: "loading", percent: Number.isFinite(bytes) ? 0 : null });
+  const [state, setState] = import_react9.default.useState({ key: sourceKey, kind: "loading", percent: Number.isFinite(bytes) ? 0 : null });
   const shown = state.key === sourceKey ? state : { kind: "loading", percent: Number.isFinite(bytes) ? 0 : null };
-  const requestRef = import_react7.default.useRef(request);
+  const requestRef = import_react9.default.useRef(request);
   requestRef.current = request;
   const { t } = playerProps;
-  import_react7.default.useEffect(() => {
+  import_react9.default.useEffect(() => {
     let alive = true;
     setState({ key: sourceKey, kind: "loading", percent: Number.isFinite(bytes) ? 0 : null });
     const handle = desktopSources?.open(src, { bytes, signal: tab.signal, onProgress: (value) => {
@@ -3615,12 +5276,12 @@ function DesktopVideo({ src, bytes, desktopSources, request, tab, ...playerProps
       requestRef.current.failed?.();
       return;
     }
-    handle.promise.then((source) => {
+    handle.promise.then((source2) => {
       if (!alive || tab.signal?.aborted) {
         handle.dispose();
         return;
       }
-      setState({ key: sourceKey, kind: "ready", url: source.url });
+      setState({ key: sourceKey, kind: "ready", url: source2.url });
     }, (error) => {
       if (!alive || tab.signal?.aborted) return;
       const reason = ["too-large", "busy", "changed"].includes(error?.code) ? error.code : "unavailable";
@@ -3632,11 +5293,11 @@ function DesktopVideo({ src, bytes, desktopSources, request, tab, ...playerProps
       handle.dispose();
     };
   }, [src, bytes, desktopSources, tab.signal]);
-  if (shown.kind === "ready") return h7(VideoPlayer, { ...playerProps, src: shown.url, request, tab });
-  return h7(
+  if (shown.kind === "ready") return h9(VideoPlayer, { ...playerProps, src: shown.url, request, tab });
+  return h9(
     "div",
     { className: "cgpt-video-preview", "data-video-preview": shown.kind === "failed" ? "failed" : "loading", style: frameStyle },
-    shown.kind === "failed" ? h7("div", { role: "alert", style: noticeStyle }, h7("p", { style: { margin: 0 } }, t(shown.reason)), h7("p", { style: { margin: 0 } }, t("external")), h7("button", { type: "button", style: retryStyle, onClick: () => requestRef.current.reload?.() }, t("retry"))) : h7("div", { role: "status", style: noticeStyle }, t(shown.percent === null ? "loading" : "progress", { percent: shown.percent }))
+    shown.kind === "failed" ? h9("div", { role: "alert", style: noticeStyle }, h9("p", { style: { margin: 0 } }, t(shown.reason)), h9("p", { style: { margin: 0 } }, t("external")), h9("button", { type: "button", style: retryStyle, onClick: () => requestRef.current.reload?.() }, t("retry"))) : h9("div", { role: "status", style: noticeStyle }, t(shown.percent === null ? "loading" : "progress", { percent: shown.percent }))
   );
 }
 function VideoPreview({ resourceAddress, content, useResource, useTabInfo, progress, desktopSources, mediaUrl, t = fallbackT }) {
@@ -3646,8 +5307,8 @@ function VideoPreview({ resourceAddress, content, useResource, useTabInfo, progr
   const src = typeof path === "string" ? (mediaUrl || ((value, stamp) => videoMediaUrl(globalThis.document?.baseURI, value, stamp)))(path, version) : null;
   const pending = metadata.status === "loading";
   const unavailable = !pending && (metadata.status !== "live" || !src || tab.signal?.aborted);
-  const report = import_react7.default.useRef(null);
-  import_react7.default.useEffect(() => {
+  const report = import_react9.default.useRef(null);
+  import_react9.default.useEffect(() => {
     if (!request || !unavailable || tab.signal?.aborted) return;
     const identity = resourceAddress + "\0" + request.revision;
     if (report.current === identity) return;
@@ -3655,14 +5316,14 @@ function VideoPreview({ resourceAddress, content, useResource, useTabInfo, progr
     request.failed?.();
   }, [request, unavailable, resourceAddress, tab.signal]);
   if (!request) return null;
-  if (pending) return h7("div", { role: "status", style: noticeStyle }, t("loading"));
-  if (unavailable) return h7("div", { role: "alert", style: noticeStyle }, h7("p", { style: { margin: 0 } }, t("unavailable")), h7("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")));
+  if (pending) return h9("div", { role: "status", style: noticeStyle }, t("loading"));
+  if (unavailable) return h9("div", { role: "alert", style: noticeStyle }, h9("p", { style: { margin: 0 } }, t("unavailable")), h9("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")));
   const name = path.replaceAll("\\", "/").split("/").pop() || tab.title || t("title");
   if (src.startsWith("dsh-app://")) {
-    if (!tab.visible) return h7("div", { className: "cgpt-video-preview", "data-video-preview": "paused", role: "status", style: noticeStyle }, t("hidden"));
-    return h7(DesktopVideo, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, bytes: metadata.value?.bytes, desktopSources, version, address: resourceAddress, request, tab, progress, t, name });
+    if (!tab.visible) return h9("div", { className: "cgpt-video-preview", "data-video-preview": "paused", role: "status", style: noticeStyle }, t("hidden"));
+    return h9(DesktopVideo, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, bytes: metadata.value?.bytes, desktopSources, version, address: resourceAddress, request, tab, progress, t, name });
   }
-  return h7(VideoPlayer, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, version, address: resourceAddress, request, tab, progress, t, name });
+  return h9(VideoPlayer, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, version, address: resourceAddress, request, tab, progress, t, name });
 }
 function installVideoPreview(ctx) {
   if (typeof ctx.inject !== "function" && typeof ctx.documentPreviews?.register !== "function") return () => {
@@ -3752,12 +5413,17 @@ html[data-ds-dark-theme] [data-cgpt-rail]::before,[data-ds-dark-theme] [data-cgp
 /* Collapse the conversation column only; keep the original navigation and
    account controls in a real 52px grid track, including during host fades. */
 [data-cgpt-rail-frame]{grid-template-columns:var(--cgpt-rail-columns)!important}
-[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail]{box-sizing:border-box!important;width:52px!important;min-width:52px!important;padding:0!important}
-[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail]::before{display:none}
-[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-workspace-region],
-[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-new-chat]{display:none!important}
+[data-cgpt-rail-frame][data-sidebar-drawer][data-sidebar-collapsed] [data-cgpt-rail]{box-sizing:border-box!important;width:52px!important;min-width:52px!important;padding:0!important}
+[data-cgpt-rail-frame][data-sidebar-drawer][data-sidebar-collapsed] [data-cgpt-rail]::before{display:none}
+[data-cgpt-rail-frame][data-sidebar-drawer][data-sidebar-collapsed] [data-cgpt-workspace-region],
+[data-cgpt-rail-frame][data-sidebar-drawer][data-sidebar-collapsed] [data-cgpt-new-chat]{display:none!important}
+/* Keep text at its final width while the native column clips it. Animating
+   the inner width as well reflows the list and makes opening lag the frame. */
+[data-cgpt-rail-frame]:not([data-sidebar-drawer]) [data-cgpt-rail]{width:var(--cgpt-rail-content-width,392px)!important;min-width:var(--cgpt-rail-content-width,392px)!important;transition:none!important}
+[data-cgpt-rail-frame]:not([data-sidebar-drawer])[data-sidebar-collapsed] :is([data-cgpt-workspace-region],[data-cgpt-new-chat]){pointer-events:none;visibility:hidden;transition:opacity .15s var(--ds-ease-in-out),visibility 0s linear .15s}
+@media(prefers-reduced-motion:reduce){[data-cgpt-rail-frame]:not([data-sidebar-drawer])[data-sidebar-collapsed] :is([data-cgpt-workspace-region],[data-cgpt-new-chat]){transition:none!important}}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-brand-row],
-[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-top-strip]{visibility:hidden!important;left:0!important;right:0!important;top:0!important;margin:0!important}
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-top-strip]{visibility:hidden!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail-toggle]{visibility:visible!important;position:absolute!important;top:10px!important;left:12px!important;width:28px!important;height:28px!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed]:has([data-shell-leading]) [data-cgpt-rail-toggle]{display:none!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail-nav],
@@ -3805,119 +5471,6 @@ html[data-platform="darwin"][data-ds-dark-theme] [data-cgpt-window-frame],
 html[data-platform="darwin"] [data-ds-dark-theme] [data-cgpt-window-frame]{--cgpt-window-chrome:#252728}
 html[data-platform="darwin"][data-ds-dark-theme] [data-cgpt-window-center]::after,
 html[data-platform="darwin"] [data-ds-dark-theme] [data-cgpt-window-center]::after{background:#36393b}
-
-/* One persistent window toolbar, independent of the selected main page. */
-.cgpt-window-chrome-anchor{display:none}
-.cgpt-window-chrome-seat{display:none}
-html[data-platform="darwin"] [data-cgpt-window-frame]>.cgpt-window-chrome-seat{display:flex;position:absolute;top:8px;right:12px;width:28px;height:28px;z-index:70;pointer-events:auto;-webkit-app-region:no-drag}
-.cgpt-window-toolbar{display:contents}
-.cgpt-window-plus{box-sizing:border-box;display:flex;flex:none;align-items:center;justify-content:center;width:28px;height:28px;padding:4px;border:0;border-radius:8px;background:transparent;color:var(--dsw-alias-label-tertiary,#858a8d);cursor:pointer;-webkit-app-region:no-drag}
-.cgpt-window-plus svg{display:block;flex:none}
-.cgpt-window-plus:hover,.cgpt-window-plus[aria-expanded="true"]{background:var(--dsw-alias-interactive-bg-hover,#e7e9e9);color:var(--dsw-alias-label-primary,#282d31)}
-.cgpt-window-plus:disabled{cursor:wait}
-.cgpt-window-plus[aria-haspopup="menu"]:disabled{opacity:.45}
-.cgpt-window-plus:focus-visible{outline:2px solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:1px}
-.cgpt-window-plus-menu{min-width:250px;max-width:min(340px,calc(100vw - 24px))}
-.cgpt-window-menu-plus{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;font-size:20px;line-height:16px;font-weight:300}
-.cgpt-window-menu-context{margin:3px 8px 5px;padding-top:6px;border-top:1px solid var(--dsw-alias-border-l1,#e4e6e8);max-width:290px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-tertiary,#8c9094);font-size:11px;line-height:18px}
-.cgpt-window-session-modal{width:min(440px,calc(100vw - 32px))}
-.cgpt-window-session-search{box-sizing:border-box;width:100%;height:34px;padding:6px 10px;margin:2px 0 12px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:7px;background:var(--dsw-alias-bg-base,#fff);color:inherit;font:inherit;font-size:13px}
-.cgpt-window-session-list{list-style:none;max-height:330px;overflow:auto;margin:0;padding:0}
-.cgpt-window-session-list button{display:flex;flex-direction:column;gap:3px;width:100%;padding:9px 10px;border:0;border-radius:7px;text-align:left;background:transparent;color:inherit;font:inherit;font-size:14px;cursor:pointer}
-.cgpt-window-session-list button:hover{background:var(--dsw-alias-interactive-bg-hover,#eef0f1)}
-.cgpt-window-session-list button span{max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.cgpt-window-session-list small,.cgpt-window-empty{font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#8c9094)}
-.cgpt-window-empty{margin:8px 0}
-.cgpt-window-secondary{padding:5px 12px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:6px;background:transparent;color:inherit;font:inherit;font-size:13px;cursor:pointer}
-.cgpt-window-notice{position:fixed;right:20px;bottom:20px;z-index:10000;display:flex;align-items:center;gap:12px;max-width:min(420px,calc(100vw - 40px));padding:10px 12px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:9px;background:var(--dsw-alias-bg-overlay,#fff);color:var(--dsw-alias-label-secondary,#6d747b);box-shadow:0 4px 16px #0002;font-size:13px;line-height:19px;-webkit-app-region:no-drag}
-.cgpt-window-notice[data-error]{color:var(--dsw-alias-state-error-primary,#b94545)}
-.cgpt-window-notice button{flex:none;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;font-size:18px}
-/* One stateful control owns the frame's far-right position. Native tab-strip
-   add/fullscreen/split controls remain; only duplicate column toggles are hidden. */
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"] [data-conversation-header-corner] [data-sidebar-right-expand],
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel] [data-dockkit-strip-chrome] [data-sidebar-right-toggle]{display:none!important}
-/* Reserve space for the global control without covering native actions. */
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"]>header{padding-right:68px!important}
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-dockkit-strip]:has(>[data-dockkit-strip-chrome]){padding-inline-end:46px!important}
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel] [data-dockkit-host="dock"] [data-dockkit-strip]{box-sizing:border-box;height:var(--cgpt-window-chrome-height,44px);padding-block:8px}
-/* Keep the outer navigation available in the native complete tool view. */
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel="fullscreen"]{max-width:calc(100vw - var(--cgpt-window-leading,52px))!important;--dsh-sidebar-width:calc(100vw - var(--cgpt-window-leading,52px))!important}
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel="fullscreen"] [data-dockkit-host="dock"][data-dockkit-column="0"]{--dsh-dockkit-strip-inline-start:max(10px,calc(var(--dsh-frame-leading-clearance,88px) - var(--cgpt-window-leading,52px)))!important}
-html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-collapsed] [data-sidebar-right-panel="fullscreen"] [data-dockkit-host="dock"][data-dockkit-column="0"]>section[data-dockkit-content]>div:has(>[data-dockkit-strip])+div{border-top-left-radius:15px;border-bottom-left-radius:15px}
-html[data-platform="darwin"] [data-cgpt-window-frame] [data-shell-leading]{z-index:71}
-/* Arm the grid transition before the native flushSync mutation. The native
-   data-animating flag can otherwise arrive after its new width was laid out. */
-html[data-platform="darwin"] [data-cgpt-window-frame][data-cgpt-right-motion]:not([data-dragging]):not([data-rightbar-fullscreen]):not([data-rightbar-instant]){transition:grid-template-columns var(--ds-transition-duration-slow) var(--ds-ease-in-out)}
-@media(prefers-reduced-motion:reduce){html[data-platform="darwin"] [data-cgpt-window-center]::before,html[data-platform="darwin"] [data-cgpt-window-frame][data-cgpt-right-motion]{transition:none!important}}
-
-/* Pins are displayed only in the global section. The native workspace tree
-   stays mounted and retains membership/order; the pin component owns its filter. */
-.cgpt-pinned-seat{display:flex;flex-direction:column;flex:0 1 auto;min-height:0;max-height:45%}
-.cgpt-pinned-seat:empty{display:none}
-.cgpt-pinned-section{display:flex;flex-direction:column;min-height:0;padding:0 0 14px;color:var(--dsw-alias-label-primary)}
-.cgpt-pinned-heading{flex:none;margin:0;padding:0 4px 9px;font-size:13px;font-weight:400;line-height:20px;color:var(--dsw-alias-label-tertiary,#8c9094)}
-.cgpt-pinned-list{list-style:none;display:flex;flex-direction:column;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:0}
-.cgpt-pinned-row{display:flex;align-items:center;flex:none;height:32px;min-height:32px;margin:0;border-radius:7px}
-.cgpt-pinned-row:hover,.cgpt-pinned-row:focus-within,.cgpt-pinned-row[data-active]{background:var(--dsw-alias-interactive-bg-hover,#e9ebeb)}
-.cgpt-pinned-open{display:flex;align-items:center;gap:7px;flex:1;min-width:0;height:32px;padding:5px 8px 5px 4px;border:0;border-radius:7px;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:22px;overflow:hidden;text-align:left;cursor:pointer}
-.cgpt-pinned-title{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.cgpt-pinned-status{display:inline-flex;align-items:center;justify-content:center;flex:none;width:14px;height:16px}
-.cgpt-pinned-spinner{box-sizing:border-box;width:12px;height:12px;border:1.5px solid var(--dsw-alias-label-tertiary,#8c9094);border-right-color:transparent;border-radius:50%;animation:cgpt-pinned-spin .8s linear infinite}
-@keyframes cgpt-pinned-spin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.cgpt-pinned-spinner{animation:none}}
-.cgpt-pinned-unpin{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;margin-right:5px;padding:4px;border:0;border-radius:5px;background:transparent;color:var(--dsw-alias-label-secondary,#62676b);opacity:0;cursor:pointer}
-.cgpt-pinned-row:hover .cgpt-pinned-unpin,.cgpt-pinned-row:focus-within .cgpt-pinned-unpin{opacity:1}
-.cgpt-pinned-unpin:hover{color:var(--dsw-alias-label-primary,#303538)}
-.cgpt-pinned-unpin:disabled{cursor:wait;opacity:.4}
-.cgpt-pinned-open:focus-visible,.cgpt-pinned-unpin:focus-visible{outline:var(--dsw-focus-ring-width,2px) solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:-2px}
-.cgpt-pinned-error{flex:none;padding:4px;font-size:12px;line-height:18px;color:var(--dsw-alias-state-error-primary,#b94545)}
-@media(hover:none){.cgpt-pinned-unpin{opacity:1}}
-
-/* Original action components render in the native pointer-anchored menu. */
-[data-cgpt-session-more]{display:none!important}
-.cgpt-context-layer,[data-cgpt-context-seat]{display:contents}
-.cgpt-context-anchor{position:fixed;width:1px;height:1px;padding:0;border:0;opacity:0;pointer-events:none}
-[data-cgpt-workspace-region] [data-row-key^="session:"]:focus-visible{outline:var(--dsw-focus-ring-width,2px) solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:-2px}
-
-.cgpt-rail-actions-seat,.cgpt-rail-action-buttons{display:contents}
-.cgpt-rail-action-error{position:absolute;left:48px;top:0;width:max-content;max-width:280px;padding:7px 10px;border-radius:8px;background:var(--dsw-alias-bg-overlay,#fff);color:var(--dsw-alias-state-error-primary,#b94545);font-size:12px;line-height:18px;box-shadow:0 4px 18px #0002;z-index:40}
-.cgpt-rail-overflow-error{padding:5px 10px;color:var(--dsw-alias-state-error-primary,#b94545);font-size:12px;line-height:18px}
-@media(max-height:420px){[data-cgpt-rail-nav]{max-height:calc(100% - 142px);overflow-y:auto!important;scrollbar-width:none}[data-cgpt-rail-nav]::-webkit-scrollbar{display:none}}
-
-/* Dock customization uses the Host menu/modal, with no permanent new icon. */
-.cgpt-dock-ui{display:contents}
-[data-cgpt-rail-nav] button[data-cgpt-dock-dragging]{opacity:.45;cursor:grabbing!important}
-[data-cgpt-rail-nav] button[data-cgpt-dock-drop="before"]{box-shadow:0 -3px 0 -1px var(--dsw-focus-ring-color,#4d6bfe)!important}
-[data-cgpt-rail-nav] button[data-cgpt-dock-drop="after"]{box-shadow:0 3px 0 -1px var(--dsw-focus-ring-color,#4d6bfe)!important}
-.cgpt-dock-modal{width:min(460px,calc(100vw - 32px))}
-.cgpt-dock-section-title{margin:12px 0 7px;font-size:13px;font-weight:600;color:var(--dsw-alias-label-secondary,#72777c)}
-.cgpt-dock-list{list-style:none;margin:0;padding:0;border:1px solid var(--dsw-alias-border-l1,#e6e8ea);border-radius:10px;overflow:hidden}
-.cgpt-dock-entry{display:flex;align-items:center;gap:12px;min-height:44px;padding:7px 12px;font-size:14px;color:var(--dsw-alias-label-primary,#25292d)}
-.cgpt-dock-entry+.cgpt-dock-entry{border-top:1px solid var(--dsw-alias-border-l1,#e6e8ea)}
-.cgpt-dock-entry-name{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.cgpt-dock-fixed,.cgpt-dock-hint{font-size:12px;color:var(--dsw-alias-label-tertiary,#8c9094)}
-.cgpt-dock-row-actions{display:flex;align-items:center;gap:5px}
-.cgpt-dock-entry button,.cgpt-dock-footer button{padding:4px 8px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:6px;background:transparent;color:inherit;font:inherit;font-size:12px;cursor:pointer}
-.cgpt-dock-entry button:hover,.cgpt-dock-footer button:hover{background:var(--dsw-alias-interactive-bg-hover,#f0f1f2)}
-.cgpt-dock-entry button:disabled,.cgpt-dock-footer button:disabled{opacity:.35;cursor:default}
-.cgpt-dock-optional{margin-top:16px;font-size:13px;color:var(--dsw-alias-label-secondary,#72777c)}
-.cgpt-dock-optional summary{padding:4px 0 10px;cursor:pointer}
-.cgpt-dock-hint{margin:14px 0 0;line-height:18px}
-.cgpt-dock-footer{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}
-.cgpt-dock-footer button{font-size:13px;padding:6px 12px}
-.cgpt-dock-footer .cgpt-dock-done{border-color:transparent;background:var(--dsw-alias-label-primary,#24282d);color:var(--dsw-alias-bg-base,#fff)}
-.cgpt-dock-error{font-size:12px;color:var(--dsw-alias-state-error-primary,#b94545)}
-.cgpt-dock-toast{position:fixed;bottom:24px;left:66px;z-index:10000;max-width:340px;padding:10px 12px;border-radius:9px;background:var(--dsw-alias-bg-overlay,#fff);box-shadow:0 4px 18px #0002;color:var(--dsw-alias-state-error-primary,#b94545);font-size:13px}
-.cgpt-dock-toast button{margin-left:12px;border:0;background:transparent;color:inherit;cursor:pointer}
-
-/* UA media controls consume their own pointer/keyboard events. Keep their native
-   focus indication, but give it a quiet rounded treatment on the dark player. */
-.cgpt-video-preview video:focus{outline-color:#8d97a5!important}
-.cgpt-video-preview video::-webkit-media-controls-play-button{outline-color:#8d97a5!important;border-radius:999px!important}
-.cgpt-video-preview video::-webkit-media-controls-timeline{outline-color:#8d97a5!important;border-radius:999px!important}
-.cgpt-video-preview video::-webkit-media-controls-mute-button{outline-color:#8d97a5!important;border-radius:999px!important}
-.cgpt-video-preview video::-webkit-media-controls-volume-slider{outline-color:#8d97a5!important;border-radius:999px!important}
-.cgpt-video-preview video::-webkit-media-controls-fullscreen-button{outline-color:#8d97a5!important;border-radius:999px!important}
 
 /* Harness 0.2.2 gives every global page one persistent MainPanel wrapper.
    Constrain that real box: an opaque plugin page must not paint over chrome.
@@ -4031,10 +5584,280 @@ html[data-platform="darwin"] [data-cgpt-window-center]>[data-global-panel] .dc-a
 html[data-platform="darwin"] [data-cgpt-window-center]>[data-global-panel] .lc-ov-page{
  --lc-canvas:var(--cgpt-window-sheet);
 }
+
+/* One persistent window toolbar, independent of the selected main page. */
+.cgpt-window-chrome-anchor{display:none}
+.cgpt-window-chrome-seat{display:none}
+html[data-platform="darwin"] [data-cgpt-window-frame]>.cgpt-window-chrome-seat{display:flex;position:absolute;top:8px;right:12px;width:28px;height:28px;z-index:70;pointer-events:auto;-webkit-app-region:no-drag}
+.cgpt-window-toolbar{display:contents}
+.cgpt-window-plus{box-sizing:border-box;display:flex;flex:none;align-items:center;justify-content:center;width:28px;height:28px;padding:4px;border:0;border-radius:8px;background:transparent;color:var(--dsw-alias-label-tertiary,#858a8d);cursor:pointer;-webkit-app-region:no-drag}
+.cgpt-window-plus svg{display:block;flex:none}
+.cgpt-window-plus:hover,.cgpt-window-plus[aria-expanded="true"]{background:var(--dsw-alias-interactive-bg-hover,#e7e9e9);color:var(--dsw-alias-label-primary,#282d31)}
+.cgpt-window-plus:disabled{cursor:wait}
+.cgpt-window-plus[aria-haspopup="menu"]:disabled{opacity:.45}
+.cgpt-window-plus:focus-visible{outline:2px solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:1px}
+.cgpt-window-plus-menu{min-width:250px;max-width:min(340px,calc(100vw - 24px))}
+.cgpt-window-menu-plus{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;font-size:20px;line-height:16px;font-weight:300}
+.cgpt-window-menu-context{margin:3px 8px 5px;padding-top:6px;border-top:1px solid var(--dsw-alias-border-l1,#e4e6e8);max-width:290px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-tertiary,#8c9094);font-size:11px;line-height:18px}
+.cgpt-window-session-modal{width:min(440px,calc(100vw - 32px))}
+.cgpt-window-session-search{box-sizing:border-box;width:100%;height:34px;padding:6px 10px;margin:2px 0 12px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:7px;background:var(--dsw-alias-bg-base,#fff);color:inherit;font:inherit;font-size:13px}
+.cgpt-window-session-list{list-style:none;max-height:330px;overflow:auto;margin:0;padding:0}
+.cgpt-window-session-list button{display:flex;flex-direction:column;gap:3px;width:100%;padding:9px 10px;border:0;border-radius:7px;text-align:left;background:transparent;color:inherit;font:inherit;font-size:14px;cursor:pointer}
+.cgpt-window-session-list button:hover{background:var(--dsw-alias-interactive-bg-hover,#eef0f1)}
+.cgpt-window-session-list button span{max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cgpt-window-session-list small,.cgpt-window-empty{font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#8c9094)}
+.cgpt-window-empty{margin:8px 0}
+.cgpt-window-secondary{padding:5px 12px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:6px;background:transparent;color:inherit;font:inherit;font-size:13px;cursor:pointer}
+.cgpt-window-notice{position:fixed;right:20px;bottom:20px;z-index:10000;display:flex;align-items:center;gap:12px;max-width:min(420px,calc(100vw - 40px));padding:10px 12px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:9px;background:var(--dsw-alias-bg-overlay,#fff);color:var(--dsw-alias-label-secondary,#6d747b);box-shadow:0 4px 16px #0002;font-size:13px;line-height:19px;-webkit-app-region:no-drag}
+.cgpt-window-notice[data-error]{color:var(--dsw-alias-state-error-primary,#b94545)}
+.cgpt-window-notice button{flex:none;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;font-size:18px}
+/* One stateful control owns the frame's far-right position. Native tab-strip
+   add/fullscreen/split controls remain; only duplicate column toggles are hidden. */
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"] [data-conversation-header-corner] [data-sidebar-right-expand],
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel] [data-dockkit-strip-chrome] [data-sidebar-right-toggle]{display:none!important}
+/* Reserve space for the global control without covering native actions. */
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-slot="conversation.header"]>header{padding-right:68px!important}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-dockkit-strip]:has(>[data-dockkit-strip-chrome]){padding-inline-end:46px!important}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel] [data-dockkit-host="dock"] [data-dockkit-strip]{box-sizing:border-box;height:var(--cgpt-window-chrome-height,44px);padding-block:8px}
+/* Keep the outer navigation available in the native complete tool view. */
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel="fullscreen"]{max-width:calc(100vw - var(--cgpt-window-leading,52px))!important;--dsh-sidebar-width:calc(100vw - var(--cgpt-window-leading,52px))!important}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-right-panel="fullscreen"] [data-dockkit-host="dock"][data-dockkit-column="0"]{--dsh-dockkit-strip-inline-start:max(10px,calc(var(--dsh-frame-leading-clearance,88px) - var(--cgpt-window-leading,52px)))!important}
+html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-collapsed] [data-sidebar-right-panel="fullscreen"] [data-dockkit-host="dock"][data-dockkit-column="0"]>section[data-dockkit-content]>div:has(>[data-dockkit-strip])+div{border-top-left-radius:15px;border-bottom-left-radius:15px}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-shell-leading]{z-index:71}
+/* Arm the grid transition before the native flushSync mutation. The native
+   data-animating flag can otherwise arrive after its new width was laid out. */
+html[data-platform="darwin"] [data-cgpt-window-frame][data-cgpt-right-motion]:not([data-dragging]):not([data-rightbar-fullscreen]):not([data-rightbar-instant]){transition:grid-template-columns var(--ds-transition-duration-slow) var(--ds-ease-in-out)}
+@media(prefers-reduced-motion:reduce){html[data-platform="darwin"] [data-cgpt-window-center]::before,html[data-platform="darwin"] [data-cgpt-window-frame][data-cgpt-right-motion]{transition:none!important}}
+
+/* Pins are displayed only in the global section. The native workspace tree
+   stays mounted and retains membership/order; the pin component owns its filter. */
+.cgpt-pinned-seat{display:flex;flex-direction:column;flex:0 1 auto;min-height:0;max-height:45%}
+.cgpt-pinned-seat:empty{display:none}
+.cgpt-pinned-section{display:flex;flex-direction:column;min-height:0;padding:0 0 14px;color:var(--dsw-alias-label-primary)}
+.cgpt-pinned-heading{flex:none;margin:0;padding:0 4px 9px;font-size:13px;font-weight:400;line-height:20px;color:var(--dsw-alias-label-tertiary,#8c9094)}
+.cgpt-pinned-list{list-style:none;display:flex;flex-direction:column;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:0}
+.cgpt-pinned-row{display:flex;align-items:center;flex:none;height:32px;min-height:32px;margin:0;border-radius:7px}
+.cgpt-pinned-row:hover,.cgpt-pinned-row:focus-within,.cgpt-pinned-row[data-active]{background:var(--dsw-alias-interactive-bg-hover,#e9ebeb)}
+.cgpt-pinned-open{display:flex;align-items:center;gap:7px;flex:1;min-width:0;height:32px;padding:5px 8px 5px 4px;border:0;border-radius:7px;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:22px;overflow:hidden;text-align:left;cursor:pointer}
+.cgpt-pinned-title{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cgpt-pinned-status{display:inline-flex;align-items:center;justify-content:center;flex:none;width:14px;height:16px}
+.cgpt-pinned-spinner{box-sizing:border-box;width:12px;height:12px;border:1.5px solid var(--dsw-alias-label-tertiary,#8c9094);border-right-color:transparent;border-radius:50%;animation:cgpt-pinned-spin .8s linear infinite}
+@keyframes cgpt-pinned-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.cgpt-pinned-spinner{animation:none}}
+.cgpt-pinned-actions{display:flex;align-items:center;flex:none;gap:2px;margin-right:3px;opacity:0;pointer-events:none;transition:opacity .12s ease}
+.cgpt-pinned-row:hover .cgpt-pinned-actions,.cgpt-pinned-row:has(:focus-visible) .cgpt-pinned-actions{opacity:1;pointer-events:auto}
+.cgpt-pinned-actions button{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;margin:0;padding:4px;border:0;border-radius:5px;background:transparent;color:var(--dsw-alias-label-secondary,#62676b);cursor:pointer}
+.cgpt-pinned-actions button:hover{color:var(--dsw-alias-label-primary,#303538)}
+.cgpt-pinned-actions button:disabled{cursor:wait;opacity:.4}
+.cgpt-pinned-open:focus-visible,.cgpt-pinned-actions button:focus-visible{outline:var(--dsw-focus-ring-width,2px) solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:-2px}
+.cgpt-pinned-error{flex:none;padding:4px;font-size:12px;line-height:18px;color:var(--dsw-alias-state-error-primary,#b94545)}
+@media(hover:none) and (pointer:coarse){.cgpt-pinned-actions{opacity:1;pointer-events:auto}}
+@media(prefers-reduced-motion:reduce){.cgpt-pinned-actions{transition:none}}
+
+/* Original action components render in the native pointer-anchored menu. */
+[data-cgpt-session-more]{display:none!important}
+.cgpt-context-layer,[data-cgpt-context-seat]{display:contents}
+.cgpt-context-anchor{position:fixed;width:1px;height:1px;padding:0;border:0;opacity:0;pointer-events:none}
+[data-cgpt-workspace-region] [data-row-key^="session:"]:focus-visible{outline:var(--dsw-focus-ring-width,2px) solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:-2px}
+
+.cgpt-rail-actions-seat,.cgpt-rail-action-buttons{display:contents}
+.cgpt-rail-action-error{position:absolute;left:48px;top:0;width:max-content;max-width:280px;padding:7px 10px;border-radius:8px;background:var(--dsw-alias-bg-overlay,#fff);color:var(--dsw-alias-state-error-primary,#b94545);font-size:12px;line-height:18px;box-shadow:0 4px 18px #0002;z-index:40}
+.cgpt-rail-overflow-error{padding:5px 10px;color:var(--dsw-alias-state-error-primary,#b94545);font-size:12px;line-height:18px}
+@media(max-height:420px){[data-cgpt-rail-nav]{max-height:calc(100% - 142px);overflow-y:auto!important;scrollbar-width:none}[data-cgpt-rail-nav]::-webkit-scrollbar{display:none}}
+
+/* Dock customization uses the Host menu/modal, with no permanent new icon. */
+.cgpt-dock-ui{display:contents}
+[data-cgpt-rail-nav] button[data-cgpt-dock-dragging]{opacity:.45;cursor:grabbing!important}
+[data-cgpt-rail-nav] button[data-cgpt-dock-drop="before"]{box-shadow:0 -3px 0 -1px var(--dsw-focus-ring-color,#4d6bfe)!important}
+[data-cgpt-rail-nav] button[data-cgpt-dock-drop="after"]{box-shadow:0 3px 0 -1px var(--dsw-focus-ring-color,#4d6bfe)!important}
+.cgpt-dock-modal{width:min(460px,calc(100vw - 32px))}
+.cgpt-dock-section-title{margin:12px 0 7px;font-size:13px;font-weight:600;color:var(--dsw-alias-label-secondary,#72777c)}
+.cgpt-dock-list{list-style:none;margin:0;padding:0;border:1px solid var(--dsw-alias-border-l1,#e6e8ea);border-radius:10px;overflow:hidden}
+.cgpt-dock-entry{display:flex;align-items:center;gap:12px;min-height:44px;padding:7px 12px;font-size:14px;color:var(--dsw-alias-label-primary,#25292d)}
+.cgpt-dock-entry+.cgpt-dock-entry{border-top:1px solid var(--dsw-alias-border-l1,#e6e8ea)}
+.cgpt-dock-entry-name{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cgpt-dock-fixed,.cgpt-dock-hint{font-size:12px;color:var(--dsw-alias-label-tertiary,#8c9094)}
+.cgpt-dock-row-actions{display:flex;align-items:center;gap:5px}
+.cgpt-dock-entry button,.cgpt-dock-footer button{padding:4px 8px;border:1px solid var(--dsw-alias-border-l1,#e3e5e7);border-radius:6px;background:transparent;color:inherit;font:inherit;font-size:12px;cursor:pointer}
+.cgpt-dock-entry button:hover,.cgpt-dock-footer button:hover{background:var(--dsw-alias-interactive-bg-hover,#f0f1f2)}
+.cgpt-dock-entry button:disabled,.cgpt-dock-footer button:disabled{opacity:.35;cursor:default}
+.cgpt-dock-optional{margin-top:16px;font-size:13px;color:var(--dsw-alias-label-secondary,#72777c)}
+.cgpt-dock-optional summary{padding:4px 0 10px;cursor:pointer}
+.cgpt-dock-hint{margin:14px 0 0;line-height:18px}
+.cgpt-dock-footer{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}
+.cgpt-dock-footer button{font-size:13px;padding:6px 12px}
+.cgpt-dock-footer .cgpt-dock-done{border-color:transparent;background:var(--dsw-alias-label-primary,#24282d);color:var(--dsw-alias-bg-base,#fff)}
+.cgpt-dock-error{font-size:12px;color:var(--dsw-alias-state-error-primary,#b94545)}
+.cgpt-dock-toast{position:fixed;bottom:24px;left:66px;z-index:10000;max-width:340px;padding:10px 12px;border-radius:9px;background:var(--dsw-alias-bg-overlay,#fff);box-shadow:0 4px 18px #0002;color:var(--dsw-alias-state-error-primary,#b94545);font-size:13px}
+.cgpt-dock-toast button{margin-left:12px;border:0;background:transparent;color:inherit;cursor:pointer}
+
+/* UA media controls consume their own pointer/keyboard events. Keep their native
+   focus indication, but give it a quiet rounded treatment on the dark player. */
+.cgpt-video-preview video:focus{outline-color:#8d97a5!important}
+.cgpt-video-preview video::-webkit-media-controls-play-button{outline-color:#8d97a5!important;border-radius:999px!important}
+.cgpt-video-preview video::-webkit-media-controls-timeline{outline-color:#8d97a5!important;border-radius:999px!important}
+.cgpt-video-preview video::-webkit-media-controls-mute-button{outline-color:#8d97a5!important;border-radius:999px!important}
+.cgpt-video-preview video::-webkit-media-controls-volume-slider{outline-color:#8d97a5!important;border-radius:999px!important}
+.cgpt-video-preview video::-webkit-media-controls-fullscreen-button{outline-color:#8d97a5!important;border-radius:999px!important}
+
+/* Shared leading navigation: Back, Forward, native sidebar toggle.
+   Keep the Host's toggle nodes in place so shortcuts, tooltips and the drawer's
+   autofocus/return-focus stay native. Only each small button is a no-drag box. */
+.cgpt-window-navigation-seat{display:none}
+.cgpt-window-navigation{display:contents}
+html[data-platform="darwin"] [data-cgpt-window-frame]{--cgpt-window-navigation-left:88px}
+html[data-platform="darwin"][data-fullscreen] [data-cgpt-window-frame]{--cgpt-window-navigation-left:12px}
+html[data-platform="darwin"] [data-cgpt-window-frame]>.cgpt-window-navigation-seat{
+ display:flex;
+ position:absolute;
+ top:8px;
+ left:var(--cgpt-window-navigation-left);
+ width:62px;
+ height:28px;
+ gap:6px;
+ z-index:71;
+ pointer-events:none;
+ -webkit-app-region:initial;
+}
+.cgpt-window-navigation-button{
+ box-sizing:border-box;
+ display:flex;
+ flex:none;
+ align-items:center;
+ justify-content:center;
+ width:28px;
+ height:28px;
+ margin:0;
+ padding:0;
+ border:0;
+ border-radius:6px;
+ background:transparent;
+ color:var(--dsw-alias-label-tertiary,#858a8d);
+ cursor:pointer;
+ pointer-events:auto;
+ -webkit-app-region:no-drag;
+}
+.cgpt-window-navigation-button svg{display:block;width:16px;height:16px;flex:none}
+.cgpt-window-navigation-button:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,#e7e9e9);color:var(--dsw-alias-label-primary,#282d31)}
+.cgpt-window-navigation-button:disabled{opacity:.35;cursor:default}
+.cgpt-window-navigation-button:focus-visible{outline:2px solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:1px}
+html[data-platform="darwin"] [data-cgpt-window-frame] :is([data-sidebar-toggle],[data-cgpt-rail-toggle]){
+ position:fixed!important;
+ top:8px!important;
+ left:calc(var(--cgpt-window-navigation-left) + 68px)!important;
+ right:auto!important;
+ width:28px!important;
+ height:28px!important;
+ min-width:28px!important;
+ min-height:28px!important;
+ margin:0!important;
+ padding:0!important;
+ transform:none!important;
+ border-radius:6px!important;
+ color:var(--dsw-alias-label-tertiary,#858a8d)!important;
+ z-index:72;
+ -webkit-app-region:no-drag!important;
+}
+html[data-platform="darwin"] [data-cgpt-window-frame] :is([data-sidebar-toggle],[data-cgpt-rail-toggle])>span[aria-hidden]{display:none!important}
+html[data-platform="darwin"] [data-cgpt-window-frame] :is([data-sidebar-toggle],[data-cgpt-rail-toggle])>svg{display:block!important;visibility:visible!important;width:16px!important;height:16px!important}
+html[data-platform="darwin"] [data-cgpt-window-frame]>[data-shell-leading]{
+ top:8px!important;
+ left:calc(var(--cgpt-window-navigation-left) + 68px)!important;
+ width:28px;
+ height:28px;
+ -webkit-app-region:initial!important;
+}
+/* The hidden-sidebar seat also has a native New Session button. Home and the
+   expanded sidebar retain chat entry; keep this title-bar group to three icons. */
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-shell-leading] :has(>[data-sidebar-opener])>button:not([data-sidebar-opener]){display:none!important}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-opener]{
+ width:28px!important;
+ height:28px!important;
+ border-radius:6px!important;
+ color:var(--dsw-alias-label-tertiary,#858a8d)!important;
+ -webkit-app-region:no-drag!important;
+}
+html[data-platform="darwin"] [data-cgpt-window-frame] [data-sidebar-opener] svg{width:16px!important;height:16px!important}
+html[data-platform="darwin"] [data-cgpt-window-frame]:is([data-sidebar-collapsed],[data-sidebar-drawer]){--dsh-frame-leading-clearance:192px}
+html[data-platform="darwin"][data-fullscreen] [data-cgpt-window-frame]:is([data-sidebar-collapsed],[data-sidebar-drawer]){--dsh-frame-leading-clearance:116px}
+/* An open narrow sidebar is a modal. Its own toggle stays inside the dialog;
+   the arrow seat is also made inert by its owner for keyboard navigation. */
+html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-drawer]:not([data-sidebar-collapsed])>.cgpt-window-navigation-seat{opacity:.4;pointer-events:none}
+html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-drawer]:not([data-sidebar-collapsed])>.cgpt-window-navigation-seat button{pointer-events:none}
+html[data-platform="darwin"] [data-cgpt-window-frame][data-sidebar-drawer]:not([data-sidebar-collapsed])>[data-shell-leading]{visibility:hidden}
+`;
+
+// global-search.css
+var global_search_default = '.cgpt-global-search-modal{width:720px!important;max-width:calc(100vw - 40px)!important;padding:0!important;border-radius:18px!important;background:var(--dsw-alias-bg-layer-2,var(--dsw-alias-bg-base,#fff))!important;color:var(--dsw-alias-label-primary,#202326);border:1px solid var(--dsw-alias-border-l1,#e5e7e8);box-shadow:0 20px 70px #0002,0 3px 12px #0000000d;overflow:hidden}\n.cgpt-global-search-modal-content{padding:0!important;min-height:0;overflow:hidden!important}\n.cgpt-global-search{display:flex;flex-direction:column;min-width:0;height:min(480px,calc(100dvh - 80px));max-height:calc(100dvh - 80px);font-family:var(--dsw-font-family,inherit);font-size:14px;line-height:20px;-webkit-app-region:no-drag}\n.cgpt-global-search-input-row{display:flex;align-items:center;gap:12px;flex:none;box-sizing:border-box;height:56px;padding:0 18px;color:var(--dsw-alias-label-tertiary,#8a8e93);border-bottom:1px solid var(--dsw-alias-border-l1,#e8e9eb)}\n.cgpt-global-search-input-row>svg{flex:none;width:19px;height:19px}\n.cgpt-global-search-input{width:100%;min-width:0;flex:1;border:0!important;outline:none!important;box-shadow:none!important;background:transparent!important;color:var(--dsw-alias-label-primary,#202326);padding:0!important;font:inherit;font-size:15px;line-height:24px}\n.cgpt-global-search-input::placeholder{color:var(--dsw-alias-label-tertiary,#8a8e93);opacity:1}\n.cgpt-global-search-close{flex:none;display:flex;align-items:center;justify-content:center;min-width:28px;height:24px;border:0;background:transparent;color:var(--dsw-alias-label-tertiary,#8a8e93);border-radius:5px;cursor:pointer;padding:0 3px}\n.cgpt-global-search-close:hover{background:var(--dsw-alias-interactive-bg-hover,#eceeef)}\n.cgpt-global-search kbd{font:inherit;font-size:11px;line-height:18px;color:var(--dsw-alias-label-tertiary,#8a8e93)}\n.cgpt-global-search-results{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:6px 8px 8px;scroll-padding-block:6px}\n.cgpt-global-search-group+.cgpt-global-search-group{margin-top:6px}\n.cgpt-global-search-heading{padding:8px 10px 5px;color:var(--dsw-alias-label-tertiary,#8a8e93);font-size:12px;font-weight:500;line-height:18px}\n.cgpt-global-search-option{display:flex;align-items:center;box-sizing:border-box;gap:10px;min-height:36px;padding:7px 10px;border-radius:8px;cursor:pointer;outline:none;color:var(--dsw-alias-label-primary,#202326);user-select:none}\n.cgpt-global-search-option[aria-selected="true"]{background:var(--dsw-alias-interactive-bg-hover,#eceeef)}\n.cgpt-global-search-option[aria-disabled="true"]{cursor:wait}\n.cgpt-global-search-icon{display:flex;align-items:center;justify-content:center;flex:none;width:18px;height:20px;color:var(--dsw-alias-label-secondary,#697078)}\n.cgpt-global-search-copy{display:flex;flex-direction:column;min-width:0;flex:1;gap:2px}\n.cgpt-global-search-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:22px}\n.cgpt-global-search-snippet{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary,#697078)}\n.cgpt-global-search-option-snippet{min-height:54px}\n.cgpt-global-search-detail{flex:0 1 auto;max-width:28%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#8a8e93)}\n.cgpt-global-search-shortcut{flex:none;margin-left:4px;white-space:nowrap}\n.cgpt-global-search-message{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;color:var(--dsw-alias-label-secondary,#697078);font-size:12px;line-height:18px;overflow-wrap:anywhere}\n.cgpt-global-search-error{justify-content:flex-start;color:var(--dsw-alias-state-danger-primary,#bd4242)}\n.cgpt-global-search-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;padding:12px;color:var(--dsw-alias-label-tertiary,#8a8e93);text-align:center}\n.cgpt-global-search-empty>svg{width:24px;height:24px;opacity:.7}\n.cgpt-global-search-empty p{margin:12px 0 0;font-size:13px}\n.cgpt-global-search-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none;min-height:44px;box-sizing:border-box;padding:7px 12px;border-top:1px solid var(--dsw-alias-border-l1,#e8e9eb)}\n.cgpt-global-search-categories{display:flex;align-items:center;gap:3px;min-width:0;flex-wrap:wrap}\n.cgpt-global-search-categories button{border:0;background:transparent;padding:4px 8px;border-radius:6px;font:inherit;font-size:12px;line-height:20px;color:var(--dsw-alias-label-secondary,#697078);cursor:pointer;white-space:nowrap}\n.cgpt-global-search-categories button:hover,.cgpt-global-search-categories button[aria-pressed="true"]{background:var(--dsw-alias-interactive-bg-hover,#eceeef);color:var(--dsw-alias-label-primary,#202326)}\n.cgpt-global-search-categories button:focus-visible,.cgpt-global-search-close:focus-visible{outline:2px solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:1px}\n.cgpt-global-search-hint{flex:none;white-space:nowrap;font-size:11px;color:var(--dsw-alias-label-tertiary,#8a8e93)}\n.cgpt-global-search-spinner{display:inline-block;flex:none;box-sizing:border-box;width:13px;height:13px;border:1.5px solid var(--dsw-alias-border-l2,#d3d6da);border-top-color:var(--dsw-alias-label-secondary,#697078);border-radius:50%;animation:cgpt-global-search-spin .7s linear infinite}\n.cgpt-global-search-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}\n@keyframes cgpt-global-search-spin{to{transform:rotate(360deg)}}\n@media(max-width:560px){.cgpt-global-search-hint{display:none}.cgpt-global-search-input-row{gap:9px;padding-inline:13px}.cgpt-global-search-footer{padding-inline:8px}.cgpt-global-search-detail{max-width:24%}.cgpt-global-search-categories button{padding-inline:7px}}\n@media(max-height:440px){.cgpt-global-search{height:calc(100dvh - 32px);max-height:calc(100dvh - 32px)}.cgpt-global-search-empty{min-height:70px}.cgpt-global-search-results{max-height:calc(100dvh - 140px)}}\n@media(prefers-reduced-motion:reduce){.cgpt-global-search-spinner{animation:none}}\n';
+
+// app-dock.css
+var app_dock_default = '[data-cgpt-rail-nav][data-cgpt-app-mode]>[data-cgpt-nav-item]:not([data-cgpt-nav-item="more"]){display:none!important}\n[data-cgpt-rail-nav][data-cgpt-app-mode][data-cgpt-app-native-more="false"]>[data-cgpt-nav-item="more"]{display:none!important}\n.cgpt-app-dock-seat{display:flex;flex:none;order:-100}\n.cgpt-app-dock{display:flex;flex-direction:column;align-items:center;width:38px;min-height:0;gap:8px;position:relative;-webkit-app-region:no-drag}\n.cgpt-app-dock-scroll{display:flex;flex-direction:column;align-items:center;gap:10px;max-height:calc(100dvh - 170px - var(--cgpt-app-extra-height,0px));min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 1px;scrollbar-width:none;overscroll-behavior:contain}\n.cgpt-app-dock-scroll::-webkit-scrollbar{display:none}\n.cgpt-app-dock-group{display:flex;flex-direction:column;align-items:center;gap:8px}\n.cgpt-app-dock .cgpt-app-dock-button{position:relative!important;display:flex;align-items:center;justify-content:center;width:36px!important;height:36px!important;min-height:36px!important;border:0!important;border-radius:10px!important;padding:0!important;box-shadow:none!important;cursor:pointer}\n.cgpt-app-dock .cgpt-app-dock-button::before,.cgpt-app-dock .cgpt-app-dock-button::after,.cgpt-app-dock .cgpt-app-library-button::before,.cgpt-app-dock .cgpt-app-library-button::after{display:none!important}\n.cgpt-app-artwork{display:flex!important;flex:none;align-items:center;justify-content:center;box-sizing:border-box;width:24px;height:24px;color:inherit;user-select:none}\n.cgpt-app-artwork img{display:block;width:20px;height:20px;object-fit:contain;filter:grayscale(1);pointer-events:none}\n.cgpt-app-symbol{display:block;width:20px;height:20px;background:currentColor;mask-position:center;mask-size:contain;mask-repeat:no-repeat;-webkit-mask-position:center;-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;pointer-events:none}\n.cgpt-app-symbol img{opacity:0}\n.cgpt-app-dock .cgpt-app-artwork svg{display:block!important;visibility:visible!important;width:20px!important;height:20px!important;color:inherit!important}\n.cgpt-app-letter{font-size:17px;font-weight:500;line-height:1;letter-spacing:0}\n.cgpt-app-dock .cgpt-app-dock-button[data-app-pinned]:not([data-cgpt-app-button="home"]):not([aria-disabled="true"]){cursor:grab}\n.cgpt-app-dock .cgpt-app-dock-button[data-app-dragging]{opacity:.55;cursor:grabbing!important}\n/* A straight insertion line belongs in the gap, not around the rounded icon. */\n.cgpt-app-dock .cgpt-app-dock-button[data-app-drop]::after{content:"";display:block!important;position:absolute;left:6px;right:6px;width:auto;height:2px;padding:0;border:0;border-radius:1px;background:var(--dsw-alias-label-tertiary,#8a8e93);box-shadow:none;opacity:1;transform:none;pointer-events:none}\n.cgpt-app-dock .cgpt-app-dock-button[data-app-drop="before"]::after{top:-5px;bottom:auto}\n.cgpt-app-dock .cgpt-app-dock-button[data-app-drop="after"]::after{top:auto;bottom:-5px}\n.cgpt-app-dock .cgpt-app-dock-button,.cgpt-app-dock .cgpt-app-artwork{-webkit-user-drag:none;user-select:none;touch-action:none}\n.cgpt-app-dock .cgpt-app-current-dot{display:none!important}\n.cgpt-app-dock-divider{height:1px;min-height:1px;width:24px;background:var(--dsw-alias-border-l2,#cdd2d5);margin:1px 0}\n.cgpt-app-dock .cgpt-app-library-button{display:flex;align-items:center;justify-content:center;flex:none;width:36px!important;height:36px!important;min-height:36px!important;padding:0!important;border:0!important;border-radius:10px!important;cursor:pointer}\n.cgpt-app-dock .cgpt-app-library-button[aria-expanded="true"]{background:#e3e6e6!important;color:#222729!important}\n[data-ds-dark-theme] .cgpt-app-dock .cgpt-app-library-button[aria-expanded="true"]{background:#363b3d!important;color:#f0f2f3!important}\n.cgpt-app-dock .cgpt-app-library-button svg{visibility:visible!important;width:20px!important;height:20px!important}\n.cgpt-app-dock .cgpt-app-opening{display:block!important;position:absolute;inset:3px;border:1px solid transparent;border-top-color:currentColor;border-radius:50%;animation:cgpt-app-spin 800ms linear infinite;pointer-events:none}\n.cgpt-app-toast{position:fixed;bottom:24px;left:64px;max-width:280px;padding:12px 14px;background:var(--dsw-alias-bg-layer-2,#fff);color:var(--dsw-alias-label-primary,#202326);border:1px solid var(--dsw-alias-border-l1,#dfe3e7);box-shadow:0 8px 28px #0002;border-radius:10px;z-index:50;font-size:12px;line-height:18px}\n.cgpt-app-dock .cgpt-app-toast button{width:auto!important;height:auto!important;min-height:0!important;background:transparent!important;color:inherit!important;text-decoration:underline;font:inherit;margin-left:8px!important;cursor:pointer}\n.cgpt-app-dock .cgpt-app-context-anchor{position:fixed!important;width:0!important;height:0!important;min-height:0!important;padding:0!important;border:0!important;pointer-events:none!important;opacity:0!important}\n.cgpt-app-library-modal{width:720px!important;max-width:calc(100vw - 40px)!important;padding:0!important;border-radius:20px!important;background:var(--dsw-alias-bg-layer-2,#fff)!important;color:var(--dsw-alias-label-primary,#202326);border:1px solid var(--dsw-alias-border-l1,#e5e7e8);box-shadow:0 20px 70px #0003;overflow:hidden}\n.cgpt-app-library-content{padding:0!important;min-height:0;overflow:hidden!important}\n.cgpt-app-library{display:flex;flex-direction:column;box-sizing:border-box;height:min(600px,calc(100dvh - 72px));min-height:0;font:14px/1.45 var(--dsw-font-family,system-ui,sans-serif);-webkit-app-region:no-drag}\n.cgpt-app-library-header{display:flex;align-items:flex-start;justify-content:space-between;padding:25px 28px 18px;gap:18px}\n.cgpt-app-library-header h2{margin:0;font-size:23px;font-weight:600;letter-spacing:-.4px;color:var(--dsw-alias-label-primary,#202326)}\n.cgpt-app-library-header p{margin:4px 0 0;color:var(--dsw-alias-label-tertiary,#8a8e93);font-size:12px}\n.cgpt-app-close{display:flex;align-items:center;justify-content:center;flex:none;width:28px;height:28px;border:0;border-radius:8px;background:transparent;color:var(--dsw-alias-label-tertiary,#8a8e93);cursor:pointer;padding:0}\n.cgpt-app-close:hover{background:var(--dsw-alias-interactive-bg-hover,#eceeef)}\n.cgpt-app-search{display:flex;align-items:center;gap:10px;flex:none;margin:0 28px 14px;padding:10px 12px;border:1px solid var(--dsw-alias-border-l1,#e2e5e8);border-radius:10px;background:var(--dsw-alias-bg-module-platform,#f6f7f8);color:var(--dsw-alias-label-tertiary,#8a8e93)}\n.cgpt-app-search input{border:0!important;outline:0!important;box-shadow:none!important;padding:0!important;background:transparent!important;color:var(--dsw-alias-label-primary,#202326);font:inherit;min-width:0;width:100%;line-height:22px}\n.cgpt-app-search input::placeholder{color:var(--dsw-alias-label-tertiary,#8a8e93);opacity:1}\n.cgpt-app-search:focus-within{border-color:var(--dsw-focus-ring-color,#4d6bfe)}\n.cgpt-app-filters{display:flex;gap:5px;flex:none;margin:0 28px 15px}\n.cgpt-app-filters button{font:inherit;font-size:12px;line-height:20px;padding:5px 11px;border:0;border-radius:7px;background:transparent;color:var(--dsw-alias-label-secondary,#68717b);cursor:pointer}\n.cgpt-app-filters button[aria-pressed="true"]{background:var(--dsw-alias-interactive-bg-hover,#e9ecef);color:var(--dsw-alias-label-primary,#202326);font-weight:500}\n.cgpt-app-library-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 22px 22px;scroll-padding-block:12px}\n.cgpt-app-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 10px;padding:0;margin:0;list-style:none}\n.cgpt-app-card{display:flex;flex-direction:column;align-items:center;min-width:0;padding:10px 4px 8px;border:1px solid transparent;border-radius:14px;transition:background 130ms ease}\n.cgpt-app-card:hover{background:var(--dsw-alias-bg-module-platform,#f6f7f8)}\n.cgpt-app-card[data-app-active]{border-color:var(--dsw-alias-border-l1,#e4e7e9)}\n.cgpt-app-launch{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;width:100%;padding:0 4px 7px;border:0;background:transparent;color:var(--dsw-alias-label-primary,#202326);font:inherit;cursor:pointer;border-radius:10px}\n.cgpt-app-library .cgpt-app-artwork{width:48px;height:48px;margin-bottom:2px;color:var(--dsw-alias-label-secondary,#68717b)}\n.cgpt-app-library .cgpt-app-artwork img,.cgpt-app-library .cgpt-app-artwork svg,.cgpt-app-library .cgpt-app-symbol{width:30px;height:30px}\n.cgpt-app-library .cgpt-app-letter{font-size:25px}\n.cgpt-app-label{display:block;max-width:100%;font-size:13px;font-weight:500;line-height:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.cgpt-app-status{font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary,#8a8e93);margin-top:-4px}\n.cgpt-app-card[data-app-active] .cgpt-app-status{color:var(--dsw-alias-label-secondary,#68717b)}\n.cgpt-app-pin{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:24px;padding:2px 7px;border:0;border-radius:6px;background:transparent;color:var(--dsw-alias-label-tertiary,#8a8e93);font:inherit;font-size:11px;cursor:pointer}\n.cgpt-app-pin:hover,.cgpt-app-pin[aria-pressed="true"]{background:var(--dsw-alias-interactive-bg-hover,#e9ecef);color:var(--dsw-alias-label-secondary,#68717b)}\n.cgpt-app-fixed-note{padding:4px 7px;font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary,#8a8e93)}\n.cgpt-app-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:170px;padding:15px;color:var(--dsw-alias-label-tertiary,#8a8e93);text-align:center}\n.cgpt-app-empty p{margin:15px 0 0;font-size:13px}\n.cgpt-app-error{margin:0 6px 14px;color:var(--dsw-alias-state-error-primary,#ba4747);font-size:12px;line-height:18px;overflow-wrap:anywhere}\n.cgpt-app-library-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none;min-height:52px;box-sizing:border-box;padding:12px 28px;border-top:1px solid var(--dsw-alias-border-l1,#e5e7e8);color:var(--dsw-alias-label-tertiary,#8a8e93);font-size:12px}\n.cgpt-app-library-footer button{border:0;background:transparent;color:var(--dsw-alias-label-secondary,#68717b);font:inherit;cursor:pointer;padding:4px 0}\n.cgpt-app-library button:focus-visible{outline:2px solid var(--dsw-focus-ring-color,#4d6bfe);outline-offset:3px}\n/* Keep keyboard focus inside the narrow scrollport so it cannot be clipped. */\n.cgpt-app-dock button:focus:not(:focus-visible){outline:none}\n.cgpt-app-dock>button:focus-visible,.cgpt-app-dock .cgpt-app-dock-button:focus-visible{outline:2px solid var(--dsw-alias-label-secondary,#68717b);outline-offset:-2px}\n.cgpt-app-library button:disabled{opacity:.55;cursor:default}\n.cgpt-app-library button[aria-disabled="true"],.cgpt-app-dock button[aria-disabled="true"]{cursor:wait}\n@keyframes cgpt-app-spin{to{transform:rotate(360deg)}}\n@media(max-width:580px){.cgpt-app-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cgpt-app-library-header{padding:20px 20px 16px}.cgpt-app-search,.cgpt-app-filters{margin-inline:20px}.cgpt-app-library-body{padding-inline:14px}.cgpt-app-library-footer{padding-inline:20px}}\n@media(max-width:380px){.cgpt-app-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}\n@media(prefers-reduced-motion:reduce){.cgpt-app-card{transition:none}.cgpt-app-opening{animation:none}}\n';
+
+// notification.css
+var notification_default = `/* The seat owns no hit area: only its bell and feed are interactive. In
+   particular, it must not add a no-drag rectangle over the title bar. */
+.cgpt-notification-seat{position:absolute;inset:0;z-index:4;pointer-events:none}
+.cgpt-notifications{display:contents}
+.cgpt-notification-button{position:absolute;top:53px;right:44px;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;border-radius:7px;background:transparent;color:#898e91;cursor:pointer;pointer-events:auto;-webkit-app-region:no-drag}
+.cgpt-notification-button:hover{background:#eceeee;color:#33383b}
+.cgpt-notification-button[aria-expanded="true"]{background:#e0eafb;color:#4389f5}
+.cgpt-notification-button:focus-visible,.cgpt-notification-read-all:focus-visible,.cgpt-notification-item:focus-visible{outline:2px solid var(--dsw-alias-state-business-primary,#5683e9);outline-offset:-2px}
+.cgpt-notification-dot{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#4389f5;box-shadow:0 0 0 1.5px #fafafa;pointer-events:none}
+.cgpt-notification-button[aria-expanded="true"]>.cgpt-notification-dot{box-shadow:0 0 0 1.5px #e0eafb}
+[data-cgpt-rail-nav] button>.cgpt-home-notification-dot{display:block!important;top:7px;right:8px;width:7px;height:7px;box-shadow:0 0 0 1.5px #f2f3f3}
+[data-cgpt-rail-nav] button[aria-current="page"]>.cgpt-home-notification-dot{box-shadow:0 0 0 1.5px #e3e6e6}
+
+/* Keep native scroll/folders mounted. Hide descendants explicitly: a child's
+   own visibility:visible overrides an inherited hidden even when the parent
+   declaration is important. Only the relocated header search is restored.
+   These selectors also outrank the rail's two-attribute visibility rules. */
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region],
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] *{visibility:hidden!important;pointer-events:none!important}
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] [data-cgpt-search-button],
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] [data-cgpt-search-button] *{visibility:visible!important;pointer-events:auto!important}
+.cgpt-notification-feed{position:absolute;top:136px;bottom:8px;left:60px;right:8px;display:flex;flex-direction:column;min-height:0;overflow:hidden;pointer-events:auto;color:var(--dsw-alias-label-primary,#202426);font-size:13px;-webkit-app-region:no-drag}
+.cgpt-notification-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;padding:0 7px 4px 8px;flex-shrink:0}
+.cgpt-notification-heading h2,.cgpt-notification-group-title{margin:0;font-size:12px;line-height:20px;font-weight:400;color:var(--dsw-alias-label-tertiary,#8a9094)}
+.cgpt-notification-read-all{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--dsw-alias-label-secondary,#7b8186);cursor:pointer}
+.cgpt-notification-read-all:hover:not(:disabled){background:#eceeee;color:#33383b}
+.cgpt-notification-read-all:disabled{opacity:.4;cursor:default}
+.cgpt-notification-list{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-gutter:stable;padding:0 0 10px}
+.cgpt-notification-group+.cgpt-notification-group{margin-top:22px}
+.cgpt-notification-group-title{padding:0 8px 7px}
+.cgpt-notification-item{position:relative;display:flex;align-items:flex-start;width:100%;box-sizing:border-box;min-height:55px;gap:9px;margin:0 0 3px;padding:8px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;white-space:normal;cursor:pointer}
+.cgpt-notification-item:hover,.cgpt-notification-item[data-selected]{background:#eceeee}
+.cgpt-notification-item:disabled{cursor:wait;opacity:.75}
+.cgpt-notification-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;text-align:left}
+.cgpt-notification-title-line{display:flex;align-items:baseline;min-width:0;gap:4px}
+.cgpt-notification-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:18px;font-weight:500;color:var(--dsw-alias-label-primary,#202426)}
+.cgpt-notification-workspace{flex:0 3 auto;min-width:0;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#8a9094)}
+.cgpt-notification-excerpt{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:12px;line-height:17px;color:var(--dsw-alias-label-secondary,#81868a);overflow-wrap:anywhere}
+.cgpt-notification-detail{font-size:11px;line-height:16px;color:var(--dsw-alias-label-tertiary,#8a9094)}
+.cgpt-notification-item-dot{display:block;flex:none;width:6px;height:6px;margin-top:6px;border-radius:50%;background:#4389f5}
+.cgpt-notification-empty{padding:32px 15px;text-align:center;color:var(--dsw-alias-label-secondary,#81868a)}
+.cgpt-notification-empty>svg{width:24px;height:24px;opacity:.7;margin:0 auto 8px}
+.cgpt-notification-empty p{margin:0 0 6px;font-size:13px;color:var(--dsw-alias-label-primary,#202426)}
+.cgpt-notification-empty small{font-size:12px;line-height:1.6}
+.cgpt-notification-error{flex-shrink:0;margin:4px 8px 10px;font-size:12px;line-height:18px;color:var(--dsw-alias-state-error-primary,#bd4b4b)}
+[data-cgpt-rail-frame][data-sidebar-collapsed] .cgpt-notification-seat{visibility:hidden;pointer-events:none}
+[data-cgpt-rail-frame][data-sidebar-collapsed] :is(.cgpt-notification-button,.cgpt-notification-feed){visibility:hidden;pointer-events:none}
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-search-button],
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-search-button] *{visibility:hidden!important;pointer-events:none!important}
+
+[data-ds-dark-theme] .cgpt-notification-button{color:#949b9f}
+[data-ds-dark-theme] .cgpt-notification-button:hover{background:#303436;color:#e6e9eb}
+[data-ds-dark-theme] .cgpt-notification-button[aria-expanded="true"]{background:#25364f;color:#6da2fb}
+[data-ds-dark-theme] .cgpt-notification-dot{box-shadow:0 0 0 1.5px #202223}
+[data-ds-dark-theme] .cgpt-notification-button[aria-expanded="true"]>.cgpt-notification-dot{box-shadow:0 0 0 1.5px #25364f}
+[data-ds-dark-theme] .cgpt-notification-item:hover,[data-ds-dark-theme] .cgpt-notification-item[data-selected],[data-ds-dark-theme] .cgpt-notification-read-all:hover:not(:disabled){background:#303436;color:#e6e9eb}
+[data-ds-dark-theme] [data-cgpt-rail-nav] button>.cgpt-home-notification-dot{box-shadow:0 0 0 1.5px #252728}
+[data-ds-dark-theme] [data-cgpt-rail-nav] button[aria-current="page"]>.cgpt-home-notification-dot{box-shadow:0 0 0 1.5px #363b3d}
+
+.cgpt-notification-notice{flex-shrink:0;margin:4px 8px 10px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary,#81868a)}
 `;
 
 // client-entry.js
-var h8 = import_react8.default.createElement;
+var h10 = import_react10.default.createElement;
 var STORAGE = "cgpt-rail.home-draft.v2";
 function readDraft() {
   try {
@@ -4043,15 +5866,17 @@ function readDraft() {
     return {};
   }
 }
-function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessionContext, renderSlot, navigationModel }) {
-  const ref = import_react8.default.useRef(null);
-  const [pinnedSeat, setPinnedSeat] = import_react8.default.useState(null);
-  const [contextSeat, setContextSeat] = import_react8.default.useState(null);
-  const [actionSeat, setActionSeat] = import_react8.default.useState(null);
-  const navigation = import_react8.default.useSyncExternalStore(navigationModel.subscribe, navigationModel.getSnapshot, navigationModel.getSnapshot);
-  const preferredWidth = import_react8.default.useRef(392);
-  const [rosterRevision, setRosterRevision] = import_react8.default.useState(0);
-  import_react8.default.useEffect(() => {
+function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessionContext, renderSlot, navigationModel, appDockModel, notificationModel }) {
+  const ref = import_react10.default.useRef(null);
+  const [pinnedSeat, setPinnedSeat] = import_react10.default.useState(null);
+  const [contextSeat, setContextSeat] = import_react10.default.useState(null);
+  const [actionSeat, setActionSeat] = import_react10.default.useState(null);
+  const [appSeat, setAppSeat] = import_react10.default.useState(null);
+  const [notificationSeat, setNotificationSeat] = import_react10.default.useState(null);
+  const navigation = import_react10.default.useSyncExternalStore(navigationModel.subscribe, navigationModel.getSnapshot, navigationModel.getSnapshot);
+  const preferredWidth = import_react10.default.useRef(392);
+  const [rosterRevision, setRosterRevision] = import_react10.default.useState(0);
+  import_react10.default.useEffect(() => {
     const update = () => setRosterRevision((n) => n + 1);
     const a = slots.subscribe("sidebar.panellist", update), b = slots.subscribe("sidebar.panellist.actions", update);
     return () => {
@@ -4059,60 +5884,97 @@ function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessio
       b();
     };
   }, [slots]);
-  import_react8.default.useLayoutEffect(() => {
+  import_react10.default.useLayoutEffect(() => {
     const seat = mountPinnedSessionsSeat(ref.current);
     setPinnedSeat(seat?.node || null);
     return () => seat?.dispose();
   }, [pinnedModel]);
-  import_react8.default.useLayoutEffect(() => {
+  import_react10.default.useLayoutEffect(() => {
     const seat = mountRailActionsSeat(ref.current);
     setActionSeat(seat?.node || null);
     return () => seat?.dispose();
   }, [navigationModel]);
-  import_react8.default.useLayoutEffect(() => {
+  import_react10.default.useLayoutEffect(() => {
+    const seat = mountAppDockSeat(ref.current, appDockModel);
+    setAppSeat(seat?.node || null);
+    return () => seat?.dispose();
+  }, [appDockModel]);
+  import_react10.default.useLayoutEffect(() => {
+    const seat = mountNotificationSeat(ref.current, notificationModel);
+    setNotificationSeat(seat?.node || null);
+    return () => seat?.dispose();
+  }, [notificationModel]);
+  import_react10.default.useLayoutEffect(() => {
     const document2 = ref.current?.ownerDocument;
     const region = ref.current?.closest("nav")?.parentElement?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
     if (!document2 || !region) return;
     const seat = mountSessionContextSeat(document2);
     setContextSeat(seat.node);
     const pattern = getRailLabels().sessionActionsTemplate.split("__cgpt_session_title__");
-    const stop3 = wireSessionContextEvents(region, {
+    const stop5 = wireSessionContextEvents(region, {
       onRequest: (request) => sessionContext.open(request),
       isMoreButton: (label) => pattern.length === 2 && label.startsWith(pattern[0]) && label.endsWith(pattern[1])
     });
     return () => {
       sessionContext.close();
-      stop3();
+      stop5();
       seat.dispose();
     };
   }, [sessionContext, getRailLabels]);
-  import_react8.default.useLayoutEffect(() => {
-    return wireRailLayout(ref.current, { expanded: size <= 16, labels: getRailLabels(), preferredWidth: preferredWidth.current, setWidth: (width) => layout.panels.setSidebar(width), onWidth: (width) => {
-      preferredWidth.current = width;
-    }, navigation });
+  import_react10.default.useLayoutEffect(() => {
+    return wireRailLayout(ref.current, { labels: getRailLabels(), navigation });
   }, [size, layout, getRailLabels, rosterRevision, navigation]);
-  return h8(
-    import_react8.default.Fragment,
+  import_react10.default.useLayoutEffect(() => wireRailGeometry(ref.current, {
+    preferredWidth: preferredWidth.current,
+    setWidth: (width) => layout.panels.setSidebar(width),
+    onWidth: (width) => {
+      preferredWidth.current = width;
+    }
+  }), [layout]);
+  return h10(
+    import_react10.default.Fragment,
     null,
-    h8("span", { ref, style: { display: "flex" } }, h8("svg", { width: size, height: size, viewBox: "0 0 20 20", "aria-hidden": true, fill: "currentColor" }, h8("path", { d: "M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z" }))),
-    pinnedSeat && (0, import_react_dom2.createPortal)(h8(PinnedSessions, { model: pinnedModel, labels: getRailLabels(), StateDot: import_dsh_client_ui_primitives.StateDot, Tooltip: import_dsh_client_ui_primitives.Tooltip }), pinnedSeat),
-    contextSeat && (0, import_react_dom2.createPortal)(h8(SessionContextMenu, { controller: sessionContext, renderSlot, Menu: import_dsh_client_ui_primitives.Menu }), contextSeat),
-    contextSeat && (0, import_react_dom2.createPortal)(h8(RailDockControls, { anchorRef: ref, navigationModel, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Modal: import_dsh_client_ui_primitives.Modal }), contextSeat),
-    actionSeat && (0, import_react_dom2.createPortal)(h8(RailActionButtons, { navigationModel }), actionSeat)
+    h10("span", { ref, style: { display: "flex" } }, h10("svg", { width: size, height: size, viewBox: "0 0 20 20", "aria-hidden": true, fill: "currentColor" }, h10("path", { d: "M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z" }))),
+    pinnedSeat && (0, import_react_dom2.createPortal)(h10(PinnedSessions, { model: pinnedModel, labels: getRailLabels(), StateDot: import_dsh_client_ui_primitives.StateDot, Tooltip: import_dsh_client_ui_primitives.Tooltip, renderSlot }), pinnedSeat),
+    contextSeat && (0, import_react_dom2.createPortal)(h10(SessionContextMenu, { controller: sessionContext, renderSlot, Menu: import_dsh_client_ui_primitives.Menu }), contextSeat),
+    appSeat && (0, import_react_dom2.createPortal)(h10(AppDock, { model: appDockModel, notificationModel, Modal: import_dsh_client_ui_primitives.Modal, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Tooltip: import_dsh_client_ui_primitives.Tooltip }), appSeat),
+    notificationSeat && (0, import_react_dom2.createPortal)(h10(NotificationBell, { model: notificationModel, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton }), notificationSeat),
+    actionSeat && (0, import_react_dom2.createPortal)(h10(RailActionButtons, { navigationModel }), actionSeat)
   );
 }
 function CompactBrand() {
-  return h8("span", null, "DeepSeek");
+  return h10("span", null, "DeepSeek");
+}
+function GlobalSearchShell({ ctx, model, Modal, getSearchLabel }) {
+  import_react10.default.useLayoutEffect(() => {
+    let shortcuts;
+    try {
+      shortcuts = ctx.get("shortcuts");
+    } catch {
+    }
+    return wireGlobalSearchEntry({ document, shortcuts, open: () => model.open(), getSearchLabel });
+  }, [ctx, model, getSearchLabel]);
+  return h10(GlobalSearchPalette, { model, Modal });
 }
 var client_entry_default = {
-  inject: ["slots", "locale", "layout", "sessions", "workspaces", "conversation", "uiWorkspace", "remote", "remote.session", "remote.permissionPresets", "remote.agentPresets", "remote.commands"],
+  inject: ["slots", "locale", "layout", "sessions", "workspaces", "conversation", "uiWorkspace", "uiSession", "remote", "remote.session", "remote.permissionPresets", "remote.agentPresets", "remote.commands"],
   apply(ctx) {
     installVideoPreview(ctx);
     const controller = createDraftController(readDraft());
     const adapter = createHostAdapter(ctx);
-    const controls = createNativeControls(ctx, import_react8.default);
+    const controls = createNativeControls(ctx, import_react10.default);
     const pinnedModel = createPinnedSessionsModel(ctx);
     const sessionContext = createSessionContextController(ctx);
+    const notificationModel = createNotificationModel(ctx);
+    ctx.effect(() => () => notificationModel.dispose(), "chatgpt-rail:notifications");
+    const searchModel = createGlobalSearchModel(ctx, {
+      openHome: () => ctx.layout.selectPanel("home"),
+      openWorkspace: (workspaceId) => {
+        controller.update({ workspaceId });
+        ctx.layout.selectPanel("home");
+      }
+    });
+    ctx.effect(() => () => searchModel.dispose(), "chatgpt-rail:global-search");
     ctx.effect(() => () => sessionContext.dispose(), "chatgpt-rail:session-context");
     adapter.listSessionReferences = () => {
       const snapshot2 = ctx.sessions.list.getSnapshot();
@@ -4129,10 +5991,12 @@ var client_entry_default = {
       const t = ctx.locale.bind("chatgptRail");
       return { browsePlugins: t("nav.browse"), createPlugin: t("nav.create"), settings: t("nav.settings") };
     } });
+    const appDockModel = createAppDockModel({ navigationModel, slots: ctx.slots, layout: ctx.layout });
+    ctx.effect(() => () => appDockModel.dispose(), "chatgpt-rail:app-dock");
     ctx.effect(() => {
       const tag = document.createElement("style");
       tag.dataset.cgptRailStyle = "2";
-      tag.textContent = rail_default + "\n" + home_default;
+      tag.textContent = rail_default + "\n" + home_default + "\n" + global_search_default + "\n" + app_dock_default + "\n" + notification_default;
       document.head.appendChild(tag);
       return () => tag.remove();
     }, "chatgpt-rail:styles");
@@ -4149,10 +6013,10 @@ var client_entry_default = {
           }
         }
       };
-      const stop3 = controller.subscribe(persist);
+      const stop5 = controller.subscribe(persist);
       persist();
       return () => {
-        stop3();
+        stop5();
         controller.dispose();
         adapter.dispose();
       };
@@ -4176,7 +6040,13 @@ var client_entry_default = {
       id: "chatgpt-rail.window-chrome",
       inject: () => ({ ctx, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Modal: import_dsh_client_ui_primitives.Modal })
     }, GlobalWindowChrome));
-    ctx.slots.inject("sidebar.panellist", () => ctx.slots.inject(NATIVE_SESSION_MENU, () => {
+    const getSearchLabel = () => getRailLabels().search;
+    ctx.slots.inject("shell.overlay", () => ctx.slots.register({
+      name: "shell.overlay",
+      id: "chatgpt-rail.global-search",
+      inject: () => ({ ctx, model: searchModel, Modal: import_dsh_client_ui_primitives.Modal, getSearchLabel })
+    }, GlobalSearchShell));
+    ctx.slots.inject("sidebar.panellist", () => ctx.slots.inject(NATIVE_SESSION_MENU, () => ctx.slots.inject(NATIVE_SESSION_ROW_ACTIONS, () => {
       const nativeSpec = ctx.slots.spec(NATIVE_SESSION_MENU);
       const stopHome = ctx.slots.register({
         name: "sidebar.panellist",
@@ -4184,21 +6054,25 @@ var client_entry_default = {
         order: -10,
         locale: "chatgptRail",
         label: () => ctx.locale.bind("chatgptRail")("panel.home"),
-        children: { [SESSION_CONTEXT_MENU]: { kind: "list", scope: "root", inject: nativeSpec.inject } },
-        inject: () => ({ layout: ctx.layout, slots: ctx.slots, getRailLabels, pinnedModel, sessionContext, navigationModel })
+        children: { [SESSION_CONTEXT_MENU]: { kind: "list", scope: "root", inject: nativeSpec.inject }, [PINNED_SESSION_ROW_ACTIONS]: { kind: "list", scope: "root" } },
+        inject: () => ({ layout: ctx.layout, slots: ctx.slots, getRailLabels, pinnedModel, sessionContext, navigationModel, appDockModel, notificationModel })
       }, HomeIcon);
-      let stopMenu;
+      let stopMenu, stopPinnedActions;
       try {
         stopMenu = mirrorNativeSessionMenu(ctx.slots);
+        stopPinnedActions = mirrorNativePinnedActions(ctx.slots);
       } catch (error) {
+        stopPinnedActions?.();
+        stopMenu?.();
         stopHome();
         throw error;
       }
       return () => {
+        stopPinnedActions();
         stopMenu();
         stopHome();
       };
-    }));
+    })));
     ctx.slots.inject("sidebar.panellist.actions", () => ctx.slots.register({
       name: "sidebar.panellist.actions",
       id: "entry-customization",

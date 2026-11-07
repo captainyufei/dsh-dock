@@ -2,12 +2,37 @@ import React from 'react';
 import {createPortal} from 'react-dom';
 import {mountWindowChrome} from './window-chrome-host.js';
 import {createWindowChromeModel} from './window-chrome-model.js';
+import {createWindowNavigationModel} from './window-navigation-model.js';
 
 const h=React.createElement;
 const stop=event=>event.stopPropagation();
 function PlusIcon(){return h('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none',stroke:'currentColor',strokeWidth:1.35,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},h('rect',{x:3,y:3,width:14,height:14,rx:2.5}),h('path',{d:'M10 6.5v7M6.5 10h7'}));}
 function CollapseIcon(){return h('svg',{width:18,height:18,viewBox:'0 0 20 20',fill:'none',stroke:'currentColor',strokeWidth:1.35,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},h('rect',{x:3,y:3,width:14,height:14,rx:2.5}),h('path',{d:'M12 3v14'}));}
 function ExpandIcon(){return h('svg',{width:16,height:16,viewBox:'0 0 20 20',fill:'none',stroke:'currentColor',strokeWidth:1.4,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},h('path',{d:'M3.5 8V3.5H8M12 3.5h4.5V8M16.5 12v4.5H12M8 16.5H3.5V12'}));}
+
+function NavigationArrow({forward=false}){
+ return h('svg',{width:16,height:16,viewBox:'0 0 20 20',fill:'none',stroke:'currentColor',strokeWidth:1.4,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},
+  h('path',{d:forward?'M4 10h12M10.5 4.5 16 10l-5.5 5.5':'M16 10H4M9.5 4.5 4 10l5.5 5.5'}));
+}
+
+/** Window-local navigation; the native sidebar button remains its own owner. */
+export function WindowNavigationToolbar({model}){
+ const snapshot=React.useSyncExternalStore(model.subscribe,model.getSnapshot,model.getSnapshot);
+ const [error,setError]=React.useState(null);
+ const alive=React.useRef(true);
+ React.useEffect(()=>{alive.current=true;return()=>{alive.current=false;};},[]);
+ React.useEffect(()=>setError(null),[snapshot.current]);
+ async function navigate(direction){
+  setError(null);
+  try{await model[direction]();}
+  catch(reason){if(alive.current)setError(reason?.message||'暂时无法切换页面，请重试。');}
+ }
+ return h('div',{className:'cgpt-window-navigation',role:'group','aria-label':'页面导航',onClick:stop,onPointerDown:stop,onContextMenu:stop},
+  h('button',{type:'button',className:'cgpt-window-navigation-button','aria-label':'返回',title:'返回',disabled:!snapshot.canBack,onClick:()=>navigate('back')},h(NavigationArrow)),
+  h('button',{type:'button',className:'cgpt-window-navigation-button','aria-label':'前进',title:'前进',disabled:!snapshot.canForward,onClick:()=>navigate('forward')},h(NavigationArrow,{forward:true})),
+  error&&h('div',{className:'cgpt-window-notice','data-error':true,role:'alert'},h('span',null,error),h('button',{type:'button','aria-label':'关闭提示',onClick:()=>setError(null)},'×')),
+ );
+}
 
 export function WindowChromeToolbar({model,Menu,MenuItem,Modal}){
  const snapshot=React.useSyncExternalStore(model.subscribe,model.getSnapshot,model.getSnapshot);
@@ -87,6 +112,8 @@ export function GlobalWindowChrome({ctx,Menu,MenuItem,Modal}){
  const optional=name=>{try{return ctx.get?.(name);}catch{return undefined;}};
  const sidebarRight=optional('sidebarRight'),sidebarRightTabs=optional('sidebarRightTabs');
  const model=React.useMemo(()=>host?createWindowChromeModel({sessions:ctx.sessions,workspaces:ctx.workspaces,layout:ctx.layout,uiWorkspace:ctx.uiWorkspace,sidebarRight,sidebarRightTabs},{presentation:host.presentation,motion:host.motion}):null,[host,ctx.sessions,ctx.workspaces,ctx.layout,ctx.uiWorkspace,sidebarRight,sidebarRightTabs]);
+ const navigation=React.useMemo(()=>host?.navigationSeat?createWindowNavigationModel(ctx):null,[host,ctx]);
  React.useEffect(()=>()=>model?.dispose(),[model]);
- return h(React.Fragment,null,h('span',{ref,className:'cgpt-window-chrome-anchor','aria-hidden':true}),host&&model&&createPortal(h(WindowChromeToolbar,{model,Menu,MenuItem,Modal}),host.seat));
+ React.useEffect(()=>()=>navigation?.dispose(),[navigation]);
+ return h(React.Fragment,null,h('span',{ref,className:'cgpt-window-chrome-anchor','aria-hidden':true}),host&&model&&createPortal(h(WindowChromeToolbar,{model,Menu,MenuItem,Modal}),host.seat),host?.navigationSeat&&navigation&&createPortal(h(WindowNavigationToolbar,{model:navigation}),host.navigationSeat));
 }

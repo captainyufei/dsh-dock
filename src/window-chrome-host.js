@@ -5,6 +5,7 @@ const PANEL='[data-sidebar-right-session][data-sidebar-right-panel]';
 const OBSERVED_ATTRIBUTES=Object.freeze([
  'data-sidebar-right-session','data-sidebar-right-panel','data-sidebar-right-open',
  'data-rightbar-fullscreen','data-rightbar-collapsed','hidden',
+ 'data-sidebar-drawer','data-sidebar-collapsed',
 ]);
 
 /** One frame-wide owner, mounted from the Host's permanent shell.overlay seat. */
@@ -53,6 +54,8 @@ export function mountWindowChrome(anchor){
  }
  const seat=document.createElement('div');
  seat.className='cgpt-window-chrome-seat';
+ const navigationSeat=document.documentElement?.dataset?.platform==='darwin'?document.createElement('div'):null;
+ if(navigationSeat)navigationSeat.className='cgpt-window-navigation-seat';
  let dragStrip,motion;
  try{
   mark(frame,'data-cgpt-window-frame');
@@ -62,14 +65,21 @@ export function mountWindowChrome(anchor){
   // Keep the interactive toolbar in the frame, outside every page scrollport.
   // This seat's CSS must size only its toolbar, not a full-window no-drag box.
   frame.appendChild(seat);
+  if(navigationSeat)frame.appendChild(navigationSeat);
   motion=mountWindowMotion(frame);
   undos.push(()=>motion.dispose());
  }catch(error){
-  seat.remove();dragStrip?.dispose();
+  seat.remove();navigationSeat?.remove();dragStrip?.dispose();
   for(const undo of undos.reverse())undo();
   throw error;
  }
  function refresh(){
+  // The narrow sidebar is a modal drawer. Its native toggle keeps focus;
+  // the new sibling controls must not be a keyboard escape from that modal.
+  if(navigationSeat){
+   if(frame.hasAttribute('data-sidebar-drawer')&&!frame.hasAttribute('data-sidebar-collapsed'))navigationSeat.setAttribute('inert','');
+   else navigationSeat.removeAttribute('inert');
+  }
   const panel=Array.from(frame.querySelectorAll(PANEL)).find(node=>
    node.getAttribute('data-sidebar-right-session')?.trim()&&!node.closest('[hidden]'));
   const sessionId=panel?.getAttribute('data-sidebar-right-session')||null;
@@ -115,11 +125,11 @@ export function mountWindowChrome(anchor){
   },
  };
  return {
-  frame,seat,presentation,motion,
+  frame,seat,navigationSeat,presentation,motion,
   dispose(){
    if(disposed)return;disposed=true;
    disconnect();listeners.clear();
-   seat.remove();dragStrip?.dispose();
+   seat.remove();navigationSeat?.remove();dragStrip?.dispose();
    for(const undo of undos.reverse())undo();
   },
  };

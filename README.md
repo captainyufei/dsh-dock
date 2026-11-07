@@ -8,7 +8,7 @@
 
 Pin important chats across workspaces, draft on Home without creating a chat until you send, and preview videos in the right file panel beside the conversation. DeepSeek Dock installs independently without modifying the host application, preserving DeepSeek branding and native tools.
 
-`0.1.3` · Supported hosts: **macOS / Harness 0.2.1-rc.5 or 0.2.2-rc.1** · Third-party community plugin
+`0.2.0` · Supported hosts: **macOS / Harness 0.2.1-rc.5 or 0.2.2-rc.1** · Third-party community plugin
 
 [Install](#install) · [Features](#features) · [Compatibility and limits](#compatibility-and-limits) · [Migration](docs/MIGRATION.md) · [Report an issue](https://github.com/captainyufei/dsh-dock/issues)
 
@@ -18,13 +18,16 @@ Pin important chats across workspaces, draft on Home without creating a chat unt
 
 **[Watch the full 45-second demo with music](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4) · [Static preview](assets/readme/poster.en.png)
 
-The 45-second silent loop walks through all five features below. Click it for the version with music. Both formats use simulated UI and sample data; they are not screen recordings or performance tests.
+The 45-second silent loop shows the original five features. It does not yet show the application overview, global search or notification inbox added in 0.2.0. Click it for the version with music. Both formats use simulated UI and sample data; they are not screen recordings or performance tests.
 
 ## Features
 
 | Feature | What changes in everyday use |
 |---|---|
-| **Persistent, customizable Dock** | Switch between Home, scheduled tasks, and plugins even with the chat list collapsed. Choose the entries you use and drag them into your preferred order. |
+| **Application Dock and overview** | Open registered plugin pages through monochrome icons, pin and reorder them, or find them in All Apps. Recent unpinned apps have their own section. |
+| **Global search** | Find chat titles, workspaces and quick actions in one palette; chat-body search is available when the Host index is enabled. |
+| **Session inbox** | Review completion excerpts and pending interactions. Home and the bell share an unread dot, and read completion records remain available. |
+| **Back and Forward** | Revisit global pages and existing chats visited in the current window. |
 | **Codex-inspired UI** | Home, chats, plugins, and scheduled tasks share one window frame and draggable top strip. Moving between pages keeps the same navigation and tool controls, with DeepSeek branding and the native chat hierarchy. |
 | **Cross-workspace pins** | Find important chats from different workspaces in one pinned section. Each appears only once; unpinning returns it to its original group without changing workspace membership. |
 | **Draft-first Home** | Compose and revise before committing to a chat. A chat is created only when you send, so unsent ideas do not fill the sidebar with empty entries. |
@@ -32,7 +35,7 @@ The 45-second silent loop walks through all five features below. Click it for th
 
 ## Install
 
-Requires **macOS / Harness 0.2.1-rc.5 or 0.2.2-rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This package is not published to npm; use the repository URL below. No manual build is needed.
+Requires **macOS / Harness 0.2.1-rc.5 or 0.2.2-rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This package is not published to npm; use the repository URL below. No manual build is needed. Install packages are also available from [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest); extract the ZIP and select the complete folder containing `package.json`.
 
 This installs the latest code on `main`, not the latest stable release. Installed copies do not update automatically.
 
@@ -62,7 +65,7 @@ Start `dsh web` if it is not already running, then open **Plugins** and make sur
 
 ### Update or remove
 
-Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. Otherwise uninstall the plugin and reinstall using the same repository URL or CLI command above, then enable it. Confirm version **0.1.3 or newer** in the plugin details. Reopening Harness alone does not fetch new code.
+Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. Otherwise uninstall the plugin and reinstall using the same repository URL or CLI command above, then enable it. Confirm version **0.2.0 or newer** in the plugin details. Reopening Harness alone does not fetch new code.
 
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
@@ -98,7 +101,13 @@ To disable Dock temporarily, turn off its switch. Uninstall without reinstalling
 
 ## Everyday controls
 
-Right-click the Dock to select registered entries, then drag icons to reorder them. Home stays first; up to six entries appear directly, with the rest under **More**. Preferences stay local. Right-click a chat for the host's pin, rename, fork, archive/unarchive, and copy Session ID actions; `Shift+F10` and the menu key work too.
+Open **All Apps** at the bottom of the Dock to search and filter all, pinned or recent entries. Right-click an icon to pin/remove or move it. Drag pinned icons to reorder them; releasing in an icon gap works, and Escape cancels. Home stays first. Pinned icons scroll when needed; recent unpinned apps follow a divider. Preferences remain local.
+
+Use the sidebar search button or the Host search-chats shortcut for global search. Arrow keys select, Enter opens, and Escape closes. Title/workspace search remains available when the Host body-search index is disabled, with an explanatory notice.
+
+The bell opens completion history and pending interactions. New results and pending items light the Home/bell dot. Selecting a completion opens its chat and acknowledges only that result; opening the list does not acknowledge it. History before first activation normally appears as read. Some legacy logs may remain unreadable.
+
+The leading Back/Forward buttons track global pages and existing chats visited in the current window; reload resets that history. Chat context menus retain native pin, rename, fork, archive/unarchive and copy Session ID actions, including `Shift+F10` and the menu key. Pinned rows reuse the Host archive action.
 
 Files, terminal, browser, tool tabs, and scheduled tasks are Harness capabilities. DeepSeek Dock adds their surrounding UI and video previews; it does not add a task execution engine.
 
@@ -120,14 +129,14 @@ Collapsing the drawer, switching tabs, or closing the preview pauses playback an
 
 | Area | Current scope |
 |---|---|
-| **Host and platform** | Supported host versions are `0.2.1-rc.5` and `0.2.2-rc.1` on macOS. The original feature baseline was validated on `0.2.1-rc.5`; the `0.2.2-rc.1` upgrade check covers installation, loading, Dock collapse/customization, drafts, page navigation, and tool-drawer controls. Other operating systems, dark mode, and very narrow windows have not been fully tested on-device. |
+| **Host and platform** | Supported host versions are `0.2.1-rc.5` and `0.2.2-rc.1` on macOS. The original feature baseline was validated on `0.2.1-rc.5`; the `0.2.2-rc.1` upgrade check covers installation, loading, Dock collapse/customization, drafts, page navigation, and tool-drawer controls. The 0.2.0 additions were checked with light/dark themes on `0.2.2-rc.1`; other systems, the additions on the older host, and very narrow windows have not had a complete on-device acceptance pass. |
 | **Video codecs** | Recognizing an extension does not guarantee that every codec decodes. Support depends on the system/browser; H.264/AAC MP4 has been tested. Unsupported files can open in a system application. |
 | **Desktop video size** | Desktop reads a complete temporary Blob before playback. Cached and in-flight media bytes share a **256 MiB** budget, with external opening available above it. This is not a process peak-memory cap. |
 | **Playback position** | Restoration is limited to the same tool tab lifecycle and file version, not guaranteed after an app restart. |
 | **Drafts and voice** | Attachments do not survive refresh. Voice requires the host component and local recognition resources. `/` commands and `@` suggestions depend on host catalogs and permissions. |
 | **Language** | The README is bilingual. Some added interface copy is still Chinese; full UI localization is not complete. |
 
-Version `0.1.3` remains an early `0.x` release. Compatibility is explicitly limited to the two host versions above; a newer Harness release needs renewed validation.
+Version `0.2.0` remains an early `0.x` release. Compatibility is explicitly limited to the two host versions above; a newer Harness release needs renewed validation.
 
 Hiding pinned chats can reduce the visible row count on a native group's first page. Expand the group to see more. The plugin uses host slots, services, and some DOM structure; host upgrades require renewed validation and are not automatically compatible.
 

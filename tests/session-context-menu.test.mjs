@@ -4,11 +4,82 @@ import React from 'react';
 import TestRenderer,{act} from 'react-test-renderer';
 import {NATIVE_SESSION_MENU,SESSION_CONTEXT_MENU,mirrorNativeSessionMenu,createSessionContextController,SessionContextMenu} from '../src/session-context-menu.js';
 
-function contextFixture(){
+function contextFixture(extra={}){
  const byId={one:{id:'one',title:'Original title',blank:false},blank:{id:'blank',blank:true}};
- const controller=createSessionContextController({sessions:{list:{getSnapshot:()=>({byId})}}});
+ const controller=createSessionContextController({sessions:{list:{getSnapshot:()=>({byId})}},...extra});
  return {controller,byId};
 }
+
+function nativeMenuFixture(){
+ let active=null,point=null,closed=0;
+ const calls=[];
+ const service={
+  active:{getSnapshot:()=>active},
+  open(target,nextPoint){
+   calls.push({target,point:nextPoint});
+   if(active?.value.sessionId===target.value.sessionId&&point?.x===nextPoint.x&&point?.y===nextPoint.y){active=null;return;}
+   active=target;point=nextPoint;
+  },
+  close(){closed++;active=null;},
+ };
+ return {service,calls,get closed(){return closed;}};
+}
+
+test('new hosts open the shared native menu with the captured Session and never render an empty legacy popup',()=>{
+ const native=nativeMenuFixture();let focused=0,notifications=0;
+ const {controller,byId}=contextFixture({get(name){assert.equal(name,'contextMenus');return native.service;}});
+ controller.subscribe(()=>notifications++);
+ const trigger={focus(options){assert.deepEqual(options,{preventScroll:true});focused++;byId.one.title='Changed on focus';}};
+ assert.equal(controller.open({sessionId:'blank',x:3,y:5,trigger}),false);
+ assert.equal(controller.open({sessionId:'missing',x:3,y:5,trigger}),false);
+ assert.equal(native.calls.length,0);assert.equal(focused,0);
+ assert.equal(controller.open({sessionId:'one',x:123,y:456,trigger}),true);
+ assert.equal(focused,1);
+ assert.deepEqual(native.calls,[{target:{kind:'session',value:{sessionId:'one',displayTitle:'Original title'}},point:{x:123,y:456}}]);
+ assert.equal(controller.getSnapshot(),null);assert.equal(notifications,0);
+ controller.close();assert.equal(native.closed,1);
+ controller.dispose();assert.equal(native.closed,1);
+});
+
+test('repeated native gestures retain the Host toggle behavior instead of closing and reopening the menu',()=>{
+ const native=nativeMenuFixture();
+ const {controller}=contextFixture({get:()=>native.service});
+ const request={sessionId:'one',x:30,y:60};
+ controller.open(request);assert.notEqual(native.service.active.getSnapshot(),null);
+ controller.open(request);assert.equal(native.service.active.getSnapshot(),null);
+ controller.close();assert.equal(native.closed,0);
+ controller.open({...request,x:80});
+ controller.dispose();assert.equal(native.closed,1);
+});
+
+test('closing or disposing the adapter never dismisses another trigger\'s menu, even for the same Session',()=>{
+ for(const cleanup of ['close','dispose']){
+  const native=nativeMenuFixture();
+  const {controller}=contextFixture({get:()=>native.service});
+  controller.open({sessionId:'one',x:20,y:30});
+  const other={kind:'session',value:{sessionId:'one',displayTitle:'Same Session from another trigger'}};
+  native.service.open(other,{x:100,y:200});
+  controller[cleanup]();
+  assert.equal(native.closed,0);assert.equal(native.service.active.getSnapshot(),other);
+ }
+});
+
+test('optional native menu service is looked up per gesture and old hosts keep their legacy fallback',()=>{
+ let current;
+ const native=nativeMenuFixture();
+ const {controller}=contextFixture({get:()=>current});
+ controller.open({sessionId:'one',x:20,y:30});
+ assert.equal(controller.getSnapshot().sessionId,'one');
+ current=native.service;
+ controller.open({sessionId:'one',x:-2,y:NaN});
+ assert.equal(controller.getSnapshot(),null);
+ assert.deepEqual(native.calls[0].point,{x:0,y:0});
+ current=undefined;
+ controller.open({sessionId:'one',x:40,y:50});
+ assert.equal(native.closed,1);
+ assert.equal(controller.getSnapshot().x,40);
+ controller.dispose();
+});
 
 test('menu activation is read-only, ignores missing or blank chats, and keeps the exact target identity',()=>{
  const {controller,byId}=contextFixture();let notifications=0,focused=0;

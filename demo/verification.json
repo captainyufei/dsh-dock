@@ -1,13 +1,21 @@
 {
   "product": "DeepSeek Dock",
   "version": "0.2.0",
-  "verifiedAt": "2026-11-08T06:13:24.147411+00:00",
+  "verifiedAt": "2026-11-08T06:25:07.709124+00:00",
   "simulation": true,
   "compatibility": "macOS / DeepSeek Harness 0.2.2-rc.1; illustrative UI sourced from Dock 0.2.0",
   "hyperframes": "0.8.226",
   "reviewMomentsSeconds": [
     0,
+    0.95,
+    1.2,
+    1.45,
+    1.6,
     2.2,
+    3.1,
+    3.32,
+    3.5,
+    3.75,
     6.9,
     10.2,
     15.5,
@@ -23,8 +31,8 @@
   "languages": {
     "zh": {
       "file": "../assets/readme/demo.mp4",
-      "sha256": "efa5a7231fc19301780937b60b2a0e9f690fea1af6feab36806803c5215a6082",
-      "bytes": 4343253,
+      "sha256": "8e6c6d2dcf59117772ce96d27e11f4745ed33d3e29c6a32a27e93e9347fe2050",
+      "bytes": 4333568,
       "probe": {
         "programs": [],
         "stream_groups": [],
@@ -49,7 +57,7 @@
         ],
         "format": {
           "duration": "45.000000",
-          "size": "4343253"
+          "size": "4333568"
         }
       },
       "fullDecode": "passed",
@@ -114,8 +122,8 @@
     },
     "en": {
       "file": "../assets/readme/demo.en.mp4",
-      "sha256": "5800a70f5d51f4761369e98101787d160902bda27561d3d1dbeca482a01fd44f",
-      "bytes": 4589135,
+      "sha256": "fe221a51fb49aabef42f5085737133e8e5c713e2b1d67bc2bf8ade7efb115226",
+      "bytes": 4584201,
       "probe": {
         "programs": [],
         "stream_groups": [],
@@ -140,7 +148,7 @@
         ],
         "format": {
           "duration": "45.000000",
-          "size": "4589135"
+          "size": "4584201"
         }
       },
       "fullDecode": "passed",
@@ -273,8 +281,8 @@
       ]
     },
     "dock-collapsed.png": {
-      "sha256": "a9a76c688e8c2b1d72a789e3a1d70079a109b4e35e8710f54073c6541b6aaae3",
-      "bytes": 120896,
+      "sha256": "6e1b21e39fadfff1e29b538a7d4ccb8a980e713664f7efc9f5c88fa45822191e",
+      "bytes": 120920,
       "dimensions": [
         1920,
         1080

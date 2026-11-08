@@ -16,6 +16,10 @@ Control names and behavior were reconciled with the released source. All project
 - The English plugin tab labels stay on one line; the app modal has room for its footer.
 - The Noto subset was regenerated to cover every visible glyph in both editions.
 
+## Header-overlap correction
+
+The user identified a missed intermediate frame around 3.32 s: the title followed the full sidebar displacement and crossed the fixed leading controls. The title now has its own 155 px travel while content retains 310 px. Ten actual Studio DOM measurements across collapse, hold and reopen show at least 35 px clearance. This specific transition is included in the final encoded-frame review; source checks alone did not catch the earlier overlap because the header was an allowed overlay.
+
 ## Evidence and limits
 
 Source checks and review stills cover each new beat and relevant transitions. Final media verification records hashes, full decoder results, frame count, dimensions, duration, font coverage and exact composited GIF loop boundaries. Music is the existing project track; technical audio measurements are recorded, but listening by a person is not claimed. See verification.json and preview-verification.json for measured results after export.

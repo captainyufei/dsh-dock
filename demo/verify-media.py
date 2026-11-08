@@ -27,7 +27,7 @@ class VisibleText(HTMLParser):
  def handle_data(self,s):
   if not self.skip:self.text+=s
 font=TTFont(D/'assets/fonts/demo-sans.woff2');cmap=set(font.getBestCmap())
-reviewTimes=[0,2.2,6.9,10.2,15.5,22.3,25,30.8,34.2,38.6,42.5,44.933]
+reviewTimes=[0,.95,1.2,1.45,1.6,2.2,3.1,3.32,3.5,3.75,6.9,10.2,15.5,22.3,25,30.8,34.2,38.6,42.5,44.933]
 common={'product':'DeepSeek Dock','version':'0.2.0','verifiedAt':datetime.now(timezone.utc).isoformat(),'simulation':True,'compatibility':'macOS / DeepSeek Harness 0.2.2-rc.1; illustrative UI sourced from Dock 0.2.0','hyperframes':'0.8.226','reviewMomentsSeconds':reviewTimes,'humanAudioListeningClaimed':False}
 films={};gifs={};audioHashes=[]
 for lang in ['zh','en']:

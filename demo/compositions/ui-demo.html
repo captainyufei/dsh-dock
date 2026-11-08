@@ -80,12 +80,16 @@ const stages=[[0,4.6],[4.8,11.6],[11.8,19.7],[20,27.7],[28,32.8],[33,41.8]];
 stages.forEach(([a,b],i)=>{if(i)show('#cap'+i,a);hide('#cap'+i,b);});
 // Sidebar collapse never removes the application rail.
 move(323,181,.45);click(.95);
-tl.to('#workspace,#main-panel,#top-title',{x:-310,duration:.65,ease:'power3.inOut'},.95);
+tl.to('#workspace,#main-panel',{x:-310,duration:.65,ease:'power3.inOut'},.95);
+// The leading controls stay fixed. Reserve 35 px after their right edge,
+// instead of carrying the title through the sidebar's full 310 px travel.
+tl.to('#top-title',{x:-155,duration:.65,ease:'power3.inOut'},.95);
 tl.to('.chatbody,.chatcomposer',{x:155,duration:.65,ease:'power3.inOut'},.95);
 tl.set('#workspace',{autoAlpha:0},1.61);
 move(145,356,1.85);move(323,181,2.65);click(3.1);
 tl.set('#workspace',{autoAlpha:1},3.1);
-tl.to('#workspace,#main-panel,#top-title,.chatbody,.chatcomposer',{x:0,duration:.65,ease:'power3.inOut'},3.1);
+tl.to('#workspace,#main-panel,.chatbody,.chatcomposer',{x:0,duration:.65,ease:'power3.inOut'},3.1);
+tl.to('#top-title',{x:0,duration:.65,ease:'power3.inOut'},3.1);
 // All Apps uses the real 0.2.0 labels, filters, monochrome icons and pin action.
 move(145,468,4.85);click(5.3);show('#demo-shade,#custom',5.3);
 move(724,696,6.25);click(6.7);

@@ -27,8 +27,8 @@ class VisibleText(HTMLParser):
  def handle_data(self,s):
   if not self.skip:self.text+=s
 font=TTFont(D/'assets/fonts/demo-sans.woff2');cmap=set(font.getBestCmap())
-reviewTimes=[0,2.6,7.5,8.9,12,17.8,20.5,24.5,26.5,31,35,38,42.5,44.933]
-common={'product':'DeepSeek Dock','version':'0.1.1','verifiedAt':datetime.now(timezone.utc).isoformat(),'simulation':True,'compatibility':'macOS / DeepSeek Harness 0.2.1-rc.5','hyperframes':'0.8.226','reviewMomentsSeconds':reviewTimes,'humanAudioListeningClaimed':False}
+reviewTimes=[0,2.2,6.9,10.2,15.5,22.3,25,30.8,34.2,38.6,42.5,44.933]
+common={'product':'DeepSeek Dock','version':'0.2.0','verifiedAt':datetime.now(timezone.utc).isoformat(),'simulation':True,'compatibility':'macOS / DeepSeek Harness 0.2.2-rc.1; illustrative UI sourced from Dock 0.2.0','hyperframes':'0.8.226','reviewMomentsSeconds':reviewTimes,'humanAudioListeningClaimed':False}
 films={};gifs={};audioHashes=[]
 for lang in ['zh','en']:
  text=VisibleText();text.feed((W/lang/'compositions/ui-demo.html').read_text())
@@ -44,7 +44,7 @@ for lang in ['zh','en']:
  pcm=run(['ffmpeg','-v','error','-i',str(p),'-map','0:a:0','-f','hash','-hash','sha256','-']).stdout.strip().split('=')[-1];audioHashes.append(pcm)
  loud=run(['ffmpeg','-hide_banner','-i',str(p),'-map','0:a:0','-af','loudnorm=I=-22:TP=-1.5:LRA=11:print_format=json','-f','null','-']).stderr
  loudness=json.JSONDecoder().raw_decode(loud[loud.rfind('{'):])[0]
- films[lang]={'file':'../assets/readme/'+name,'sha256':digest(p),'bytes':p.stat().st_size,'probe':probe,'fullDecode':'passed','decodedAudioSha256':pcm,'audio':True,'integratedLufs':float(loudness['input_i']),'truePeakDbtp':float(loudness['input_tp']),'loudnessRangeLu':float(loudness['input_lra']),'check':checks('film-'+lang),'visibleFontCharactersCovered':True,'posterSeconds':31}
+ films[lang]={'file':'../assets/readme/'+name,'sha256':digest(p),'bytes':p.stat().st_size,'probe':probe,'fullDecode':'passed','decodedAudioSha256':pcm,'audio':True,'integratedLufs':float(loudness['input_i']),'truePeakDbtp':float(loudness['input_tp']),'loudnessRangeLu':float(loudness['input_lra']),'check':checks('film-'+lang),'visibleFontCharactersCovered':True,'posterSeconds':6.9}
  name='preview.gif' if lang=='zh' else 'preview.en.gif';p=A/name
  run(['ffmpeg','-v','error','-i',str(p),'-f','null','-'])
  with Image.open(p) as gif:

@@ -18,7 +18,7 @@ Pin important chats across workspaces, draft on Home without creating a chat unt
 
 **[Watch the full 45-second demo with music](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4) · [Static preview](assets/readme/poster.en.png)
 
-The 45-second silent loop shows the original five features. It does not yet show the application overview, global search or notification inbox added in 0.2.0. Click it for the version with music. Both formats use simulated UI and sample data; they are not screen recordings or performance tests.
+The 45-second loop follows the 0.2.0 application Dock, All Apps, pinning/reordering, global search, completion inbox, Back/Forward and existing file/video tools. Click it for the version with music. Both formats use illustrative UI based on the current code and fictional sample data; they are not live recordings or performance measurements.
 
 ## Features
 

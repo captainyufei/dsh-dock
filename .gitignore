@@ -11,4 +11,7 @@ demo/node_modules/
 demo/.hyperframes/
 demo/output/
 demo/.cache/
+demo/.preview-work/
+demo/.thumbnails/
+assets/readme/.*.hf-transaction-*/
 npm-debug.log*

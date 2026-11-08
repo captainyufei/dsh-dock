@@ -1,23 +1,21 @@
 {
   "product": "DeepSeek Dock",
-  "version": "0.1.1",
-  "verifiedAt": "2026-11-03T02:09:25.907813+00:00",
+  "version": "0.2.0",
+  "verifiedAt": "2026-11-08T06:13:24.147411+00:00",
   "simulation": true,
-  "compatibility": "macOS / DeepSeek Harness 0.2.1-rc.5",
+  "compatibility": "macOS / DeepSeek Harness 0.2.2-rc.1; illustrative UI sourced from Dock 0.2.0",
   "hyperframes": "0.8.226",
   "reviewMomentsSeconds": [
     0,
-    2.6,
-    7.5,
-    8.9,
-    12,
-    17.8,
-    20.5,
-    24.5,
-    26.5,
-    31,
-    35,
-    38,
+    2.2,
+    6.9,
+    10.2,
+    15.5,
+    22.3,
+    25,
+    30.8,
+    34.2,
+    38.6,
     42.5,
     44.933
   ],
@@ -25,8 +23,8 @@
   "languages": {
     "zh": {
       "file": "../assets/readme/demo.mp4",
-      "sha256": "5ba3dd124eb5c68a71c286d479cd853a6991247ea0b9c94ac036c158ce2f4fe1",
-      "bytes": 3858133,
+      "sha256": "efa5a7231fc19301780937b60b2a0e9f690fea1af6feab36806803c5215a6082",
+      "bytes": 4343253,
       "probe": {
         "programs": [],
         "stream_groups": [],
@@ -51,7 +49,7 @@
         ],
         "format": {
           "duration": "45.000000",
-          "size": "3858133"
+          "size": "4343253"
         }
       },
       "fullDecode": "passed",
@@ -63,7 +61,7 @@
       "check": {
         "lint": {
           "errorCount": 0,
-          "warningCount": 2,
+          "warningCount": 3,
           "infoCount": 0,
           "warningCodes": [
             "gsap_timeline_set_initial_hide"
@@ -78,7 +76,7 @@
         "layout": {
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 3,
+          "infoCount": 0,
           "warningCodes": []
         },
         "motion": {
@@ -89,15 +87,18 @@
         },
         "contrast": {
           "errorCount": 0,
-          "warningCount": 0,
+          "warningCount": 4,
           "infoCount": 0,
-          "warningCodes": []
+          "warningCodes": [
+            "contrast_aa_failure"
+          ]
         },
         "craft": {
           "errorCount": 0,
-          "warningCount": 1,
+          "warningCount": 8,
           "infoCount": 0,
           "warningCodes": [
+            "line_unread",
             "text_below_floor"
           ]
         },
@@ -109,12 +110,12 @@
         }
       },
       "visibleFontCharactersCovered": true,
-      "posterSeconds": 31
+      "posterSeconds": 6.9
     },
     "en": {
       "file": "../assets/readme/demo.en.mp4",
-      "sha256": "b69aa894f4059bf76e0fcbbb75970f683c7cd6df852df4bc3ae170e1f55051ab",
-      "bytes": 3950382,
+      "sha256": "5800a70f5d51f4761369e98101787d160902bda27561d3d1dbeca482a01fd44f",
+      "bytes": 4589135,
       "probe": {
         "programs": [],
         "stream_groups": [],
@@ -139,7 +140,7 @@
         ],
         "format": {
           "duration": "45.000000",
-          "size": "3950382"
+          "size": "4589135"
         }
       },
       "fullDecode": "passed",
@@ -151,7 +152,7 @@
       "check": {
         "lint": {
           "errorCount": 0,
-          "warningCount": 2,
+          "warningCount": 3,
           "infoCount": 0,
           "warningCodes": [
             "gsap_timeline_set_initial_hide"
@@ -166,7 +167,7 @@
         "layout": {
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 3,
+          "infoCount": 0,
           "warningCodes": []
         },
         "motion": {
@@ -177,15 +178,18 @@
         },
         "contrast": {
           "errorCount": 0,
-          "warningCount": 0,
+          "warningCount": 4,
           "infoCount": 0,
-          "warningCodes": []
+          "warningCodes": [
+            "contrast_aa_failure"
+          ]
         },
         "craft": {
           "errorCount": 0,
-          "warningCount": 1,
+          "warningCount": 5,
           "infoCount": 0,
           "warningCodes": [
+            "line_unread",
             "text_below_floor"
           ]
         },
@@ -197,12 +201,12 @@
         }
       },
       "visibleFontCharactersCovered": true,
-      "posterSeconds": 31
+      "posterSeconds": 6.9
     }
   },
   "audioSameAcrossLanguages": true,
   "sourceBgmSha256": "60474342f2fe0524aee9799eb6c19906d54105621692c09dbc1126ed230d9c7d",
-  "fontSha256": "5dbec3fbe2bc1752949e93cd0907820ddab745c7b483098258d4ef4a651d0a6f",
+  "fontSha256": "81df0c2ecff96992d699310276a3cc841f4f806bdfb4a5be5bc5bd66bd85151d",
   "stills": {
     "install.zh-CN.png": {
       "sha256": "333c93fdac573572d218366744d9a741aee8e1df64f9472bfa3cdcaabbad6366",
@@ -212,25 +216,41 @@
         852
       ]
     },
+    "global-search.png": {
+      "sha256": "ec9fdc79a6b0328dad132276b464edab7b97aa78e69659a8b79825c35aee43cc",
+      "bytes": 143586,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    "notification-inbox.png": {
+      "sha256": "7f51fdffca7b77e80277a617f229960611817cdd67f3aeb10d0a547121793606",
+      "bytes": 160366,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
     "poster.en.png": {
-      "sha256": "24bd52c6758a31300431b76bc1357739af6fc76c13c873f44b58084a2e08b305",
-      "bytes": 177903,
+      "sha256": "12d514f33557525e1cdd020238f087661e7b4dc6c357198e69af18a22034de3c",
+      "bytes": 149135,
       "dimensions": [
         1920,
         1080
       ]
     },
     "dock-customize.png": {
-      "sha256": "66fa98af5fbde0d27a6a8fb7c120454114eba60e071d5f64c16f81bfc4ed5a38",
-      "bytes": 159037,
+      "sha256": "572d6f95f726276ce16f2b6437d9b7514e043ecd34dce4ae33bf86629f1d9f6d",
+      "bytes": 160461,
       "dimensions": [
         1920,
         1080
       ]
     },
     "poster.png": {
-      "sha256": "fa96d109f47cbb6b22a633285e8fce520aa119c64212062d0b26421a509c89d0",
-      "bytes": 177605,
+      "sha256": "572d6f95f726276ce16f2b6437d9b7514e043ecd34dce4ae33bf86629f1d9f6d",
+      "bytes": 160461,
       "dimensions": [
         1920,
         1080
@@ -245,16 +265,16 @@
       ]
     },
     "video-preview.png": {
-      "sha256": "69af3a6a75b6822652ba5a3ec298130552bd52e561911e3dd967642ba8d7accc",
-      "bytes": 166360,
+      "sha256": "6a365d36a7cc697a4d8afda9519c1fcd89a47dace123d1099e536e5ee6548503",
+      "bytes": 166078,
       "dimensions": [
         1920,
         1080
       ]
     },
     "dock-collapsed.png": {
-      "sha256": "4f94bdf88738446c2265d9749de361e89dd201b0e834573277928e275993dd4d",
-      "bytes": 121151,
+      "sha256": "a9a76c688e8c2b1d72a789e3a1d70079a109b4e35e8710f54073c6541b6aaae3",
+      "bytes": 120896,
       "dimensions": [
         1920,
         1080

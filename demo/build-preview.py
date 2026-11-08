@@ -15,6 +15,6 @@ scene.write_text(scene.read_text().replace('</style>','.enddescription,.enddescr
 root=(output/'index.html').read_text()
 root=re.sub(r'<audio\b.*?</audio>','',root,flags=re.S)
 (output/'index.html').write_text(root)
-(output/'meta.json').write_text(json.dumps({'id':'dock-readme-'+args.lang,'name':'DeepSeek Dock 0.1.1 README loop'},indent=2)+'\n')
+(output/'meta.json').write_text(json.dumps({'id':'dock-readme-'+args.lang,'name':'DeepSeek Dock 0.2.0 README loop'},indent=2)+'\n')
 (output/'text.txt').unlink()
 print(f'Built {args.lang} full-feature README loop')

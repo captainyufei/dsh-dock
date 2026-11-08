@@ -1,23 +1,21 @@
 {
   "product": "DeepSeek Dock",
-  "version": "0.1.1",
-  "verifiedAt": "2026-11-03T02:09:25.907813+00:00",
+  "version": "0.2.0",
+  "verifiedAt": "2026-11-08T06:13:24.147411+00:00",
   "simulation": true,
-  "compatibility": "macOS / DeepSeek Harness 0.2.1-rc.5",
+  "compatibility": "macOS / DeepSeek Harness 0.2.2-rc.1; illustrative UI sourced from Dock 0.2.0",
   "hyperframes": "0.8.226",
   "reviewMomentsSeconds": [
     0,
-    2.6,
-    7.5,
-    8.9,
-    12,
-    17.8,
-    20.5,
-    24.5,
-    26.5,
-    31,
-    35,
-    38,
+    2.2,
+    6.9,
+    10.2,
+    15.5,
+    22.3,
+    25,
+    30.8,
+    34.2,
+    38.6,
     42.5,
     44.933
   ],
@@ -25,8 +23,8 @@
   "languages": {
     "zh": {
       "file": "../assets/readme/preview.gif",
-      "sha256": "0475ec430a66cb5e1abad51268f78ebbe072ccb39d3fa384027bd57ab3d5e694",
-      "bytes": 2505186,
+      "sha256": "b83735dac7ed1dc58ffceba965d959af7ee44dee44331341af2150f7f98cb415",
+      "bytes": 2922852,
       "width": 1200,
       "height": 675,
       "frames": 675,
@@ -41,7 +39,7 @@
       "check": {
         "lint": {
           "errorCount": 0,
-          "warningCount": 2,
+          "warningCount": 3,
           "infoCount": 0,
           "warningCodes": [
             "gsap_timeline_set_initial_hide"
@@ -56,7 +54,7 @@
         "layout": {
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 3,
+          "infoCount": 0,
           "warningCodes": []
         },
         "motion": {
@@ -67,13 +65,15 @@
         },
         "contrast": {
           "errorCount": 0,
-          "warningCount": 0,
+          "warningCount": 4,
           "infoCount": 0,
-          "warningCodes": []
+          "warningCodes": [
+            "contrast_aa_failure"
+          ]
         },
         "craft": {
           "errorCount": 0,
-          "warningCount": 4,
+          "warningCount": 12,
           "infoCount": 0,
           "warningCodes": [
             "film_silent",
@@ -92,8 +92,8 @@
     },
     "en": {
       "file": "../assets/readme/preview.en.gif",
-      "sha256": "270452ff84e39b6376628221fd2463ff203d864a17f66d9dd6dd1d25eafe559e",
-      "bytes": 2662218,
+      "sha256": "05bf84fa0b2e9dae1c3e40ea5e26aab8a4f252774288bc50f8e5f4eeeed0e52b",
+      "bytes": 3136666,
       "width": 1200,
       "height": 675,
       "frames": 675,
@@ -108,7 +108,7 @@
       "check": {
         "lint": {
           "errorCount": 0,
-          "warningCount": 2,
+          "warningCount": 3,
           "infoCount": 0,
           "warningCodes": [
             "gsap_timeline_set_initial_hide"
@@ -123,7 +123,7 @@
         "layout": {
           "errorCount": 0,
           "warningCount": 0,
-          "infoCount": 3,
+          "infoCount": 0,
           "warningCodes": []
         },
         "motion": {
@@ -134,13 +134,15 @@
         },
         "contrast": {
           "errorCount": 0,
-          "warningCount": 0,
+          "warningCount": 4,
           "infoCount": 0,
-          "warningCodes": []
+          "warningCodes": [
+            "contrast_aa_failure"
+          ]
         },
         "craft": {
           "errorCount": 0,
-          "warningCount": 3,
+          "warningCount": 7,
           "infoCount": 0,
           "warningCodes": [
             "film_silent",

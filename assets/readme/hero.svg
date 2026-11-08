@@ -5,10 +5,10 @@
   <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,sans-serif">
     <text x="48" y="59" font-size="18" fill="#686f78" letter-spacing="1.5">CODEX 风格 UI · DEEPSEEK HARNESS</text>
     <text x="46" y="133" font-size="58" font-weight="650" fill="#171b22">DeepSeek Dock</text>
-    <text x="48" y="183" font-size="27" fill="#525b66">自定义 Dock · 全局置顶 · 草稿首页</text>
+    <text x="48" y="183" font-size="27" fill="#525b66">应用 Dock · 全局搜索 · 完成通知</text>
     <rect x="48" y="218" width="90" height="32" rx="16" fill="#e3eaff"/>
-    <text x="93" y="240" text-anchor="middle" font-size="18" fill="#3c61ba">0.1.1</text>
-    <text x="154" y="240" font-size="18" fill="#686f78">在对话旁查看文件与播放视频</text>
+    <text x="93" y="240" text-anchor="middle" font-size="18" fill="#3c61ba">0.2.0</text>
+    <text x="154" y="240" font-size="18" fill="#686f78">返回前进，继续查看已有文件与视频</text>
   <text x="690" y="285" font-size="12" fill="#686f78">UI illustration / 界面示意</text></g>
   <g id="interface-diagram" transform="translate(676 32)">
     <rect width="484" height="236" rx="15" fill="#fff" stroke="#dde0e5"/>

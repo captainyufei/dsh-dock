@@ -1,29 +1,27 @@
-# Review · DeepSeek Dock 0.1.1
+# 0.2.0 media review
 
-The film now demonstrates the complete workflow instead of stretching the earlier 14-second loop. A single 45-second action timeline drives both language editions and both delivery formats. The first frame shows a complete workspace; the GIF returns to precisely that state after a short replay card. The replay reset is editorial, not an undo/delete action in the product.
+## Direction
 
-## Review and corrections
+The existing 45-second feature walkthrough was updated in place. The story now follows the application Dock and All Apps, pin/reorder, global search, completion inbox, Back/Forward and existing video tools. It retains the flat monochrome product style and readable scene captions rather than introducing a new promotional visual system. The older pin/draft beats remain product documentation but are not animated in this edition.
 
-- Reviewed stage frames at 0, 2.6, 7.5, 8.9, 12, 17.8, 20.5, 24.5, 26.5, 31, 35, 38 and the closing/replay boundary in Chinese and English.
-- Added the actual customizer, optional Settings selection, and a visible Dock reorder. Settings moves into the selected list before the dialog closes. Shortened the explanatory line to fit its reading time while keeping the panel geometry fixed.
-- Added chats from two workspaces to the global pinned area. The source rows disappear; unpin restores the proper workspace row. No duplicate chat is shown.
-- Replaced the old typing-only home sequence with a full draft/Send sequence: four chats stay four while typing, then exactly one new row appears at Send. The sample displays a user message and a waiting state; it does not pretend a model replied.
-- Moved the draft-state note below the composer; corrected selection backgrounds so only the active workspace chat is highlighted.
-- Added existing file tabs, play/pause, a visible 0:02 → 0:20 seek, and drawer close/restore motion.
-- Expanded the bundled Noto font subset for every new visible Chinese/Latin glyph, including punctuation; retained the original OFL.
-- Overlap annotations apply only to deliberately opaque modals/closing cards and sliding/clipped panels. They are not a global layout-check bypass.
+Control names and behavior were reconciled with the released source. All project names, chats, completion excerpts and the video are fictional examples; the simulation/version stamp is visible. The inbox example does not represent a production task, speed measurement or an actual generated answer. Search demonstrates titles/workspaces because the current Host body index is disabled.
 
-## Measured versus observed
+## Corrections during review
 
-`verification.json` and `preview-verification.json` contain the current hashes, dimensions, frame counts, durations, decoder results, check summaries and audio metadata. First/last GIF equality is measured on composited pixels. Language text is checked for unintended Chinese in English. Encoded key frames are inspected separately from source snapshots.
+- All Apps uses the new overview instead of the retired six-entry customizer.
+- Back, Forward and the sidebar toggle moved to the current leading positions.
+- Bell, Home and row unread dots share the illustrated acknowledgement transition.
+- The drop marker is a neutral straight gap line, matching the released fix.
+- Search placeholder holds longer before typing; version labels now read 0.2.0 throughout.
+- The English plugin tab labels stay on one line; the app modal has room for its footer.
+- The Noto subset was regenerated to cover every visible glyph in both editions.
 
-The BGM is unchanged and is present in both MP4s. Its level and duration are measured technically; no human listening claim is made. The soundtrack is intentionally absent from GIF.
+## Evidence and limits
 
-A second agent checked the proposed behavior against current plugin source and reviewed the feature frames. This is still an illustrative animation, not live application acceptance or a performance benchmark. Current compatibility evidence remains macOS / DeepSeek Harness 0.2.1-rc.5.
+Source checks and review stills cover each new beat and relevant transitions. Final media verification records hashes, full decoder results, frame count, dimensions, duration, font coverage and exact composited GIF loop boundaries. Music is the existing project track; technical audio measurements are recorded, but listening by a person is not claimed. See verification.json and preview-verification.json for measured results after export.
 
-## Warnings retained and limits
+Native UI context text is intentionally smaller than the 28 px mobile-film recommendation; the primary feature captions are 33 px at 1080p. This is a README desktop-workflow walkthrough, with small labels serving context. Contrast warnings on the dimmed underlying page during modal display are intentional: that content is not the reading focus. The focused modal/result content stays legible. Lint can still report conditional replay-reset sets as initial hiding; explicit CSS defines the initial hidden state, and actual first/last pixels are checked.
 
-- HyperFrames flags two timeline-at-zero hidden states. Both already have explicit CSS initial states; the opening image and first/last equality are inspected and measured.
-- Desktop interface text is intentionally below the mobile-video typography floor. The larger benefit captions carry the story; README text repeats the features for small screens. The customizer is the densest shot and would benefit from a separate close-up tutorial if finer UI reading becomes necessary.
-- GIF is silent by design. The closing-line detector sees the opening chat reappear briefly near the end; that is the same state repeated continuously across the loop, not new information requiring a new full reading interval.
-- The final GIF uses a global 256-color palette with no dithering. This preserves flat UI surfaces and readable letters at a smaller size; it is not intended as a color-perfect UI asset source.
+The GIF editions intentionally retain film_silent because GIF cannot carry audio. A short return of the already-read opening caption at the loop boundary can trigger line_unread; it introduces no new copy.
+
+The weakest beat is the short notes-tab view before the video. Its copy was shortened; the long-held caption explains restoring tools. More time would allow a separate focused tools tutorial rather than squeezing additional text into this feature reel. There is no new old-Host, narrow-drawer or live performance acceptance implied by this media update.

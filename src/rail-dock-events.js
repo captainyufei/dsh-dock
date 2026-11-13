@@ -1,6 +1,8 @@
+import {resolveRailElements} from './rail-layout.js';
+
 /** Own listeners only. Native navigation callbacks and button nodes stay intact. */
 export function wireDockEvents(anchor,{navigationModel,onContext,onError=()=>{}}){
- const nav=anchor?.closest?.('nav'),root=nav?.parentElement;
+ const {nav,root}=resolveRailElements(anchor);
  if(!nav||!root)return()=>{};
  let dragged=null,suppressedClick=null,pointer=null,dropMark=null;
  let pendingListeners=[];

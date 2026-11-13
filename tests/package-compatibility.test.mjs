@@ -6,15 +6,16 @@ import semver from 'semver';
 const manifest=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
 const lock=JSON.parse(readFileSync(new URL('../package-lock.json',import.meta.url),'utf8'));
 // Harness checks engines.dsh first with prereleases included. Keep this
-// acceptance matrix explicit: a broad range must not silently admit new hosts.
+// acceptance matrix explicit, including the upper boundary of this RC line.
 const accepted=version=>semver.satisfies(version,manifest.engines.dsh,{includePrerelease:true});
 
-test('the install manifest accepts both validated Harness baselines without a version exemption',()=>{
- for(const version of ['0.2.1-rc.5','0.2.2-rc.1'])assert.equal(accepted(version),true,version);
+test('the manifest admits the maintained Harness baselines without a version exemption',()=>{
+ for(const version of ['0.2.1-rc.5','0.2.2-rc.1','0.2.2-rc.2'])assert.equal(accepted(version),true,version);
 });
 
-test('unvalidated Harness releases remain outside the installation boundary',()=>{
- for(const version of ['0.2.0','0.2.1-rc.6','0.2.2-rc.2','0.2.2','0.3.0'])assert.equal(accepted(version),false,version);
+test('later candidates in the 0.2.2 line are admitted within an explicit upper boundary',()=>{
+ for(const version of ['0.2.2-rc.3','0.2.2'])assert.equal(accepted(version),true,version);
+ for(const version of ['0.2.0','0.2.1-rc.6','0.2.2-alpha.3','0.2.3-alpha.1','0.2.3','0.3.0-alpha.1','0.3.0'])assert.equal(accepted(version),false,version);
 });
 
 test('install metadata and optional primitive peers agree with the package lock',()=>{

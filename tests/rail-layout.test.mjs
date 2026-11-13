@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {wireRailLayout,wireRailGeometry} from '../src/rail-layout.js';
+import {wireRailLayout,wireRailGeometry,resolveRailElements} from '../src/rail-layout.js';
 
 // Minimal host boundary: no React nodes are replaced or moved by the adapter.
-function hostFixture(columns='0px minmax(0px, 1fr) minmax(0px, 0px)',{collapsed=true,width}={}){
+function hostFixture(columns='0px minmax(0px, 1fr) minmax(0px, 0px)',{collapsed=true,width,sharedScroll=false}={}){
  const makeNode=()=>{
   const attributes=new Map(),properties=new Map(),priorities=new Map();
   return {
@@ -23,9 +23,33 @@ function hostFixture(columns='0px minmax(0px, 1fr) minmax(0px, 0px)',{collapsed=
  if(width!==undefined)frame.getBoundingClientRect=()=>({width:frameWidth});
  column.parentElement=frame;slot.parentElement=column;root.parentElement=slot;nav.parentElement=root;
  root.closest=selector=>selector==='[data-slot="sidebar"]'?slot:null;
+ const scrollport=makeNode(),scrollRegion=makeNode();
+ if(sharedScroll){
+  nav.parentElement=scrollport;scrollport.parentElement=scrollRegion;scrollRegion.parentElement=root;
+  scrollport.closest=selector=>selector==='[data-slot="sidebar"]'?slot:null;
+ }
  const anchor={closest:selector=>selector==='nav'?nav:null};
- return {anchor,root,nav,column,frame,setFrameWidth:value=>{frameWidth=value;}};
+ return {anchor,root,nav,column,frame,scrollport,scrollRegion,setFrameWidth:value=>{frameWidth=value;}};
 }
+
+test('shared-scroll sidebars resolve the outer root even when collapsed removes the Host scrollport marker',()=>{
+ for(const collapsed of [false,true]){
+  const host=hostFixture(undefined,{collapsed,sharedScroll:true});
+  const {root,nav,scrollport}=resolveRailElements(host.anchor);
+  assert.equal(root,host.root);assert.equal(nav,host.nav);assert.equal(scrollport,host.scrollport);
+  const stop=wireRailLayout(host.anchor);
+  assert.equal(host.root.hasAttribute('data-cgpt-rail'),true);
+  assert.equal(host.scrollport.hasAttribute('data-cgpt-rail'),false);
+  assert.equal(host.scrollport.hasAttribute('data-cgpt-rail-scrollport'),true);
+  assert.equal(host.scrollRegion.hasAttribute('data-cgpt-rail-scroll-region'),true);
+  stop();
+  for(const node of [host.root,host.scrollport,host.scrollRegion]){
+   assert.equal(node.hasAttribute('data-cgpt-rail'),false);
+   assert.equal(node.hasAttribute('data-cgpt-rail-scrollport'),false);
+   assert.equal(node.hasAttribute('data-cgpt-rail-scroll-region'),false);
+  }
+ }
+});
 
 test('a collapsed sidebar keeps native navigation mounted without reopening the conversation list',()=>{
  const host=hostFixture();const widths=[];

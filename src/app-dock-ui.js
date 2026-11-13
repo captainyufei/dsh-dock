@@ -187,6 +187,7 @@ export function AppDock({model,notificationModel,Modal,Menu,MenuItem}){
   appError&&!snapshot.libraryOpen&&h('div',{className:'cgpt-app-toast',role:'alert'},String(appError),h('button',{type:'button','aria-label':'查看应用详情',onClick:()=>model.openLibrary()},'查看')),
   selected&&Menu&&MenuItem&&h(Menu,{
    open:true,portal:true,autoFocus:true,onClose:()=>setMenu(null),className:'cgpt-app-context',listClassName:'cgpt-app-context',
+   anchorPoint:{x:menu.x,y:menu.y},contextual:true,
    getAnchorRect:()=>({left:menu.x,right:menu.x,top:menu.y,bottom:menu.y,width:0,height:0}),
    anchor:h('button',{type:'button',tabIndex:-1,'aria-hidden':true,className:'cgpt-app-context-anchor',style:{left:menu.x,top:menu.y}}),
   },h(MenuItem,{onSelect:()=>void run(()=>model.open(selected.id),selected.id)},'打开 '+selected.label),

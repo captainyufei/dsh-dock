@@ -122,6 +122,8 @@ test('right-click controls open the customizer without navigation and release ev
  assert.equal(bindings.size,11);assert.equal(f.listeners.size,1);
  await act(async()=>bindings.get('contextmenu')({target:nativeButton,clientX:20,clientY:150,preventDefault(){prevented++;},stopPropagation(){stopped++;}}));
  assert.equal(prevented,1);assert.equal(stopped,1);
+ assert.deepEqual(view.root.findByType(Menu).props.anchorPoint,{x:20,y:150});
+ assert.equal(view.root.findByType(Menu).props.contextual,true);
  assert.equal(view.root.findByProps({role:'menu'}).findAllByType(MenuItem).length,2);
  await act(async()=>button(view,'自定义 Dock…').props.onClick());
  assert.equal(view.root.findAllByProps({role:'menu'}).length,0);

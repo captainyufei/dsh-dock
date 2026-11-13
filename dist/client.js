@@ -1171,8 +1171,20 @@ function sessionMention(sessionId, label) {
 }
 
 // rail-layout.js
+function resolveRailElements(anchor) {
+  const nav = anchor?.closest?.("nav");
+  let root = nav?.parentElement;
+  const sidebar = root?.closest?.('[data-slot="sidebar"]');
+  if (sidebar) {
+    let branch = root;
+    while (branch?.parentElement && branch.parentElement !== sidebar) branch = branch.parentElement;
+    if (branch?.parentElement === sidebar) root = branch;
+  }
+  const scrollport = root && nav?.parentElement !== root ? nav?.parentElement : null;
+  return { nav, root, scrollport };
+}
 function wireRailGeometry(anchor, { preferredWidth = 392, setWidth, onWidth } = {}) {
-  const root = anchor?.closest?.("nav")?.parentElement;
+  const { root } = resolveRailElements(anchor);
   const column = root?.closest?.('[data-slot="sidebar"]')?.parentElement;
   const frame = column?.parentElement;
   if (!frame?.style) return () => {
@@ -1280,8 +1292,7 @@ function wireRailGeometry(anchor, { preferredWidth = 392, setWidth, onWidth } = 
   return dispose;
 }
 function wireRailLayout(anchor, { labels = {}, navigation } = {}) {
-  const nav = anchor?.closest?.("nav");
-  const root = nav?.parentElement;
+  const { nav, root, scrollport } = resolveRailElements(anchor);
   if (!nav || !root) return () => {
   };
   const owned = [];
@@ -1296,6 +1307,10 @@ function wireRailLayout(anchor, { labels = {}, navigation } = {}) {
   }
   mark(root, "data-cgpt-rail");
   mark(nav, "data-cgpt-rail-nav");
+  if (scrollport && scrollport !== root) {
+    mark(scrollport, "data-cgpt-rail-scrollport");
+    if (scrollport.parentElement !== root) mark(scrollport.parentElement, "data-cgpt-rail-scroll-region");
+  }
   const brand = root.querySelector('[data-slot="sidebar.brand.name"]');
   const brandRow = brand?.closest("[data-window-drag]");
   mark(brandRow, "data-cgpt-brand-row");
@@ -1483,7 +1498,7 @@ function pinnedWorkspaceRules(rows) {
   return selectors.length ? selectors.join(",") + "{display:none!important}" : "";
 }
 function mountPinnedSessionsSeat(anchor) {
-  const root = anchor?.closest?.("nav")?.parentElement;
+  const { root } = resolveRailElements(anchor);
   const browser = root?.querySelector('[data-slot="sidebar.workspaces"]');
   if (!browser?.parentElement) return null;
   const node = browser.ownerDocument.createElement("div");
@@ -1814,6 +1829,8 @@ function SessionContextMenu({ controller, renderSlot, Menu: Menu2 }) {
       onClose: controller.close,
       className: "cgpt-session-context-popup",
       listClassName: "cgpt-session-context-popup",
+      anchorPoint: { x: request.x, y: request.y },
+      contextual: true,
       getAnchorRect: () => ({ left: request.x, right: request.x, top: request.y, bottom: request.y, width: 0, height: 0 }),
       anchor: h3("button", { type: "button", tabIndex: -1, "aria-hidden": true, className: "cgpt-context-anchor", style: { left: request.x, top: request.y } })
     }, renderSlot(SESSION_CONTEXT_MENU, { sessionId: request.sessionId, displayTitle: request.displayTitle }, { hookContext }))
@@ -3690,7 +3707,7 @@ var pendingKinds = /* @__PURE__ */ new Set(["approval", "question", "plan-review
 var attention = (item) => pendingKinds.has(item.kind) || item.unread === true;
 var MODE_ATTRIBUTE = "data-cgpt-notification-mode";
 function mountNotificationSeat(anchor, model) {
-  const root = anchor?.closest?.("nav")?.parentElement;
+  const { root } = resolveRailElements(anchor);
   if (!root) return null;
   const document2 = root.ownerDocument, frame = root.closest('[data-slot="sidebar"]')?.parentElement?.parentElement;
   const previousMode = root.getAttribute(MODE_ATTRIBUTE);
@@ -4143,6 +4160,8 @@ function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
         onClose: () => setMenu(null),
         className: "cgpt-app-context",
         listClassName: "cgpt-app-context",
+        anchorPoint: { x: menu.x, y: menu.y },
+        contextual: true,
         getAnchorRect: () => ({ left: menu.x, right: menu.x, top: menu.y, bottom: menu.y, width: 0, height: 0 }),
         anchor: h7("button", { type: "button", tabIndex: -1, "aria-hidden": true, className: "cgpt-app-context-anchor", style: { left: menu.x, top: menu.y } })
       },
@@ -5391,8 +5410,13 @@ var rail_default = `/* Reference geometry: 52px icon rail + 340px conversation c
 [data-cgpt-rail-nav] button:hover::after,[data-cgpt-rail-nav] button:focus-visible::after{opacity:1}
 [data-cgpt-workspace-region]{position:static!important;min-height:0!important;margin:0!important;padding:0!important}
 [data-cgpt-workspace-region] [data-slot="sidebar.workspaces"]>div{padding:0!important}
+/* rc.2 shares a scrollport between navigation and sessions. Keep the rail
+   anchored to the sidebar, with the session browser owning its scroll area. */
+[data-cgpt-rail-scroll-region],[data-cgpt-rail-scrollport]{position:static!important;display:flex!important;flex-direction:column!important;flex:1;min-height:0!important;overflow:visible!important;padding:0!important}
+[data-cgpt-rail-scrollport]>[data-cgpt-workspace-region]{flex:1;overflow:auto!important}
 [data-cgpt-search-button]{position:absolute!important;top:53px!important;right:12px!important;width:28px!important;height:28px!important;margin:0!important;z-index:3!important;color:#898e91!important}
 [data-cgpt-search-button] svg{width:16px!important;height:16px!important}
+[data-cgpt-rail-scrollport] [data-cgpt-search-button]{position:relative!important;top:auto!important;right:auto!important}
 [data-cgpt-settings-row]{position:static!important}
 [data-cgpt-account-seat]{display:block!important;position:absolute!important;left:9px!important;bottom:10px!important;width:34px!important;z-index:6!important}
 [data-cgpt-account-seat] button[aria-haspopup="menu"]{box-sizing:border-box!important;width:34px!important;height:34px!important;min-height:34px!important;max-width:34px!important;justify-content:center!important;gap:0!important;padding:3px!important;border-radius:50%!important;background:transparent!important}
@@ -5424,6 +5448,7 @@ html[data-ds-dark-theme] [data-cgpt-rail]::before,[data-ds-dark-theme] [data-cgp
 @media(prefers-reduced-motion:reduce){[data-cgpt-rail-frame]:not([data-sidebar-drawer])[data-sidebar-collapsed] :is([data-cgpt-workspace-region],[data-cgpt-new-chat]){transition:none!important}}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-brand-row],
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-top-strip]{visibility:hidden!important}
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-top-strip]{left:0!important;right:auto!important;width:52px!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail-toggle]{visibility:visible!important;position:absolute!important;top:10px!important;left:12px!important;width:28px!important;height:28px!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed]:has([data-shell-leading]) [data-cgpt-rail-toggle]{display:none!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail-nav],
@@ -5815,6 +5840,8 @@ var notification_default = `/* The seat owns no hit area: only its bell and feed
 [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] *{visibility:hidden!important;pointer-events:none!important}
 [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] [data-cgpt-search-button],
 [data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-workspace-region] [data-cgpt-search-button] *{visibility:visible!important;pointer-events:auto!important}
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-rail-scrollport] [data-cgpt-search-button],
+[data-cgpt-rail][data-cgpt-notification-mode] [data-cgpt-rail-scrollport] [data-cgpt-search-button] *{visibility:hidden!important;pointer-events:none!important}
 .cgpt-notification-feed{position:absolute;top:136px;bottom:8px;left:60px;right:8px;display:flex;flex-direction:column;min-height:0;overflow:hidden;pointer-events:auto;color:var(--dsw-alias-label-primary,#202426);font-size:13px;-webkit-app-region:no-drag}
 .cgpt-notification-heading{display:flex;align-items:center;justify-content:space-between;min-height:28px;padding:0 7px 4px 8px;flex-shrink:0}
 .cgpt-notification-heading h2,.cgpt-notification-group-title{margin:0;font-size:12px;line-height:20px;font-weight:400;color:var(--dsw-alias-label-tertiary,#8a9094)}
@@ -5906,7 +5933,7 @@ function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessio
   }, [notificationModel]);
   import_react10.default.useLayoutEffect(() => {
     const document2 = ref.current?.ownerDocument;
-    const region = ref.current?.closest("nav")?.parentElement?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
+    const region = resolveRailElements(ref.current).root?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
     if (!document2 || !region) return;
     const seat = mountSessionContextSeat(document2);
     setContextSeat(seat.node);

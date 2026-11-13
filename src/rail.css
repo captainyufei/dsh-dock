@@ -46,8 +46,13 @@
 [data-cgpt-rail-nav] button:hover::after,[data-cgpt-rail-nav] button:focus-visible::after{opacity:1}
 [data-cgpt-workspace-region]{position:static!important;min-height:0!important;margin:0!important;padding:0!important}
 [data-cgpt-workspace-region] [data-slot="sidebar.workspaces"]>div{padding:0!important}
+/* rc.2 shares a scrollport between navigation and sessions. Keep the rail
+   anchored to the sidebar, with the session browser owning its scroll area. */
+[data-cgpt-rail-scroll-region],[data-cgpt-rail-scrollport]{position:static!important;display:flex!important;flex-direction:column!important;flex:1;min-height:0!important;overflow:visible!important;padding:0!important}
+[data-cgpt-rail-scrollport]>[data-cgpt-workspace-region]{flex:1;overflow:auto!important}
 [data-cgpt-search-button]{position:absolute!important;top:53px!important;right:12px!important;width:28px!important;height:28px!important;margin:0!important;z-index:3!important;color:#898e91!important}
 [data-cgpt-search-button] svg{width:16px!important;height:16px!important}
+[data-cgpt-rail-scrollport] [data-cgpt-search-button]{position:relative!important;top:auto!important;right:auto!important}
 [data-cgpt-settings-row]{position:static!important}
 [data-cgpt-account-seat]{display:block!important;position:absolute!important;left:9px!important;bottom:10px!important;width:34px!important;z-index:6!important}
 [data-cgpt-account-seat] button[aria-haspopup="menu"]{box-sizing:border-box!important;width:34px!important;height:34px!important;min-height:34px!important;max-width:34px!important;justify-content:center!important;gap:0!important;padding:3px!important;border-radius:50%!important;background:transparent!important}
@@ -79,6 +84,7 @@ html[data-ds-dark-theme] [data-cgpt-rail]::before,[data-ds-dark-theme] [data-cgp
 @media(prefers-reduced-motion:reduce){[data-cgpt-rail-frame]:not([data-sidebar-drawer])[data-sidebar-collapsed] :is([data-cgpt-workspace-region],[data-cgpt-new-chat]){transition:none!important}}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-brand-row],
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-top-strip]{visibility:hidden!important}
+[data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-top-strip]{left:0!important;right:auto!important;width:52px!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail-toggle]{visibility:visible!important;position:absolute!important;top:10px!important;left:12px!important;width:28px!important;height:28px!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed]:has([data-shell-leading]) [data-cgpt-rail-toggle]{display:none!important}
 [data-cgpt-rail-frame][data-sidebar-collapsed] [data-cgpt-rail-nav],

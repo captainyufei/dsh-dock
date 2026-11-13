@@ -1,11 +1,13 @@
 {
   "name": "@captainyufei/dsh-dock",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "scripts": {
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
     "check:package": "node scripts/build.mjs && node scripts/check-package.mjs",
     "check": "npm test && npm run check:package",
+    "check:compatibility": "node scripts/check-compatibility.mjs",
+    "prepare:release": "npm run check && node scripts/prepare-release.mjs",
     "build:client": "node scripts/build.mjs"
   },
   "devDependencies": {
@@ -73,10 +75,10 @@
   ],
   "engines": {
     "node": ">=22",
-    "dsh": "0.2.1-rc.5 || 0.2.2-rc.1"
+    "dsh": "0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0"
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-rc.5 || 0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-primitives": "0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

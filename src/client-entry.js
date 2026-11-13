@@ -6,7 +6,7 @@ import {createHostAdapter} from './host-adapter.js';
 import {createNativeControls} from './native-controls.js';
 import {HomePage,Glyph} from './home-ui.js';
 import {sessionMention} from './references.js';
-import {wireRailLayout,wireRailGeometry} from './rail-layout.js';
+import {wireRailLayout,wireRailGeometry,resolveRailElements} from './rail-layout.js';
 import {createPinnedSessionsModel} from './pinned-sessions-model.js';
 import {PinnedSessions,mountPinnedSessionsSeat} from './pinned-sessions.js';
 import {NATIVE_SESSION_ROW_ACTIONS,PINNED_SESSION_ROW_ACTIONS,mirrorNativePinnedActions} from './pinned-session-actions.js';
@@ -69,7 +69,7 @@ function HomeIcon({size=18,layout,slots,getRailLabels,pinnedModel,sessionContext
  },[notificationModel]);
  React.useLayoutEffect(()=>{
   const document=ref.current?.ownerDocument;
-  const region=ref.current?.closest('nav')?.parentElement?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
+  const region=resolveRailElements(ref.current).root?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
   if(!document||!region)return;
   const seat=mountSessionContextSeat(document);
   setContextSeat(seat.node);

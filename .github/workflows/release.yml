@@ -1,0 +1,60 @@
+name: Prepare release draft
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run prepare:release
+      - name: Confirm the committed runtime matches its sources
+        run: |
+          dist_changes="$(git status --porcelain --untracked-files=all -- dist/)"
+          if [ -n "$dist_changes" ]; then
+            printf '%s\n' "$dist_changes"
+            exit 1
+          fi
+      - name: Save the exact release files
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-files
+          path: artifacts/release/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Create a draft with the checked files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          version="$(node -p 'JSON.parse(require("node:fs").readFileSync("package.json", "utf8")).version')"
+          prerelease=()
+          if [[ "$version" == *-* ]]; then prerelease+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" artifacts/release/*.tgz artifacts/release/*.zip artifacts/release/SHA256SUMS.txt \
+            --verify-tag --draft --latest=false "${prerelease[@]}" \
+            --title "DeepSeek Dock $version" --notes-file artifacts/release/release-notes.md
+      - name: Download the draft assets and verify their hashes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release download "$GITHUB_REF_NAME" --dir artifacts/downloaded
+          cd artifacts/downloaded
+          sha256sum -c SHA256SUMS.txt

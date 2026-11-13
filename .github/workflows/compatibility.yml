@@ -1,0 +1,49 @@
+name: Harness release watch
+
+on:
+  schedule:
+    - cron: '17 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      host_version:
+        description: 'Exact Harness version; leave empty to inspect upstream releases, including RCs'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: harness-release-watch
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Inspect the Host declaration boundary
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HOST_VERSION: ${{ inputs.host_version }}
+        run: |
+          if [ -n "$HOST_VERSION" ]; then
+            npm run check:compatibility -- --host "$HOST_VERSION" --report artifacts/host-compatibility.json
+          else
+            npm run check:compatibility -- --upstream --report artifacts/host-compatibility.json
+          fi
+      - name: Retain the audit, including incompatible results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: harness-compatibility-audit
+          path: artifacts/host-compatibility.json
+          if-no-files-found: warn
+          retention-days: 30

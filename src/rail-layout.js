@@ -1,6 +1,22 @@
+/** Resolve the sidebar through its public slot, including the shared scrollport. */
+export function resolveRailElements(anchor){
+ const nav=anchor?.closest?.('nav');
+ let root=nav?.parentElement;
+ const sidebar=root?.closest?.('[data-slot="sidebar"]');
+ if(sidebar){
+  let branch=root;
+  while(branch?.parentElement&&branch.parentElement!==sidebar)branch=branch.parentElement;
+  if(branch?.parentElement===sidebar)root=branch;
+ }
+ // The Host removes data-sidebar-scrollport while collapsed but retains the
+ // same wrappers. Resolve that branch from the slot in both presentations.
+ const scrollport=root&&nav?.parentElement!==root?nav?.parentElement:null;
+ return {nav,root,scrollport};
+}
+
 /** Keep frame geometry alive across sidebar content rerenders and toggles. */
 export function wireRailGeometry(anchor,{preferredWidth=392,setWidth,onWidth}={}){
- const root=anchor?.closest?.('nav')?.parentElement;
+ const {root}=resolveRailElements(anchor);
  const column=root?.closest?.('[data-slot="sidebar"]')?.parentElement;
  const frame=column?.parentElement;
  if(!frame?.style)return()=>{};
@@ -92,9 +108,9 @@ export function wireRailGeometry(anchor,{preferredWidth=392,setWidth,onWidth}={}
  return dispose;
 }
 
-/** Harness 0.2.1-rc.5 sidebar styling adapter. Never moves host-owned nodes. */
+/** Style the sidebar across the supported Host structures. */
 export function wireRailLayout(anchor,{labels={},navigation}={}){
- const nav=anchor?.closest?.('nav');const root=nav?.parentElement;
+ const {nav,root,scrollport}=resolveRailElements(anchor);
  if(!nav||!root)return()=>{};
  const owned=[];
  function mark(node,name,value=''){
@@ -102,6 +118,10 @@ export function wireRailLayout(anchor,{labels={},navigation}={}){
   owned.push(()=>{if(before===null)node.removeAttribute(name);else node.setAttribute(name,before);});
  }
  mark(root,'data-cgpt-rail');mark(nav,'data-cgpt-rail-nav');
+ if(scrollport&&scrollport!==root){
+  mark(scrollport,'data-cgpt-rail-scrollport');
+  if(scrollport.parentElement!==root)mark(scrollport.parentElement,'data-cgpt-rail-scroll-region');
+ }
  const brand=root.querySelector('[data-slot="sidebar.brand.name"]');
  const brandRow=brand?.closest('[data-window-drag]');mark(brandRow,'data-cgpt-brand-row');
  for(const row of Array.from(root.children))if(row.hasAttribute('data-window-drag')&&row!==brandRow)mark(row,'data-cgpt-top-strip');

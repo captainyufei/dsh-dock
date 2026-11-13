@@ -1,5 +1,6 @@
 import React from 'react';
 import {PINNED_SESSION_ROW_ACTIONS} from './pinned-session-actions.js';
+import {resolveRailElements} from './rail-layout.js';
 
 const h=React.createElement;
 const NoTooltip=({children})=>children;
@@ -14,7 +15,7 @@ export function pinnedWorkspaceRules(rows){
 
 /** Own a sibling seat without replacing or moving the native workspace browser. */
 export function mountPinnedSessionsSeat(anchor){
- const root=anchor?.closest?.('nav')?.parentElement;
+ const {root}=resolveRailElements(anchor);
  const browser=root?.querySelector('[data-slot="sidebar.workspaces"]');
  if(!browser?.parentElement)return null;
  const node=browser.ownerDocument.createElement('div');

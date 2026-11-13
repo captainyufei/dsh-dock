@@ -2,6 +2,17 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
+## 0.2.1 — 2026-11-13
+
+- Support Harness `0.2.2-rc.2` and admit subsequent candidates in the `0.2.2` line, with an upper boundary before `0.2.3`. Retain the earlier `0.2.1-rc.5` baseline.
+- Resolve the sidebar through its public slot across the shared navigation/session scroll wrappers introduced in `rc.2`, including the collapsed presentation. Restore Dock geometry and the notification seat, and retain the native workspace search position.
+- Use the native Menu `anchorPoint` interface for pointer and keyboard context menus. Keep the earlier anchor interface for the older Host baseline.
+- Add a read-only upstream and installed-package audit, a scheduled Host release check, and a checked release-draft pipeline with TGZ, ZIP and SHA-256 verification.
+
+适配 Harness `0.2.2-rc.2` 的侧栏滚动结构和菜单定位，恢复展开、折叠、通知入口与右键菜单。兼容范围覆盖后续 `0.2.2` 候选版，并在 `0.2.3` 前设置上界。新增上游版本核查和自动发版草稿流程。
+
+The `rc.2` browser acceptance covers loading, Home draft persistence, expanded/collapsed navigation, 1440/800/480 px widths, pointer-gap sorting and reload persistence, app search, global search, context-menu positioning and the notification feed. Other declared baselines retain their prior acceptance evidence. Later versions admitted by the range receive their own validation as they appear.
+
 ## 0.2.0 — 2026-11-08
 
 - Add an application Dock with monochrome icons, searchable All Apps, pinning/reordering and recent unpinned applications. Remove the six-icon presentation limit.

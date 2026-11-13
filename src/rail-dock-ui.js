@@ -46,6 +46,7 @@ export function RailDockControls({anchorRef,navigationModel,Menu,MenuItem,Modal}
  return h('div',{className:'cgpt-dock-ui',onClick:stop,onPointerDown:stop,onContextMenu:stop},
   request&&h(Menu,{
    open:true,portal:true,autoFocus:true,onClose:close,className:'cgpt-dock-context',listClassName:'cgpt-dock-context',
+   anchorPoint:{x:request.x,y:request.y},contextual:true,
    getAnchorRect:()=>({left:request.x,right:request.x,top:request.y,bottom:request.y,width:0,height:0}),
    anchor:h('button',{type:'button',tabIndex:-1,'aria-hidden':true,className:'cgpt-context-anchor',style:{left:request.x,top:request.y}}),
   },h(MenuItem,{onSelect:customize},'自定义 Dock…'),canRemove&&h(MenuItem,{onSelect:remove},'从 Dock 移除')),

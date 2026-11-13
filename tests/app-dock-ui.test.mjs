@@ -97,8 +97,11 @@ test('right click and Shift+F10 open native app actions for the captured app',as
  const f=fixture(),{view}=await mount(f);let consumed=0;
  await act(async()=>dockButton(view,'plugins').props.onContextMenu(event({preventDefault(){consumed++;}})));
  assert.equal(consumed,1);assert.ok(button(view,'打开 插件'));assert.ok(button(view,'从 Dock 移除'));assert.equal(button(view,'上移').props.disabled,true);
+ assert.deepEqual(view.root.findByType(Menu).props.anchorPoint,{x:30,y:90});
+ assert.equal(view.root.findByType(Menu).props.contextual,true);
  await act(async()=>button(view,'下移').props.onClick());assert.deepEqual(f.calls,[['move','plugins',1]]);
  await act(async()=>dockButton(view,'chat').props.onKeyDown(event({key:'F10',shiftKey:true})));
+ assert.deepEqual(view.root.findByType(Menu).props.anchorPoint,{x:50,y:80});
  assert.ok(button(view,'固定到 Dock'));assert.ok(button(view,'不再显示在最近使用'));
  await act(async()=>button(view,'不再显示在最近使用').props.onClick());assert.deepEqual(f.calls.at(-1),['dismissRecent','chat']);
  assert.equal(view.root.findAllByProps({'data-cgpt-app-button':'chat'}).length,0);

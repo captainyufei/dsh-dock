@@ -106,6 +106,7 @@ export function SessionContextMenu({controller,renderSlot,Menu}){
   h(Menu,{
    key:request.sessionId+'@'+request.x+','+request.y,
    open:true,portal:true,autoFocus:true,onClose:controller.close,className:'cgpt-session-context-popup',listClassName:'cgpt-session-context-popup',
+   anchorPoint:{x:request.x,y:request.y},contextual:true,
    getAnchorRect:()=>({left:request.x,right:request.x,top:request.y,bottom:request.y,width:0,height:0}),
    anchor:h('button',{type:'button',tabIndex:-1,'aria-hidden':true,className:'cgpt-context-anchor',style:{left:request.x,top:request.y}}),
   },renderSlot(SESSION_CONTEXT_MENU,{sessionId:request.sessionId,displayTitle:request.displayTitle},{hookContext})),

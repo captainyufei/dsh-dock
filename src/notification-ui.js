@@ -1,4 +1,5 @@
 import React from 'react';
+import {resolveRailElements} from './rail-layout.js';
 
 const h=React.createElement;
 const stop=event=>event.stopPropagation();
@@ -8,7 +9,7 @@ const MODE_ATTRIBUTE='data-cgpt-notification-mode';
 
 /** Own the header action and the feed without moving the Host's sidebar nodes. */
 export function mountNotificationSeat(anchor,model){
- const root=anchor?.closest?.('nav')?.parentElement;
+ const {root}=resolveRailElements(anchor);
  if(!root)return null;
  const document=root.ownerDocument,frame=root.closest('[data-slot="sidebar"]')?.parentElement?.parentElement;
  const previousMode=root.getAttribute(MODE_ATTRIBUTE);

@@ -138,6 +138,7 @@ test('uses a legal own slot with native hook context and a pointer anchor, then 
  await act(async()=>controller.open({sessionId:'one',x:40,y:80}));
  assert.equal(menuProps.portal,true);assert.equal(menuProps.autoFocus,true);
  assert.deepEqual(menuProps.getAnchorRect(),{left:40,right:40,top:80,bottom:80,width:0,height:0});
+ assert.deepEqual(menuProps.anchorPoint,{x:40,y:80});assert.equal(menuProps.contextual,true);
  assert.equal(rendered.name,SESSION_CONTEXT_MENU);
  assert.deepEqual(rendered.owner,{sessionId:'one',displayTitle:'Original title'});
  assert.equal(rendered.options.hookContext[0],true);

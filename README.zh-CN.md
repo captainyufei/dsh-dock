@@ -49,21 +49,21 @@
 
 ## 安装
 
-需要 **macOS / Harness 0.2.1-rc.5 或从 rc.1 起的 0.2.2 系列**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。可使用下面的仓库地址安装预构建版本，也可从 [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest) 下载固定版本的 TGZ 或 ZIP。ZIP 解压后选择包含 `package.json` 的完整文件夹。
+需要 **macOS / Harness 0.2.1-rc.5 或从 rc.1 起的 0.2.2 系列**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。请按下面的步骤安装 npm 包 `@captainyufei/dsh-dock`。
 
-仓库地址跟随 `main` 上的最新代码。需要固定版本时，可使用发布页的版本安装包。更新已有副本时，请核对原安装来源。
+需要固定版本的备用来源时，将 0.3.17 TGZ 地址粘贴到同一安装窗口。发布页也提供 ZIP，解压后选择包含 `package.json` 的完整文件夹。[0.3.17 TGZ](https://github.com/captainyufei/dsh-dock/releases/download/v0.3.17/dsh-dock.tgz) · [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest)
 
 ### 在 DeepSeek Harness 中安装
 
 打开 **插件 → 添加插件**，将以下内容粘贴到 **包名或地址**，点击 **安装**：
 
 ```text
-https://github.com/captainyufei/dsh-dock
+@captainyufei/dsh-dock
 ```
 
 出现 **已安装** 后，点击 **立即启用**。直接关闭窗口会让插件保持关闭。
 
-<img src="assets/readme/install.zh-CN.png" alt="在 Harness 中通过 GitHub 仓库安装 DeepSeek Dock" width="640">
+<img src="assets/readme/install.zh-CN.png" alt="Harness 安装窗口的仓库来源示例。请填写上方的 npm 包名。" width="640">
 
 在 **已安装插件** 中确认 **DeepSeek Dock** 已开启。收起会话列表，首页、自动化任务和插件入口应仍显示在左侧 Dock；右键 Dock 可自定义入口。
 
@@ -72,14 +72,22 @@ https://github.com/captainyufei/dsh-dock
 安装到 **web profile**：
 
 ```sh
-dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
+dsh plugin --profile web add @captainyufei/dsh-dock
 ```
 
 若 Web UI 尚未运行，执行 `dsh web` 启动，再打开 **插件** 确认 DeepSeek Dock 已启用。此命令针对 web profile；桌面版请使用上面的安装窗口。
 
 ### 更新或移除
 
-先保存工作。若插件管理器提供 DeepSeek Dock 的 **更新** 按钮，直接更新，再按提示重新加载或重启。使用 TGZ、本地目录或仓库来源时，通过 **添加插件** 或官方 CLI 安装同名新版本。在详情中确认版本为 **0.3.17**。仅重新打开 Harness 不会下载新代码。
+先保存工作。以 `@captainyufei/dsh-dock` 包名从 npm 安装的副本符合 Harness `0.2.2-rc.2` 原生更新检查的来源条件。若插件管理器提供 DeepSeek Dock 的 **更新** 按钮，直接更新，再按提示重新加载或重启。
+
+桌面版已有 TGZ 或本地目录安装的用户，可使用官方 CLI 将同名插件的更新来源切换到 npm。
+
+```sh
+dsh plugin --profile desktop add @captainyufei/dsh-dock
+```
+
+Web profile 使用上面的 `--profile web` 命令。按宿主提示重新加载或重启，并在详情中确认版本为 **0.3.17**。仓库分支和标签来源也需要切换来源才能使用原生更新。详见[更新来源要求](docs/COMPATIBILITY.md)。
 
 暂时不用时关闭开关；彻底移除时卸载后不再安装。两种操作都保留宿主管理的会话和工作区。
 
@@ -104,7 +112,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 
 | 问题 | 下一步 |
 |---|---|
-| 找不到包 | 使用上面的完整仓库地址或发布页的 TGZ，并在错误详情中核对包名及安装来源。 |
+| 找不到包 | 核对包名 `@captainyufei/dsh-dock` 和配置的 npm registry，必要时使用上面的固定版本 TGZ。 |
 | GitHub 下载失败 | 打开 **查看安装详情**，检查 GitHub 连接后重试。切换 npm 安装源不能修复 GitHub 连接；能单独下载时可用 ZIP 方式。 |
 | 已安装但 Dock 没出现 | 在 **已安装插件** 中启用，并按提示重启。若启用失败，复制诊断信息。 |
 | 宿主不匹配或目录无效 | Harness `0.2.2-rc.2` 需将 Dock 更新至 `0.2.2` 或更新版本。准入范围覆盖 `0.2.1-rc.5` 和从 `rc.1` 起、`0.2.3` 之前的 `0.2.2` 系列。旧版已安装副本仍带有原来的版本限制。本地安装时选中含 `package.json` 和 `cordis.patch.yml` 的根目录，确保解压内容完整。 |

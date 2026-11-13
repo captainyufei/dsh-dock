@@ -49,21 +49,21 @@ The split retains the Session's native browser, file, terminal and video tabs. N
 
 ## Install
 
-Requires **macOS / Harness 0.2.1-rc.5 or the 0.2.2 line from rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). Install the prebuilt runtime from the repository URL below. Versioned TGZ and ZIP packages are also available from [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest); extract the ZIP and select the complete folder containing `package.json`.
+Requires **macOS / Harness 0.2.1-rc.5 or the 0.2.2 line from rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). Install the npm package `@captainyufei/dsh-dock` using the steps below.
 
-The repository URL follows the latest code on `main`. Use a versioned release asset for a fixed build. Check the installation source when upgrading an existing copy.
+For a fixed-build fallback, paste the 0.3.17 TGZ URL into the same installation dialog. The release page also offers ZIP packages. Extract a ZIP and select the complete folder containing `package.json`. [0.3.17 TGZ](https://github.com/captainyufei/dsh-dock/releases/download/v0.3.17/dsh-dock.tgz) · [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest)
 
 ### Install in DeepSeek Harness
 
 Open **Plugins → Add plugin**, paste this into **Package name or address**, and click **Install**:
 
 ```text
-https://github.com/captainyufei/dsh-dock
+@captainyufei/dsh-dock
 ```
 
 When **Installed** appears, click **Enable now**. Closing the dialog instead leaves the plugin switched off.
 
-<img src="assets/readme/install.en.png" alt="Installing DeepSeek Dock from its GitHub repository in Harness" width="640">
+<img src="assets/readme/install.en.png" alt="Harness installation dialog shown with a repository-source example. Enter the npm package name above." width="640">
 
 Confirm **DeepSeek Dock** is on under **Installed plugins**. Collapse the chat list: Home, scheduled tasks, and plugins should remain in the left Dock. Right-click the Dock to customize its entries.
 
@@ -72,14 +72,22 @@ Confirm **DeepSeek Dock** is on under **Installed plugins**. Collapse the chat l
 For the **web profile**, run:
 
 ```sh
-dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
+dsh plugin --profile web add @captainyufei/dsh-dock
 ```
 
 Start `dsh web` if it is not already running, then open **Plugins** and make sure DeepSeek Dock is enabled. The command targets the web profile; desktop users should use the installation dialog above.
 
 ### Update or remove
 
-Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. For a TGZ, directory or repository installation, install the new release through **Add plugin** or the official CLI using the same package name. Confirm version **0.3.17** in the plugin details. Reopening Harness alone does not fetch new code.
+Save your work first. npm installations under `@captainyufei/dsh-dock` are eligible for Harness `0.2.2-rc.2`'s native update checks. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice.
+
+For an existing TGZ or local-directory installation in the desktop app, use the official CLI to switch the same package to npm as its update source.
+
+```sh
+dsh plugin --profile desktop add @captainyufei/dsh-dock
+```
+
+For the web profile, use the `--profile web` command above. Follow any reload/restart notice and confirm version **0.3.17** in the plugin details. Repository branches and tags also require a source change for native updates. See [update-source requirements](docs/COMPATIBILITY.md).
 
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
@@ -104,7 +112,7 @@ To disable Dock temporarily, turn off its switch. Uninstall without reinstalling
 
 | Problem | Next step |
 |---|---|
-| Package not found | Use the complete repository URL above or a TGZ from the release page. Check the package name and installation source in the error details. |
+| Package not found | Check the exact name `@captainyufei/dsh-dock` and the configured npm registry. Use the versioned TGZ above if needed. |
 | GitHub download fails | Open **Show install details**, check GitHub connectivity, and retry. Changing the npm registry does not fix GitHub access. Use the ZIP option if you can download it separately. |
 | Installed, but no Dock | Enable it under **Installed plugins** and follow any restart notice. If activation fails, copy the diagnostic. |
 | Wrong host or invalid directory | Update Dock to `0.2.2` or newer for Harness `0.2.2-rc.2`. The admission range also covers `0.2.1-rc.5` and the `0.2.2` line from `rc.1`, before `0.2.3`. An older installed Dock copy retains its old version restriction. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |

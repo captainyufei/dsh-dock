@@ -17,6 +17,7 @@ import {RailActionButtons,RailOverflowContent,mountRailActionsSeat} from './rail
 import {createDockPreferences} from './rail-dock-preferences.js';
 import {createNativePanelPinsSource} from './rail-native-pins.js';
 import {GlobalWindowChrome} from './window-chrome-ui.js';
+import {GlobalConversationLayout} from './conversation-layout-host.js';
 import {createAppDockModel} from './app-dock-model.js';
 import {mountAppDockSeat} from './app-dock-host.js';
 import {AppDock} from './app-dock-ui.js';
@@ -31,6 +32,8 @@ import RAIL_CSS from './rail.css';
 import SEARCH_CSS from './global-search.css';
 import APP_DOCK_CSS from './app-dock.css';
 import NOTIFICATION_CSS from './notification.css';
+import CONVERSATION_LAYOUT_CSS from './conversation-layout.css';
+import CONVERSATION_HOST_CSS from './conversation-layout-host.css';
 const h=React.createElement;
 const STORAGE='cgpt-rail.home-draft.v2';
 function readDraft(){try{return JSON.parse(localStorage.getItem(STORAGE)||'{}');}catch{return {};}}
@@ -141,7 +144,7 @@ export default {
   const appDockModel=createAppDockModel({navigationModel,slots:ctx.slots,layout:ctx.layout});
   ctx.effect(()=>()=>appDockModel.dispose(),'chatgpt-rail:app-dock');
   ctx.effect(()=>{
-   const tag=document.createElement('style');tag.dataset.cgptRailStyle='2';tag.textContent=RAIL_CSS+'\n'+HOME_CSS+'\n'+SEARCH_CSS+'\n'+APP_DOCK_CSS+'\n'+NOTIFICATION_CSS;document.head.appendChild(tag);return()=>tag.remove();
+   const tag=document.createElement('style');tag.dataset.cgptRailStyle='2';tag.textContent=RAIL_CSS+'\n'+HOME_CSS+'\n'+SEARCH_CSS+'\n'+APP_DOCK_CSS+'\n'+NOTIFICATION_CSS+'\n'+CONVERSATION_LAYOUT_CSS+'\n'+CONVERSATION_HOST_CSS;document.head.appendChild(tag);return()=>tag.remove();
   },'chatgpt-rail:styles');
   ctx.effect(()=>{
    let previous='';
@@ -159,6 +162,10 @@ export default {
    name:'shell.overlay',id:'chatgpt-rail.window-chrome',
    inject:()=>({ctx,Menu:NativeMenu,MenuItem:NativeMenuItem,Modal:NativeModal}),
   },GlobalWindowChrome));
+  ctx.slots.inject('shell.overlay',()=>ctx.slots.register({
+   name:'shell.overlay',id:'chatgpt-rail.conversation-layout',
+   inject:()=>({ctx,Menu:NativeMenu,MenuItem:NativeMenuItem}),
+  },GlobalConversationLayout));
   const getSearchLabel=()=>getRailLabels().search;
   ctx.slots.inject('shell.overlay',()=>ctx.slots.register({
    name:'shell.overlay',id:'chatgpt-rail.global-search',

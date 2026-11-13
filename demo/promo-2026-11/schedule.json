@@ -1,0 +1,45 @@
+{
+  "durationSeconds": 66,
+  "scenes": [
+    {
+      "id": "intro",
+      "startSeconds": 0,
+      "durationSeconds": 3
+    },
+    {
+      "id": "dock",
+      "startSeconds": 3,
+      "durationSeconds": 10
+    },
+    {
+      "id": "search-notifications",
+      "startSeconds": 13,
+      "durationSeconds": 10
+    },
+    {
+      "id": "pins-draft",
+      "startSeconds": 23,
+      "durationSeconds": 10
+    },
+    {
+      "id": "split-panels",
+      "startSeconds": 33,
+      "durationSeconds": 10
+    },
+    {
+      "id": "floating",
+      "startSeconds": 43,
+      "durationSeconds": 10
+    },
+    {
+      "id": "resize-snap",
+      "startSeconds": 53,
+      "durationSeconds": 10
+    },
+    {
+      "id": "outro",
+      "startSeconds": 63,
+      "durationSeconds": 3
+    }
+  ]
+}

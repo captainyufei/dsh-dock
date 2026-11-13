@@ -1,0 +1,12 @@
+{
+  "name": "deepseek-dock-promo-2026-11",
+  "private": true,
+  "scripts": {
+    "build": "python3 build.py",
+    "check": "npx --yes hyperframes@0.8.226 check . --json",
+    "lint": "npx --yes hyperframes@0.8.226 lint . --json",
+    "render": "python3 render.py",
+    "gifs": "python3 render.py --gifs-only",
+    "verify": "python3 verify.py"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "product": "DeepSeek Dock",
+  "version": "0.3.17",
+  "language": "zh-CN",
+  "hyperframesVersion": "0.8.226",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "recordingLabel": "本地实录 · 演示数据",
+  "outputDirectory": "../output/promo-0.3.17/final",
+  "intro": {
+    "durationSeconds": 3,
+    "title": "DeepSeek Dock",
+    "description": "让对话、工具与常用入口各就其位"
+  },
+  "outro": {
+    "durationSeconds": 3,
+    "title": "DeepSeek Dock",
+    "description": "为 DeepSeek Harness 增加常驻 Dock 与灵活会话布局",
+    "destination": "github.com/captainyufei/dsh-dock"
+  },
+  "music": {
+    "source": "../assets/audio/dock-bgm.mp3",
+    "coreStartSeconds": 1.2,
+    "coreEndSeconds": 42.5,
+    "crossfadeSeconds": 2,
+    "fadeInSeconds": 0.8,
+    "fadeOutSeconds": 2.5,
+    "volume": 1
+  },
+  "gif": {
+    "width": 1200,
+    "fps": 15,
+    "colors": 256,
+    "targetMaximumBytes": 5000000
+  },
+  "chapters": [
+    {
+      "id": "dock",
+      "source": "assets/sources/01-dock.mp4",
+      "title": "常用入口，随手直达",
+      "description": "收起侧栏也能访问应用，自定义固定入口",
+      "durationSeconds": 10,
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 9
+    },
+    {
+      "id": "search-notifications",
+      "source": "assets/sources/02-search.mp4",
+      "title": "搜索与通知",
+      "description": "集中查找会话与工作区，及时查看完成记录",
+      "durationSeconds": 10,
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 8
+    },
+    {
+      "id": "pins-draft",
+      "source": "assets/sources/03-pins-draft.mp4",
+      "title": "跨工作区置顶与草稿",
+      "description": "重要会话随手访问，发送前保留草稿",
+      "durationSeconds": 10,
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 8
+    },
+    {
+      "id": "split-panels",
+      "source": "assets/sources/04-split-panels.mp4",
+      "title": "左右窗格，自由切换",
+      "description": "一边对话，一边查阅文件资料",
+      "durationSeconds": 10,
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 9.5
+    },
+    {
+      "id": "floating",
+      "source": "assets/sources/05-floating.mp4",
+      "title": "悬浮输入，更专注",
+      "description": "单击标题展开历史，收起到右下角随时恢复",
+      "durationSeconds": 10,
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 10.5
+    },
+    {
+      "id": "resize-snap",
+      "source": "assets/sources/06-resize-snap.mp4",
+      "title": "拖动吸附，自适应布局",
+      "description": "拖边调宽高，松手吸附，窄版自动合并设置",
+      "durationSeconds": 10,
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 12
+    }
+  ]
+}

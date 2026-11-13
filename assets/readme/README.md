@@ -1,4 +1,12 @@
-# Public media — DeepSeek Dock 0.2.0
+# Public media — DeepSeek Dock
+
+## 0.3.17
+
+`promo-0.3.17/` contains the current 66-second Chinese-captioned film, six independent 10-second GIFs and a poster extracted from the film. The footage records the locally running plugin with fictional demo data. Source footage is 1280×720, the film is 1920×1080 at 30 fps, and GIFs are 1200×675 at 15 fps. The soundtrack reuses the existing Quiet Momentum audio. Its levels and decode have been checked. Human listening review is pending.
+
+The editable composition and source recordings are in `../../demo/promo-2026-11/`. The media bundle is attached to release `v0.3.17`.
+
+## Earlier 0.2.0 media
 
 - `hero.svg` / `hero.en.svg`: Chinese/English product illustrations with current feature names and version.
 - `preview.gif` / `preview.en.gif`: Chinese/fully English 45-second silent loops, 1200 × 675, 15 fps, infinite looping. Scenes cover sidebar collapse, All Apps, pin/reorder, global search, completion inbox, Back/Forward and video tools. First/last composited frames match.

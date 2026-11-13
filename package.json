@@ -1,6 +1,6 @@
 {
   "name": "@captainyufei/dsh-dock",
-  "version": "0.2.2",
+  "version": "0.3.17",
   "type": "module",
   "scripts": {
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
@@ -17,7 +17,7 @@
     "react-test-renderer": "^18.3.1",
     "semver": "7.8.6"
   },
-  "description": "Application Dock, global search, completion inbox, navigation history, draft-first Home and side-panel video previews for DeepSeek Harness.",
+  "description": "Application Dock, global search, completion inbox, draft-first Home, split panes, floating conversations and video previews for DeepSeek Harness.",
   "exports": {
     ".": "./dist/index.js",
     "./client": "./dist/client.js",

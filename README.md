@@ -4,21 +4,29 @@
 
 **A persistent, customizable left Dock and a Codex-inspired UI for DeepSeek Harness.**
 
-![DeepSeek Dock: customizable navigation, Codex-inspired layout, global pins, drafts, and video previews](assets/readme/hero.en.svg)
+![DeepSeek Dock 0.3.17 with floating conversation history beside a document](assets/readme/promo-0.3.17/poster.jpg)
 
 Pin important chats across workspaces, draft on Home without creating a chat until you send, and preview videos in the right file panel beside the conversation. DeepSeek Dock installs independently without modifying the host application, preserving DeepSeek branding and native tools.
 
-`0.2.2` · Validated hosts include **macOS / Harness 0.2.1-rc.5, 0.2.2-rc.1 and 0.2.2-rc.2** · Third-party community plugin
+`0.3.17` · Validated hosts include **macOS / Harness 0.2.1-rc.5, 0.2.2-rc.1 and 0.2.2-rc.2** · Third-party community plugin
 
 [Install](#install) · [Features](#features) · [Compatibility and limits](#compatibility-and-limits) · [Migration](docs/MIGRATION.md) · [Report an issue](https://github.com/captainyufei/dsh-dock/issues)
 
 ## See it in action
 
-[![DeepSeek Dock: customize the persistent Dock, use a consistent layout, pin chats across workspaces, draft before sending, and preview video beside the chat](assets/readme/preview.en.gif)](assets/readme/demo.en.mp4)
+**[Watch the 66-second demo with music](assets/readme/promo-0.3.17/deepseek-dock-0.3.17.mp4)** · [Download the media bundle](https://github.com/captainyufei/dsh-dock/releases/download/v0.3.17/DeepSeek-Dock-0.3.17-media.zip)
 
-**[Watch the full 45-second demo with music](assets/readme/demo.en.mp4)** · [Watch in Chinese](assets/readme/demo.mp4) · [Static preview](assets/readme/poster.en.png)
+Each GIF shows one feature in 10 seconds. The new film has Chinese feature captions. It records the local 0.3.17 UI with fictional demo data, using 1280×720 source footage and a 1920×1080 video output. Music reuses the existing project soundtrack.
 
-The 45-second loop follows the 0.2.0 application Dock, All Apps, pinning/reordering, global search, completion inbox, Back/Forward and existing file/video tools. Click it for the version with music. Both formats use illustrative UI based on the current code and fictional sample data; they are not live recordings or performance measurements.
+| Dock and pinned apps | Global search and notifications |
+|---|---|
+| ![Open the persistent Dock and pin apps](assets/readme/promo-0.3.17/01-dock.gif) | ![Search chats and review completion notifications](assets/readme/promo-0.3.17/02-search-notifications.gif) |
+| **Cross-workspace pins and drafts** | **Left and right panes** |
+| ![Open a pinned chat and return to the retained Home draft](assets/readme/promo-0.3.17/03-pins-draft.gif) | ![Exchange the conversation and native file panel](assets/readme/promo-0.3.17/04-split-panels.gif) |
+| **Floating conversation** | **Resize, snap and compact settings** |
+| ![Expand history with one title click and minimize or restore the floating chat](assets/readme/promo-0.3.17/05-floating.gif) | ![Resize the card, use compact model and permission settings, and snap it into place](assets/readme/promo-0.3.17/06-resize-snap.gif) |
+
+The [earlier English demonstration](assets/readme/demo.en.mp4) covers the 0.2.0 feature set.
 
 ## Features
 
@@ -33,11 +41,17 @@ The 45-second loop follows the 0.2.0 application Dock, All Apps, pinning/reorder
 | **Draft-first Home** | Compose and revise before committing to a chat. A chat is created only when you send, so unsent ideas do not fill the sidebar with empty entries. |
 | **Video in the file panel** | Play and seek a generated video on the right while checking the conversation beside it. Reopening the tool drawer restores existing tabs so you can continue reviewing the same content. |
 
+### Conversation layout
+
+When the content panel is open, choose **Move to right panel** from the Conversation header’s native **More** menu. After the exchange, that menu offers **Move to left panel**. Fullscreen content keeps the native composer available as a compact input bar. Activating it reveals the title bar, and clicking the title expands or folds message history. Drag any edge to adjust its width or height. Dragging the title bar and releasing it snaps the card to one of four corners or the bottom center according to its position. At widths of 640px or below, a single settings icon opens model, reasoning and access permission controls. The title bar and resize edges support arrow keys, with Shift for larger steps. Minimize the card into a bottom-right chat button and click it to restore the saved dimensions. Its own More menu returns Chat to either pane or the Conversation full view. Motion follows the system's reduced-motion preference. Floating conversation usage counters are hidden by default; use **More → Show conversation usage** to display them. This choice is saved locally and synchronized across windows.
+
+The split retains the Session's native browser, file, terminal and video tabs. Narrow windows close the fullscreen overlay when returning to Chat. Layout choices and positions are held per Session in the current window. New layout acceptance targets Harness `0.2.2-rc.2`.
+
 ## Install
 
-Requires **macOS / Harness 0.2.1-rc.5 or the 0.2.2 line from rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). This package is not published to npm; use the repository URL below. No manual build is needed. Install packages are also available from [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest); extract the ZIP and select the complete folder containing `package.json`.
+Requires **macOS / Harness 0.2.1-rc.5 or the 0.2.2 line from rc.1**. Disable the old `@local/chatgpt-rail` plugin first if installed ([migration](docs/MIGRATION.md)). Install the prebuilt runtime from the repository URL below. Versioned TGZ and ZIP packages are also available from [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest); extract the ZIP and select the complete folder containing `package.json`.
 
-This installs the latest code on `main`, not the latest stable release. Installed copies do not update automatically.
+The repository URL follows the latest code on `main`. Use a versioned release asset for a fixed build. Check the installation source when upgrading an existing copy.
 
 ### Install in DeepSeek Harness
 
@@ -65,7 +79,7 @@ Start `dsh web` if it is not already running, then open **Plugins** and make sur
 
 ### Update or remove
 
-Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. For a TGZ, directory or repository installation, install the new release through **Add plugin** or the official CLI using the same package name. Confirm version **0.2.2 or newer** in the plugin details. Reopening Harness alone does not fetch new code.
+Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. For a TGZ, directory or repository installation, install the new release through **Add plugin** or the official CLI using the same package name. Confirm version **0.3.17** in the plugin details. Reopening Harness alone does not fetch new code.
 
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
@@ -90,7 +104,7 @@ To disable Dock temporarily, turn off its switch. Uninstall without reinstalling
 
 | Problem | Next step |
 |---|---|
-| Package not found | Use the complete repository URL above. This package is not published to npm; its package name or `@latest` is not an installation source. |
+| Package not found | Use the complete repository URL above or a TGZ from the release page. Check the package name and installation source in the error details. |
 | GitHub download fails | Open **Show install details**, check GitHub connectivity, and retry. Changing the npm registry does not fix GitHub access. Use the ZIP option if you can download it separately. |
 | Installed, but no Dock | Enable it under **Installed plugins** and follow any restart notice. If activation fails, copy the diagnostic. |
 | Wrong host or invalid directory | Update Dock to `0.2.2` or newer for Harness `0.2.2-rc.2`. The admission range also covers `0.2.1-rc.5` and the `0.2.2` line from `rc.1`, before `0.2.3`. An older installed Dock copy retains its old version restriction. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |
@@ -136,7 +150,7 @@ Collapsing the drawer, switching tabs, or closing the preview pauses playback an
 | **Drafts and voice** | Attachments do not survive refresh. Voice requires the host component and local recognition resources. `/` commands and `@` suggestions depend on host catalogs and permissions. |
 | **Language** | The README is bilingual. Some added interface copy is still Chinese; full UI localization is not complete. |
 
-Version `0.2.2` admits `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`. Later admitted candidates are checked as they appear. The maintenance workflow and update-source requirements are documented in [Compatibility and update delivery](docs/COMPATIBILITY.md).
+Version `0.3.17` admits `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`. Later admitted candidates are checked as they appear. The maintenance workflow and update-source requirements are documented in [Compatibility and update delivery](docs/COMPATIBILITY.md).
 
 Hiding pinned chats can reduce the visible row count on a native group's first page. Expand the group to see more. The plugin uses host slots, services, and some DOM structure; host upgrades require renewed validation and are not automatically compatible.
 

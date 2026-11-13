@@ -10,7 +10,7 @@ The source of truth is `package.json.version`. Release tags use `v<version>` and
 |---|---|
 | Work in progress | Git commits; no release for each UI adjustment |
 | Optional pre-release testing | `0.2.0-beta.1` → `0.2.0-beta.2` |
-| Current public version line | `0.2.2` |
+| Current public version line | `0.3.17` |
 | Compatible fixes | `0.1.2` → `0.1.3` |
 | New capability | `0.1.1` → `0.2.0` |
 | Breaking change before 1.0 | Increment the minor version and provide migration notes |
@@ -43,7 +43,7 @@ The current `main` branch and future releases contain the complete prebuilt runt
 
 A runtime `.tgz` can be attached to a release after it is validated. Keep `dsh-dock.tgz` stable if documentation uses a `latest/download/dsh-dock.tgz` URL; use a tag-pinned URL for versioned filenames.
 
-The npm package identity is prepared for future distribution, but the package is not published to npm. Verify ownership of the target npm scope before publishing. When npm distribution is enabled, configure the actual repository and workflow using [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/).
+The npm package identity is `@captainyufei/dsh-dock`. npm publication requires an account with permission for that scope and the registry-required two-factor authentication. Publish the validated TGZ and verify its version and integrity in the registry. Automated publishing can use [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/) after the repository and publisher are configured.
 
 Community listing is separate from code publication. Submit the real repository and an accurate description under `ui` to [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/blob/main/contributing.md). The current contribution rules require a working `dsh.bundle`, the `dsh-plugin` topic, and a repository at least one day old; review is not automatic.
 

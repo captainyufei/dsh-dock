@@ -2,6 +2,20 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
+## 0.3.17 — 2026-11-14
+
+- Move the current native Conversation between left and right panes beside browser, file, terminal and video tabs through the header More menu. Keep layout preferences per Session in the current window.
+- Keep a compact floating composer available in the content full view. Activating it reveals its title bar, and a single title click expands or folds message history. Resize from any edge to reveal more history while the native draft keeps its content-driven height.
+- Snap floating title drags to the four corners or bottom center. Minimize into a bottom-right chat button and restore the saved dimensions. Handle interrupted gestures, viewport changes and reduced-motion preferences.
+- Combine model, reasoning and access permissions under one settings icon at floating widths of 640px or below. Preserve native permission confirmation and keyboard entry points.
+- Preserve the native editor, Chinese drafts, pending attachments and reading position across layout changes. Hide floating usage statistics by default with a persistent More-menu toggle.
+- Refine circular hover controls, stable corner radii, responsive default width, composer alignment and the divider above the fixed composer. Close layout menus on the first outside pointer press and keep the bottom edge steady while the title folds away.
+- Publish a new 66-second Chinese-captioned feature film and six independent 10-second GIFs with an editable HyperFrames project and retained source recordings.
+
+新增会话左右分屏、内容完整视图下的悬浮对话、单击标题展开历史、四边调宽高、四角及底部中间吸附、右下角收起恢复。窄版将模型与访问权限合并为设置入口，会话用量显示可配置。同步修复菜单外部关闭、标题单击与拖动冲突、圆角变化、输入条对齐及收起时上跳的问题。新版宣传片为 66 秒，另提供六个各 10 秒的独立功能 GIF。
+
+New layout acceptance targets macOS / Harness `0.2.2-rc.2`. The existing `0.2.1-rc.5` and `0.2.2-rc.1` baselines retain their earlier feature scope. Validation covers packed installation, native editor identity, Chinese drafts and pending attachments, pane/full-view restoration, pointer and keyboard movement, snapping, compact permission settings, menu dismissal and stable collapse geometry. Local synthetic streaming uses an isolated localhost fixture.
+
 ## 0.2.2 — 2026-11-13
 
 - Support Harness `0.2.2-rc.2` across its shared sidebar scroll structure and native `anchorPoint` menu API. Admit subsequent candidates in the `0.2.2` line with an explicit upper boundary before `0.2.3`.

@@ -1,0 +1,397 @@
+/* The native Conversation and its editor keep their existing React lifetime. */
+.cgpt-conversation-divider[hidden] {
+  display: none;
+}
+
+.cgpt-floating-conversation-seat {
+  display: none;
+}
+
+.cgpt-floating-conversation-resize-seat {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+}
+
+[data-cgpt-conversation-mode='floating'] .cgpt-floating-conversation-resize-seat {
+  display: block;
+}
+
+[data-cgpt-conversation-frame][data-cgpt-conversation-swapped] {
+  grid-template-columns: var(--cgpt-conversation-columns) !important;
+  transition: none !important;
+}
+
+[data-cgpt-conversation-swapped] > [data-cgpt-conversation-center] {
+  grid-column: 3 !important;
+  --dsh-frame-leading-clearance: 0px;
+}
+
+[data-cgpt-conversation-swapped] > [data-rightbar-col] {
+  grid-column: 2 !important;
+}
+
+[data-cgpt-conversation-swapped] > [data-side='rightbar'] {
+  display: none !important;
+}
+
+[data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] {
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] > [data-cgpt-conversation-center]::before {
+  right: 8px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] > [data-cgpt-conversation-center] > :has(> [data-slot='main']) {
+  margin-right: 8px !important;
+  border-bottom-right-radius: 15px !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] [data-dockkit-strip]:has(> [data-dockkit-strip-chrome]) {
+  padding-inline-end: 10px !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] [data-dockkit-host='dock'][data-dockkit-column='0'] {
+  --dsh-dockkit-strip-inline-start: max(10px, calc(var(--dsh-frame-leading-clearance, 0px) - var(--cgpt-window-leading, 0px)));
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] [data-dockkit-host='dock'] > [data-dockkit-content] > div:has(> [data-dockkit-strip]) + div {
+  border-radius: 0 !important;
+}
+
+.cgpt-conversation-divider {
+  position: absolute;
+  top: 44px;
+  bottom: 8px;
+  z-index: 15;
+  width: 8px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  cursor: col-resize;
+  touch-action: none;
+  -webkit-app-region: no-drag;
+}
+
+.cgpt-conversation-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--dsw-focus-ring-color, #4d6bfe);
+  opacity: 0;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+.cgpt-conversation-divider:is(:hover, :focus-visible, [data-dragging])::after {
+  opacity: 1;
+}
+
+/* The native transcript and editor share one floating conversation surface. */
+[data-cgpt-conversation-frame][data-cgpt-conversation-mode='floating'] :is([data-cgpt-conversation-center], [data-cgpt-conversation-ancestor]) {
+  z-index: auto !important;
+  isolation: auto !important;
+  contain: none !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  will-change: auto !important;
+  overflow: visible !important;
+  background: transparent !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+[data-cgpt-conversation-frame][data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-center]::before,
+[data-cgpt-conversation-frame][data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-center]::after {
+  display: none !important;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] {
+  --cgpt-floating-radius: 28px;
+  position: fixed !important;
+  top: var(--cgpt-floating-top) !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: var(--cgpt-floating-left) !important;
+  z-index: 65 !important;
+  box-sizing: border-box;
+  width: var(--cgpt-floating-width) !important;
+  height: var(--cgpt-floating-height) !important;
+  max-width: calc(100vw - 16px);
+  /* The model bounds the target rect. Keep this fallback stable during motion. */
+  max-height: max(40px, calc(100dvh - 16px));
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid var(--dsw-alias-border-l1, #e3e5e7);
+  border-radius: var(--cgpt-floating-radius);
+  background: linear-gradient(var(--dsw-specific-input-major, transparent), var(--dsw-specific-input-major, transparent)), var(--dsw-alias-bg-base, #fff) !important;
+  box-shadow: 0 12px 40px #0002;
+  visibility: visible !important;
+  overflow: hidden;
+  overflow-anchor: none;
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+  --dsh-composer-card-max-width: 100%;
+  --dsh-composer-side-clearance: 8px;
+  --dsh-chat-content-width: 100%;
+  transition: left 280ms cubic-bezier(.22, 1, .36, 1),
+    top 280ms cubic-bezier(.22, 1, .36, 1),
+    width 240ms cubic-bezier(.22, 1, .36, 1),
+    height 280ms cubic-bezier(.22, 1, .36, 1),
+    border-radius 240ms ease,
+    box-shadow 240ms ease;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:is([data-cgpt-floating-dragging], :has([data-resizing])) {
+  transition: none !important;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-scroll] {
+  flex: 1 1 0;
+  min-height: 0;
+  margin-inline: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-scroll]::-webkit-scrollbar-track {
+  margin-bottom: calc(var(--cgpt-floating-composer-height, 54px) + 2px);
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] [data-width-handle] {
+  display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] > .cgpt-floating-conversation-seat {
+  display: block;
+  flex: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-floating-presentation='idle']:not([data-cgpt-conversation-minimized='true']) > .cgpt-floating-conversation-seat {
+  display: none;
+}
+
+/* Retain the reading viewport while the input bar covers its folded history. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:not([data-cgpt-floating-presentation='expanded']) [data-cgpt-conversation-scroll] {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: calc(var(--cgpt-floating-expanded-width) - 2px);
+  height: calc(var(--cgpt-floating-expanded-height) - 42px);
+  flex: none;
+  overflow-y: hidden;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:not([data-cgpt-floating-presentation='expanded']) [data-cgpt-conversation-scroll] > [data-slot='conversation.session'] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] {
+  container-name: cgpt-floating-composer;
+  container-type: inline-size;
+  flex: none;
+  min-height: 0;
+  margin-top: auto;
+  padding-bottom: 4px;
+  background: linear-gradient(var(--dsw-specific-input-major, transparent), var(--dsw-specific-input-major, transparent)), var(--dsw-alias-bg-base, #fff) !important;
+  --dsh-composer-text-max-height: min(336px, max(36px, calc(var(--dsh-conversation-viewport-height, 218px) / 3)));
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:is([data-cgpt-floating-presentation='focused'], [data-cgpt-floating-presentation='expanded']) [data-cgpt-conversation-composer] {
+  box-shadow: inset 0 1px var(--dsw-alias-border-l1, #e3e5e7);
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card] {
+  max-width: 100%;
+  border-radius: 0 0 calc(var(--cgpt-floating-radius) - 1px) calc(var(--cgpt-floating-radius) - 1px);
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-input-scroll] {
+  scrollbar-width: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-input-scroll]::-webkit-scrollbar {
+  display: none;
+}
+
+/* An empty draft shares one row with its native attachment and send controls. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer]:has([data-composer-card] [data-composer-placeholder]),
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-slot='conversation.composer.bar'] > :has(> [data-composer-card] [data-composer-placeholder]) {
+  padding-bottom: 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) [data-composer-input] {
+  min-height: 28px;
+  padding: 2px 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-placeholder] {
+  inset: 2px 0 auto;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  grid-template-columns: subgrid;
+  container-type: normal;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  pointer-events: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div > :first-child {
+  grid-column: 1;
+  grid-row: 1;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div > :last-child {
+  grid-column: 3;
+  grid-row: 1;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div > :last-child > button {
+  transform: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-dock],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-slot='conversation.composer.dock'],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-slot='conversation.composer.dock'] > * {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  gap: 4px 8px;
+}
+
+/* Hide native usage counters individually, preserving other dock contributions. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-stat='activity'],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-stat='usage'],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-dock] > span[style*='--dsh-context-'] {
+  display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-dock] {
+  min-height: 0 !important;
+  padding-top: 0;
+}
+
+/* A blank Session keeps its workspace picker while the floating card stays compact. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-chain-overlay-fallback] > div > div:has([data-slot='conversation.hero.brand.mark']) {
+  display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] > :not(.cgpt-floating-conversation-seat, .cgpt-floating-conversation-resize-seat) {
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+/* Keep the native reading viewport sized while its card is reduced to a bubble. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] [data-cgpt-conversation-scroll] {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: calc(var(--cgpt-floating-expanded-width) - 2px);
+  height: calc(var(--cgpt-floating-expanded-height) - 42px);
+  flex: none;
+  visibility: hidden;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] {
+  border-radius: 50%;
+  box-shadow: 0 4px 16px #0002;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] > .cgpt-floating-conversation-seat {
+  height: 100%;
+}
+
+@container cgpt-floating-composer (max-width: 520px) {
+  [data-cgpt-conversation-composer] [data-slot='conversation.input.model'] {
+    --dsh-composer-model-text-display: none;
+    --dsh-composer-model-icon-display: block;
+  }
+}
+
+/* The native model menu hosts both model and permission settings when compact. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] {
+  --dsh-composer-model-text-display: none;
+  --dsh-composer-model-icon-display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] button[aria-haspopup='menu'] {
+  box-sizing: border-box;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 6px;
+  gap: 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] button[aria-haspopup='menu']::before {
+  content: '';
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M3 5h5m4 0h5M3 15h8m4 0h2'/%3E%3Ccircle cx='10' cy='5' r='2'/%3E%3Ccircle cx='13' cy='15' r='2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] button[aria-haspopup='menu'] > svg {
+  display: none;
+}
+
+/* Preserve the native permission owner and its portal's live anchor geometry. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-cgpt-permission-anchor] {
+  position: fixed;
+  left: var(--cgpt-settings-left);
+  top: var(--cgpt-settings-top);
+  width: 28px;
+  height: 28px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgpt-conversation-divider::after,
+  [data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] {
+    transition: none;
+  }
+}

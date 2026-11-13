@@ -1,0 +1,80 @@
+{
+  "version": "0.3.17",
+  "durationSeconds": 66,
+  "compositionOnly": false,
+  "manifestSha256": "27f7f922a2b1f56be5c2231c92e2e9b60fda9b952d11e420fcaefc59130ddd03",
+  "font": {
+    "file": "assets/fonts/promo-sans.woff2",
+    "sha256": "e844596c23b7e65f2cd22f5cc1da9307f265b253a5e105fa3c65a90521b04032",
+    "missingCharacters": "",
+    "allVisibleCharactersCovered": true
+  },
+  "recordings": [
+    {
+      "id": "dock",
+      "source": "assets/sources/01-dock.mp4",
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 9,
+      "sourceDurationSeconds": 8.9,
+      "durationSeconds": 10,
+      "playbackSpeed": 1,
+      "tailHoldSeconds": 1.0999999999999996,
+      "sha256": "d01d4d4c9498d9ea9e1e7fb4e218b666da9b5bc6bc8fd5d3689bebc722675e6b"
+    },
+    {
+      "id": "search-notifications",
+      "source": "assets/sources/02-search.mp4",
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 8,
+      "sourceDurationSeconds": 7.9,
+      "durationSeconds": 10,
+      "playbackSpeed": 1,
+      "tailHoldSeconds": 2.0999999999999996,
+      "sha256": "50143848bc7899822948c08c0e84c1641519dc6adbeedda8f95b0050f43283d3"
+    },
+    {
+      "id": "pins-draft",
+      "source": "assets/sources/03-pins-draft.mp4",
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 8,
+      "sourceDurationSeconds": 7.9,
+      "durationSeconds": 10,
+      "playbackSpeed": 1,
+      "tailHoldSeconds": 2.0999999999999996,
+      "sha256": "53018dc04c75dcda84d1f5128f99330a84d1448666366085c72b8da5ddfa938c"
+    },
+    {
+      "id": "split-panels",
+      "source": "assets/sources/04-split-panels.mp4",
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 9.5,
+      "sourceDurationSeconds": 9.4,
+      "durationSeconds": 10,
+      "playbackSpeed": 1,
+      "tailHoldSeconds": 0.5999999999999996,
+      "sha256": "c6c8b37647dd0e0f770911264168267bb1d8ebbf7fc0b1637cb8bac0638da63b"
+    },
+    {
+      "id": "floating",
+      "source": "assets/sources/05-floating.mp4",
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 10.5,
+      "sourceDurationSeconds": 10.4,
+      "durationSeconds": 10,
+      "playbackSpeed": 1.04,
+      "tailHoldSeconds": 0,
+      "sha256": "84d61fb4463212d4738714d7112a13e6e6c3a14783ddb3a51a4f6a3e81785336"
+    },
+    {
+      "id": "resize-snap",
+      "source": "assets/sources/06-resize-snap.mp4",
+      "sourceStartSeconds": 0.1,
+      "sourceEndSeconds": 12,
+      "sourceDurationSeconds": 11.9,
+      "durationSeconds": 10,
+      "playbackSpeed": 1.19,
+      "tailHoldSeconds": 0,
+      "sha256": "eba5ece4f4f8995033576377a917ba4d740d2adcfd03bd03bf350f4e4506d51f"
+    }
+  ]
+}

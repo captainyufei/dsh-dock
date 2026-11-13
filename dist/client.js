@@ -33,8 +33,8 @@ __export(client_entry_exports, {
   default: () => client_entry_default
 });
 module.exports = __toCommonJS(client_entry_exports);
-var import_react10 = __toESM(require("react"), 1);
-var import_react_dom2 = require("react-dom");
+var import_react13 = __toESM(require("react"), 1);
+var import_react_dom3 = require("react-dom");
 var import_dsh_client_ui_primitives = require("@deepseek-ai/dsh-client-ui-primitives");
 
 // draft-controller.js
@@ -572,8 +572,8 @@ function createHostAdapter(ctx, options = {}) {
 }
 
 // native-controls.js
-function createNativeControls(ctx, React11, helpers = {}) {
-  const h11 = React11.createElement;
+function createNativeControls(ctx, React14, helpers = {}) {
+  const h14 = React14.createElement;
   const VOICE_SLOT = "conversation.input.activity";
   const cache = /* @__PURE__ */ new WeakMap();
   let nextVoiceId = 0;
@@ -619,7 +619,7 @@ function createNativeControls(ctx, React11, helpers = {}) {
         const subscribe = (listener) => store.subscribe(listener);
         const getSnapshot = () => store.getSnapshot();
         hookProps["use" + name[0].toUpperCase() + name.slice(1)] = function useVoiceSource(select = identity) {
-          return select(React11.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
+          return select(React14.useSyncExternalStore(subscribe, getSnapshot, getSnapshot));
         };
       }
       result = {
@@ -639,7 +639,7 @@ function createNativeControls(ctx, React11, helpers = {}) {
     return result;
   }
   function useSlotEntries(key) {
-    const subscribe = React11.useCallback((listener) => {
+    const subscribe = React14.useCallback((listener) => {
       if (typeof ctx.slots?.subscribe !== "function") return noop;
       try {
         return ctx.slots.subscribe(key, listener);
@@ -647,23 +647,23 @@ function createNativeControls(ctx, React11, helpers = {}) {
         return noop;
       }
     }, [key]);
-    const getSnapshot = React11.useCallback(() => {
+    const getSnapshot = React14.useCallback(() => {
       try {
         return ctx.slots.entries(key);
       } catch (_) {
         return [];
       }
     }, [key]);
-    const empty = React11.useRef([]);
-    const read2 = React11.useCallback(() => {
+    const empty = React14.useRef([]);
+    const read2 = React14.useCallback(() => {
       const value = getSnapshot();
       if (value.length === empty.current.length && value.every((entry, index) => entry === empty.current[index])) return empty.current;
       empty.current = value;
       return value;
     }, [getSnapshot]);
-    return React11.useSyncExternalStore(subscribe, read2, read2);
+    return React14.useSyncExternalStore(subscribe, read2, read2);
   }
-  class VoiceBoundary extends React11.Component {
+  class VoiceBoundary extends React14.Component {
     constructor(props) {
       super(props);
       this.state = { error: null };
@@ -676,7 +676,7 @@ function createNativeControls(ctx, React11, helpers = {}) {
     }
     render() {
       if (this.state.error) {
-        return h11(
+        return h14(
           "span",
           { role: "alert", className: "cgpt-home-control-error" },
           "\u9996\u9875\u8BED\u97F3\u6682\u4E0D\u53EF\u7528\uFF1A" + this.state.error
@@ -696,11 +696,11 @@ function createNativeControls(ctx, React11, helpers = {}) {
     className = ""
   }) {
     const list = useSlotEntries(VOICE_SLOT);
-    const voice = React11.useMemo(() => resolveVoice(list), [list]);
-    const [notice, setNotice] = React11.useState("");
-    const owner = React11.useRef({ locked, onError });
+    const voice = React14.useMemo(() => resolveVoice(list), [list]);
+    const [notice, setNotice] = React14.useState("");
+    const owner = React14.useRef({ locked, onError });
     owner.current = { locked, onError };
-    const localActions = React11.useMemo(() => {
+    const localActions = React14.useMemo(() => {
       if (inputActions) return inputActions;
       if (typeof controller?.getSnapshot !== "function" || typeof controller?.setText !== "function") return null;
       return createTextareaInputActions({
@@ -723,15 +723,15 @@ function createNativeControls(ctx, React11, helpers = {}) {
       });
     }, [inputActions, controller, textareaRef]);
     const validInput = typeof localActions?.captureInsertion === "function" && typeof localActions?.insertText === "function";
-    React11.useEffect(() => {
+    React14.useEffect(() => {
       setNotice("");
     }, [list]);
     const reason = voice.available && validInput ? null : voice.available ? "\u9996\u9875\u8BED\u97F3\u8349\u7A3F\u63A5\u53E3\u672A\u5C31\u7EEA\uFF0C\u8BF7\u91CD\u65B0\u6253\u5F00\u9996\u9875\u3002" : voice.reason;
     if (reason) {
-      return h11(
+      return h14(
         "span",
         { className: "cgpt-home-voice-unavailable " + className },
-        h11("button", {
+        h14("button", {
           type: "button",
           title: reason,
           "aria-label": "\u8BED\u97F3\u8F93\u5165\u4E0D\u53EF\u7528",
@@ -741,16 +741,16 @@ function createNativeControls(ctx, React11, helpers = {}) {
             report(reason, onError);
           }
         }, "\u8BED\u97F3"),
-        notice ? h11("span", { role: "status", className: "cgpt-home-control-error" }, notice) : null
+        notice ? h14("span", { role: "status", className: "cgpt-home-control-error" }, notice) : null
       );
     }
-    return h11(
+    return h14(
       "span",
       { className: "cgpt-home-native-voice " + className },
-      h11(
+      h14(
         VoiceBoundary,
         { key: draftKey + ":" + voice.id, onError },
-        h11(voice.component, {
+        h14(voice.component, {
           ...voice.props,
           sessionId: void 0,
           inputActions: localActions,
@@ -805,10 +805,10 @@ function createNativeControls(ctx, React11, helpers = {}) {
   function BrandMark({ size = 64, className = "" }) {
     const list = useSlotEntries("sidebar.brand.mark");
     const entry = list.find((candidate) => candidate.component?.name === "OfficialBrandMark" || String(candidate.registrant ?? "").includes("ui-brand-official"));
-    return h11(
+    return h14(
       "span",
       { className: "cgpt-home-brand " + className, "aria-hidden": true },
-      entry ? h11(entry.component, { size }) : h11("span", { style: { fontSize: size / 3 } }, "DeepSeek")
+      entry ? h14(entry.component, { size }) : h14("span", { style: { fontSize: size / 3 } }, "DeepSeek")
     );
   }
   return { VoiceControl, BrandMark, createTextareaInputActions, getCapabilities };
@@ -3317,6 +3317,1557 @@ function GlobalWindowChrome({ ctx, Menu: Menu2, MenuItem, Modal }) {
   return h5(import_react5.default.Fragment, null, h5("span", { ref, className: "cgpt-window-chrome-anchor", "aria-hidden": true }), host && model && (0, import_react_dom.createPortal)(h5(WindowChromeToolbar, { model, Menu: Menu2, MenuItem, Modal }), host.seat), host?.navigationSeat && navigation && (0, import_react_dom.createPortal)(h5(WindowNavigationToolbar, { model: navigation }), host.navigationSeat));
 }
 
+// conversation-layout-host.js
+var import_react8 = __toESM(require("react"), 1);
+var import_react_dom2 = require("react-dom");
+
+// conversation-layout-model.js
+var MODES = /* @__PURE__ */ new Set(["left", "right", "floating"]);
+var FLOATING_PRESENTATIONS = /* @__PURE__ */ new Set(["idle", "focused", "expanded"]);
+var STATISTICS_KEY = "dsh-dock.floating.showStatistics";
+var finite = (value) => typeof value === "number" && Number.isFinite(value);
+var sameRect = (left, right) => left.left === right.left && left.top === right.top && left.width === right.width && left.height === right.height;
+var clamp = (value, minimum, maximum) => Math.min(Math.max(value, minimum), maximum);
+function createConversationLayoutModel(options = {}) {
+  let storage = options.storage;
+  let eventTarget = options.eventTarget;
+  if (!Object.hasOwn(options, "storage")) {
+    try {
+      storage = globalThis.localStorage;
+    } catch {
+    }
+  }
+  if (!Object.hasOwn(options, "eventTarget")) {
+    try {
+      eventTarget = globalThis.window;
+    } catch {
+    }
+  }
+  const sessions = /* @__PURE__ */ new Map();
+  const listeners = /* @__PURE__ */ new Set();
+  let bounds = { left: 0, top: 0, width: 1280, height: 800, floatingHeight: 260 };
+  let context = { sessionId: null, title: "", available: false, contentOpen: false };
+  let disposed = false;
+  let storageListening = false;
+  let statisticsDirty = false;
+  let showStatistics = false;
+  try {
+    showStatistics = readStatistics();
+  } catch {
+  }
+  function readStatistics() {
+    const raw = storage?.getItem?.(STATISTICS_KEY) ?? null;
+    if (raw === null) return false;
+    try {
+      return JSON.parse(raw) === true;
+    } catch {
+      return false;
+    }
+  }
+  function syncStatistics() {
+    try {
+      const next = readStatistics();
+      statisticsDirty = false;
+      if (next === showStatistics) return;
+      showStatistics = next;
+      publish();
+    } catch {
+    }
+  }
+  function onStorage(event) {
+    if (disposed || event.key !== STATISTICS_KEY && event.key !== null) return;
+    if (event.storageArea != null && event.storageArea !== storage) return;
+    syncStatistics();
+  }
+  function detachStorage() {
+    if (!storageListening) return;
+    eventTarget.removeEventListener("storage", onStorage);
+    storageListening = false;
+  }
+  function geometry() {
+    const horizontalMargin = bounds.width >= 64 ? 16 : 0;
+    const verticalMargin = bounds.height >= 64 ? 16 : 0;
+    const maximumWidth = Math.max(0, bounds.width - horizontalMargin * 2);
+    const maximumHeight = Math.max(0, bounds.height - verticalMargin * 2);
+    return {
+      left: bounds.left + horizontalMargin,
+      top: bounds.top + verticalMargin,
+      right: bounds.left + bounds.width - horizontalMargin,
+      bottom: bounds.top + bounds.height - verticalMargin,
+      maximumWidth,
+      maximumHeight
+    };
+  }
+  function minimumExpandedHeight(preference) {
+    return Math.min((preference?.composerHeight || 48) + 42, geometry().maximumHeight);
+  }
+  function constrain(rect, preference = currentPreference()) {
+    const area = geometry();
+    const minimumWidth = Math.min(320, area.maximumWidth);
+    const width = clamp(rect.width, minimumWidth, area.maximumWidth);
+    const minimumHeight = minimumExpandedHeight(preference);
+    const height = clamp(rect.height, minimumHeight, area.maximumHeight);
+    return {
+      left: clamp(rect.left, area.left, area.right - width),
+      top: clamp(rect.top, area.top, area.bottom - height),
+      width,
+      height
+    };
+  }
+  function bottomCentered(rect, preference = currentPreference()) {
+    const area = geometry();
+    const constrained = constrain(rect, preference);
+    return {
+      ...constrained,
+      left: area.left + (area.maximumWidth - constrained.width) / 2,
+      top: area.bottom - constrained.height
+    };
+  }
+  function anchoredRect(rect, snap, preference = currentPreference()) {
+    if (snap === "bottom") return bottomCentered(rect, preference);
+    const constrained = constrain(rect, preference);
+    const area = geometry();
+    if (snap?.endsWith("left")) constrained.left = area.left;
+    if (snap?.endsWith("right")) constrained.left = area.right - constrained.width;
+    if (snap?.startsWith("top-")) constrained.top = area.top;
+    if (snap?.startsWith("bottom-")) constrained.top = area.bottom - constrained.height;
+    return constrained;
+  }
+  function defaultRect() {
+    const area = geometry();
+    return bottomCentered({
+      left: area.left,
+      top: area.top,
+      width: defaultWidth(area.maximumWidth),
+      height: bounds.floatingHeight
+    }, null);
+  }
+  function defaultWidth(maximumWidth) {
+    return Math.min(maximumWidth, clamp(Math.round(maximumWidth * 0.6), 560, 1040));
+  }
+  function bubbleRect() {
+    const area = geometry();
+    const width = Math.min(48, area.maximumWidth);
+    const height = Math.min(48, area.maximumHeight);
+    return { left: area.right - width, top: area.bottom - height, width, height };
+  }
+  function createPreference() {
+    return {
+      mode: "left",
+      minimized: false,
+      rect: defaultRect(),
+      snap: "bottom",
+      floatingPresentation: "idle",
+      composerHeight: 48,
+      displayTop: null,
+      manualWidth: null
+    };
+  }
+  function currentPreference() {
+    return sessions.get(context.sessionId);
+  }
+  function constrainDisplayRect(rect) {
+    const area = geometry();
+    const width = clamp(rect.width, Math.min(320, area.maximumWidth), area.maximumWidth);
+    const height = clamp(rect.height, 0, area.maximumHeight);
+    return {
+      left: clamp(rect.left, area.left, area.right - width),
+      top: clamp(rect.top, area.top, area.bottom - height),
+      width,
+      height
+    };
+  }
+  function displayRectangle(preference) {
+    if (!preference) return defaultRect();
+    if (preference.floatingPresentation === "expanded") return { ...preference.rect };
+    const height = preference.composerHeight + (preference.floatingPresentation === "focused" ? 42 : 2);
+    const top = preference.displayTop ?? (preference.snap?.startsWith("top-") ? preference.rect.top : preference.rect.top + preference.rect.height - height);
+    return constrainDisplayRect({ ...preference.rect, top, height });
+  }
+  function createSnapshot() {
+    const preference = currentPreference();
+    const available = Boolean(context.sessionId && context.available);
+    const minimized = available && preference.minimized;
+    return Object.freeze({
+      ...context,
+      available,
+      showStatistics,
+      mode: available ? preference.mode : "left",
+      minimized,
+      floatingPresentation: available ? preference.floatingPresentation : "idle",
+      rect: Object.freeze({ ...preference?.rect || defaultRect() }),
+      displayRect: Object.freeze(minimized ? bubbleRect() : displayRectangle(preference)),
+      bubbleRect: Object.freeze(bubbleRect())
+    });
+  }
+  let snapshot2 = createSnapshot();
+  let publishedMaximumWidth = geometry().maximumWidth;
+  let publishedMaximumHeight = geometry().maximumHeight;
+  function publish() {
+    const next = createSnapshot();
+    const { maximumWidth, maximumHeight } = geometry();
+    if (snapshot2.sessionId === next.sessionId && snapshot2.title === next.title && snapshot2.available === next.available && snapshot2.mode === next.mode && snapshot2.contentOpen === next.contentOpen && snapshot2.showStatistics === next.showStatistics && snapshot2.floatingPresentation === next.floatingPresentation && publishedMaximumWidth === maximumWidth && publishedMaximumHeight === maximumHeight && snapshot2.minimized === next.minimized && sameRect(snapshot2.rect, next.rect) && sameRect(snapshot2.displayRect, next.displayRect) && sameRect(snapshot2.bubbleRect, next.bubbleRect)) return false;
+    snapshot2 = next;
+    publishedMaximumWidth = maximumWidth;
+    publishedMaximumHeight = maximumHeight;
+    for (const listener of [...listeners]) {
+      try {
+        listener();
+      } catch {
+      }
+    }
+    return true;
+  }
+  return {
+    getSnapshot() {
+      return snapshot2;
+    },
+    getResizeLimits(axis = "width") {
+      const area = geometry();
+      if (axis === "height") return { min: minimumExpandedHeight(currentPreference()), max: area.maximumHeight };
+      return { min: Math.min(320, area.maximumWidth), max: area.maximumWidth };
+    },
+    getFloatingBounds() {
+      const area = geometry();
+      return {
+        left: area.left,
+        top: area.top,
+        right: area.right,
+        bottom: area.bottom,
+        width: area.maximumWidth,
+        height: area.maximumHeight
+      };
+    },
+    subscribe(listener) {
+      if (disposed || typeof listener !== "function") return () => {
+      };
+      const registered = () => listener();
+      listeners.add(registered);
+      if (listeners.size === 1) {
+        if (typeof eventTarget?.addEventListener === "function" && typeof eventTarget?.removeEventListener === "function") {
+          eventTarget.addEventListener("storage", onStorage);
+          storageListening = true;
+        }
+        if (!statisticsDirty) syncStatistics();
+      }
+      return () => {
+        listeners.delete(registered);
+        if (listeners.size === 0) detachStorage();
+      };
+    },
+    setShowStatistics(value) {
+      if (disposed) return false;
+      if (typeof value !== "boolean") throw new TypeError("\u663E\u793A\u7528\u91CF\u7EDF\u8BA1\u5FC5\u987B\u662F\u5E03\u5C14\u503C\u3002");
+      let failure4;
+      let saveFailed = false;
+      try {
+        if (typeof storage?.setItem !== "function") throw new Error("\u672C\u5730\u5B58\u50A8\u4E0D\u53EF\u7528\u3002");
+        storage.setItem(STATISTICS_KEY, JSON.stringify(value));
+        statisticsDirty = false;
+      } catch (error) {
+        failure4 = error;
+        saveFailed = true;
+        statisticsDirty = true;
+      }
+      showStatistics = value;
+      const changed = publish();
+      if (saveFailed) {
+        throw Object.assign(new Error("\u672C\u6B21\u663E\u793A\u8BBE\u7F6E\u5DF2\u5E94\u7528\uFF0C\u4F46\u672A\u80FD\u4FDD\u5B58\u5230\u672C\u673A\uFF0C\u5237\u65B0\u540E\u53EF\u80FD\u6062\u590D\u3002", { cause: failure4 }), {
+          code: "STATISTICS_PREFERENCE_NOT_SAVED"
+        });
+      }
+      return changed;
+    },
+    setContext(value = {}) {
+      if (disposed) return false;
+      const sessionId = typeof value?.sessionId === "string" && value.sessionId.trim() ? value.sessionId.trim() : null;
+      context = {
+        sessionId,
+        title: typeof value?.title === "string" ? value.title.trim() : "",
+        available: Boolean(sessionId && value?.available),
+        contentOpen: Boolean(sessionId && value?.available && value?.contentOpen)
+      };
+      if (sessionId && !sessions.has(sessionId)) sessions.set(sessionId, createPreference());
+      return publish();
+    },
+    setMode(mode) {
+      const preference = currentPreference();
+      if (disposed || !context.available || !preference || !MODES.has(mode)) return false;
+      preference.mode = mode;
+      if (mode !== "floating") preference.minimized = false;
+      return publish();
+    },
+    setMinimized(minimized) {
+      const preference = currentPreference();
+      if (disposed || !context.available || preference?.mode !== "floating" || typeof minimized !== "boolean") return false;
+      preference.minimized = minimized;
+      return publish();
+    },
+    setFloatingPresentation(value) {
+      const preference = currentPreference();
+      if (disposed || !context.available || preference?.mode !== "floating" || !FLOATING_PRESENTATIONS.has(value) || preference.floatingPresentation === value) return false;
+      const previous = displayRectangle(preference);
+      preference.floatingPresentation = value;
+      if (value === "expanded") {
+        const top = preference.snap?.startsWith("top-") ? previous.top : previous.top + previous.height - preference.rect.height;
+        preference.rect = anchoredRect({ ...preference.rect, top }, preference.snap, preference);
+        preference.displayTop = null;
+      } else {
+        const height = preference.composerHeight + (value === "focused" ? 42 : 2);
+        preference.displayTop = preference.snap?.startsWith("top-") ? previous.top : previous.top + previous.height - height;
+        if (preference.snap === "bottom" || preference.snap?.includes("-")) preference.displayTop = null;
+      }
+      return publish();
+    },
+    setComposerHeight(height) {
+      const preference = currentPreference();
+      if (disposed || !context.available || !preference || !finite(height) || height <= 0 || preference.composerHeight === height) return false;
+      const previous = displayRectangle(preference);
+      const bottom = preference.rect.top + preference.rect.height;
+      preference.composerHeight = height;
+      const expandedHeight = Math.max(preference.rect.height, minimumExpandedHeight(preference));
+      const top = preference.snap?.startsWith("top-") ? preference.rect.top : bottom - expandedHeight;
+      preference.rect = anchoredRect({ ...preference.rect, top, height: expandedHeight }, preference.snap, preference);
+      if (preference.displayTop !== null) {
+        const displayHeight = height + (preference.floatingPresentation === "focused" ? 42 : 2);
+        preference.displayTop = preference.snap?.startsWith("top-") ? previous.top : previous.top + previous.height - displayHeight;
+      }
+      return publish();
+    },
+    setRect(value = {}) {
+      const preference = currentPreference();
+      if (disposed || !context.available || !preference) return false;
+      const rect = { ...preference.rect };
+      let accepted = false;
+      for (const field of ["left", "top", "width", "height"]) {
+        if (!finite(value?.[field]) || ["width", "height"].includes(field) && value[field] < 0) continue;
+        rect[field] = value[field];
+        accepted = true;
+      }
+      if (!accepted) return false;
+      if (finite(value?.width) && value.width >= 0) preference.manualWidth = value.width;
+      preference.rect = constrain(rect);
+      preference.snap = null;
+      preference.displayTop = null;
+      return publish();
+    },
+    setDisplayRect(value = {}) {
+      const preference = currentPreference();
+      if (disposed || !context.available || preference?.mode !== "floating") return false;
+      const previous = displayRectangle(preference);
+      const next = { ...previous };
+      let accepted = false;
+      for (const field of ["left", "top", "width"]) {
+        if (!finite(value?.[field]) || field === "width" && value[field] < 0) continue;
+        next[field] = value[field];
+        accepted = true;
+      }
+      if (!accepted) return false;
+      if (next.width !== previous.width) preference.manualWidth = next.width;
+      const visible = constrainDisplayRect(next);
+      const top = visible.top + visible.height - preference.rect.height;
+      preference.rect = constrain({ ...preference.rect, left: visible.left, top, width: visible.width });
+      preference.displayTop = preference.floatingPresentation === "expanded" ? null : visible.top;
+      preference.snap = null;
+      return publish();
+    },
+    resizeFromEdge(edge, delta, originRect) {
+      const preference = currentPreference();
+      if (disposed || !context.available || preference?.mode !== "floating" || !["left", "right", "top", "bottom"].includes(edge) || !finite(delta) || delta === 0) return false;
+      const origin = originRect || displayRectangle(preference);
+      const height = origin.height === void 0 ? preference.rect.height : origin.height;
+      if (!finite(origin.left) || !finite(origin.top) || !finite(origin.width) || !finite(height) || origin.width < 0 || height < 0) return false;
+      const initial = constrainDisplayRect({ ...origin, height });
+      const area = geometry();
+      const minimumWidth = Math.min(320, area.maximumWidth);
+      const minimumHeight = minimumExpandedHeight(preference);
+      let left = initial.left;
+      let right = initial.left + initial.width;
+      let top = initial.top;
+      let bottom = initial.top + initial.height;
+      if (edge === "left") left = clamp(initial.left + delta, area.left, right - minimumWidth);
+      if (edge === "right") right = clamp(right + delta, left + minimumWidth, area.right);
+      if (edge === "top") top = clamp(initial.top + delta, area.top, bottom - minimumHeight);
+      if (edge === "bottom") bottom = clamp(bottom + delta, top + minimumHeight, area.bottom);
+      if (edge === "top" || edge === "bottom") {
+        preference.rect = constrain({ left, top, width: right - left, height: bottom - top }, preference);
+        preference.floatingPresentation = "expanded";
+        preference.displayTop = null;
+      } else {
+        preference.manualWidth = right - left;
+        preference.rect = constrain({ ...preference.rect, left, width: right - left });
+        preference.displayTop = preference.floatingPresentation === "expanded" ? null : initial.top;
+      }
+      preference.snap = null;
+      return publish();
+    },
+    snapToBottom() {
+      const preference = currentPreference();
+      if (disposed || !context.available || !preference) return false;
+      preference.rect = bottomCentered(preference.rect);
+      preference.snap = "bottom";
+      preference.displayTop = null;
+      return publish();
+    },
+    snapToEdge(side) {
+      const preference = currentPreference();
+      if (disposed || !context.available || preference?.mode !== "floating" || !["left", "right"].includes(side)) return false;
+      const previous = displayRectangle(preference);
+      preference.rect = anchoredRect(preference.rect, side);
+      preference.snap = side;
+      preference.displayTop = preference.floatingPresentation === "expanded" ? null : previous.top;
+      return publish();
+    },
+    snapAfterDrag() {
+      const preference = currentPreference();
+      if (disposed || !context.available || preference?.mode !== "floating" || preference.minimized) return false;
+      const rectangle = displayRectangle(preference);
+      const area = geometry();
+      const horizontalSpan = area.maximumWidth - rectangle.width;
+      const verticalSpan = area.maximumHeight - rectangle.height;
+      const horizontal = horizontalSpan > 0 ? (rectangle.left - area.left) / horizontalSpan : 0.5;
+      const vertical = verticalSpan > 0 ? (rectangle.top - area.top) / verticalSpan : 0.5;
+      let snap = "bottom";
+      if (horizontal <= 1 / 3 || horizontal >= 2 / 3) {
+        const side = horizontal <= 1 / 3 ? "left" : "right";
+        snap = (vertical < 0.5 ? "top-" : "bottom-") + side;
+      }
+      preference.rect = anchoredRect(preference.rect, snap);
+      preference.snap = snap;
+      preference.displayTop = null;
+      return publish();
+    },
+    setBounds(value = {}) {
+      if (disposed) return false;
+      const next = { ...bounds };
+      for (const field of ["left", "top", "width", "height", "floatingHeight"]) {
+        if (!finite(value?.[field])) continue;
+        if (["width", "height", "floatingHeight"].includes(field) && value[field] < 0) continue;
+        next[field] = value[field];
+      }
+      bounds = next;
+      for (const preference of sessions.values()) {
+        const width = preference.manualWidth ?? defaultWidth(geometry().maximumWidth);
+        preference.rect = anchoredRect({ ...preference.rect, width }, preference.snap, preference);
+        if (preference.displayTop !== null) preference.displayTop = displayRectangle(preference).top;
+      }
+      return publish();
+    },
+    reset() {
+      if (disposed || !context.sessionId) return false;
+      sessions.set(context.sessionId, createPreference());
+      return publish();
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      detachStorage();
+      sessions.clear();
+      listeners.clear();
+    }
+  };
+}
+
+// conversation-layout-ui.js
+var import_react6 = __toESM(require("react"), 1);
+var h6 = import_react6.default.createElement;
+var stopPropagation = (event) => event.stopPropagation();
+var iconPaths = {
+  left: "M3 3h14v14H3zM8 3v14M12 7l-3 3 3 3",
+  right: "M3 3h14v14H3zM12 3v14M8 7l3 3-3 3",
+  floating: "M3 4h14v12H3zM6 10h8v4H6z",
+  full: "M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4",
+  minimize: "M4 10h12",
+  menu: "M7 4h.01M13 4h.01M7 10h.01M13 10h.01M7 16h.01M13 16h.01",
+  conversation: "M17 9a6 6 0 0 1-6 6H7l-4 2 1-4a6 6 0 1 1 13-4Z"
+};
+function LayoutIcon({ kind, size = 16 }) {
+  return h6("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 20 20",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: kind === "menu" ? 2.4 : 1.4,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": true
+  }, h6("path", { d: iconPaths[kind] || iconPaths.menu }));
+}
+function useLayoutActionState(model, sessionId) {
+  const [pending, setPending] = import_react6.default.useState(null);
+  const [error, setError] = import_react6.default.useState(null);
+  const alive = import_react6.default.useRef(false);
+  const operation = import_react6.default.useRef(null);
+  import_react6.default.useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+      operation.current = null;
+    };
+  }, [model]);
+  import_react6.default.useEffect(() => {
+    setError(null);
+  }, [model, sessionId]);
+  function reportError(reason) {
+    if (!alive.current || model.getSnapshot().sessionId !== sessionId) return;
+    setError({ sessionId, text: reason?.message || "\u6682\u65F6\u65E0\u6CD5\u8C03\u6574\u4F1A\u8BDD\u5E03\u5C40\uFF0C\u8BF7\u91CD\u8BD5\u3002" });
+  }
+  async function run(action) {
+    if (operation.current || !model.getSnapshot().available) return;
+    const ticket = { sessionId };
+    operation.current = ticket;
+    setPending(ticket);
+    setError(null);
+    try {
+      await action();
+    } catch (reason) {
+      if (operation.current === ticket && reason?.code !== "cancelled") reportError(reason);
+    } finally {
+      if (alive.current && operation.current === ticket) {
+        operation.current = null;
+        setPending(null);
+      }
+    }
+  }
+  return {
+    busy: Boolean(pending && pending.sessionId === sessionId),
+    error: error?.sessionId === sessionId ? error.text : null,
+    dismissError: () => setError(null),
+    reportError,
+    run
+  };
+}
+function LayoutNotice({ error, dismissError }) {
+  if (!error) return null;
+  return h6(
+    "div",
+    { className: "cgpt-conversation-layout-notice", role: "alert" },
+    h6("span", null, error),
+    h6("button", { type: "button", "aria-label": "\u5173\u95ED\u5E03\u5C40\u63D0\u793A", onClick: dismissError }, "\xD7")
+  );
+}
+function watchGestureViewport(element, cancel) {
+  const viewport = element.ownerDocument?.defaultView;
+  const visualViewport = viewport?.visualViewport;
+  viewport?.addEventListener("resize", cancel);
+  viewport?.addEventListener("blur", cancel);
+  visualViewport?.addEventListener("resize", cancel);
+  return () => {
+    viewport?.removeEventListener("resize", cancel);
+    viewport?.removeEventListener("blur", cancel);
+    visualViewport?.removeEventListener("resize", cancel);
+  };
+}
+function LayoutMenu({ model, snapshot: snapshot2, actions, state, Menu: Menu2, MenuItem }) {
+  const button = import_react6.default.useRef(null);
+  const [open, setOpen] = import_react6.default.useState(false);
+  const disabled = !snapshot2.available || state.busy;
+  const close = import_react6.default.useCallback(() => setOpen(false), []);
+  import_react6.default.useEffect(close, [close, model, snapshot2.sessionId, snapshot2.mode, snapshot2.available]);
+  import_react6.default.useEffect(() => {
+    if (!open) return void 0;
+    const trigger = button.current;
+    const ownerDocument = trigger?.ownerDocument;
+    if (!ownerDocument) return void 0;
+    function dismissOutside(event) {
+      const path = event.composedPath?.() ?? [event.target];
+      const inside = path.some((node) => node === trigger || node?.nodeType && trigger.contains?.(node) || node?.classList?.contains("cgpt-conversation-layout-menu-list"));
+      if (!inside) close();
+    }
+    ownerDocument.addEventListener("pointerdown", dismissOutside, true);
+    return () => ownerDocument.removeEventListener("pointerdown", dismissOutside, true);
+  }, [open, close]);
+  function toggle(event) {
+    event.stopPropagation();
+    if (disabled) return;
+    setOpen((value) => !value);
+  }
+  function selectMode(mode) {
+    close();
+    void state.run(() => actions.setMode(mode));
+  }
+  function showConversation() {
+    close();
+    void state.run(() => actions.showConversation());
+  }
+  function toggleStatistics() {
+    const sessionId = snapshot2.sessionId;
+    close();
+    void state.run(() => {
+      const current = model.getSnapshot();
+      if (current.sessionId !== sessionId || current.mode !== "floating" || current.minimized) return;
+      return model.setShowStatistics(!current.showStatistics);
+    });
+  }
+  const anchor = h6("button", {
+    ref: button,
+    type: "button",
+    className: "cgpt-conversation-layout-button",
+    "aria-label": "\u4F1A\u8BDD\u5E03\u5C40",
+    title: "\u4F1A\u8BDD\u5E03\u5C40",
+    "aria-haspopup": "menu",
+    "aria-expanded": open,
+    "aria-busy": state.busy,
+    disabled,
+    onClick: toggle,
+    onPointerDown: stopPropagation
+  }, h6(LayoutIcon, { kind: "menu" }));
+  return h6(
+    Menu2,
+    {
+      open,
+      anchor,
+      anchorRef: button,
+      portal: true,
+      autoFocus: true,
+      align: "end",
+      className: "cgpt-conversation-layout-menu",
+      listClassName: "cgpt-conversation-layout-menu-list",
+      onClose: close
+    },
+    h6(MenuItem, {
+      icon: h6(LayoutIcon, { kind: "left" }),
+      selected: snapshot2.mode === "left",
+      disabled,
+      onSelect: () => selectMode("left")
+    }, "\u79FB\u81F3\u5DE6\u4FA7\u7A97\u683C"),
+    h6(MenuItem, {
+      icon: h6(LayoutIcon, { kind: "right" }),
+      selected: snapshot2.mode === "right",
+      disabled,
+      onSelect: () => selectMode("right")
+    }, "\u79FB\u81F3\u53F3\u4FA7\u7A97\u683C"),
+    h6(MenuItem, {
+      icon: h6(LayoutIcon, { kind: "floating" }),
+      selected: snapshot2.mode === "floating",
+      disabled,
+      onSelect: () => selectMode("floating")
+    }, "\u60AC\u6D6E\u8F93\u5165\u6846"),
+    h6(MenuItem, {
+      icon: h6(LayoutIcon, { kind: "full" }),
+      disabled,
+      onSelect: showConversation
+    }, "\u4F1A\u8BDD\u5B8C\u6574\u89C6\u56FE"),
+    h6(MenuItem, {
+      separatorBefore: true,
+      selected: Boolean(snapshot2.showStatistics),
+      "aria-label": "\u663E\u793A\u4F1A\u8BDD\u7528\u91CF\uFF0C" + (snapshot2.showStatistics ? "\u5DF2\u5F00\u542F" : "\u5DF2\u5173\u95ED"),
+      disabled,
+      onSelect: toggleStatistics
+    }, "\u663E\u793A\u4F1A\u8BDD\u7528\u91CF")
+  );
+}
+function FloatingConversationHeader({ model, actions, Menu: Menu2, MenuItem }) {
+  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const state = useLayoutActionState(model, snapshot2.sessionId);
+  const drag = import_react6.default.useRef(null);
+  const draggedTitle = import_react6.default.useRef(false);
+  const header = import_react6.default.useRef(null);
+  const restoreButton = import_react6.default.useRef(null);
+  const previousPresentation = import_react6.default.useRef({ sessionId: snapshot2.sessionId, minimized: snapshot2.minimized });
+  import_react6.default.useLayoutEffect(() => {
+    const previous = previousPresentation.current;
+    previousPresentation.current = { sessionId: snapshot2.sessionId, minimized: snapshot2.minimized };
+    if (!snapshot2.available || snapshot2.mode !== "floating" || previous.sessionId !== snapshot2.sessionId || previous.minimized === snapshot2.minimized) return void 0;
+    const control = snapshot2.minimized ? restoreButton.current : header.current;
+    const content = control?.closest?.("[data-cgpt-conversation-content]");
+    const viewport = content?.ownerDocument?.defaultView;
+    const restoreFocus = () => {
+      const current = model.getSnapshot();
+      if (!current.available || current.sessionId !== snapshot2.sessionId || current.minimized !== snapshot2.minimized || current.mode !== "floating") return;
+      const target = current.minimized ? restoreButton.current : content?.querySelector('[contenteditable="true"]');
+      target?.focus({ preventScroll: true });
+    };
+    if (!viewport?.requestAnimationFrame) {
+      restoreFocus();
+      return void 0;
+    }
+    const frame = viewport.requestAnimationFrame(restoreFocus);
+    return () => viewport.cancelAnimationFrame(frame);
+  }, [model, snapshot2.sessionId, snapshot2.mode, snapshot2.available, snapshot2.minimized]);
+  function finishDrag() {
+    const previous = drag.current;
+    drag.current = null;
+    if (!previous) return;
+    previous.stopViewport();
+    previous.stopPointer();
+    previous.element.removeAttribute("data-dragging");
+    if (previous.active && previous.content?.getAttribute("data-cgpt-floating-dragging") === "") {
+      if (previous.previousDragging === null) previous.content.removeAttribute("data-cgpt-floating-dragging");
+      else previous.content.setAttribute("data-cgpt-floating-dragging", previous.previousDragging);
+    }
+    if (previous.element.hasPointerCapture?.(previous.pointerId)) {
+      previous.element.releasePointerCapture(previous.pointerId);
+    }
+  }
+  import_react6.default.useEffect(() => {
+    return finishDrag;
+  }, [model, snapshot2.sessionId, snapshot2.mode, snapshot2.available, snapshot2.minimized]);
+  function startDrag(event) {
+    if (event.button !== 0 || event.isPrimary === false || !snapshot2.available || state.busy) return;
+    const current = model.getSnapshot();
+    if (current.mode !== "floating" || current.minimized || current.sessionId !== snapshot2.sessionId) return;
+    const element = event.currentTarget;
+    const content = element.closest?.("[data-cgpt-conversation-content]");
+    const viewport = element.ownerDocument?.defaultView;
+    finishDrag();
+    draggedTitle.current = false;
+    drag.current = {
+      element,
+      content,
+      previousDragging: content?.getAttribute("data-cgpt-floating-dragging") ?? null,
+      active: false,
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      rect: { ...current.displayRect },
+      sessionId: current.sessionId,
+      stopViewport: watchGestureViewport(element, settleDrag),
+      stopPointer: () => {
+        viewport?.removeEventListener("pointermove", moveDrag, true);
+        viewport?.removeEventListener("pointerup", endDrag, true);
+        viewport?.removeEventListener("pointercancel", cancelDrag, true);
+      }
+    };
+    viewport?.addEventListener("pointermove", moveDrag, true);
+    viewport?.addEventListener("pointerup", endDrag, true);
+    viewport?.addEventListener("pointercancel", cancelDrag, true);
+    element.focus({ preventScroll: true });
+    event.stopPropagation();
+  }
+  function moveDrag(event) {
+    const current = drag.current;
+    if (!current || event.pointerId !== current.pointerId) return;
+    const latest = model.getSnapshot();
+    if (!latest.available || latest.mode !== "floating" || latest.minimized || latest.sessionId !== current.sessionId) {
+      finishDrag();
+      return;
+    }
+    if (!current.active && event.type !== "pointerup" && event.buttons === 0) return;
+    const deltaX = event.clientX - current.x;
+    const deltaY = event.clientY - current.y;
+    if (!current.active && Math.hypot(deltaX, deltaY) < 4) return;
+    if (!current.active) {
+      if (event.type !== "pointerup") {
+        try {
+          current.element.setPointerCapture(event.pointerId);
+        } catch (reason) {
+          finishDrag();
+          state.reportError(reason);
+          return;
+        }
+      }
+      current.active = true;
+      draggedTitle.current = true;
+      current.element.setAttribute("data-dragging", "");
+      current.content?.setAttribute("data-cgpt-floating-dragging", "");
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    try {
+      model.setDisplayRect({
+        ...current.rect,
+        left: current.rect.left + deltaX,
+        top: current.rect.top + deltaY
+      });
+    } catch (reason) {
+      finishDrag();
+      state.reportError(reason);
+    }
+  }
+  function endDrag(event) {
+    const current = drag.current;
+    if (!current || event.pointerId !== current.pointerId) return;
+    if (Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) moveDrag(event);
+    if (drag.current === current) settleDrag();
+  }
+  function settleDrag() {
+    const current = drag.current;
+    if (!current) return;
+    const latest = model.getSnapshot();
+    const shouldSnap = current.active && latest.available && latest.mode === "floating" && !latest.minimized && latest.sessionId === current.sessionId;
+    finishDrag();
+    if (!shouldSnap) return;
+    try {
+      model.snapAfterDrag();
+    } catch (reason) {
+      state.reportError(reason);
+    }
+  }
+  function cancelDrag(event) {
+    if (event.pointerId === drag.current?.pointerId) settleDrag();
+  }
+  function loseDragCapture(event) {
+    if (event.pointerId === drag.current?.pointerId && !drag.current.active) finishDrag();
+  }
+  function moveWithKeyboard(event) {
+    const directions = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
+    const direction = directions[event.key];
+    if (!direction || event.altKey || event.ctrlKey || event.metaKey || !snapshot2.available) return;
+    const current = model.getSnapshot();
+    if (current.mode !== "floating" || current.sessionId !== snapshot2.sessionId) return;
+    event.preventDefault();
+    event.stopPropagation();
+    finishDrag();
+    const step = event.shiftKey ? 40 : 10;
+    try {
+      model.setDisplayRect({
+        ...current.displayRect,
+        left: current.displayRect.left + direction[0] * step,
+        top: current.displayRect.top + direction[1] * step
+      });
+    } catch (reason) {
+      state.reportError(reason);
+    }
+  }
+  function toggleTranscript(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    finishDrag();
+    const current = model.getSnapshot();
+    if (state.busy || current.sessionId !== snapshot2.sessionId || current.minimized) return;
+    model.setFloatingPresentation(current.floatingPresentation === "expanded" ? "focused" : "expanded");
+  }
+  function titleKeyDown(event) {
+    if (event.key === "Enter" || event.key === " ") toggleTranscript(event);
+    else moveWithKeyboard(event);
+  }
+  function headerClick(event) {
+    event.stopPropagation();
+    if (draggedTitle.current || event.target?.closest?.('button, [role="menuitem"]')) return;
+    toggleTranscript(event);
+  }
+  if (!snapshot2.available || snapshot2.mode !== "floating") return null;
+  if (snapshot2.minimized) {
+    return h6("button", {
+      ref: restoreButton,
+      type: "button",
+      className: "cgpt-floating-conversation-restore",
+      "aria-label": "\u6062\u590D\u60AC\u6D6E\u8F93\u5165\u6846",
+      title: "\u6062\u590D\u60AC\u6D6E\u8F93\u5165\u6846",
+      disabled: state.busy,
+      onClick: () => void state.run(() => model.setMinimized(false)),
+      onPointerDown: stopPropagation,
+      onContextMenu: stopPropagation
+    }, h6(LayoutIcon, { kind: "conversation", size: 24 }));
+  }
+  const minimizeLabel = "\u6700\u5C0F\u5316\u8F93\u5165\u6846";
+  return h6(
+    "div",
+    {
+      ref: header,
+      className: "cgpt-floating-conversation-header",
+      onPointerDown: () => {
+        draggedTitle.current = false;
+      },
+      onClick: headerClick,
+      onDoubleClick: stopPropagation,
+      onContextMenu: stopPropagation
+    },
+    h6("button", {
+      type: "button",
+      className: "cgpt-conversation-layout-button",
+      title: minimizeLabel,
+      "aria-label": minimizeLabel,
+      disabled: !snapshot2.available || state.busy,
+      onClick: () => void state.run(() => model.setMinimized(!model.getSnapshot().minimized)),
+      onPointerDown: stopPropagation
+    }, h6(LayoutIcon, { kind: "minimize" })),
+    h6(
+      "div",
+      {
+        className: "cgpt-floating-conversation-drag-handle",
+        role: "group",
+        tabIndex: snapshot2.available ? 0 : -1,
+        "aria-label": "\u79FB\u52A8\u60AC\u6D6E\u8F93\u5165\u6846\uFF0C\u53EF\u4F7F\u7528\u65B9\u5411\u952E\uFF0C\u6309\u4F4F Shift \u52A0\u901F",
+        "aria-keyshortcuts": "ArrowLeft ArrowRight ArrowUp ArrowDown Shift+ArrowLeft Shift+ArrowRight Shift+ArrowUp Shift+ArrowDown",
+        "aria-expanded": snapshot2.floatingPresentation === "expanded",
+        title: snapshot2.floatingPresentation === "expanded" ? "\u5355\u51FB\u6536\u8D77\u5386\u53F2\u6D88\u606F" : "\u5355\u51FB\u5C55\u5F00\u5386\u53F2\u6D88\u606F",
+        onPointerDown: startDrag,
+        onPointerMove: moveDrag,
+        onPointerUp: endDrag,
+        onPointerCancel: cancelDrag,
+        onLostPointerCapture: loseDragCapture,
+        onKeyDown: titleKeyDown
+      },
+      h6(LayoutIcon, { kind: "conversation" }),
+      h6("span", { className: "cgpt-floating-conversation-title", title: snapshot2.title || "\u5F53\u524D\u4F1A\u8BDD" }, snapshot2.title || "\u5F53\u524D\u4F1A\u8BDD")
+    ),
+    h6(LayoutMenu, { model, snapshot: snapshot2, actions, state, Menu: Menu2, MenuItem }),
+    h6(LayoutNotice, state)
+  );
+}
+function FloatingConversationResizeHandles({ model }) {
+  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const resizing = import_react6.default.useRef(null);
+  function finishResize() {
+    const previous = resizing.current;
+    resizing.current = null;
+    if (!previous) return;
+    previous.stopViewport();
+    previous.element.removeAttribute("data-resizing");
+    if (previous.element.hasPointerCapture?.(previous.pointerId)) {
+      previous.element.releasePointerCapture(previous.pointerId);
+    }
+  }
+  import_react6.default.useEffect(() => finishResize, [model, snapshot2.sessionId, snapshot2.mode, snapshot2.available, snapshot2.minimized]);
+  function startResize(edge, event) {
+    if (event.button !== 0 || event.isPrimary === false) return;
+    const current = model.getSnapshot();
+    if (!current.available || current.mode !== "floating" || current.minimized || current.sessionId !== snapshot2.sessionId) return;
+    finishResize();
+    const element = event.currentTarget;
+    resizing.current = {
+      edge,
+      element,
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      rect: { ...current.displayRect },
+      sessionId: current.sessionId,
+      stopViewport: watchGestureViewport(element, finishResize)
+    };
+    try {
+      element.setPointerCapture(event.pointerId);
+    } catch {
+      finishResize();
+      return;
+    }
+    element.setAttribute("data-resizing", "");
+    element.focus({ preventScroll: true });
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  function moveResize(event) {
+    const current = resizing.current;
+    if (!current || event.pointerId !== current.pointerId) return;
+    const latest = model.getSnapshot();
+    if (!latest.available || latest.mode !== "floating" || latest.minimized || latest.sessionId !== current.sessionId) {
+      finishResize();
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    const vertical = current.edge === "top" || current.edge === "bottom";
+    const delta = vertical ? event.clientY - current.y : event.clientX - current.x;
+    model.resizeFromEdge(current.edge, delta, current.rect);
+  }
+  function endResize(event) {
+    if (event.pointerId !== resizing.current?.pointerId) return;
+    const vertical = resizing.current.edge === "top" || resizing.current.edge === "bottom";
+    if (Number.isFinite(vertical ? event.clientY : event.clientX)) moveResize(event);
+    finishResize();
+  }
+  function cancelResize(event) {
+    if (event.pointerId === resizing.current?.pointerId) finishResize();
+  }
+  function resizeWithKeyboard(edge, event) {
+    const vertical = edge === "top" || edge === "bottom";
+    const decreaseKey = vertical ? "ArrowUp" : "ArrowLeft";
+    const increaseKey = vertical ? "ArrowDown" : "ArrowRight";
+    if (![decreaseKey, increaseKey].includes(event.key) || event.altKey || event.ctrlKey || event.metaKey) return;
+    const current = model.getSnapshot();
+    if (!current.available || current.mode !== "floating" || current.minimized || current.sessionId !== snapshot2.sessionId) return;
+    event.preventDefault();
+    event.stopPropagation();
+    finishResize();
+    const step = event.shiftKey ? 40 : 10;
+    model.resizeFromEdge(edge, event.key === decreaseKey ? -step : step, current.displayRect);
+  }
+  if (!snapshot2.available || snapshot2.mode !== "floating" || snapshot2.minimized) return null;
+  return h6(import_react6.default.Fragment, null, ["left", "right", "top", "bottom"].map((edge) => {
+    const vertical = edge === "top" || edge === "bottom";
+    const axis = vertical ? "height" : "width";
+    const limits = model.getResizeLimits(axis);
+    const label = { left: "\u5DE6", right: "\u53F3", top: "\u4E0A", bottom: "\u4E0B" }[edge];
+    return h6("div", {
+      key: edge,
+      className: "cgpt-floating-conversation-resize-handle",
+      "data-edge": edge,
+      role: "separator",
+      tabIndex: 0,
+      "aria-label": "\u8C03\u6574\u60AC\u6D6E\u8F93\u5165\u6846" + label + "\u8FB9\u7F18" + (vertical ? "\u9AD8\u5EA6" : "\u5BBD\u5EA6"),
+      "aria-orientation": vertical ? "horizontal" : "vertical",
+      "aria-valuemin": Math.min(limits.min, snapshot2.displayRect[axis]),
+      "aria-valuemax": limits.max,
+      "aria-valuenow": snapshot2.displayRect[axis],
+      "aria-valuetext": Math.round(snapshot2.displayRect[axis]) + " \u50CF\u7D20",
+      "aria-keyshortcuts": vertical ? "ArrowUp ArrowDown Shift+ArrowUp Shift+ArrowDown" : "ArrowLeft ArrowRight Shift+ArrowLeft Shift+ArrowRight",
+      onPointerDown: (event) => startResize(edge, event),
+      onPointerMove: moveResize,
+      onPointerUp: endResize,
+      onPointerCancel: cancelResize,
+      onLostPointerCapture: cancelResize,
+      onKeyDown: (event) => resizeWithKeyboard(edge, event),
+      onClick: stopPropagation
+    });
+  }));
+}
+
+// conversation-layout-menu.js
+var CONTRIBUTION_ID = "chatgpt-rail.conversation-layout";
+var FAILURE_LABEL = "\u8C03\u6574\u5E03\u5C40\u5931\u8D25\uFF0C\u8BF7\u5728\u5F53\u524D\u4F1A\u8BDD\u91CD\u65B0\u6253\u5F00\u83DC\u5355\u540E\u91CD\u8BD5\u3002";
+function canMove(snapshot2, sessionId) {
+  return snapshot2.sessionId === sessionId && snapshot2.available && snapshot2.contentOpen && (snapshot2.mode === "left" || snapshot2.mode === "right");
+}
+function installConversationLayoutMenu(ctx, { model, actions }) {
+  let menus;
+  try {
+    menus = ctx.get?.("contextMenus") ?? ctx.contextMenus;
+  } catch {
+    return () => {
+    };
+  }
+  if (typeof menus?.register !== "function") return () => {
+  };
+  let disposed = false;
+  const unregister = menus.register({
+    id: CONTRIBUTION_ID,
+    target: "sessionHeader",
+    order: 400,
+    observe: () => [model],
+    resolve({ sessionId }, signal) {
+      const snapshot2 = model.getSnapshot();
+      if (disposed || signal?.aborted || !canMove(snapshot2, sessionId)) return [];
+      const sourceMode = snapshot2.mode;
+      const destination = sourceMode === "left" ? "right" : "left";
+      return [{
+        id: "move-" + destination,
+        label: destination === "right" ? "\u79FB\u81F3\u53F3\u4FA7\u9762\u677F" : "\u79FB\u81F3\u5DE6\u4FA7\u9762\u677F",
+        separatorBefore: true,
+        failureLabel: FAILURE_LABEL,
+        run() {
+          if (disposed) return;
+          const current = model.getSnapshot();
+          if (!canMove(current, sessionId) || current.mode !== sourceMode) {
+            throw new Error(FAILURE_LABEL);
+          }
+          return actions.setMode(destination, { sessionId, requireContentOpen: true });
+        }
+      }];
+    }
+  });
+  return () => {
+    if (disposed) return;
+    disposed = true;
+    unregister();
+  };
+}
+
+// conversation-layout-settings.js
+var import_react7 = __toESM(require("react"), 1);
+var MODEL_OPTIONS = "conversation.input.model.options";
+var PERMISSION_SLOT = "conversation.input.permission";
+var CONTRIBUTION_ID2 = "chatgpt-rail.floating-permission-settings";
+var EMPTY_CATALOG = Object.freeze({ value: null });
+var EMPTY_SOURCE = { subscribe: () => () => {
+}, getSnapshot: () => EMPTY_CATALOG };
+var h7 = import_react7.default.createElement;
+function currentFloatingSession(snapshot2, sessionId) {
+  return snapshot2.sessionId === sessionId && snapshot2.available && snapshot2.mode === "floating" && !snapshot2.minimized && snapshot2.rect?.width > 0 && snapshot2.rect.width <= 640;
+}
+function permissionName(selection, catalog, t) {
+  const value = selection.currentValue;
+  const option = catalog?.options?.find((candidate) => candidate.value === value);
+  if (value === "auto") return t?.("auto.label") ?? "\u81EA\u52A8\u5BA1\u67E5";
+  const names = {
+    "read-only": ["preset.readOnly", "Read Only", "\u4EC5\u53EF\u67E5\u770B"],
+    "workspace-write": ["preset.workspaceWrite", "Workspace Write", "\u5DE5\u4F5C\u533A\u5185\u4FEE\u6539"],
+    "danger-full-access": ["preset.fullAccess", "Full access", "\u5B8C\u5168\u6743\u9650"]
+  };
+  const builtin = names[value];
+  const name = option?.name ?? value;
+  if (builtin && (name === value || name === builtin[1])) return t?.(builtin[0]) ?? builtin[2];
+  return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(name) ? name.split("-").map((word) => word[0].toUpperCase() + word.slice(1)).join(" ") : name;
+}
+function installFloatingComposerSettings(ctx, { model, onOpenPermission }) {
+  const slots = ctx.slots;
+  if (typeof slots?.spec !== "function" || typeof slots.register !== "function" || typeof slots.entriesOfSlot !== "function" || typeof slots.subscribe !== "function" || typeof model?.getSnapshot !== "function" || typeof model.subscribe !== "function" || typeof onOpenPermission !== "function") return null;
+  const nativePermission = () => {
+    try {
+      return slots.entriesOfSlot(PERMISSION_SLOT).find((entry) => entry.locale === "permission.access" && entry.component && typeof entry.inject === "function") ?? null;
+    } catch {
+      return null;
+    }
+  };
+  try {
+    const spec = slots.spec(MODEL_OPTIONS);
+    if (spec?.kind !== "list" || spec.scope !== "session" || !nativePermission()) return null;
+  } catch {
+    return null;
+  }
+  let disposed = false;
+  function PermissionSettingsOption({ sessionId, capturedSessionId, useProjection, locked, dismiss, reportFailure }) {
+    const snapshot2 = import_react7.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+    const entry = import_react7.default.useSyncExternalStore(
+      import_react7.default.useCallback((listener) => slots.subscribe(PERMISSION_SLOT, listener), []),
+      nativePermission,
+      nativePermission
+    );
+    const injected = import_react7.default.useMemo(() => {
+      try {
+        return entry?.inject(capturedSessionId);
+      } catch {
+        return null;
+      }
+    }, [entry, capturedSessionId]);
+    const catalogSource = injected?.hooks?.permissionCatalog;
+    const source2 = typeof catalogSource?.subscribe === "function" && typeof catalogSource.getSnapshot === "function" ? catalogSource : EMPTY_SOURCE;
+    const catalog = import_react7.default.useSyncExternalStore(source2.subscribe, source2.getSnapshot, source2.getSnapshot);
+    const selection = useProjection("permissions");
+    const [pending, setPending] = import_react7.default.useState(false);
+    const pendingRef = import_react7.default.useRef(false);
+    if (disposed || !entry || sessionId !== capturedSessionId || !selection || !currentFloatingSession(snapshot2, capturedSessionId)) return null;
+    let t;
+    try {
+      t = ctx.locale?.bind(entry.locale);
+    } catch {
+    }
+    const label = permissionName(selection, catalog.value, t);
+    const open = async () => {
+      if (pendingRef.current || locked || disposed || !nativePermission() || !currentFloatingSession(model.getSnapshot(), capturedSessionId)) return;
+      pendingRef.current = true;
+      setPending(true);
+      try {
+        dismiss();
+        await onOpenPermission(capturedSessionId);
+      } catch (error) {
+        if (!disposed && currentFloatingSession(model.getSnapshot(), capturedSessionId)) {
+          reportFailure(error instanceof Error ? error.message : "\u8BBF\u95EE\u6743\u9650\u6682\u65F6\u65E0\u6CD5\u6253\u5F00\uFF0C\u8BF7\u91CD\u8BD5\u3002");
+        }
+      } finally {
+        pendingRef.current = false;
+        setPending(false);
+      }
+    };
+    return h7(
+      "button",
+      {
+        type: "button",
+        role: "menuitem",
+        className: "cgpt-floating-permission-option",
+        "aria-label": "\u8BBF\u95EE\u6743\u9650\uFF0C\u5F53\u524D\uFF1A" + label,
+        "aria-haspopup": "menu",
+        disabled: locked || pending,
+        onClick: open
+      },
+      h7("span", { className: "cgpt-floating-permission-label" }, "\u8BBF\u95EE\u6743\u9650"),
+      h7("span", { className: "cgpt-floating-permission-value" }, label),
+      h7("span", { className: "cgpt-floating-permission-chevron", "aria-hidden": true }, "\u203A")
+    );
+  }
+  let unregister;
+  try {
+    unregister = slots.register({
+      name: MODEL_OPTIONS,
+      id: CONTRIBUTION_ID2,
+      order: 400,
+      inject: (sessionId) => ({ capturedSessionId: sessionId })
+    }, PermissionSettingsOption);
+  } catch {
+    return null;
+  }
+  return {
+    get available() {
+      return !disposed && nativePermission() !== null;
+    },
+    subscribe: (listener) => slots.subscribe(PERMISSION_SLOT, listener),
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      unregister();
+    }
+  };
+}
+
+// conversation-layout-host.js
+var h8 = import_react8.default.createElement;
+function mountConversationLayout(anchor, ctx, model, options = {}) {
+  const document2 = anchor?.ownerDocument;
+  const window = document2?.defaultView;
+  const frame = anchor?.closest("[data-shell-overlay]")?.parentElement;
+  const rightColumn = frame?.querySelector("[data-rightbar-col]");
+  const center = rightColumn?.previousElementSibling;
+  if (!window || !frame || !center) return null;
+  let sidebar;
+  try {
+    sidebar = ctx.get?.("sidebarRight");
+  } catch {
+    return null;
+  }
+  if (!sidebar) return null;
+  const floatingSeat = document2.createElement("div");
+  floatingSeat.className = "cgpt-floating-conversation-seat";
+  const resizeSeat = document2.createElement("div");
+  resizeSeat.className = "cgpt-floating-conversation-resize-seat";
+  const divider = document2.createElement("div");
+  divider.className = "cgpt-conversation-divider";
+  divider.setAttribute("role", "separator");
+  divider.setAttribute("aria-label", "\u8C03\u6574\u804A\u5929\u4E0E\u5185\u5BB9\u5BBD\u5EA6");
+  divider.setAttribute("aria-orientation", "vertical");
+  divider.tabIndex = 0;
+  frame.appendChild(divider);
+  const owned = /* @__PURE__ */ new Map();
+  const properties = /* @__PURE__ */ new Map();
+  const stops = [];
+  const dockModes = /* @__PURE__ */ new Map();
+  const previewWidths = /* @__PURE__ */ new Map();
+  let disposed = false;
+  let scheduled = null;
+  let content = null;
+  let composer = null;
+  let header = null;
+  let panel = null;
+  let previousSession = null;
+  let previousFullscreen = false;
+  let pending = null;
+  let drag = null;
+  let observedComposer = null;
+  const settingsAvailable = () => typeof options.settingsAvailable === "function" ? options.settingsAvailable() : Boolean(options.settingsAvailable);
+  function attribute(element, name, value = "") {
+    if (!element) return;
+    if (!owned.has(element)) owned.set(element, /* @__PURE__ */ new Map());
+    const records = owned.get(element);
+    if (!records.has(name)) records.set(name, element.getAttribute(name));
+    if (value === null) {
+      if (element.hasAttribute(name)) element.removeAttribute(name);
+    } else if (element.getAttribute(name) !== value) element.setAttribute(name, value);
+  }
+  function property(element, name, value) {
+    if (!properties.has(element)) properties.set(element, /* @__PURE__ */ new Map());
+    const records = properties.get(element);
+    if (!records.has(name)) records.set(name, element.style.getPropertyValue(name));
+    if (element.style.getPropertyValue(name) !== value) element.style.setProperty(name, value);
+  }
+  function restoreAttribute(element, name) {
+    const records = owned.get(element);
+    if (records?.has(name)) attribute(element, name, records.get(name));
+  }
+  function sessionPanel(sessionId) {
+    return [...rightColumn.querySelectorAll("[data-sidebar-right-session][data-sidebar-right-panel]")].find((element) => element.getAttribute("data-sidebar-right-session") === sessionId && !element.closest("[hidden]"));
+  }
+  function refresh() {
+    if (disposed) return;
+    content = center.querySelector("[data-conversation-content]");
+    const sessionId = content?.getAttribute("data-conversation-session") || null;
+    composer = content?.querySelector("[data-composer-seat]") || null;
+    header = center.querySelector('[data-slot="conversation.header"] > header');
+    panel = sessionId ? sessionPanel(sessionId) : null;
+    const selected = ctx.layout.panelInfo.getSnapshot().activePanelId === null;
+    const available = Boolean(selected && sessionId && composer && header);
+    const summary = sessionId && ctx.sessions.list.getSnapshot().byId?.[sessionId];
+    const contentOpen = Boolean(panel?.hasAttribute("data-sidebar-right-open"));
+    const fullscreen = contentOpen && panel.getAttribute("data-sidebar-right-panel") === "fullscreen";
+    model.setContext({ sessionId, title: summary?.title || summary?.projectionValues?.title || "\u672A\u547D\u540D\u4F1A\u8BDD", available, contentOpen });
+    if (available && !pending) {
+      if (fullscreen && (!previousFullscreen || previousSession !== sessionId)) {
+        const mode2 = model.getSnapshot().mode;
+        if (mode2 !== "floating") dockModes.set(sessionId, mode2);
+        model.setMode("floating");
+      } else if (!fullscreen && previousFullscreen && previousSession === sessionId) {
+        model.setMode(dockModes.get(sessionId) || "left");
+      }
+    }
+    previousSession = sessionId;
+    previousFullscreen = fullscreen;
+    const state = model.getSnapshot();
+    const mode = available ? state.mode : "left";
+    attribute(frame, "data-cgpt-conversation-frame");
+    attribute(frame, "data-cgpt-conversation-mode", mode);
+    attribute(center, "data-cgpt-conversation-center");
+    attribute(content, "data-cgpt-conversation-content");
+    attribute(content?.closest("[data-phase]"), "data-cgpt-conversation-root");
+    for (let ancestor = content?.parentElement; ancestor && ancestor !== center; ancestor = ancestor.parentElement) {
+      attribute(ancestor, "data-cgpt-conversation-ancestor");
+    }
+    attribute(content?.querySelector("[data-conversation-scroll]"), "data-cgpt-conversation-scroll");
+    attribute(composer, "data-cgpt-conversation-composer");
+    if (content && floatingSeat.parentElement !== content) content.prepend(floatingSeat);
+    if (content && resizeSeat.parentElement !== content) content.appendChild(resizeSeat);
+    if (observedComposer !== composer) {
+      if (observedComposer) sizes.unobserve(observedComposer);
+      observedComposer = composer;
+      if (composer) sizes.observe(composer);
+    }
+    const bounds = frame.getBoundingClientRect();
+    const railWidth = frame.querySelector('[data-slot="sidebar"]')?.parentElement?.getBoundingClientRect().width || 0;
+    const leading = frame.hasAttribute("data-sidebar-drawer") ? 0 : railWidth;
+    model.setBounds({ left: bounds.left + leading, top: bounds.top + 48, width: Math.max(0, bounds.width - leading), height: Math.max(0, bounds.height - 56), floatingHeight: 260 });
+    const currentState = model.getSnapshot();
+    const presentation = model.getSnapshot();
+    const rectangle = presentation.displayRect;
+    if (content) {
+      property(content, "--cgpt-floating-left", rectangle.left + "px");
+      property(content, "--cgpt-floating-top", rectangle.top + "px");
+      property(content, "--cgpt-floating-width", rectangle.width + "px");
+      property(content, "--cgpt-floating-height", rectangle.height + "px");
+      property(content, "--cgpt-floating-expanded-width", presentation.rect.width + "px");
+      property(content, "--cgpt-floating-expanded-height", presentation.rect.height + "px");
+      attribute(content, "data-cgpt-conversation-minimized", String(presentation.minimized));
+      attribute(content, "data-cgpt-floating-presentation", presentation.floatingPresentation);
+      const transcript = content.querySelector('[data-slot="conversation.session"]');
+      if (mode === "floating" && presentation.floatingPresentation !== "expanded") {
+        attribute(transcript, "inert");
+        attribute(transcript, "aria-hidden", "true");
+      } else {
+        restoreAttribute(transcript, "inert");
+        restoreAttribute(transcript, "aria-hidden");
+      }
+    }
+    if (composer) {
+      attribute(composer, "data-cgpt-floating-statistics", currentState.showStatistics ? "shown" : "hidden");
+      const modelTrigger = composer.querySelector('[data-slot="conversation.input.model"]')?.querySelector("button");
+      const permissionTrigger = composer.querySelector('[data-slot="conversation.input.permission"]')?.querySelector("button");
+      const compactSettings = Boolean(settingsAvailable() && mode === "floating" && !currentState.minimized && currentState.rect.width <= 640 && modelTrigger && permissionTrigger);
+      attribute(composer, "data-cgpt-floating-settings", compactSettings ? "compact" : null);
+      const permissionAnchor = permissionTrigger?.parentElement;
+      attribute(permissionAnchor, "data-cgpt-permission-anchor", compactSettings ? "" : null);
+      if (compactSettings) {
+        const settingsBounds = modelTrigger.getBoundingClientRect();
+        const composerBounds = composer.getBoundingClientRect();
+        property(composer, "--cgpt-settings-left", settingsBounds.left - composerBounds.left - (composer.clientLeft || 0) + "px");
+        property(composer, "--cgpt-settings-top", settingsBounds.top - composerBounds.top - (composer.clientTop || 0) + "px");
+        attribute(permissionTrigger, "tabindex", "-1");
+        attribute(permissionTrigger, "aria-hidden", "true");
+        attribute(modelTrigger, "aria-description", "\u6A21\u578B\u3001\u63A8\u7406\u4E0E\u8BBF\u95EE\u6743\u9650\u8BBE\u7F6E");
+      } else {
+        restoreAttribute(permissionTrigger, "tabindex");
+        restoreAttribute(permissionTrigger, "aria-hidden");
+        restoreAttribute(modelTrigger, "aria-description");
+      }
+    }
+    if (mode === "floating" && !presentation.minimized && composer) {
+      const composerHeight = composer.getBoundingClientRect().height;
+      property(content, "--cgpt-floating-composer-height", composerHeight + "px");
+      model.setComposerHeight(composerHeight);
+    }
+    const swapped = available && mode === "right" && !fullscreen && panel?.hasAttribute("data-sidebar-right-open") && bounds.width - leading >= 700;
+    attribute(frame, "data-cgpt-conversation-swapped", swapped ? "" : null);
+    if (swapped) {
+      const normal = frame.style.getPropertyValue("--cgpt-rail-columns") || frame.style.gridTemplateColumns;
+      const tracks = normal.match(/^(\d+(?:\.\d+)?)px\s+(minmax\([^)]*\))\s+(minmax\([^)]*\))$/);
+      if (tracks) {
+        const savedWidth = previewWidths.get(sessionId);
+        const previewTrack = savedWidth === void 0 ? tracks[3] : "minmax(0px, " + Math.max(300, Math.min(savedWidth, bounds.width - leading - 400)) + "px)";
+        property(frame, "--cgpt-conversation-columns", tracks[1] + "px " + previewTrack + " " + tracks[2]);
+      }
+      const rightBounds = rightColumn.getBoundingClientRect();
+      property(divider, "left", rightBounds.right - bounds.left - 4 + "px");
+      divider.hidden = false;
+    } else divider.hidden = true;
+  }
+  function schedule() {
+    if (disposed || scheduled !== null) return;
+    scheduled = window.requestAnimationFrame(() => {
+      scheduled = null;
+      refresh();
+    });
+  }
+  function activateComposer(event) {
+    const current = model.getSnapshot();
+    if (current.mode !== "floating" || current.minimized || current.floatingPresentation !== "idle" || event.target?.closest?.("[data-cgpt-conversation-composer]") !== composer) return;
+    model.setFloatingPresentation("focused");
+  }
+  function dismissComposer(event) {
+    const current = model.getSnapshot();
+    if (current.mode !== "floating" || current.minimized || current.floatingPresentation !== "focused" || content?.contains(event.target)) return;
+    if (event.target?.closest?.('[role="menu"], [role="listbox"], [role="dialog"]')) return;
+    model.setFloatingPresentation("idle");
+  }
+  function stopHiddenTranscriptWheel(event) {
+    const current = model.getSnapshot();
+    if (current.mode !== "floating" || current.minimized || current.floatingPresentation === "expanded") return;
+    if (!composer?.contains(event.target) || !event.deltaY) return;
+    const draft = event.target?.closest?.("[data-input-scroll]");
+    const canScrollDraft = draft && (event.deltaY < 0 ? draft.scrollTop > 0 : draft.scrollTop + draft.clientHeight < draft.scrollHeight - 1);
+    if (canScrollDraft) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  function target(sessionId) {
+    if (disposed || ctx.layout.panelInfo.getSnapshot().activePanelId !== null || model.getSnapshot().sessionId !== sessionId || !model.getSnapshot().available) throw new Error("\u4F1A\u8BDD\u5DF2\u5207\u6362\uFF0C\u8BF7\u5728\u5F53\u524D\u4F1A\u8BDD\u91CD\u65B0\u9009\u62E9\u5E03\u5C40\u3002");
+    const value = sidebar.commandTarget(null);
+    if (value?.sessionId !== sessionId) throw new Error("\u4F1A\u8BDD\u9762\u677F\u5C1A\u672A\u51C6\u5907\u597D\uFF0C\u8BF7\u91CD\u8BD5\u3002");
+    return value;
+  }
+  async function waitForPanel(sessionId, condition) {
+    const deadline = Date.now() + 5e3;
+    while (!disposed && Date.now() < deadline) {
+      target(sessionId);
+      const current = sessionPanel(sessionId);
+      if (current && condition(current)) return current;
+      await new Promise((resolve) => window.setTimeout(resolve, 30));
+    }
+    throw new Error("\u9762\u677F\u5207\u6362\u5C1A\u672A\u5B8C\u6210\uFF0C\u8BF7\u91CD\u8BD5\u3002");
+  }
+  const actions = {
+    async openPermissionSettings(sessionId) {
+      await new Promise((resolve) => window.setTimeout(resolve, 0));
+      target(sessionId);
+      refresh();
+      const current = model.getSnapshot();
+      if (current.mode !== "floating" || current.minimized || current.rect.width > 640 || !settingsAvailable()) throw new Error("\u8F93\u5165\u6846\u5E03\u5C40\u5DF2\u53D8\u5316\uFF0C\u8BF7\u91CD\u65B0\u6253\u5F00\u8BBE\u7F6E\u3002");
+      const trigger = composer?.querySelector('[data-slot="conversation.input.permission"]')?.querySelector("button");
+      if (!trigger || trigger.disabled || typeof trigger.click !== "function") throw new Error("\u8BBF\u95EE\u6743\u9650\u8BBE\u7F6E\u6682\u4E0D\u53EF\u7528\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5\u3002");
+      trigger.click();
+    },
+    async setMode(mode, options2 = {}) {
+      if (!["left", "right", "floating"].includes(mode)) return;
+      if (pending) throw new Error("\u6B63\u5728\u5207\u6362\u5E03\u5C40\uFF0C\u8BF7\u7A0D\u5019\u3002");
+      const { sessionId, available } = model.getSnapshot();
+      if (!available) throw new Error("\u8BF7\u5148\u6253\u5F00\u4E00\u4E2A\u4F1A\u8BDD\u3002");
+      pending = mode;
+      try {
+        target(sessionId);
+        if (options2.sessionId && options2.sessionId !== sessionId) throw new Error("\u4F1A\u8BDD\u5DF2\u5207\u6362\uFF0C\u8BF7\u91CD\u65B0\u6253\u5F00\u4F1A\u8BDD\u83DC\u5355\u3002");
+        if (options2.requireContentOpen && !sessionPanel(sessionId)?.hasAttribute("data-sidebar-right-open")) throw new Error("\u5185\u5BB9\u9762\u677F\u5DF2\u6536\u8D77\uFF0C\u8BF7\u5C55\u5F00\u540E\u518D\u79FB\u52A8\u4F1A\u8BDD\u3002");
+        if (!sidebar.isExpanded()) sidebar.toggleExpanded();
+        let current = await waitForPanel(sessionId, (element) => element.hasAttribute("data-sidebar-right-open"));
+        if (mode !== "floating" && frame.getBoundingClientRect().width < 768) {
+          sidebar.toggleExpanded();
+          await waitForPanel(sessionId, (element) => !element.hasAttribute("data-sidebar-right-open"));
+          model.setMode(mode);
+          dockModes.set(sessionId, mode);
+          previousFullscreen = false;
+          return;
+        }
+        const fullscreen = current.getAttribute("data-sidebar-right-panel") === "fullscreen";
+        if (mode === "floating" !== fullscreen) {
+          sidebar.toggleFullscreen(target(sessionId));
+          current = await waitForPanel(sessionId, (element) => element.getAttribute("data-sidebar-right-panel") === "fullscreen" === (mode === "floating"));
+        }
+        target(sessionId);
+        if (mode !== "floating") dockModes.set(sessionId, mode);
+        model.setMode(mode);
+        previousFullscreen = current.getAttribute("data-sidebar-right-panel") === "fullscreen";
+      } finally {
+        pending = null;
+        schedule();
+      }
+    },
+    async showConversation() {
+      if (pending) throw new Error("\u6B63\u5728\u5207\u6362\u5E03\u5C40\uFF0C\u8BF7\u7A0D\u5019\u3002");
+      const { sessionId } = model.getSnapshot();
+      target(sessionId);
+      pending = "left";
+      try {
+        if (sidebar.isExpanded()) sidebar.toggleExpanded();
+        model.setMode("left");
+        dockModes.set(sessionId, "left");
+        previousFullscreen = false;
+      } finally {
+        pending = null;
+        schedule();
+      }
+    }
+  };
+  function resize(width) {
+    previewWidths.set(model.getSnapshot().sessionId, width);
+    schedule();
+  }
+  function endDrag(event) {
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    drag = null;
+    divider.removeAttribute("data-dragging");
+    if (divider.hasPointerCapture(event.pointerId)) divider.releasePointerCapture(event.pointerId);
+  }
+  divider.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    drag = { pointerId: event.pointerId, x: event.clientX, width: rightColumn.getBoundingClientRect().width };
+    divider.setPointerCapture(event.pointerId);
+    divider.setAttribute("data-dragging", "");
+  });
+  divider.addEventListener("pointermove", (event) => {
+    if (drag?.pointerId === event.pointerId) resize(drag.width + event.clientX - drag.x);
+  });
+  divider.addEventListener("pointerup", endDrag);
+  divider.addEventListener("pointercancel", endDrag);
+  divider.addEventListener("lostpointercapture", endDrag);
+  divider.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+    event.preventDefault();
+    resize(rightColumn.getBoundingClientRect().width + (event.key === "ArrowRight" ? 24 : -24));
+  });
+  const observer = new window.MutationObserver(schedule);
+  observer.observe(frame, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-conversation-session", "data-sidebar-right-open", "data-sidebar-right-panel", "data-sidebar-right-session", "hidden", "style", "data-sidebar-collapsed", "data-sidebar-drawer"] });
+  const sizes = new window.ResizeObserver(schedule);
+  sizes.observe(frame);
+  frame.addEventListener("focusin", activateComposer);
+  frame.addEventListener("pointerdown", activateComposer);
+  frame.addEventListener("input", schedule);
+  frame.addEventListener("wheel", stopHiddenTranscriptWheel, { capture: true, passive: false });
+  document2.addEventListener("pointerdown", dismissComposer, true);
+  stops.push(() => {
+    frame.removeEventListener("focusin", activateComposer);
+    frame.removeEventListener("pointerdown", activateComposer);
+    frame.removeEventListener("input", schedule);
+    frame.removeEventListener("wheel", stopHiddenTranscriptWheel, true);
+    document2.removeEventListener("pointerdown", dismissComposer, true);
+  });
+  stops.push(model.subscribe(schedule), ctx.sessions.list.subscribe(schedule), ctx.layout.panelInfo.subscribe(schedule));
+  if (typeof options.subscribeSettings === "function") stops.push(options.subscribeSettings(schedule));
+  refresh();
+  return {
+    floatingSeat,
+    resizeSeat,
+    actions,
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      if (scheduled !== null) window.cancelAnimationFrame(scheduled);
+      observer.disconnect();
+      sizes.disconnect();
+      for (const stop5 of stops) stop5();
+      floatingSeat.remove();
+      resizeSeat.remove();
+      divider.remove();
+      for (const [element, records] of owned) for (const [name, value] of records) {
+        if (value === null) element.removeAttribute(name);
+        else element.setAttribute(name, value);
+      }
+      for (const [element, records] of properties) for (const [name, value] of records) {
+        if (value) element.style.setProperty(name, value);
+        else element.style.removeProperty(name);
+      }
+    }
+  };
+}
+function GlobalConversationLayout({ ctx, Menu: Menu2, MenuItem }) {
+  const anchor = import_react8.default.useRef(null);
+  const model = import_react8.default.useMemo(() => createConversationLayoutModel(), []);
+  const [host, setHost] = import_react8.default.useState(null);
+  import_react8.default.useLayoutEffect(() => {
+    let mounted;
+    const settings = installFloatingComposerSettings(ctx, {
+      model,
+      onOpenPermission: (sessionId) => mounted?.actions.openPermissionSettings(sessionId)
+    });
+    mounted = mountConversationLayout(anchor.current, ctx, model, {
+      settingsAvailable: () => settings?.available === true,
+      subscribeSettings: settings?.subscribe
+    });
+    setHost(mounted);
+    return () => {
+      settings?.dispose();
+      mounted?.dispose();
+      model.dispose();
+    };
+  }, [ctx, model]);
+  import_react8.default.useEffect(() => {
+    if (!host) return void 0;
+    return installConversationLayoutMenu(ctx, { model, actions: host.actions });
+  }, [ctx, model, host]);
+  return h8(
+    import_react8.default.Fragment,
+    null,
+    h8("span", { ref: anchor, hidden: true }),
+    host && (0, import_react_dom2.createPortal)(h8(FloatingConversationHeader, { model, actions: host.actions, Menu: Menu2, MenuItem }), host.floatingSeat),
+    host && (0, import_react_dom2.createPortal)(h8(FloatingConversationResizeHandles, { model }), host.resizeSeat)
+  );
+}
+
 // app-dock-model.js
 var RECENT_LIMIT = 5;
 function createAppDockModel({ navigationModel, slots, layout }) {
@@ -3697,11 +5248,11 @@ function mountAppDockSeat(anchor, model) {
 }
 
 // app-dock-ui.js
-var import_react7 = __toESM(require("react"), 1);
+var import_react10 = __toESM(require("react"), 1);
 
 // notification-ui.js
-var import_react6 = __toESM(require("react"), 1);
-var h6 = import_react6.default.createElement;
+var import_react9 = __toESM(require("react"), 1);
+var h9 = import_react9.default.createElement;
 var stop2 = (event) => event.stopPropagation();
 var pendingKinds = /* @__PURE__ */ new Set(["approval", "question", "plan-review"]);
 var attention = (item) => pendingKinds.has(item.kind) || item.unread === true;
@@ -3749,32 +5300,32 @@ function mountNotificationSeat(anchor, model) {
   return { node, dispose };
 }
 function BellIcon() {
-  return h6(
+  return h9(
     "svg",
     { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true },
-    h6("path", { d: "M6 7a4 4 0 0 1 8 0c0 5 1.5 5.2 1.5 6.5H4.5C4.5 12.2 6 12 6 7Zm2 9a2.2 2.2 0 0 0 4 0" })
+    h9("path", { d: "M6 7a4 4 0 0 1 8 0c0 5 1.5 5.2 1.5 6.5H4.5C4.5 12.2 6 12 6 7Zm2 9a2.2 2.2 0 0 0 4 0" })
   );
 }
 function ReadIcon() {
-  return h6(
+  return h9(
     "svg",
     { width: 16, height: 16, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true },
-    h6("path", { d: "m3 10 3 3 7-7m-3 7 7-7" })
+    h9("path", { d: "m3 10 3 3 7-7m-3 7 7-7" })
   );
 }
 function HomeNotificationBadge({ model }) {
-  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
-  return snapshot2.count > 0 ? h6("span", { className: "cgpt-notification-dot cgpt-home-notification-dot", role: "img", "aria-label": snapshot2.count + " \u6761\u672A\u8BFB\u6216\u5F85\u5904\u7406\u901A\u77E5" }) : null;
+  const snapshot2 = import_react9.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  return snapshot2.count > 0 ? h9("span", { className: "cgpt-notification-dot cgpt-home-notification-dot", role: "img", "aria-label": snapshot2.count + " \u6761\u672A\u8BFB\u6216\u5F85\u5904\u7406\u901A\u77E5" }) : null;
 }
 function NotificationBell({ model }) {
-  const snapshot2 = import_react6.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
-  const bell = import_react6.default.useRef(null), feedId = import_react6.default.useId();
-  const [selectedId, setSelectedId] = import_react6.default.useState(null);
-  const close = import_react6.default.useCallback(() => {
+  const snapshot2 = import_react9.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const bell = import_react9.default.useRef(null), feedId = import_react9.default.useId();
+  const [selectedId, setSelectedId] = import_react9.default.useState(null);
+  const close = import_react9.default.useCallback(() => {
     model.close();
     bell.current?.focus({ preventScroll: true });
   }, [model]);
-  import_react6.default.useEffect(() => {
+  import_react9.default.useEffect(() => {
     if (!snapshot2.open) return;
     const document2 = bell.current?.ownerDocument;
     const escape2 = (event) => {
@@ -3797,7 +5348,7 @@ function NotificationBell({ model }) {
     } catch {
     }
   };
-  const row = (item) => h6(
+  const row = (item) => h9(
     "button",
     {
       key: item.id,
@@ -3811,21 +5362,21 @@ function NotificationBell({ model }) {
         void select(item);
       }
     },
-    h6(
+    h9(
       "span",
       { className: "cgpt-notification-copy" },
-      h6(
+      h9(
         "span",
         { className: "cgpt-notification-title-line" },
-        h6("span", { className: "cgpt-notification-title" }, item.title),
-        item.workspaceTitle && h6("span", { className: "cgpt-notification-workspace" }, item.workspaceTitle)
+        h9("span", { className: "cgpt-notification-title" }, item.title),
+        item.workspaceTitle && h9("span", { className: "cgpt-notification-workspace" }, item.workspaceTitle)
       ),
-      h6("span", { className: "cgpt-notification-excerpt" }, snapshot2.busyId === item.id ? "\u6B63\u5728\u6253\u5F00\u2026" : item.excerpt || item.detail),
-      pendingKinds.has(item.kind) && item.excerpt && h6("span", { className: "cgpt-notification-detail" }, item.detail)
+      h9("span", { className: "cgpt-notification-excerpt" }, snapshot2.busyId === item.id ? "\u6B63\u5728\u6253\u5F00\u2026" : item.excerpt || item.detail),
+      pendingKinds.has(item.kind) && item.excerpt && h9("span", { className: "cgpt-notification-detail" }, item.detail)
     ),
-    attention(item) && h6("span", { className: "cgpt-notification-item-dot", role: "img", "aria-label": pendingKinds.has(item.kind) ? "\u5F85\u5904\u7406" : "\u672A\u8BFB" })
+    attention(item) && h9("span", { className: "cgpt-notification-item-dot", role: "img", "aria-label": pendingKinds.has(item.kind) ? "\u5F85\u5904\u7406" : "\u672A\u8BFB" })
   );
-  const readButton = typeof model.markAllRead === "function" && h6("button", {
+  const readButton = typeof model.markAllRead === "function" && h9("button", {
     type: "button",
     className: "cgpt-notification-read-all",
     disabled: busy || !canMarkRead,
@@ -3835,11 +5386,11 @@ function NotificationBell({ model }) {
       void Promise.resolve(model.markAllRead()).catch(() => {
       });
     }
-  }, h6(ReadIcon));
-  return h6(
+  }, h9(ReadIcon));
+  return h9(
     "span",
     { className: "cgpt-notifications", onClick: stop2, onPointerDown: stop2, onContextMenu: stop2 },
-    h6("button", {
+    h9("button", {
       ref: bell,
       type: "button",
       className: "cgpt-notification-button",
@@ -3848,29 +5399,29 @@ function NotificationBell({ model }) {
       "aria-controls": feedId,
       "aria-expanded": snapshot2.open,
       onClick: () => snapshot2.open ? model.close() : model.open()
-    }, h6(BellIcon), snapshot2.count > 0 && h6("span", { className: "cgpt-notification-dot", "aria-hidden": true })),
-    snapshot2.open && h6(
+    }, h9(BellIcon), snapshot2.count > 0 && h9("span", { className: "cgpt-notification-dot", "aria-hidden": true })),
+    snapshot2.open && h9(
       "section",
       { id: feedId, className: "cgpt-notification-feed", role: "region", "aria-label": "\u4F1A\u8BDD\u901A\u77E5", "aria-busy": snapshot2.loading || void 0 },
-      h6("div", { className: "cgpt-notification-heading" }, h6("h2", null, priority.length ? "\u4F18\u5148\u4E8B\u9879" : "\u901A\u77E5"), readButton),
-      snapshot2.error && h6("p", { className: "cgpt-notification-error", role: "alert" }, snapshot2.error),
-      snapshot2.notice && h6("p", { className: "cgpt-notification-notice", role: "status" }, snapshot2.notice),
-      h6(
+      h9("div", { className: "cgpt-notification-heading" }, h9("h2", null, priority.length ? "\u4F18\u5148\u4E8B\u9879" : "\u901A\u77E5"), readButton),
+      snapshot2.error && h9("p", { className: "cgpt-notification-error", role: "alert" }, snapshot2.error),
+      snapshot2.notice && h9("p", { className: "cgpt-notification-notice", role: "status" }, snapshot2.notice),
+      h9(
         "div",
         { className: "cgpt-notification-list" },
-        priority.length > 0 && h6("div", { className: "cgpt-notification-group", "aria-label": "\u4F18\u5148\u4E8B\u9879" }, priority.map(row)),
-        recent.length > 0 && h6(
+        priority.length > 0 && h9("div", { className: "cgpt-notification-group", "aria-label": "\u4F18\u5148\u4E8B\u9879" }, priority.map(row)),
+        recent.length > 0 && h9(
           "div",
           { className: "cgpt-notification-group", "aria-label": "\u6700\u8FD1\u5B8C\u6210" },
-          h6("h3", { className: "cgpt-notification-group-title" }, "\u6700\u8FD1\u5B8C\u6210"),
+          h9("h3", { className: "cgpt-notification-group-title" }, "\u6700\u8FD1\u5B8C\u6210"),
           recent.map(row)
         ),
-        !snapshot2.items.length && h6(
+        !snapshot2.items.length && h9(
           "div",
           { className: "cgpt-notification-empty", role: "status" },
-          h6(BellIcon),
-          h6("p", null, snapshot2.loading ? "\u6B63\u5728\u8BFB\u53D6\u4F1A\u8BDD\u8BB0\u5F55\u2026" : snapshot2.available ? "\u6682\u65E0\u901A\u77E5\u8BB0\u5F55" : "\u4F1A\u8BDD\u63D0\u9192\u6682\u4E0D\u53EF\u7528"),
-          !snapshot2.loading && h6("small", null, snapshot2.available ? "\u4F1A\u8BDD\u5B8C\u6210\u6216\u9700\u8981\u4F60\u5904\u7406\u65F6\uFF0C\u4F1A\u663E\u793A\u5728\u8FD9\u91CC\u3002" : "\u5F53\u524D\u5BBF\u4E3B\u5C1A\u672A\u63D0\u4F9B\u4F1A\u8BDD\u63D0\u9192\u72B6\u6001\u3002")
+          h9(BellIcon),
+          h9("p", null, snapshot2.loading ? "\u6B63\u5728\u8BFB\u53D6\u4F1A\u8BDD\u8BB0\u5F55\u2026" : snapshot2.available ? "\u6682\u65E0\u901A\u77E5\u8BB0\u5F55" : "\u4F1A\u8BDD\u63D0\u9192\u6682\u4E0D\u53EF\u7528"),
+          !snapshot2.loading && h9("small", null, snapshot2.available ? "\u4F1A\u8BDD\u5B8C\u6210\u6216\u9700\u8981\u4F60\u5904\u7406\u65F6\uFF0C\u4F1A\u663E\u793A\u5728\u8FD9\u91CC\u3002" : "\u5F53\u524D\u5BBF\u4E3B\u5C1A\u672A\u63D0\u4F9B\u4F1A\u8BDD\u63D0\u9192\u72B6\u6001\u3002")
         )
       )
     )
@@ -3878,7 +5429,7 @@ function NotificationBell({ model }) {
 }
 
 // app-dock-ui.js
-var h7 = import_react7.default.createElement;
+var h10 = import_react10.default.createElement;
 var stop3 = (event) => event.stopPropagation();
 var PATHS = {
   home: "m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9",
@@ -3891,18 +5442,18 @@ var PATHS = {
 };
 function Glyph2({ name, size = 18 }) {
   const legacy = name === "plugins" || name === "schedules";
-  return h7("svg", { width: size, height: size, viewBox: legacy ? "0 0 20 20" : "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: legacy ? 1.5 : 1.7, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h7("path", { d: PATHS[name] || PATHS.apps }));
+  return h10("svg", { width: size, height: size, viewBox: legacy ? "0 0 20 20" : "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: legacy ? 1.5 : 1.7, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h10("path", { d: PATHS[name] || PATHS.apps }));
 }
 function AppArtwork({ app }) {
-  const [failed, setFailed] = import_react7.default.useState(null);
+  const [failed, setFailed] = import_react10.default.useState(null);
   const label = Array.from(app.label || "?")[0];
   const url = !["plugins", "schedules"].includes(app.id) && app.iconUrl && failed !== app.iconUrl ? app.iconUrl : null;
   const monochrome = url?.startsWith("data:image/svg+xml,");
-  const source2 = url && h7("img", { src: url, alt: "", draggable: false, onError: () => setFailed(app.iconUrl) });
-  return h7(
+  const source2 = url && h10("img", { src: url, alt: "", draggable: false, onError: () => setFailed(app.iconUrl) });
+  return h10(
     "span",
     { className: "cgpt-app-artwork", "aria-hidden": true },
-    url ? monochrome ? h7("span", { className: "cgpt-app-symbol", style: { maskImage: "url(" + JSON.stringify(url) + ")", WebkitMaskImage: "url(" + JSON.stringify(url) + ")" } }, source2) : source2 : PATHS[app.id] ? h7(Glyph2, { name: app.id, size: 20 }) : h7("span", { className: "cgpt-app-letter" }, label)
+    url ? monochrome ? h10("span", { className: "cgpt-app-symbol", style: { maskImage: "url(" + JSON.stringify(url) + ")", WebkitMaskImage: "url(" + JSON.stringify(url) + ")" } }, source2) : source2 : PATHS[app.id] ? h10(Glyph2, { name: app.id, size: 20 }) : h10("span", { className: "cgpt-app-letter" }, label)
   );
 }
 function wireAppDockPointer(root, { model, onError = () => {
@@ -4036,20 +5587,20 @@ function wireAppDockPointer(root, { model, onError = () => {
   };
 }
 function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
-  const snapshot2 = import_react7.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
-  const [menu, setMenu] = import_react7.default.useState(null), [error, setError] = import_react7.default.useState(""), [pendingId, setPendingId] = import_react7.default.useState(null);
-  const dockRef = import_react7.default.useRef(null);
-  const operation = import_react7.default.useRef(null), alive = import_react7.default.useRef(true), search = import_react7.default.useRef(null);
-  const previousLibrary = import_react7.default.useRef(snapshot2.libraryOpen);
-  import_react7.default.useEffect(() => {
+  const snapshot2 = import_react10.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const [menu, setMenu] = import_react10.default.useState(null), [error, setError] = import_react10.default.useState(""), [pendingId, setPendingId] = import_react10.default.useState(null);
+  const dockRef = import_react10.default.useRef(null);
+  const operation = import_react10.default.useRef(null), alive = import_react10.default.useRef(true), search = import_react10.default.useRef(null);
+  const previousLibrary = import_react10.default.useRef(snapshot2.libraryOpen);
+  import_react10.default.useEffect(() => {
     alive.current = true;
     return () => {
       alive.current = false;
       operation.current = null;
     };
   }, [model]);
-  import_react7.default.useLayoutEffect(() => wireAppDockPointer(dockRef.current, { model, onError: (reason) => setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58\u5E94\u7528\u987A\u5E8F\uFF0C\u8BF7\u91CD\u8BD5\u3002") }), [model]);
-  import_react7.default.useLayoutEffect(() => {
+  import_react10.default.useLayoutEffect(() => wireAppDockPointer(dockRef.current, { model, onError: (reason) => setError(reason?.message || "\u65E0\u6CD5\u4FDD\u5B58\u5E94\u7528\u987A\u5E8F\uFF0C\u8BF7\u91CD\u8BD5\u3002") }), [model]);
+  import_react10.default.useLayoutEffect(() => {
     if (previousLibrary.current && !snapshot2.libraryOpen) {
       operation.current = null;
       setPendingId(null);
@@ -4057,7 +5608,7 @@ function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
     }
     previousLibrary.current = snapshot2.libraryOpen;
   }, [snapshot2.libraryOpen]);
-  import_react7.default.useEffect(() => {
+  import_react10.default.useEffect(() => {
     if (menu && !snapshot2.apps.some((app) => app.id === menu.id)) setMenu(null);
   }, [menu, snapshot2.apps]);
   const busy = snapshot2.loadingId != null || pendingId !== null;
@@ -4111,7 +5662,7 @@ function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
     if (event.key === "ContextMenu" || event.key === "F10" && event.shiftKey) openMenu(event, app, true);
   }
   function dockButton(app) {
-    return h7(
+    return h10(
       "button",
       {
         key: app.id,
@@ -4128,30 +5679,30 @@ function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
         onContextMenu: (event) => openMenu(event, app),
         onKeyDown: (event) => menuKey(event, app)
       },
-      h7(AppArtwork, { app }),
-      app.id === "home" && notificationModel && h7(HomeNotificationBadge, { model: notificationModel }),
-      (pendingId === app.id || snapshot2.loadingId === app.id) && h7("span", { className: "cgpt-app-opening", "aria-hidden": true })
+      h10(AppArtwork, { app }),
+      app.id === "home" && notificationModel && h10(HomeNotificationBadge, { model: notificationModel }),
+      (pendingId === app.id || snapshot2.loadingId === app.id) && h10("span", { className: "cgpt-app-opening", "aria-hidden": true })
     );
   }
   const closeLibrary = () => {
     setError("");
     model.closeLibrary();
   };
-  return h7(
+  return h10(
     "div",
     { ref: dockRef, className: "cgpt-app-dock", "data-cgpt-app-dock": "", onClick: stop3, onPointerDown: stop3, onContextMenu: stop3 },
-    h7(
+    h10(
       "div",
       { className: "cgpt-app-dock-scroll", "aria-label": "\u5E94\u7528 Dock" },
-      h7("div", { className: "cgpt-app-dock-group", "aria-label": "\u56FA\u5B9A\u5E94\u7528" }, pinned.map(dockButton)),
-      recent.length > 0 && h7(import_react7.default.Fragment, null, pinned.length > 0 && h7("div", { className: "cgpt-app-dock-divider", role: "separator" }), h7("div", { className: "cgpt-app-dock-group", "aria-label": "\u6700\u8FD1\u4F7F\u7528\u7684\u5E94\u7528" }, recent.map(dockButton)))
+      h10("div", { className: "cgpt-app-dock-group", "aria-label": "\u56FA\u5B9A\u5E94\u7528" }, pinned.map(dockButton)),
+      recent.length > 0 && h10(import_react10.default.Fragment, null, pinned.length > 0 && h10("div", { className: "cgpt-app-dock-divider", role: "separator" }), h10("div", { className: "cgpt-app-dock-group", "aria-label": "\u6700\u8FD1\u4F7F\u7528\u7684\u5E94\u7528" }, recent.map(dockButton)))
     ),
-    h7("button", { type: "button", className: "cgpt-app-library-button", "aria-label": "\u5168\u90E8\u5E94\u7528", title: "\u5168\u90E8\u5E94\u7528", "aria-expanded": snapshot2.libraryOpen, onClick: () => {
+    h10("button", { type: "button", className: "cgpt-app-library-button", "aria-label": "\u5168\u90E8\u5E94\u7528", title: "\u5168\u90E8\u5E94\u7528", "aria-expanded": snapshot2.libraryOpen, onClick: () => {
       setError("");
       model.openLibrary();
-    } }, h7(Glyph2, { name: "apps", size: 21 })),
-    appError && !snapshot2.libraryOpen && h7("div", { className: "cgpt-app-toast", role: "alert" }, String(appError), h7("button", { type: "button", "aria-label": "\u67E5\u770B\u5E94\u7528\u8BE6\u60C5", onClick: () => model.openLibrary() }, "\u67E5\u770B")),
-    selected && Menu2 && MenuItem && h7(
+    } }, h10(Glyph2, { name: "apps", size: 21 })),
+    appError && !snapshot2.libraryOpen && h10("div", { className: "cgpt-app-toast", role: "alert" }, String(appError), h10("button", { type: "button", "aria-label": "\u67E5\u770B\u5E94\u7528\u8BE6\u60C5", onClick: () => model.openLibrary() }, "\u67E5\u770B")),
+    selected && Menu2 && MenuItem && h10(
       Menu2,
       {
         open: true,
@@ -4163,57 +5714,57 @@ function AppDock({ model, notificationModel, Modal, Menu: Menu2, MenuItem }) {
         anchorPoint: { x: menu.x, y: menu.y },
         contextual: true,
         getAnchorRect: () => ({ left: menu.x, right: menu.x, top: menu.y, bottom: menu.y, width: 0, height: 0 }),
-        anchor: h7("button", { type: "button", tabIndex: -1, "aria-hidden": true, className: "cgpt-app-context-anchor", style: { left: menu.x, top: menu.y } })
+        anchor: h10("button", { type: "button", tabIndex: -1, "aria-hidden": true, className: "cgpt-app-context-anchor", style: { left: menu.x, top: menu.y } })
       },
-      h7(MenuItem, { onSelect: () => void run(() => model.open(selected.id), selected.id) }, "\u6253\u5F00 " + selected.label),
-      selected.id !== "home" && h7(MenuItem, { onSelect: () => change(() => model.pin(selected.id, !selected.pinned)) }, selected.pinned ? "\u4ECE Dock \u79FB\u9664" : "\u56FA\u5B9A\u5230 Dock"),
-      selected.pinned && selected.id !== "home" && h7(
-        import_react7.default.Fragment,
+      h10(MenuItem, { onSelect: () => void run(() => model.open(selected.id), selected.id) }, "\u6253\u5F00 " + selected.label),
+      selected.id !== "home" && h10(MenuItem, { onSelect: () => change(() => model.pin(selected.id, !selected.pinned)) }, selected.pinned ? "\u4ECE Dock \u79FB\u9664" : "\u56FA\u5B9A\u5230 Dock"),
+      selected.pinned && selected.id !== "home" && h10(
+        import_react10.default.Fragment,
         null,
-        h7(MenuItem, { disabled: selectedIndex <= 1, onSelect: () => change(() => model.move(selected.id, -1)) }, "\u4E0A\u79FB"),
-        h7(MenuItem, { disabled: selectedIndex === pinnedOrder.length - 1, onSelect: () => change(() => model.move(selected.id, 1)) }, "\u4E0B\u79FB")
+        h10(MenuItem, { disabled: selectedIndex <= 1, onSelect: () => change(() => model.move(selected.id, -1)) }, "\u4E0A\u79FB"),
+        h10(MenuItem, { disabled: selectedIndex === pinnedOrder.length - 1, onSelect: () => change(() => model.move(selected.id, 1)) }, "\u4E0B\u79FB")
       ),
-      !selected.pinned && selected.recent && h7(MenuItem, { onSelect: () => change(() => model.dismissRecent(selected.id)) }, "\u4E0D\u518D\u663E\u793A\u5728\u6700\u8FD1\u4F7F\u7528"),
-      h7(MenuItem, { onSelect: () => {
+      !selected.pinned && selected.recent && h10(MenuItem, { onSelect: () => change(() => model.dismissRecent(selected.id)) }, "\u4E0D\u518D\u663E\u793A\u5728\u6700\u8FD1\u4F7F\u7528"),
+      h10(MenuItem, { onSelect: () => {
         setMenu(null);
         model.openLibrary();
       } }, "\u5168\u90E8\u5E94\u7528\u2026")
     ),
-    h7(
+    h10(
       Modal,
       { open: snapshot2.libraryOpen, title: "\u5E94\u7528", headless: true, onClose: closeLibrary, shortcutModal: "dsh-dock.apps", className: "cgpt-app-library-modal", contentClassName: "cgpt-app-library-content" },
-      h7(
+      h10(
         "div",
         { className: "cgpt-app-library", onClick: stop3, onPointerDown: stop3, onContextMenu: stop3 },
-        h7(
+        h10(
           "header",
           { className: "cgpt-app-library-header" },
-          h7("div", null, h7("h2", null, "\u5E94\u7528"), h7("p", null, "\u4F60\u7684\u63D2\u4EF6\u4E0E\u5DE5\u5177\uFF0C\u90FD\u5728\u8FD9\u91CC\u3002")),
-          h7("button", { type: "button", className: "cgpt-app-close", "aria-label": "\u5173\u95ED\u5E94\u7528\u603B\u89C8", onClick: closeLibrary }, h7(Glyph2, { name: "close" }))
+          h10("div", null, h10("h2", null, "\u5E94\u7528"), h10("p", null, "\u4F60\u7684\u63D2\u4EF6\u4E0E\u5DE5\u5177\uFF0C\u90FD\u5728\u8FD9\u91CC\u3002")),
+          h10("button", { type: "button", className: "cgpt-app-close", "aria-label": "\u5173\u95ED\u5E94\u7528\u603B\u89C8", onClick: closeLibrary }, h10(Glyph2, { name: "close" }))
         ),
-        h7("div", { className: "cgpt-app-search" }, h7(Glyph2, { name: "search" }), h7("input", { ref: search, type: "search", value: snapshot2.query || "", placeholder: "\u641C\u7D22\u5E94\u7528", "aria-label": "\u641C\u7D22\u5E94\u7528", "data-modal-autofocus": true, autoComplete: "off", spellCheck: false, onChange: (event) => model.setQuery(event.target.value) })),
-        h7("div", { className: "cgpt-app-filters", role: "group", "aria-label": "\u5E94\u7528\u8303\u56F4" }, [["all", "\u5168\u90E8"], ["pinned", "\u5DF2\u56FA\u5B9A"], ["recent", "\u6700\u8FD1\u4F7F\u7528"]].map(([id, label]) => h7("button", { key: id, type: "button", "aria-pressed": snapshot2.filter === id, onClick: () => {
+        h10("div", { className: "cgpt-app-search" }, h10(Glyph2, { name: "search" }), h10("input", { ref: search, type: "search", value: snapshot2.query || "", placeholder: "\u641C\u7D22\u5E94\u7528", "aria-label": "\u641C\u7D22\u5E94\u7528", "data-modal-autofocus": true, autoComplete: "off", spellCheck: false, onChange: (event) => model.setQuery(event.target.value) })),
+        h10("div", { className: "cgpt-app-filters", role: "group", "aria-label": "\u5E94\u7528\u8303\u56F4" }, [["all", "\u5168\u90E8"], ["pinned", "\u5DF2\u56FA\u5B9A"], ["recent", "\u6700\u8FD1\u4F7F\u7528"]].map(([id, label]) => h10("button", { key: id, type: "button", "aria-pressed": snapshot2.filter === id, onClick: () => {
           model.setFilter(id);
           search.current?.focus();
         } }, label))),
-        h7(
+        h10(
           "div",
           { className: "cgpt-app-library-body", "aria-busy": busy },
-          appError && h7("p", { className: "cgpt-app-error", role: "alert" }, String(appError)),
-          shown.length > 0 ? h7("ul", { className: "cgpt-app-grid", "aria-label": "\u5E94\u7528\u5217\u8868" }, shown.map((app) => h7(
+          appError && h10("p", { className: "cgpt-app-error", role: "alert" }, String(appError)),
+          shown.length > 0 ? h10("ul", { className: "cgpt-app-grid", "aria-label": "\u5E94\u7528\u5217\u8868" }, shown.map((app) => h10(
             "li",
             { key: app.id, className: "cgpt-app-card", "data-app-active": app.active ? "" : void 0 },
-            h7(
+            h10(
               "button",
               { type: "button", className: "cgpt-app-launch", "aria-label": "\u6253\u5F00 " + app.label, "aria-current": app.active ? "page" : void 0, "aria-disabled": busy || void 0, onClick: () => void run(() => model.open(app.id), app.id), onContextMenu: (event) => openMenu(event, app), onKeyDown: (event) => menuKey(event, app) },
-              h7(AppArtwork, { app }),
-              h7("span", { className: "cgpt-app-label" }, app.label),
-              h7("span", { className: "cgpt-app-status" }, pendingId === app.id || snapshot2.loadingId === app.id ? "\u6B63\u5728\u6253\u5F00\u2026" : app.active ? "\u5F53\u524D\u9875\u9762" : app.recent ? "\u6700\u8FD1\u4F7F\u7528" : "\u6253\u5F00\u5E94\u7528")
+              h10(AppArtwork, { app }),
+              h10("span", { className: "cgpt-app-label" }, app.label),
+              h10("span", { className: "cgpt-app-status" }, pendingId === app.id || snapshot2.loadingId === app.id ? "\u6B63\u5728\u6253\u5F00\u2026" : app.active ? "\u5F53\u524D\u9875\u9762" : app.recent ? "\u6700\u8FD1\u4F7F\u7528" : "\u6253\u5F00\u5E94\u7528")
             ),
-            app.id === "home" ? h7("span", { className: "cgpt-app-fixed-note" }, "\u56FA\u5B9A\u5165\u53E3") : h7("button", { type: "button", className: "cgpt-app-pin", "aria-label": (app.pinned ? "\u4ECE Dock \u79FB\u9664 " : "\u56FA\u5B9A\u5230 Dock ") + app.label, "aria-pressed": app.pinned, disabled: busy, onClick: () => change(() => model.pin(app.id, !app.pinned)) }, h7(Glyph2, { name: "pin", size: 13 }), app.pinned ? "\u5DF2\u56FA\u5B9A" : "\u56FA\u5B9A")
-          ))) : h7("div", { className: "cgpt-app-empty", role: "status" }, h7(Glyph2, { name: "apps", size: 30 }), h7("p", null, query ? "\u6CA1\u6709\u627E\u5230\u8FD9\u4E2A\u5E94\u7528" : snapshot2.filter === "recent" ? "\u6253\u5F00\u8FC7\u7684\u5E94\u7528\u4F1A\u51FA\u73B0\u5728\u8FD9\u91CC" : snapshot2.filter === "pinned" ? "\u5C06\u5E38\u7528\u5E94\u7528\u56FA\u5B9A\u5230 Dock" : "\u6682\u65E0\u53EF\u7528\u7684\u5E94\u7528\u5165\u53E3"))
+            app.id === "home" ? h10("span", { className: "cgpt-app-fixed-note" }, "\u56FA\u5B9A\u5165\u53E3") : h10("button", { type: "button", className: "cgpt-app-pin", "aria-label": (app.pinned ? "\u4ECE Dock \u79FB\u9664 " : "\u56FA\u5B9A\u5230 Dock ") + app.label, "aria-pressed": app.pinned, disabled: busy, onClick: () => change(() => model.pin(app.id, !app.pinned)) }, h10(Glyph2, { name: "pin", size: 13 }), app.pinned ? "\u5DF2\u56FA\u5B9A" : "\u56FA\u5B9A")
+          ))) : h10("div", { className: "cgpt-app-empty", role: "status" }, h10(Glyph2, { name: "apps", size: 30 }), h10("p", null, query ? "\u6CA1\u6709\u627E\u5230\u8FD9\u4E2A\u5E94\u7528" : snapshot2.filter === "recent" ? "\u6253\u5F00\u8FC7\u7684\u5E94\u7528\u4F1A\u51FA\u73B0\u5728\u8FD9\u91CC" : snapshot2.filter === "pinned" ? "\u5C06\u5E38\u7528\u5E94\u7528\u56FA\u5B9A\u5230 Dock" : "\u6682\u65E0\u53EF\u7528\u7684\u5E94\u7528\u5165\u53E3"))
         ),
-        h7("footer", { className: "cgpt-app-library-footer" }, h7("span", null, shown.length + " \u4E2A\u5E94\u7528"), h7("button", { type: "button", disabled: busy, onClick: () => void run(() => model.openPluginManager(), "plugins") }, "\u7BA1\u7406\u63D2\u4EF6", h7("span", { "aria-hidden": true }, " \u2197")))
+        h10("footer", { className: "cgpt-app-library-footer" }, h10("span", null, shown.length + " \u4E2A\u5E94\u7528"), h10("button", { type: "button", disabled: busy, onClick: () => void run(() => model.openPluginManager(), "plugins") }, "\u7BA1\u7406\u63D2\u4EF6", h10("span", { "aria-hidden": true }, " \u2197")))
       )
     )
   );
@@ -4423,8 +5974,8 @@ function createGlobalSearchModel(ctx, { openHome, openWorkspace, debounceMs = 18
 }
 
 // global-search-ui.js
-var import_react8 = __toESM(require("react"), 1);
-var h8 = import_react8.default.createElement;
+var import_react11 = __toESM(require("react"), 1);
+var h11 = import_react11.default.createElement;
 var stop4 = (event) => event.stopPropagation();
 var ICONS = {
   search: "M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Zm4.7-1.8L20 20",
@@ -4440,19 +5991,19 @@ var ACTION_ICONS = {
 };
 function Icon({ kind = "search", itemId }) {
   const path = kind === "action" ? ACTION_ICONS[itemId] || ICONS.action : ICONS[kind] || ICONS.search;
-  return h8("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h8("path", { d: path }));
+  return h11("svg", { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true }, h11("path", { d: path }));
 }
 function GlobalSearchPalette({ model, Modal }) {
-  const snapshot2 = import_react8.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
-  const [activeId, setActiveId] = import_react8.default.useState(null);
-  const [pendingId, setPendingId] = import_react8.default.useState(null);
-  const inputRef = import_react8.default.useRef(null), rows = import_react8.default.useRef(/* @__PURE__ */ new Map()), composing = import_react8.default.useRef(false), selection = import_react8.default.useRef(null);
-  const instance = import_react8.default.useId(), listId = instance + "-results", statusId = instance + "-status";
+  const snapshot2 = import_react11.default.useSyncExternalStore(model.subscribe, model.getSnapshot, model.getSnapshot);
+  const [activeId, setActiveId] = import_react11.default.useState(null);
+  const [pendingId, setPendingId] = import_react11.default.useState(null);
+  const inputRef = import_react11.default.useRef(null), rows = import_react11.default.useRef(/* @__PURE__ */ new Map()), composing = import_react11.default.useRef(false), selection = import_react11.default.useRef(null);
+  const instance = import_react11.default.useId(), listId = instance + "-results", statusId = instance + "-status";
   const groups = snapshot2.groups || [], items = groups.flatMap((group) => group.items || []);
   const currentId = items.some((item) => item.id === activeId) ? activeId : items[0]?.id ?? null;
   const busy = snapshot2.busyId != null || pendingId !== null;
   const optionId = (id) => instance + "-option-" + encodeURIComponent(id);
-  import_react8.default.useEffect(() => {
+  import_react11.default.useEffect(() => {
     setActiveId(snapshot2.open ? currentId : null);
     if (!snapshot2.open) {
       composing.current = false;
@@ -4460,10 +6011,10 @@ function GlobalSearchPalette({ model, Modal }) {
       setPendingId(null);
     }
   }, [snapshot2.open, currentId]);
-  import_react8.default.useEffect(() => () => {
+  import_react11.default.useEffect(() => () => {
     selection.current = null;
   }, [model]);
-  import_react8.default.useLayoutEffect(() => {
+  import_react11.default.useLayoutEffect(() => {
     if (snapshot2.open && currentId !== null) rows.current.get(currentId)?.scrollIntoView?.({ block: "nearest" });
   }, [snapshot2.open, currentId, groups]);
   async function select(id) {
@@ -4499,7 +6050,7 @@ function GlobalSearchPalette({ model, Modal }) {
   const emptyLabel = needsTextQuery ? "\u8F93\u5165\u5173\u952E\u8BCD\uFF0C\u641C\u7D22\u804A\u5929\u5185\u5BB9" : snapshot2.query?.trim() ? "\u6CA1\u6709\u627E\u5230\u5339\u914D\u7684\u7ED3\u679C" : "\u6682\u65E0\u53EF\u7528\u7ED3\u679C";
   const error = typeof snapshot2.error === "string" ? snapshot2.error : snapshot2.error?.message;
   const status = snapshot2.loading ? "\u6B63\u5728\u641C\u7D22\u2026" : items.length ? "\u627E\u5230 " + items.length + " \u6761\u7ED3\u679C" + (snapshot2.hasMore ? "\uFF0C\u7EE7\u7EED\u8F93\u5165\u53EF\u7F29\u5C0F\u8303\u56F4" : "") : emptyLabel;
-  return h8(Modal, {
+  return h11(Modal, {
     open: snapshot2.open,
     title: "\u641C\u7D22",
     headless: true,
@@ -4507,14 +6058,14 @@ function GlobalSearchPalette({ model, Modal }) {
     contentClassName: "cgpt-global-search-modal-content",
     shortcutModal: "dsh-dock.search",
     onClose: () => model.close()
-  }, h8(
+  }, h11(
     "div",
     { className: "cgpt-global-search", onClick: stop4, onPointerDown: stop4, onContextMenu: stop4 },
-    h8(
+    h11(
       "div",
       { className: "cgpt-global-search-input-row" },
-      h8(Icon),
-      h8("input", {
+      h11(Icon),
+      h11("input", {
         ref: inputRef,
         type: "text",
         role: "combobox",
@@ -4540,18 +6091,18 @@ function GlobalSearchPalette({ model, Modal }) {
           composing.current = false;
         }
       }),
-      h8("button", { type: "button", className: "cgpt-global-search-close", "aria-label": "\u5173\u95ED\u641C\u7D22", onClick: () => model.close() }, h8("kbd", null, "esc"))
+      h11("button", { type: "button", className: "cgpt-global-search-close", "aria-label": "\u5173\u95ED\u641C\u7D22", onClick: () => model.close() }, h11("kbd", null, "esc"))
     ),
-    h8(
+    h11(
       "div",
       { className: "cgpt-global-search-results", id: listId, role: "listbox", "aria-label": "\u641C\u7D22\u7ED3\u679C", "aria-busy": Boolean(snapshot2.loading || busy) },
-      error && h8("div", { className: "cgpt-global-search-message cgpt-global-search-error", role: "alert" }, error),
-      snapshot2.notice && h8("div", { className: "cgpt-global-search-message", role: "status" }, snapshot2.notice),
-      groups.filter((group) => group.items?.length).map((group, index) => h8(
+      error && h11("div", { className: "cgpt-global-search-message cgpt-global-search-error", role: "alert" }, error),
+      snapshot2.notice && h11("div", { className: "cgpt-global-search-message", role: "status" }, snapshot2.notice),
+      groups.filter((group) => group.items?.length).map((group, index) => h11(
         "div",
         { key: group.id, role: "group", "aria-labelledby": instance + "-group-" + index, className: "cgpt-global-search-group" },
-        h8("div", { id: instance + "-group-" + index, className: "cgpt-global-search-heading" }, group.label),
-        group.items.map((item) => h8(
+        h11("div", { id: instance + "-group-" + index, className: "cgpt-global-search-heading" }, group.label),
+        group.items.map((item) => h11(
           "div",
           {
             key: item.id,
@@ -4570,22 +6121,22 @@ function GlobalSearchPalette({ model, Modal }) {
             onMouseDown: (event) => event.preventDefault(),
             onClick: () => void select(item.id)
           },
-          h8("span", { className: "cgpt-global-search-icon" }, h8(Icon, { kind: item.kind, itemId: item.id })),
-          h8("span", { className: "cgpt-global-search-copy" }, h8("span", { className: "cgpt-global-search-title" }, item.title), item.snippet && h8("span", { className: "cgpt-global-search-snippet" }, item.snippet)),
-          item.detail && h8("span", { className: "cgpt-global-search-detail" }, item.detail),
-          item.shortcut && h8("kbd", { className: "cgpt-global-search-shortcut" }, item.shortcut),
-          (snapshot2.busyId === item.id || pendingId === item.id) && h8("span", { className: "cgpt-global-search-spinner", "aria-label": "\u6B63\u5728\u6253\u5F00" })
+          h11("span", { className: "cgpt-global-search-icon" }, h11(Icon, { kind: item.kind, itemId: item.id })),
+          h11("span", { className: "cgpt-global-search-copy" }, h11("span", { className: "cgpt-global-search-title" }, item.title), item.snippet && h11("span", { className: "cgpt-global-search-snippet" }, item.snippet)),
+          item.detail && h11("span", { className: "cgpt-global-search-detail" }, item.detail),
+          item.shortcut && h11("kbd", { className: "cgpt-global-search-shortcut" }, item.shortcut),
+          (snapshot2.busyId === item.id || pendingId === item.id) && h11("span", { className: "cgpt-global-search-spinner", "aria-label": "\u6B63\u5728\u6253\u5F00" })
         ))
       )),
-      snapshot2.loading && h8("div", { className: "cgpt-global-search-message" }, h8("span", { className: "cgpt-global-search-spinner", "aria-hidden": true }), "\u6B63\u5728\u641C\u7D22\u2026"),
-      !snapshot2.loading && !items.length && !error && h8("div", { className: "cgpt-global-search-empty" }, h8(Icon, { kind: needsTextQuery ? "text" : "search" }), h8("p", null, emptyLabel)),
-      snapshot2.hasMore && !snapshot2.loading && h8("div", { className: "cgpt-global-search-message cgpt-global-search-more" }, "\u7ED3\u679C\u8F83\u591A\uFF0C\u8BF7\u7EE7\u7EED\u8F93\u5165\u4EE5\u7F29\u5C0F\u8303\u56F4\u3002")
+      snapshot2.loading && h11("div", { className: "cgpt-global-search-message" }, h11("span", { className: "cgpt-global-search-spinner", "aria-hidden": true }), "\u6B63\u5728\u641C\u7D22\u2026"),
+      !snapshot2.loading && !items.length && !error && h11("div", { className: "cgpt-global-search-empty" }, h11(Icon, { kind: needsTextQuery ? "text" : "search" }), h11("p", null, emptyLabel)),
+      snapshot2.hasMore && !snapshot2.loading && h11("div", { className: "cgpt-global-search-message cgpt-global-search-more" }, "\u7ED3\u679C\u8F83\u591A\uFF0C\u8BF7\u7EE7\u7EED\u8F93\u5165\u4EE5\u7F29\u5C0F\u8303\u56F4\u3002")
     ),
-    h8("div", { id: statusId, className: "cgpt-global-search-sr-only", role: "status", "aria-live": "polite" }, status),
-    h8(
+    h11("div", { id: statusId, className: "cgpt-global-search-sr-only", role: "status", "aria-live": "polite" }, status),
+    h11(
       "div",
       { className: "cgpt-global-search-footer" },
-      h8("div", { className: "cgpt-global-search-categories", role: "group", "aria-label": "\u641C\u7D22\u8303\u56F4" }, (snapshot2.categories || []).map((category) => h8("button", {
+      h11("div", { className: "cgpt-global-search-categories", role: "group", "aria-label": "\u641C\u7D22\u8303\u56F4" }, (snapshot2.categories || []).map((category) => h11("button", {
         key: category.id,
         type: "button",
         "aria-pressed": snapshot2.category === category.id,
@@ -4594,7 +6145,7 @@ function GlobalSearchPalette({ model, Modal }) {
           inputRef.current?.focus();
         }
       }, category.label))),
-      h8("span", { className: "cgpt-global-search-hint", "aria-hidden": true }, h8("kbd", null, "\u2191\u2193"), " \u9009\u62E9 ", h8("kbd", null, "\u21B5"), " \u6253\u5F00")
+      h11("span", { className: "cgpt-global-search-hint", "aria-hidden": true }, h11("kbd", null, "\u2191\u2193"), " \u9009\u62E9 ", h11("kbd", null, "\u21B5"), " \u6253\u5F00")
     )
   ));
 }
@@ -4960,7 +6511,7 @@ function createNotificationModel(ctx, options = {}) {
 }
 
 // video-preview.js
-var import_react9 = __toESM(require("react"), 1);
+var import_react12 = __toESM(require("react"), 1);
 
 // desktop-video-source.js
 var DESKTOP_VIDEO_BYTE_LIMIT = 256 * 1024 * 1024;
@@ -5130,7 +6681,7 @@ var VIDEO_PREVIEW_ID = "@local/chatgpt-rail/video";
 var SLOT = "sidebar.right.tab.document";
 var NS = "chatgptRailVideo";
 var EXTENSIONS = Object.freeze(["mp4", "m4v", "mov", "webm"]);
-var h9 = import_react9.default.createElement;
+var h12 = import_react12.default.createElement;
 var copy = {
   zh: { title: "\u89C6\u9891", player: "\u89C6\u9891\u9884\u89C8\uFF1A{name}", loading: "\u6B63\u5728\u8BFB\u53D6\u89C6\u9891\u2026", progress: "\u6B63\u5728\u8F7D\u5165\u89C6\u9891 {percent}%", hidden: "\u89C6\u9891\u5DF2\u6682\u505C\u3002", unavailable: "\u6682\u65F6\u65E0\u6CD5\u8BFB\u53D6\u89C6\u9891\u3002", failed: "\u6682\u65F6\u65E0\u6CD5\u64AD\u653E\u6B64\u89C6\u9891\u3002", decode: "\u65E0\u6CD5\u64AD\u653E\u6B64\u89C6\u9891\uFF0C\u53EF\u80FD\u662F\u4E0D\u652F\u6301\u7684\u7F16\u7801\u3002", "too-large": "\u89C6\u9891\u8D85\u8FC7\u684C\u9762\u9884\u89C8\u4E0A\u9650\uFF08256 MiB\uFF09\u3002", busy: "\u8BF7\u5148\u5173\u95ED\u5176\u4ED6\u89C6\u9891\uFF0C\u518D\u91CD\u65B0\u8F7D\u5165\u3002", changed: "\u89C6\u9891\u5DF2\u53D8\u5316\u6216\u6570\u636E\u4E0D\u5B8C\u6574\uFF0C\u8BF7\u91CD\u65B0\u8F7D\u5165\u3002", external: "\u53EF\u4F7F\u7528\u9876\u90E8\u7684\u6253\u5F00\u65B9\u5F0F\uFF0C\u5728\u7CFB\u7EDF\u5E94\u7528\u4E2D\u6253\u5F00\u3002", retry: "\u91CD\u65B0\u8F7D\u5165" },
   en: { title: "Video", player: "Video preview: {name}", loading: "Loading video\u2026", progress: "Loading video {percent}%", hidden: "Video paused.", unavailable: "This video is unavailable.", failed: "This video could not be played.", decode: "This video may use an unsupported encoding.", "too-large": "This video exceeds the desktop preview limit (256 MiB).", busy: "Close another video, then reload.", changed: "This video changed or is incomplete. Reload it to continue.", external: "Use the opening options above to open it in a system application.", retry: "Reload" }
@@ -5195,10 +6746,10 @@ var frameStyle = { position: "relative", display: "flex", flex: "1 1 auto", flex
 var noticeStyle = { display: "flex", flex: "1 1 auto", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, minHeight: 120, padding: 24, color: "var(--dsw-alias-label-secondary,#888)", textAlign: "center", whiteSpace: "normal", lineHeight: 1.6 };
 var retryStyle = { border: "1px solid var(--dsw-alias-border-l2,#ddd)", borderRadius: 7, padding: "5px 12px", background: "transparent", color: "inherit", font: "inherit", cursor: "pointer" };
 function VideoPlayer({ src, version, address, request, tab, progress, t, name }) {
-  const ref = import_react9.default.useRef(null), alive = import_react9.default.useRef(true), reported = import_react9.default.useRef(null);
-  const [failure4, setFailure] = import_react9.default.useState(null), [ready, setReady] = import_react9.default.useState(false);
-  const remember = import_react9.default.useCallback((element) => progress?.remember(tab.signal, address, version, element?.ended ? 0 : element?.currentTime), [progress, tab.signal, address, version]);
-  import_react9.default.useEffect(() => {
+  const ref = import_react12.default.useRef(null), alive = import_react12.default.useRef(true), reported = import_react12.default.useRef(null);
+  const [failure4, setFailure] = import_react12.default.useState(null), [ready, setReady] = import_react12.default.useState(false);
+  const remember = import_react12.default.useCallback((element) => progress?.remember(tab.signal, address, version, element?.ended ? 0 : element?.currentTime), [progress, tab.signal, address, version]);
+  import_react12.default.useEffect(() => {
     alive.current = true;
     const element = ref.current;
     let retired = false;
@@ -5229,7 +6780,7 @@ function VideoPlayer({ src, version, address, request, tab, progress, t, name })
       retire();
     };
   }, [tab.signal, remember]);
-  import_react9.default.useEffect(() => {
+  import_react12.default.useEffect(() => {
     if (!tab.visible) {
       const element = ref.current;
       remember(element);
@@ -5269,22 +6820,22 @@ function VideoPlayer({ src, version, address, request, tab, progress, t, name })
       request.failed?.();
     }
   }
-  return h9(
+  return h12(
     "div",
     { className: "cgpt-video-preview", "data-video-preview": failure4 ? "failed" : ready ? "ready" : "loading", style: frameStyle },
-    h9("video", { key: src, ref, src, controls: true, preload: "metadata", playsInline: true, "aria-label": t("player", { name }), style: { display: failure4 ? "none" : "block", width: "100%", height: "100%", minHeight: 0, flex: "1 1 auto", objectFit: "contain", background: "#111" }, onLoadedMetadata: loaded, onError: failed, onTimeUpdate: (event) => remember(event.currentTarget), onPause: (event) => remember(event.currentTarget), onSeeked: (event) => remember(event.currentTarget), onEnded: () => progress?.remember(tab.signal, address, version, 0) }),
-    !ready && !failure4 && h9("div", { role: "status", style: { ...noticeStyle, position: "absolute", inset: 0, pointerEvents: "none", color: "#ddd" } }, t("loading")),
-    failure4 && h9("div", { role: "alert", style: noticeStyle }, h9("p", { style: { margin: 0 } }, t(failure4)), h9("p", { style: { margin: 0 } }, t("external")), h9("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")))
+    h12("video", { key: src, ref, src, controls: true, preload: "metadata", playsInline: true, "aria-label": t("player", { name }), style: { display: failure4 ? "none" : "block", width: "100%", height: "100%", minHeight: 0, flex: "1 1 auto", objectFit: "contain", background: "#111" }, onLoadedMetadata: loaded, onError: failed, onTimeUpdate: (event) => remember(event.currentTarget), onPause: (event) => remember(event.currentTarget), onSeeked: (event) => remember(event.currentTarget), onEnded: () => progress?.remember(tab.signal, address, version, 0) }),
+    !ready && !failure4 && h12("div", { role: "status", style: { ...noticeStyle, position: "absolute", inset: 0, pointerEvents: "none", color: "#ddd" } }, t("loading")),
+    failure4 && h12("div", { role: "alert", style: noticeStyle }, h12("p", { style: { margin: 0 } }, t(failure4)), h12("p", { style: { margin: 0 } }, t("external")), h12("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")))
   );
 }
 function DesktopVideo({ src, bytes, desktopSources, request, tab, ...playerProps }) {
   const sourceKey = src + "\0" + bytes;
-  const [state, setState] = import_react9.default.useState({ key: sourceKey, kind: "loading", percent: Number.isFinite(bytes) ? 0 : null });
+  const [state, setState] = import_react12.default.useState({ key: sourceKey, kind: "loading", percent: Number.isFinite(bytes) ? 0 : null });
   const shown = state.key === sourceKey ? state : { kind: "loading", percent: Number.isFinite(bytes) ? 0 : null };
-  const requestRef = import_react9.default.useRef(request);
+  const requestRef = import_react12.default.useRef(request);
   requestRef.current = request;
   const { t } = playerProps;
-  import_react9.default.useEffect(() => {
+  import_react12.default.useEffect(() => {
     let alive = true;
     setState({ key: sourceKey, kind: "loading", percent: Number.isFinite(bytes) ? 0 : null });
     const handle = desktopSources?.open(src, { bytes, signal: tab.signal, onProgress: (value) => {
@@ -5312,11 +6863,11 @@ function DesktopVideo({ src, bytes, desktopSources, request, tab, ...playerProps
       handle.dispose();
     };
   }, [src, bytes, desktopSources, tab.signal]);
-  if (shown.kind === "ready") return h9(VideoPlayer, { ...playerProps, src: shown.url, request, tab });
-  return h9(
+  if (shown.kind === "ready") return h12(VideoPlayer, { ...playerProps, src: shown.url, request, tab });
+  return h12(
     "div",
     { className: "cgpt-video-preview", "data-video-preview": shown.kind === "failed" ? "failed" : "loading", style: frameStyle },
-    shown.kind === "failed" ? h9("div", { role: "alert", style: noticeStyle }, h9("p", { style: { margin: 0 } }, t(shown.reason)), h9("p", { style: { margin: 0 } }, t("external")), h9("button", { type: "button", style: retryStyle, onClick: () => requestRef.current.reload?.() }, t("retry"))) : h9("div", { role: "status", style: noticeStyle }, t(shown.percent === null ? "loading" : "progress", { percent: shown.percent }))
+    shown.kind === "failed" ? h12("div", { role: "alert", style: noticeStyle }, h12("p", { style: { margin: 0 } }, t(shown.reason)), h12("p", { style: { margin: 0 } }, t("external")), h12("button", { type: "button", style: retryStyle, onClick: () => requestRef.current.reload?.() }, t("retry"))) : h12("div", { role: "status", style: noticeStyle }, t(shown.percent === null ? "loading" : "progress", { percent: shown.percent }))
   );
 }
 function VideoPreview({ resourceAddress, content, useResource, useTabInfo, progress, desktopSources, mediaUrl, t = fallbackT }) {
@@ -5326,8 +6877,8 @@ function VideoPreview({ resourceAddress, content, useResource, useTabInfo, progr
   const src = typeof path === "string" ? (mediaUrl || ((value, stamp) => videoMediaUrl(globalThis.document?.baseURI, value, stamp)))(path, version) : null;
   const pending = metadata.status === "loading";
   const unavailable = !pending && (metadata.status !== "live" || !src || tab.signal?.aborted);
-  const report = import_react9.default.useRef(null);
-  import_react9.default.useEffect(() => {
+  const report = import_react12.default.useRef(null);
+  import_react12.default.useEffect(() => {
     if (!request || !unavailable || tab.signal?.aborted) return;
     const identity = resourceAddress + "\0" + request.revision;
     if (report.current === identity) return;
@@ -5335,14 +6886,14 @@ function VideoPreview({ resourceAddress, content, useResource, useTabInfo, progr
     request.failed?.();
   }, [request, unavailable, resourceAddress, tab.signal]);
   if (!request) return null;
-  if (pending) return h9("div", { role: "status", style: noticeStyle }, t("loading"));
-  if (unavailable) return h9("div", { role: "alert", style: noticeStyle }, h9("p", { style: { margin: 0 } }, t("unavailable")), h9("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")));
+  if (pending) return h12("div", { role: "status", style: noticeStyle }, t("loading"));
+  if (unavailable) return h12("div", { role: "alert", style: noticeStyle }, h12("p", { style: { margin: 0 } }, t("unavailable")), h12("button", { type: "button", style: retryStyle, onClick: () => request.reload?.() }, t("retry")));
   const name = path.replaceAll("\\", "/").split("/").pop() || tab.title || t("title");
   if (src.startsWith("dsh-app://")) {
-    if (!tab.visible) return h9("div", { className: "cgpt-video-preview", "data-video-preview": "paused", role: "status", style: noticeStyle }, t("hidden"));
-    return h9(DesktopVideo, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, bytes: metadata.value?.bytes, desktopSources, version, address: resourceAddress, request, tab, progress, t, name });
+    if (!tab.visible) return h12("div", { className: "cgpt-video-preview", "data-video-preview": "paused", role: "status", style: noticeStyle }, t("hidden"));
+    return h12(DesktopVideo, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, bytes: metadata.value?.bytes, desktopSources, version, address: resourceAddress, request, tab, progress, t, name });
   }
-  return h9(VideoPlayer, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, version, address: resourceAddress, request, tab, progress, t, name });
+  return h12(VideoPlayer, { key: resourceAddress + "\0" + version + "\0" + request.revision, src, version, address: resourceAddress, request, tab, progress, t, name });
 }
 function installVideoPreview(ctx) {
   if (typeof ctx.inject !== "function" && typeof ctx.documentPreviews?.register !== "function") return () => {
@@ -5884,8 +7435,411 @@ var notification_default = `/* The seat owns no hit area: only its bell and feed
 .cgpt-notification-notice{flex-shrink:0;margin:4px 8px 10px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-secondary,#81868a)}
 `;
 
+// conversation-layout.css
+var conversation_layout_default = ".cgpt-conversation-layout-button {\n  box-sizing: border-box;\n  display: inline-flex;\n  flex: none;\n  align-items: center;\n  justify-content: center;\n  width: 28px;\n  height: 28px;\n  padding: 4px;\n  border: 0;\n  border-radius: 7px;\n  background: transparent;\n  color: var(--dsw-alias-label-tertiary, #858a8d);\n  cursor: pointer;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-conversation-layout-button svg {\n  display: block;\n  flex: none;\n}\n\n.cgpt-conversation-layout-button:hover,\n.cgpt-floating-conversation-header .cgpt-conversation-layout-button:focus-visible,\n.cgpt-conversation-layout-button[aria-expanded='true'] {\n  background: var(--dsw-alias-interactive-bg-hover, #e7e9e9);\n  color: var(--dsw-alias-label-primary, #282d31);\n}\n\n.cgpt-conversation-layout-button:disabled {\n  opacity: 0.45;\n  cursor: default;\n}\n\n.cgpt-conversation-layout-button[aria-busy='true'] {\n  cursor: wait;\n}\n\n.cgpt-conversation-layout-button:focus-visible,\n.cgpt-floating-conversation-restore:focus-visible,\n.cgpt-floating-conversation-drag-handle:focus-visible,\n.cgpt-floating-conversation-resize-handle:focus-visible {\n  outline: 2px solid var(--dsw-focus-ring-color, #4d6bfe);\n  outline-offset: 2px;\n}\n\n.cgpt-conversation-layout-menu {\n  display: inline-flex;\n  flex: none;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-conversation-layout-menu-list {\n  min-width: 210px;\n  max-width: min(320px, calc(100vw - 24px));\n  white-space: nowrap;\n}\n\n.cgpt-floating-permission-option {\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  width: 100%;\n  min-height: 34px;\n  padding: 6px 10px;\n  border: 0;\n  border-radius: var(--dsw-radius-md, 6px);\n  background: transparent;\n  color: var(--dsw-alias-label-primary, #282d31);\n  font: inherit;\n  text-align: left;\n  cursor: pointer;\n}\n\n.cgpt-floating-permission-option:is(:hover, :focus-visible) {\n  outline: none;\n  background: var(--dsw-alias-interactive-bg-hover, #e7e9e9);\n}\n\n.cgpt-floating-permission-option:disabled {\n  opacity: .45;\n  cursor: default;\n}\n\n.cgpt-floating-permission-label {\n  flex: none;\n}\n\n.cgpt-floating-permission-value {\n  overflow: hidden;\n  margin-left: auto;\n  color: var(--dsw-alias-label-tertiary, #858a8d);\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.cgpt-floating-permission-chevron {\n  flex: none;\n  color: var(--dsw-alias-label-tertiary, #858a8d);\n  font-size: 20px;\n}\n\n.cgpt-floating-conversation-header {\n  position: relative;\n  z-index: 10;\n  box-sizing: border-box;\n  display: flex;\n  flex: none;\n  align-items: center;\n  gap: 4px;\n  min-width: 0;\n  min-height: 40px;\n  padding: 4px 8px;\n  border-radius: calc(var(--cgpt-floating-radius, 28px) - 1px) calc(var(--cgpt-floating-radius, 28px) - 1px) 0 0;\n  background: linear-gradient(var(--dsw-specific-input-major, transparent), var(--dsw-specific-input-major, transparent)), var(--dsw-alias-bg-base, #fff);\n  color: var(--dsw-alias-label-secondary, #6d747b);\n  font-family: var(--dsw-font-family, system-ui);\n  font-size: 13px;\n  line-height: 20px;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-floating-conversation-header .cgpt-conversation-layout-button {\n  border-radius: 50%;\n  transition: background-color 120ms ease, color 120ms ease;\n}\n\n.cgpt-floating-conversation-restore {\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n  padding: 0;\n  border: 0;\n  border-radius: 50%;\n  background: var(--dsw-specific-input-major, var(--dsw-alias-bg-base, #fff));\n  color: var(--dsw-alias-label-secondary, #6d747b);\n  cursor: pointer;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-floating-conversation-restore:hover {\n  background: var(--dsw-alias-interactive-bg-hover, #e7e9e9);\n  color: var(--dsw-alias-label-primary, #282d31);\n}\n\n.cgpt-floating-conversation-drag-handle {\n  display: flex;\n  flex: 1 1 auto;\n  align-items: center;\n  gap: 7px;\n  min-width: 0;\n  align-self: stretch;\n  padding: 2px 4px;\n  border-radius: 5px;\n  cursor: grab;\n  user-select: none;\n  touch-action: none;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-floating-conversation-drag-handle[data-dragging] {\n  cursor: grabbing;\n}\n\n.cgpt-floating-conversation-drag-handle svg {\n  flex: none;\n}\n\n.cgpt-floating-conversation-title {\n  overflow: hidden;\n  min-width: 0;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.cgpt-floating-conversation-resize-handle {\n  position: absolute;\n  pointer-events: auto;\n  touch-action: none;\n  user-select: none;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-floating-conversation-resize-handle:is([data-edge='left'], [data-edge='right']) {\n  top: 10px;\n  bottom: 10px;\n  width: 8px;\n  cursor: ew-resize;\n}\n\n.cgpt-floating-conversation-resize-handle:is([data-edge='top'], [data-edge='bottom']) {\n  right: 10px;\n  left: 10px;\n  height: 8px;\n  cursor: ns-resize;\n}\n\n.cgpt-floating-conversation-resize-handle[data-edge='left'] {\n  left: 0;\n}\n\n.cgpt-floating-conversation-resize-handle[data-edge='right'] {\n  right: 0;\n}\n\n.cgpt-floating-conversation-resize-handle[data-edge='top'] {\n  top: 0;\n}\n\n.cgpt-floating-conversation-resize-handle[data-edge='bottom'] {\n  bottom: 0;\n}\n\n.cgpt-floating-conversation-resize-handle::after {\n  content: '';\n  position: absolute;\n  border-radius: 1px;\n  background: var(--dsw-alias-label-tertiary, #858a8d);\n  opacity: 0;\n  pointer-events: none;\n}\n\n.cgpt-floating-conversation-resize-handle:is([data-edge='left'], [data-edge='right'])::after {\n  top: calc(50% - 12px);\n  left: 3px;\n  width: 2px;\n  height: 24px;\n}\n\n.cgpt-floating-conversation-resize-handle:is([data-edge='top'], [data-edge='bottom'])::after {\n  top: 3px;\n  left: calc(50% - 12px);\n  width: 24px;\n  height: 2px;\n}\n\n.cgpt-floating-conversation-resize-handle:hover::after,\n.cgpt-floating-conversation-resize-handle:focus-visible::after,\n.cgpt-floating-conversation-resize-handle[data-resizing]::after {\n  opacity: 0.65;\n}\n\n.cgpt-conversation-layout-notice {\n  position: fixed;\n  right: 20px;\n  bottom: 20px;\n  z-index: 10000;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  box-sizing: border-box;\n  max-width: min(420px, calc(100vw - 40px));\n  padding: 10px 12px;\n  border: 1px solid var(--dsw-alias-border-l1, #e3e5e7);\n  border-radius: 9px;\n  background: var(--dsw-alias-bg-overlay, #fff);\n  color: var(--dsw-alias-state-error-primary, #b94545);\n  box-shadow: 0 4px 16px #0002;\n  font-family: var(--dsw-font-family, system-ui);\n  font-size: 13px;\n  line-height: 19px;\n  white-space: normal;\n  -webkit-app-region: no-drag;\n}\n\n.cgpt-conversation-layout-notice button {\n  flex: none;\n  padding: 0;\n  border: 0;\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  font-size: 18px;\n}\n";
+
+// conversation-layout-host.css
+var conversation_layout_host_default = `/* The native Conversation and its editor keep their existing React lifetime. */
+.cgpt-conversation-divider[hidden] {
+  display: none;
+}
+
+.cgpt-floating-conversation-seat {
+  display: none;
+}
+
+.cgpt-floating-conversation-resize-seat {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+}
+
+[data-cgpt-conversation-mode='floating'] .cgpt-floating-conversation-resize-seat {
+  display: block;
+}
+
+[data-cgpt-conversation-frame][data-cgpt-conversation-swapped] {
+  grid-template-columns: var(--cgpt-conversation-columns) !important;
+  transition: none !important;
+}
+
+[data-cgpt-conversation-swapped] > [data-cgpt-conversation-center] {
+  grid-column: 3 !important;
+  --dsh-frame-leading-clearance: 0px;
+}
+
+[data-cgpt-conversation-swapped] > [data-rightbar-col] {
+  grid-column: 2 !important;
+}
+
+[data-cgpt-conversation-swapped] > [data-side='rightbar'] {
+  display: none !important;
+}
+
+[data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] {
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] > [data-cgpt-conversation-center]::before {
+  right: 8px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] > [data-cgpt-conversation-center] > :has(> [data-slot='main']) {
+  margin-right: 8px !important;
+  border-bottom-right-radius: 15px !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] [data-dockkit-strip]:has(> [data-dockkit-strip-chrome]) {
+  padding-inline-end: 10px !important;
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] [data-dockkit-host='dock'][data-dockkit-column='0'] {
+  --dsh-dockkit-strip-inline-start: max(10px, calc(var(--dsh-frame-leading-clearance, 0px) - var(--cgpt-window-leading, 0px)));
+}
+
+html[data-platform='darwin'] [data-cgpt-conversation-swapped] [data-sidebar-right-panel='push'] [data-dockkit-host='dock'] > [data-dockkit-content] > div:has(> [data-dockkit-strip]) + div {
+  border-radius: 0 !important;
+}
+
+.cgpt-conversation-divider {
+  position: absolute;
+  top: 44px;
+  bottom: 8px;
+  z-index: 15;
+  width: 8px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  cursor: col-resize;
+  touch-action: none;
+  -webkit-app-region: no-drag;
+}
+
+.cgpt-conversation-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--dsw-focus-ring-color, #4d6bfe);
+  opacity: 0;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+.cgpt-conversation-divider:is(:hover, :focus-visible, [data-dragging])::after {
+  opacity: 1;
+}
+
+/* The native transcript and editor share one floating conversation surface. */
+[data-cgpt-conversation-frame][data-cgpt-conversation-mode='floating'] :is([data-cgpt-conversation-center], [data-cgpt-conversation-ancestor]) {
+  z-index: auto !important;
+  isolation: auto !important;
+  contain: none !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  will-change: auto !important;
+  overflow: visible !important;
+  background: transparent !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+[data-cgpt-conversation-frame][data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-center]::before,
+[data-cgpt-conversation-frame][data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-center]::after {
+  display: none !important;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] {
+  --cgpt-floating-radius: 28px;
+  position: fixed !important;
+  top: var(--cgpt-floating-top) !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: var(--cgpt-floating-left) !important;
+  z-index: 65 !important;
+  box-sizing: border-box;
+  width: var(--cgpt-floating-width) !important;
+  height: var(--cgpt-floating-height) !important;
+  max-width: calc(100vw - 16px);
+  /* The model bounds the target rect. Keep this fallback stable during motion. */
+  max-height: max(40px, calc(100dvh - 16px));
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid var(--dsw-alias-border-l1, #e3e5e7);
+  border-radius: var(--cgpt-floating-radius);
+  background: linear-gradient(var(--dsw-specific-input-major, transparent), var(--dsw-specific-input-major, transparent)), var(--dsw-alias-bg-base, #fff) !important;
+  box-shadow: 0 12px 40px #0002;
+  visibility: visible !important;
+  overflow: hidden;
+  overflow-anchor: none;
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+  --dsh-composer-card-max-width: 100%;
+  --dsh-composer-side-clearance: 8px;
+  --dsh-chat-content-width: 100%;
+  transition: left 280ms cubic-bezier(.22, 1, .36, 1),
+    top 280ms cubic-bezier(.22, 1, .36, 1),
+    width 240ms cubic-bezier(.22, 1, .36, 1),
+    height 280ms cubic-bezier(.22, 1, .36, 1),
+    border-radius 240ms ease,
+    box-shadow 240ms ease;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:is([data-cgpt-floating-dragging], :has([data-resizing])) {
+  transition: none !important;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-scroll] {
+  flex: 1 1 0;
+  min-height: 0;
+  margin-inline: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-scroll]::-webkit-scrollbar-track {
+  margin-bottom: calc(var(--cgpt-floating-composer-height, 54px) + 2px);
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] [data-width-handle] {
+  display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] > .cgpt-floating-conversation-seat {
+  display: block;
+  flex: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-floating-presentation='idle']:not([data-cgpt-conversation-minimized='true']) > .cgpt-floating-conversation-seat {
+  display: none;
+}
+
+/* Retain the reading viewport while the input bar covers its folded history. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:not([data-cgpt-floating-presentation='expanded']) [data-cgpt-conversation-scroll] {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: calc(var(--cgpt-floating-expanded-width) - 2px);
+  height: calc(var(--cgpt-floating-expanded-height) - 42px);
+  flex: none;
+  overflow-y: hidden;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:not([data-cgpt-floating-presentation='expanded']) [data-cgpt-conversation-scroll] > [data-slot='conversation.session'] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] {
+  container-name: cgpt-floating-composer;
+  container-type: inline-size;
+  flex: none;
+  min-height: 0;
+  margin-top: auto;
+  padding-bottom: 4px;
+  background: linear-gradient(var(--dsw-specific-input-major, transparent), var(--dsw-specific-input-major, transparent)), var(--dsw-alias-bg-base, #fff) !important;
+  --dsh-composer-text-max-height: min(336px, max(36px, calc(var(--dsh-conversation-viewport-height, 218px) / 3)));
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content]:is([data-cgpt-floating-presentation='focused'], [data-cgpt-floating-presentation='expanded']) [data-cgpt-conversation-composer] {
+  box-shadow: inset 0 1px var(--dsw-alias-border-l1, #e3e5e7);
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card] {
+  max-width: 100%;
+  border-radius: 0 0 calc(var(--cgpt-floating-radius) - 1px) calc(var(--cgpt-floating-radius) - 1px);
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-input-scroll] {
+  scrollbar-width: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-input-scroll]::-webkit-scrollbar {
+  display: none;
+}
+
+/* An empty draft shares one row with its native attachment and send controls. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer]:has([data-composer-card] [data-composer-placeholder]),
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-slot='conversation.composer.bar'] > :has(> [data-composer-card] [data-composer-placeholder]) {
+  padding-bottom: 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) [data-composer-input] {
+  min-height: 28px;
+  padding: 2px 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-placeholder] {
+  inset: 2px 0 auto;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  grid-template-columns: subgrid;
+  container-type: normal;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  pointer-events: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div > :first-child {
+  grid-column: 1;
+  grid-row: 1;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div > :last-child {
+  grid-column: 3;
+  grid-row: 1;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-card]:has([data-composer-placeholder]) > [data-input-scroll] + div > :last-child > button {
+  transform: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-composer-dock],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-slot='conversation.composer.dock'],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-slot='conversation.composer.dock'] > * {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  gap: 4px 8px;
+}
+
+/* Hide native usage counters individually, preserving other dock contributions. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-stat='activity'],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-stat='usage'],
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-dock] > span[style*='--dsh-context-'] {
+  display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-statistics='hidden'] [data-composer-dock] {
+  min-height: 0 !important;
+  padding-top: 0;
+}
+
+/* A blank Session keeps its workspace picker while the floating card stays compact. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer] [data-chain-overlay-fallback] > div > div:has([data-slot='conversation.hero.brand.mark']) {
+  display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] > :not(.cgpt-floating-conversation-seat, .cgpt-floating-conversation-resize-seat) {
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+/* Keep the native reading viewport sized while its card is reduced to a bubble. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] [data-cgpt-conversation-scroll] {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: calc(var(--cgpt-floating-expanded-width) - 2px);
+  height: calc(var(--cgpt-floating-expanded-height) - 42px);
+  flex: none;
+  visibility: hidden;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] {
+  border-radius: 50%;
+  box-shadow: 0 4px 16px #0002;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content][data-cgpt-conversation-minimized='true'] > .cgpt-floating-conversation-seat {
+  height: 100%;
+}
+
+@container cgpt-floating-composer (max-width: 520px) {
+  [data-cgpt-conversation-composer] [data-slot='conversation.input.model'] {
+    --dsh-composer-model-text-display: none;
+    --dsh-composer-model-icon-display: block;
+  }
+}
+
+/* The native model menu hosts both model and permission settings when compact. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] {
+  --dsh-composer-model-text-display: none;
+  --dsh-composer-model-icon-display: none;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] button[aria-haspopup='menu'] {
+  box-sizing: border-box;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 6px;
+  gap: 0;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] button[aria-haspopup='menu']::before {
+  content: '';
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M3 5h5m4 0h5M3 15h8m4 0h2'/%3E%3Ccircle cx='10' cy='5' r='2'/%3E%3Ccircle cx='13' cy='15' r='2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-slot='conversation.input.model'] button[aria-haspopup='menu'] > svg {
+  display: none;
+}
+
+/* Preserve the native permission owner and its portal's live anchor geometry. */
+[data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-composer][data-cgpt-floating-settings='compact'] [data-cgpt-permission-anchor] {
+  position: fixed;
+  left: var(--cgpt-settings-left);
+  top: var(--cgpt-settings-top);
+  width: 28px;
+  height: 28px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgpt-conversation-divider::after,
+  [data-cgpt-conversation-mode='floating'] [data-cgpt-conversation-content] {
+    transition: none;
+  }
+}
+`;
+
 // client-entry.js
-var h10 = import_react10.default.createElement;
+var h13 = import_react13.default.createElement;
 var STORAGE = "cgpt-rail.home-draft.v2";
 function readDraft() {
   try {
@@ -5895,16 +7849,16 @@ function readDraft() {
   }
 }
 function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessionContext, renderSlot, navigationModel, appDockModel, notificationModel }) {
-  const ref = import_react10.default.useRef(null);
-  const [pinnedSeat, setPinnedSeat] = import_react10.default.useState(null);
-  const [contextSeat, setContextSeat] = import_react10.default.useState(null);
-  const [actionSeat, setActionSeat] = import_react10.default.useState(null);
-  const [appSeat, setAppSeat] = import_react10.default.useState(null);
-  const [notificationSeat, setNotificationSeat] = import_react10.default.useState(null);
-  const navigation = import_react10.default.useSyncExternalStore(navigationModel.subscribe, navigationModel.getSnapshot, navigationModel.getSnapshot);
-  const preferredWidth = import_react10.default.useRef(392);
-  const [rosterRevision, setRosterRevision] = import_react10.default.useState(0);
-  import_react10.default.useEffect(() => {
+  const ref = import_react13.default.useRef(null);
+  const [pinnedSeat, setPinnedSeat] = import_react13.default.useState(null);
+  const [contextSeat, setContextSeat] = import_react13.default.useState(null);
+  const [actionSeat, setActionSeat] = import_react13.default.useState(null);
+  const [appSeat, setAppSeat] = import_react13.default.useState(null);
+  const [notificationSeat, setNotificationSeat] = import_react13.default.useState(null);
+  const navigation = import_react13.default.useSyncExternalStore(navigationModel.subscribe, navigationModel.getSnapshot, navigationModel.getSnapshot);
+  const preferredWidth = import_react13.default.useRef(392);
+  const [rosterRevision, setRosterRevision] = import_react13.default.useState(0);
+  import_react13.default.useEffect(() => {
     const update = () => setRosterRevision((n) => n + 1);
     const a = slots.subscribe("sidebar.panellist", update), b = slots.subscribe("sidebar.panellist.actions", update);
     return () => {
@@ -5912,27 +7866,27 @@ function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessio
       b();
     };
   }, [slots]);
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     const seat = mountPinnedSessionsSeat(ref.current);
     setPinnedSeat(seat?.node || null);
     return () => seat?.dispose();
   }, [pinnedModel]);
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     const seat = mountRailActionsSeat(ref.current);
     setActionSeat(seat?.node || null);
     return () => seat?.dispose();
   }, [navigationModel]);
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     const seat = mountAppDockSeat(ref.current, appDockModel);
     setAppSeat(seat?.node || null);
     return () => seat?.dispose();
   }, [appDockModel]);
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     const seat = mountNotificationSeat(ref.current, notificationModel);
     setNotificationSeat(seat?.node || null);
     return () => seat?.dispose();
   }, [notificationModel]);
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     const document2 = ref.current?.ownerDocument;
     const region = resolveRailElements(ref.current).root?.querySelector('[data-slot="sidebar.workspaces"]')?.parentElement;
     if (!document2 || !region) return;
@@ -5949,32 +7903,32 @@ function HomeIcon({ size = 18, layout, slots, getRailLabels, pinnedModel, sessio
       seat.dispose();
     };
   }, [sessionContext, getRailLabels]);
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     return wireRailLayout(ref.current, { labels: getRailLabels(), navigation });
   }, [size, layout, getRailLabels, rosterRevision, navigation]);
-  import_react10.default.useLayoutEffect(() => wireRailGeometry(ref.current, {
+  import_react13.default.useLayoutEffect(() => wireRailGeometry(ref.current, {
     preferredWidth: preferredWidth.current,
     setWidth: (width) => layout.panels.setSidebar(width),
     onWidth: (width) => {
       preferredWidth.current = width;
     }
   }), [layout]);
-  return h10(
-    import_react10.default.Fragment,
+  return h13(
+    import_react13.default.Fragment,
     null,
-    h10("span", { ref, style: { display: "flex" } }, h10("svg", { width: size, height: size, viewBox: "0 0 20 20", "aria-hidden": true, fill: "currentColor" }, h10("path", { d: "M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z" }))),
-    pinnedSeat && (0, import_react_dom2.createPortal)(h10(PinnedSessions, { model: pinnedModel, labels: getRailLabels(), StateDot: import_dsh_client_ui_primitives.StateDot, Tooltip: import_dsh_client_ui_primitives.Tooltip, renderSlot }), pinnedSeat),
-    contextSeat && (0, import_react_dom2.createPortal)(h10(SessionContextMenu, { controller: sessionContext, renderSlot, Menu: import_dsh_client_ui_primitives.Menu }), contextSeat),
-    appSeat && (0, import_react_dom2.createPortal)(h10(AppDock, { model: appDockModel, notificationModel, Modal: import_dsh_client_ui_primitives.Modal, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Tooltip: import_dsh_client_ui_primitives.Tooltip }), appSeat),
-    notificationSeat && (0, import_react_dom2.createPortal)(h10(NotificationBell, { model: notificationModel, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton }), notificationSeat),
-    actionSeat && (0, import_react_dom2.createPortal)(h10(RailActionButtons, { navigationModel }), actionSeat)
+    h13("span", { ref, style: { display: "flex" } }, h13("svg", { width: size, height: size, viewBox: "0 0 20 20", "aria-hidden": true, fill: "currentColor" }, h13("path", { d: "M10 2 1 9.5l1.4 1.7L4 9.9V18h4v-5h4v5h4V9.9l1.6 1.3L19 9.5 10 2Z" }))),
+    pinnedSeat && (0, import_react_dom3.createPortal)(h13(PinnedSessions, { model: pinnedModel, labels: getRailLabels(), StateDot: import_dsh_client_ui_primitives.StateDot, Tooltip: import_dsh_client_ui_primitives.Tooltip, renderSlot }), pinnedSeat),
+    contextSeat && (0, import_react_dom3.createPortal)(h13(SessionContextMenu, { controller: sessionContext, renderSlot, Menu: import_dsh_client_ui_primitives.Menu }), contextSeat),
+    appSeat && (0, import_react_dom3.createPortal)(h13(AppDock, { model: appDockModel, notificationModel, Modal: import_dsh_client_ui_primitives.Modal, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Tooltip: import_dsh_client_ui_primitives.Tooltip }), appSeat),
+    notificationSeat && (0, import_react_dom3.createPortal)(h13(NotificationBell, { model: notificationModel, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton }), notificationSeat),
+    actionSeat && (0, import_react_dom3.createPortal)(h13(RailActionButtons, { navigationModel }), actionSeat)
   );
 }
 function CompactBrand() {
-  return h10("span", null, "DeepSeek");
+  return h13("span", null, "DeepSeek");
 }
 function GlobalSearchShell({ ctx, model, Modal, getSearchLabel }) {
-  import_react10.default.useLayoutEffect(() => {
+  import_react13.default.useLayoutEffect(() => {
     let shortcuts;
     try {
       shortcuts = ctx.get("shortcuts");
@@ -5982,7 +7936,7 @@ function GlobalSearchShell({ ctx, model, Modal, getSearchLabel }) {
     }
     return wireGlobalSearchEntry({ document, shortcuts, open: () => model.open(), getSearchLabel });
   }, [ctx, model, getSearchLabel]);
-  return h10(GlobalSearchPalette, { model, Modal });
+  return h13(GlobalSearchPalette, { model, Modal });
 }
 var client_entry_default = {
   inject: ["slots", "locale", "layout", "sessions", "workspaces", "conversation", "uiWorkspace", "uiSession", "remote", "remote.session", "remote.permissionPresets", "remote.agentPresets", "remote.commands"],
@@ -5990,7 +7944,7 @@ var client_entry_default = {
     installVideoPreview(ctx);
     const controller = createDraftController(readDraft());
     const adapter = createHostAdapter(ctx);
-    const controls = createNativeControls(ctx, import_react10.default);
+    const controls = createNativeControls(ctx, import_react13.default);
     const pinnedModel = createPinnedSessionsModel(ctx);
     const sessionContext = createSessionContextController(ctx);
     const notificationModel = createNotificationModel(ctx);
@@ -6024,7 +7978,7 @@ var client_entry_default = {
     ctx.effect(() => {
       const tag = document.createElement("style");
       tag.dataset.cgptRailStyle = "2";
-      tag.textContent = rail_default + "\n" + home_default + "\n" + global_search_default + "\n" + app_dock_default + "\n" + notification_default;
+      tag.textContent = rail_default + "\n" + home_default + "\n" + global_search_default + "\n" + app_dock_default + "\n" + notification_default + "\n" + conversation_layout_default + "\n" + conversation_layout_host_default;
       document.head.appendChild(tag);
       return () => tag.remove();
     }, "chatgpt-rail:styles");
@@ -6068,6 +8022,11 @@ var client_entry_default = {
       id: "chatgpt-rail.window-chrome",
       inject: () => ({ ctx, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton, Modal: import_dsh_client_ui_primitives.Modal })
     }, GlobalWindowChrome));
+    ctx.slots.inject("shell.overlay", () => ctx.slots.register({
+      name: "shell.overlay",
+      id: "chatgpt-rail.conversation-layout",
+      inject: () => ({ ctx, Menu: import_dsh_client_ui_primitives.Menu, MenuItem: import_dsh_client_ui_primitives.MenuItemButton })
+    }, GlobalConversationLayout));
     const getSearchLabel = () => getRailLabels().search;
     ctx.slots.inject("shell.overlay", () => ctx.slots.register({
       name: "shell.overlay",

@@ -4,21 +4,29 @@
 
 **为 DeepSeek Harness 增加左侧常驻、自定义 Dock，以及 Codex 风格 UI。**
 
-![DeepSeek Dock：自定义常驻 Dock、Codex 风格布局、全局置顶、草稿首页与视频预览](assets/readme/hero.svg)
+![DeepSeek Dock 0.3.17：在文件旁展开悬浮对话历史](assets/readme/promo-0.3.17/poster.jpg)
 
 跨工作区集中置顶重要会话；首页先写草稿，发送时才创建会话；视频直接在右侧文件面板预览，方便与旁边的对话核对。DeepSeek Dock 独立安装，无需修改宿主程序，保留 DeepSeek 品牌和原生工具。
 
-`0.2.2` · 已验证宿主包括 **macOS / Harness 0.2.1-rc.5、0.2.2-rc.1 和 0.2.2-rc.2** · 第三方社区插件
+`0.3.17` · 已验证宿主包括 **macOS / Harness 0.2.1-rc.5、0.2.2-rc.1 和 0.2.2-rc.2** · 第三方社区插件
 
 [安装](#安装) · [功能](#功能) · [兼容与限制](#兼容与限制) · [旧版迁移](docs/MIGRATION.md) · [反馈问题](https://github.com/captainyufei/dsh-dock/issues)
 
 ## 看它如何工作
 
-[![DeepSeek Dock：自定义常驻导航、统一布局、跨工作区置顶、先写草稿再发送、对话旁播放视频](assets/readme/preview.gif)](assets/readme/demo.mp4)
+**[66 秒新版宣传片 · 带背景音乐](assets/readme/promo-0.3.17/deepseek-dock-0.3.17.mp4)** · [下载宣传素材包](https://github.com/captainyufei/dsh-dock/releases/download/v0.3.17/DeepSeek-Dock-0.3.17-media.zip)
 
-**[45 秒完整演示 · 带背景音乐](assets/readme/demo.mp4)** · [Watch in English](assets/readme/demo.en.mp4) · [静态预览](assets/readme/poster.png)
+每个 GIF 用 10 秒展示一组功能。主片配有中文功能说明，使用本地运行的 0.3.17 界面及虚构演示数据录制。实录源为 1280×720，主片输出为 1920×1080，配乐沿用项目已有音乐。
 
-45 秒循环已按 0.2.0 更新，展示常驻应用 Dock、全部应用与固定排序、全局搜索、完成通知、返回/前进，以及已有文件和视频工具。点击可观看带音乐版本。画面按当前代码中的界面与操作制作，使用虚构示例数据；属于功能示意，不是实机录屏或性能测量。
+| Dock 与应用固定 | 全局搜索与通知 |
+|---|---|
+| ![常驻 Dock 与应用固定](assets/readme/promo-0.3.17/01-dock.gif) | ![查找会话并查看完成通知](assets/readme/promo-0.3.17/02-search-notifications.gif) |
+| **跨工作区置顶与草稿** | **左右窗格切换** |
+| ![打开置顶会话并返回保留的首页草稿](assets/readme/promo-0.3.17/03-pins-draft.gif) | ![交换会话与原生文件面板的位置](assets/readme/promo-0.3.17/04-split-panels.gif) |
+| **悬浮对话与收起恢复** | **缩放、吸附与紧凑设置** |
+| ![单击标题展开历史并收起恢复悬浮对话](assets/readme/promo-0.3.17/05-floating.gif) | ![调节宽高、合并模型与权限设置并拖动吸附](assets/readme/promo-0.3.17/06-resize-snap.gif) |
+
+[此前的英文演示](assets/readme/demo.en.mp4) 展示 0.2.0 功能。
 
 ## 功能
 
@@ -33,11 +41,17 @@
 | **发送时才创建会话的草稿首页** | 先输入、修改，再决定是否发送。真正发送消息时才创建会话，未发送的想法不会让侧栏多出空会话。 |
 | **右侧文件面板预览视频** | 在右侧直接播放、拖动视频进度，同时核对旁边的对话要求。再次展开工具抽屉会恢复已有标签，继续查看原内容。 |
 
+### 会话布局
+
+右侧内容面板打开后，在主会话顶部的“三个点”菜单中选择“移至右侧面板”。交换后，该菜单提供“移至左侧面板”。内容进入完整视图时，原生输入框默认显示为简洁悬浮输入条。点击后出现标题栏，单击标题展开或收起历史消息。拖动四条边缘可以调整宽高，拖动标题栏后松手会按卡片位置吸附四角或底部中间。宽度为 640px 及以下时，模型、推理与访问权限合并到一个设置图标中。标题栏和缩放边缘支持方向键，按住 Shift 加速。减号会将卡片收进右下角聊天按钮，点击按钮恢复原尺寸。悬浮卡片的“三个点”菜单可将聊天移回左右窗格或恢复会话完整视图。动效遵循系统的“减少动态效果”设置。悬浮输入框默认隐藏底部统计，可在“三个点 → 显示会话用量”中开启；选择保存在本机并同步到其他窗口。
+
+分屏使用当前会话的原生浏览器、文件、终端及视频标签。窄窗口返回聊天时会收起完整视图。布局和位置按会话保存在当前窗口内。新增布局已在 Harness `0.2.2-rc.2` 验收。
+
 ## 安装
 
-需要 **macOS / Harness 0.2.1-rc.5 或从 rc.1 起的 0.2.2 系列**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。本插件尚未发布到 npm，请使用下面的仓库地址，无需自行编译。也可从 [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest) 下载安装包；ZIP 解压后选择包含 `package.json` 的完整文件夹。
+需要 **macOS / Harness 0.2.1-rc.5 或从 rc.1 起的 0.2.2 系列**。若装有旧版 `@local/chatgpt-rail`，先停用它（[迁移说明](docs/MIGRATION.md)）。可使用下面的仓库地址安装预构建版本，也可从 [GitHub Releases](https://github.com/captainyufei/dsh-dock/releases/latest) 下载固定版本的 TGZ 或 ZIP。ZIP 解压后选择包含 `package.json` 的完整文件夹。
 
-这会安装 `main` 上的最新代码，不等同于最新稳定发布版。已安装的副本不会自动更新。
+仓库地址跟随 `main` 上的最新代码。需要固定版本时，可使用发布页的版本安装包。更新已有副本时，请核对原安装来源。
 
 ### 在 DeepSeek Harness 中安装
 
@@ -65,7 +79,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 
 ### 更新或移除
 
-先保存工作。若插件管理器提供 DeepSeek Dock 的 **更新** 按钮，直接更新，再按提示重新加载或重启。使用 TGZ、本地目录或仓库来源时，通过 **添加插件** 或官方 CLI 安装同名新版本。在详情中确认版本为 **0.2.2 或更新版本**。仅重新打开 Harness 不会下载新代码。
+先保存工作。若插件管理器提供 DeepSeek Dock 的 **更新** 按钮，直接更新，再按提示重新加载或重启。使用 TGZ、本地目录或仓库来源时，通过 **添加插件** 或官方 CLI 安装同名新版本。在详情中确认版本为 **0.3.17**。仅重新打开 Harness 不会下载新代码。
 
 暂时不用时关闭开关；彻底移除时卸载后不再安装。两种操作都保留宿主管理的会话和工作区。
 
@@ -90,7 +104,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 
 | 问题 | 下一步 |
 |---|---|
-| 找不到包 | 使用上面的完整仓库地址。本包尚未发布到 npm，不能只填包名或 `@latest` 安装。 |
+| 找不到包 | 使用上面的完整仓库地址或发布页的 TGZ，并在错误详情中核对包名及安装来源。 |
 | GitHub 下载失败 | 打开 **查看安装详情**，检查 GitHub 连接后重试。切换 npm 安装源不能修复 GitHub 连接；能单独下载时可用 ZIP 方式。 |
 | 已安装但 Dock 没出现 | 在 **已安装插件** 中启用，并按提示重启。若启用失败，复制诊断信息。 |
 | 宿主不匹配或目录无效 | Harness `0.2.2-rc.2` 需将 Dock 更新至 `0.2.2` 或更新版本。准入范围覆盖 `0.2.1-rc.5` 和从 `rc.1` 起、`0.2.3` 之前的 `0.2.2` 系列。旧版已安装副本仍带有原来的版本限制。本地安装时选中含 `package.json` 和 `cordis.patch.yml` 的根目录，确保解压内容完整。 |
@@ -136,7 +150,7 @@ dsh plugin --profile web add https://github.com/captainyufei/dsh-dock
 | **草稿与语音** | 附件不跨刷新保留。语音需宿主组件和本机识别资源；`/` 命令及 `@` 候选取决于宿主目录和权限。 |
 | **语言** | README 提供中英文；部分新增界面文案仍为中文，尚未完成全界面国际化。 |
 
-`0.2.2` 的准入范围为 `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`。后续被范围允许的候选版在发布后继续验证。维护工作流和安装来源要求见[兼容与更新交付说明](docs/COMPATIBILITY.md)。
+`0.3.17` 的准入范围为 `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`。后续被范围允许的候选版在发布后继续验证。维护工作流和安装来源要求见[兼容与更新交付说明](docs/COMPATIBILITY.md)。
 
 置顶会话被隐藏后，原生分组首屏可见行数可能减少；继续展开可查看后续会话。插件使用宿主槽位、服务及部分 DOM 结构，宿主升级后需重新验证，不能保证未来版本自动兼容。
 

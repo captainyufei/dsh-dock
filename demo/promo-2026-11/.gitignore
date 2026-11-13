@@ -1,0 +1,9 @@
+__pycache__/
+.hyperframes/
+.thumbnails/
+assets/clips/*.mp4
+assets/promo-music.wav
+assets/gsap.min.js
+lint-report.json
+check-report.json
+*.log

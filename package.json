@@ -1,6 +1,6 @@
 {
   "name": "@captainyufei/dsh-dock",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "scripts": {
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",

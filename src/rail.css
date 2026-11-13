@@ -50,6 +50,7 @@
    anchored to the sidebar, with the session browser owning its scroll area. */
 [data-cgpt-rail-scroll-region],[data-cgpt-rail-scrollport]{position:static!important;display:flex!important;flex-direction:column!important;flex:1;min-height:0!important;overflow:visible!important;padding:0!important}
 [data-cgpt-rail-scrollport]>[data-cgpt-workspace-region]{flex:1;overflow:auto!important}
+[data-cgpt-rail-scrollport]>[data-cgpt-workspace-region]>.cgpt-pinned-seat{flex-shrink:0}
 [data-cgpt-search-button]{position:absolute!important;top:53px!important;right:12px!important;width:28px!important;height:28px!important;margin:0!important;z-index:3!important;color:#898e91!important}
 [data-cgpt-search-button] svg{width:16px!important;height:16px!important}
 [data-cgpt-rail-scrollport] [data-cgpt-search-button]{position:relative!important;top:auto!important;right:auto!important}

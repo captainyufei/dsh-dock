@@ -8,7 +8,7 @@
 
 Pin important chats across workspaces, draft on Home without creating a chat until you send, and preview videos in the right file panel beside the conversation. DeepSeek Dock installs independently without modifying the host application, preserving DeepSeek branding and native tools.
 
-`0.2.1` · Validated hosts include **macOS / Harness 0.2.1-rc.5, 0.2.2-rc.1 and 0.2.2-rc.2** · Third-party community plugin
+`0.2.2` · Validated hosts include **macOS / Harness 0.2.1-rc.5, 0.2.2-rc.1 and 0.2.2-rc.2** · Third-party community plugin
 
 [Install](#install) · [Features](#features) · [Compatibility and limits](#compatibility-and-limits) · [Migration](docs/MIGRATION.md) · [Report an issue](https://github.com/captainyufei/dsh-dock/issues)
 
@@ -65,7 +65,7 @@ Start `dsh web` if it is not already running, then open **Plugins** and make sur
 
 ### Update or remove
 
-Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. For a TGZ, directory or repository installation, install the new release through **Add plugin** or the official CLI using the same package name. Confirm version **0.2.1 or newer** in the plugin details. Reopening Harness alone does not fetch new code.
+Save your work first. If your plugin manager offers **Update** for DeepSeek Dock, use it, then follow any reload/restart notice. For a TGZ, directory or repository installation, install the new release through **Add plugin** or the official CLI using the same package name. Confirm version **0.2.2 or newer** in the plugin details. Reopening Harness alone does not fetch new code.
 
 To disable Dock temporarily, turn off its switch. Uninstall without reinstalling to remove it. Both actions preserve host-managed chats and workspaces.
 
@@ -93,7 +93,7 @@ To disable Dock temporarily, turn off its switch. Uninstall without reinstalling
 | Package not found | Use the complete repository URL above. This package is not published to npm; its package name or `@latest` is not an installation source. |
 | GitHub download fails | Open **Show install details**, check GitHub connectivity, and retry. Changing the npm registry does not fix GitHub access. Use the ZIP option if you can download it separately. |
 | Installed, but no Dock | Enable it under **Installed plugins** and follow any restart notice. If activation fails, copy the diagnostic. |
-| Wrong host or invalid directory | Update Dock to `0.2.1` or newer for Harness `0.2.2-rc.2`. The admission range also covers `0.2.1-rc.5` and the `0.2.2` line from `rc.1`, before `0.2.3`. An older installed Dock copy retains its old version restriction. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |
+| Wrong host or invalid directory | Update Dock to `0.2.2` or newer for Harness `0.2.2-rc.2`. The admission range also covers `0.2.1-rc.5` and the `0.2.2` line from `rc.1`, before `0.2.3`. An older installed Dock copy retains its old version restriction. For local installation, select the root containing `package.json` and `cordis.patch.yml`, with the full extracted contents intact. |
 
 [Report an issue](https://github.com/captainyufei/dsh-dock/issues) with your Harness/macOS versions, source entered, and installation error. Remove private paths or tokens from logs before posting.
 
@@ -136,7 +136,7 @@ Collapsing the drawer, switching tabs, or closing the preview pauses playback an
 | **Drafts and voice** | Attachments do not survive refresh. Voice requires the host component and local recognition resources. `/` commands and `@` suggestions depend on host catalogs and permissions. |
 | **Language** | The README is bilingual. Some added interface copy is still Chinese; full UI localization is not complete. |
 
-Version `0.2.1` admits `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`. Later admitted candidates are checked as they appear. The maintenance workflow and update-source requirements are documented in [Compatibility and update delivery](docs/COMPATIBILITY.md).
+Version `0.2.2` admits `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`. Later admitted candidates are checked as they appear. The maintenance workflow and update-source requirements are documented in [Compatibility and update delivery](docs/COMPATIBILITY.md).
 
 Hiding pinned chats can reduce the visible row count on a native group's first page. Expand the group to see more. The plugin uses host slots, services, and some DOM structure; host upgrades require renewed validation and are not automatically compatible.
 

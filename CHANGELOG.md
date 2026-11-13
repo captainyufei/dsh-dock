@@ -2,7 +2,18 @@
 
 Versions describe public DeepSeek Dock releases. Development changes are collected before a release; published packages are not overwritten. See [versioning](docs/RELEASING.md).
 
-## 0.2.1 — 2026-11-13
+## 0.2.2 — 2026-11-13
+
+- Support Harness `0.2.2-rc.2` across its shared sidebar scroll structure and native `anchorPoint` menu API. Admit subsequent candidates in the `0.2.2` line with an explicit upper boundary before `0.2.3`.
+- Keep pinned Session rows visible when the native workspace list is long. The pinned section retains its measured height while the workspace area scrolls.
+- Restore expanded/collapsed Dock layout, notification placement and native workspace search positioning, with cleanup on disable.
+- Add upstream-version monitoring, recorded Host baselines and checked TGZ/ZIP release drafts with SHA-256 verification.
+
+修复 Harness `0.2.2-rc.2` 的侧栏、右键菜单与长会话列表下的置顶行显示。新增有上界的兼容范围、宿主更新核查及自动打包发布草稿。
+
+Acceptance covers isolated installation, Home draft persistence, sidebar collapse/expand, 1440/800/480 px browser widths, Dock sorting, menus, app/global search, notification placement, disable/re-enable cleanup, and a long-list fixture that reproduces the pinned-list height collapsing to zero. The previous `0.2.1-rc.5` and `0.2.2-rc.1` baselines retain their original acceptance scope.
+
+## 0.2.1 — 2026-11-13 (validation candidate)
 
 - Support Harness `0.2.2-rc.2` and admit subsequent candidates in the `0.2.2` line, with an upper boundary before `0.2.3`. Retain the earlier `0.2.1-rc.5` baseline.
 - Resolve the sidebar through its public slot across the shared navigation/session scroll wrappers introduced in `rc.2`, including the collapsed presentation. Restore Dock geometry and the notification seat, and retain the native workspace search position.

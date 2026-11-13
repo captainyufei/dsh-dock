@@ -2,7 +2,7 @@
 
 ## 维护决定
 
-Dock `0.2.1` 使用有上界的准入范围 `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`。`compatibility.json` 单独记录已完成相应验收的 Host 基线，验收范围沿用各次发布说明。新候选版即使允许加载，也会在维护核查中作为待验证版本提示。
+Dock `0.2.2` 使用有上界的准入范围 `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0`。`compatibility.json` 单独记录已完成相应验收的 Host 基线，验收范围沿用各次发布说明。新候选版即使允许加载，也会在维护核查中作为待验证版本提示。
 
 这次升级的起点是 Dock `0.2.0` 只允许 `0.2.1-rc.5 || 0.2.2-rc.1`，而当前 Host 为 `0.2.2-rc.2`。同时，旧安装来源是固定 TGZ，缺少原生版本更新入口。
 
@@ -11,14 +11,14 @@ Dock `0.2.1` 使用有上界的准入范围 `0.2.1-rc.5 || >=0.2.2-rc.1 <0.2.3-0
 | 当前应用及旧安装包清单 | artifact | 确认 `rc.2` 被旧范围拦截 |
 | Host rc.2 发布说明与真实 UI | artifact / observed | 导航和会话共用滚动容器，菜单采用 CSS anchor 定位 |
 | 新版浏览器验收 | observed | 展开、折叠、1440/800/480 px 宽度、草稿保留、应用与全局搜索、间隙拖动、菜单、通知，以及最终 TGZ 的停用清理和重新启用通过 |
-| 包与回归检查 | observed | TGZ 安装于独立 profile，确认实际加载包的 `0.2.1` 版本、运行组件及客户端内容一致 |
+| 包与回归检查 | observed | TGZ 安装于独立 profile，确认实际加载包的 `0.2.2` 版本、运行组件及客户端内容一致 |
 | 后续 `0.2.2` 候选版 | missing | 随版本发布补充验收记录 |
 
 [Host 兼容规则](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.2-rc.2/docs/upgrade-guide/v0.2.1-alpha.3/plugin-engines-dsh/guide.md) [Host rc.2 发布说明](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.2-rc.2)
 
 ## 本次适配
 
-`rail-layout.js` 通过公开的 `sidebar` 槽位定位完整侧栏。它兼容直接导航结构和新增滚动容器，折叠时沿用结构判断，因为 Host 会移除 `data-sidebar-scrollport`。通知、置顶展示与 Dock 背景事件复用这个适配层。停用会恢复插件拥有的标记和监听。
+`rail-layout.js` 通过公开的 `sidebar` 槽位定位完整侧栏。它兼容直接导航结构和新增滚动容器，折叠时沿用结构判断，因为 Host 会移除 `data-sidebar-scrollport`。通知、置顶展示与 Dock 背景事件复用这个适配层。新滚动结构中的置顶区域保留自身高度，长会话列表在工作区区域滚动。停用会恢复插件拥有的标记和监听。
 
 自定义菜单同时提供新版 `anchorPoint` 和此前的 `getAnchorRect`。原生 Menu 处理视口边界和键盘交互。新侧栏的搜索入口保留在原生工作区工具栏中。
 

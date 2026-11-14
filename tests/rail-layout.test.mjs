@@ -1,6 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
 import {wireRailLayout,wireRailGeometry,resolveRailElements} from '../src/rail-layout.js';
+
+test('shared-scroll adaptation removes native grid gutters and keeps session scrolling vertical',async()=>{
+ const css=await readFile(new URL('../src/rail.css',import.meta.url),'utf8');
+ const wrappers=css.match(/\[data-cgpt-rail-scroll-region\],\[data-cgpt-rail-scrollport\]\{([^}]+)\}/)[1];
+ assert.match(wrappers,/min-width:0!important/);
+ assert.match(css,/\[data-cgpt-rail-scrollport\]\{[^}]*margin-inline:0!important/);
+ const region=css.match(/\[data-cgpt-rail-scrollport\]>\[data-cgpt-workspace-region\]\{([^}]+)\}/)[1];
+ assert.match(region,/overflow-x:hidden!important/);
+ assert.match(region,/overflow-y:auto!important/);
+ assert.doesNotMatch(region,/overflow:auto/);
+ assert.match(css,/\[data-cgpt-rail-scrollport\] \[data-sidebar-list-area\]\{[^}]*margin-inline:0!important/);
+ assert.match(css,/\[data-cgpt-rail-scrollport\] \[data-sidebar-workspace-header\]\{[^}]*margin-right:0!important/);
+});
 
 // Minimal host boundary: no React nodes are replaced or moved by the adapter.
 function hostFixture(columns='0px minmax(0px, 1fr) minmax(0px, 0px)',{collapsed=true,width,sharedScroll=false}={}){
